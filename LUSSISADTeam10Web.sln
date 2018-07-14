@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LUSSISADTeam10Web", "LUSSISADTeam10Web\LUSSISADTeam10Web.csproj", "{6A4DCEF2-5BF7-41ED-963E-4A0510EB8F53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LUSSISADTeam10API", "LUSSISADTeam10API\LUSSISADTeam10API.csproj", "{57366A1E-D0D6-4CBF-A2B9-88BDB4AABA43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6A4DCEF2-5BF7-41ED-963E-4A0510EB8F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A4DCEF2-5BF7-41ED-963E-4A0510EB8F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A4DCEF2-5BF7-41ED-963E-4A0510EB8F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57366A1E-D0D6-4CBF-A2B9-88BDB4AABA43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57366A1E-D0D6-4CBF-A2B9-88BDB4AABA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57366A1E-D0D6-4CBF-A2B9-88BDB4AABA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57366A1E-D0D6-4CBF-A2B9-88BDB4AABA43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
