@@ -194,12 +194,12 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the item object using Item API model
-                item = entities.items.Where(p => p.itemid == im.itemid).First<item>();
+                item = entities.items.Where(p => p.itemid == im.Itemid).First<item>();
 
                 // transfering data from API model to DB Model
-                item.catid = im.catid;
-                item.description = im.description;
-                item.uom = im.uom;
+                item.catid = im.Catid;
+                item.description = im.Description;
+                item.uom = im.Uom;
 
                 // saving the update
                 entities.SaveChanges();
@@ -224,9 +224,9 @@ namespace LUSSISADTeam10API.Repositories
             item item = new item();
             try
             {
-                item.catid = im.catid;
-                item.description = im.description;
-                item.uom = im.uom;
+                item.catid = im.Catid;
+                item.description = im.Description;
+                item.uom = im.Uom;
                 item = entities.items.Add(item);
                 entities.SaveChanges();
                 // retrieving the inserted item model by using the GetItem method

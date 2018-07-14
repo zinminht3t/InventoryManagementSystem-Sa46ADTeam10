@@ -9,17 +9,17 @@ namespace LUSSISADTeam10API.Models.APIModels
     {
         public ItemModel(int itemid, int catid, string name, string description, string uom)
         {
-            this.itemid = itemid;
-            this.catid = catid;
-            this.name = name;
-            this.description = description;
-            this.uom = uom;
+            this.Itemid = itemid;
+            this.Catid = catid;
+            this.CatName = name;
+            this.Description = description;
+            this.Uom = uom;
         }
         public ItemModel():this(0, 0, "", "", "") { }
-        public int itemid { get; set; }
-        public int catid { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string uom { get; set; }
+        public int Itemid { get; set; }
+        public int Catid { get; set; }
+        public string CatName { get; set; }
+        public string Description { get; set; }
+        public string Uom { get; set; }
     }
 }
