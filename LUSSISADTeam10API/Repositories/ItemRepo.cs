@@ -229,7 +229,7 @@ namespace LUSSISADTeam10API.Repositories
                 item.uom = im.uom;
                 item = entities.items.Add(item);
                 entities.SaveChanges();
-                im = CovertDBItemtoAPIItem(item);
+                im = GetItemByItemid(item.itemid, out error);
             }
             catch (NullReferenceException)
             {
