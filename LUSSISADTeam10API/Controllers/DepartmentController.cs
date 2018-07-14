@@ -10,25 +10,36 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    // to allow access only by login user
     [Authorize]
     public class DepartmentController : ApiController
     {
+        // to show department list
         [HttpGet]
         [Route("api/departments")]
         public IHttpActionResult GetAllDepartments()
         {
+            // declare and initialize error variable to accept the error from Repo
             string error = "";
+
+            // get the list from departmentrepo and will insert the error if there is one
             List<DepartmentModel> dms = DepartmentRepo.GetAllDepartments(out error);
+
+            // if the erorr is not blank or the department list is null
             if (error != "" || dms == null)
             {
+                // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Departments Not Found");
+                // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
+            // if there is no error
             return Ok(dms);
 
         }
 
+        // to get department by department id
         [HttpGet]
         [Route("api/department/{deptid}")]
         public IHttpActionResult GetDepartmentByDeptid(int deptid)
@@ -46,6 +57,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to get department by user id
         [HttpGet]
         [Route("api/department/user/{userid}")]
         public IHttpActionResult GetDepartmentByUserid(int userid)
@@ -63,6 +75,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to get department by collection point id
         [HttpGet]
         [Route("api/department/collectionpoint/{cpid}")]
         public IHttpActionResult GetDepartmentByCpid(int cpid)
@@ -80,6 +93,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to get department by requisition id
         [HttpGet]
         [Route("api/department/requisition/{reqid}")]
         public IHttpActionResult GetDepartmentByReqid(int reqid)
@@ -97,6 +111,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to update department
         [HttpPost]
         [Route("api/department/update")]
         public IHttpActionResult UpdateDepartment(DepartmentModel dept)
@@ -114,6 +129,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to create new department
         [HttpPost]
         [Route("api/department/create")]
         public IHttpActionResult CreateDepartment(DepartmentModel dept)
