@@ -229,6 +229,7 @@ namespace LUSSISADTeam10API.Repositories
                 item.uom = im.uom;
                 item = entities.items.Add(item);
                 entities.SaveChanges();
+                // retrieving the inserted item model by using the GetItem method
                 im = GetItemByItemid(item.itemid, out error);
             }
             catch (NullReferenceException)
