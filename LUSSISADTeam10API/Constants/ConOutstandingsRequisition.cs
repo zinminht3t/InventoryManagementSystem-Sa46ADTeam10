@@ -5,13 +5,12 @@ using System.Web;
 
 namespace LUSSISADTeam10API.Constants
 {
-    public static class ConPurchaseOrder
+    public class ConOutstandingsRequisition
     {
         public static class Status
         {
             public const int PENDING = 0;
-            public const int RECEIVED = 1;
-            public const int CANCELLED = 2;
+            public const int COMPLETE = 1;
         }
     }
 }
