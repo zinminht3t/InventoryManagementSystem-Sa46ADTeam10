@@ -101,18 +101,19 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dm;
         }
-        public static DepartmentModel GetDepartmentByCpid(int cpid, out string error)
+        public static List<DepartmentModel> GetDepartmentsByCpid(int cpid, out string error)
         {
             error = "";
 
-            department dept = new department();
-            departmentcollectionpoint cp = new departmentcollectionpoint();
-            DepartmentModel dm = new DepartmentModel();
+            List<departmentcollectionpoint> cps = new List<departmentcollectionpoint>();
+            List<DepartmentModel> dms = new List<DepartmentModel>();
             try
             {
-                cp = entities.departmentcollectionpoints.Where(p => p.cpid == cpid).FirstOrDefault<departmentcollectionpoint>();
-                dept = cp.department;
-                dm = CovertDBDepttoAPIDept(dept);
+                cps = entities.departmentcollectionpoints.Where(p => p.cpid == cpid).ToList<departmentcollectionpoint>();
+                foreach(departmentcollectionpoint cp in cps)
+                {
+                    dms.Add(CovertDBDepttoAPIDept(cp.department));
+                }
             }
             catch (NullReferenceException)
             {
@@ -122,7 +123,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return dm;
+            return dms;
         }
         public static DepartmentModel GetDepartmentByReqid(int reqid, out string error)
         {

@@ -78,11 +78,11 @@ namespace LUSSISADTeam10API.Controllers
         // to get department by collection point id
         [HttpGet]
         [Route("api/department/collectionpoint/{cpid}")]
-        public IHttpActionResult GetDepartmentByCpid(int cpid)
+        public IHttpActionResult GetDepartmentsByCpid(int cpid)
         {
             string error = "";
-            DepartmentModel dm = DepartmentRepo.GetDepartmentByCpid(cpid, out error);
-            if (error != "" || dm == null)
+            List<DepartmentModel> dms = DepartmentRepo.GetDepartmentsByCpid(cpid, out error);
+            if (error != "" || dms == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                 {
@@ -90,7 +90,7 @@ namespace LUSSISADTeam10API.Controllers
                 }
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(dm);
+            return Ok(dms);
         }
 
         // to get department by requisition id

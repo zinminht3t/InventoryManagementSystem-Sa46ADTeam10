@@ -58,7 +58,7 @@ namespace LUSSISADTeam10API.Controllers
 
         // to get inventory by item id
         [HttpGet]
-        [Route("api/inventory/{itemid}")]
+        [Route("api/inventory/item/{itemid}")]
         public IHttpActionResult GetInventoryByItemid(int itemid)
         {
             string error = "";
@@ -98,9 +98,15 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateInventory(InventoryModel inv)
         {
             string error = "";
+
+            // since there is only one inventory for one item, we need to delete the existing one before creating new one.
+            InventoryRepo.RemoveInventory(inv, out error);
+
             InventoryModel dm = InventoryRepo.CreateInventory(inv, out error);
             if (error != "" || dm == null)
             {
+                if(error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Item Not Found");
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(dm);

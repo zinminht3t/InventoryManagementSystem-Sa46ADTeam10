@@ -154,5 +154,31 @@ namespace LUSSISADTeam10API.Repositories
             }
             return invm;
         }
+        public static Boolean RemoveInventory(InventoryModel invm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            inventory inv = new inventory();
+            try
+            {
+                if (entities.inventories.Where(p => p.itemid == invm.Itemid).Count() > 0)
+                {
+                    inv = entities.inventories.Where(p => p.invid == invm.Itemid).First<inventory>();
+                    entities.inventories.Remove(inv);
+                    entities.SaveChanges();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+                return false;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+                return false;
+            }
+            return true;
+        }
     }
 }
