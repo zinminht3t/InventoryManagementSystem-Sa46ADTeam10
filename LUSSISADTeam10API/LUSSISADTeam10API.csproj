@@ -139,10 +139,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\AuthorizationServiceProvider.cs" />
     <Compile Include="Authorization\AuthorizeAttribute.cs" />
+    <Compile Include="Constants\ConAdjustment.cs" />
     <Compile Include="Constants\ConCommon.cs" />
+    <Compile Include="Constants\ConDelegation.cs" />
+    <Compile Include="Constants\ConDepartmentCollectionPoint.cs" />
     <Compile Include="Constants\ConError.cs" />
+    <Compile Include="Constants\ConLockerCollectionPoint.cs" />
+    <Compile Include="Constants\ConOutstandingsRequisition.cs" />
     <Compile Include="Constants\ConPurchaseOrder.cs" />
     <Compile Include="Constants\ConRequisition.cs" />
+    <Compile Include="Constants\ConSupplier.cs" />
     <Compile Include="Constants\ConUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
