@@ -10,9 +10,6 @@ namespace LUSSISADTeam10API.Repositories
 {
     public static class DepartmentRepo
     {
-        // entites used only by Get Methods
-        private static LUSSISEntities entities = new LUSSISEntities();
-
         // Convert From Auto Generated DB Model to APIModel
         private static DepartmentModel CovertDBDepttoAPIDept(department dept)
         {
@@ -23,6 +20,7 @@ namespace LUSSISADTeam10API.Repositories
         // Get the list of all departments and will return with error if there is one.
         public static List<DepartmentModel> GetAllDepartments(out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<DepartmentModel> dms = new List<DepartmentModel>();
@@ -56,6 +54,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static DepartmentModel GetDepartmentByDeptid(int deptid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
             department dept = new department();
@@ -77,6 +76,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static DepartmentModel GetDepartmentByUserid(int userid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
             department dept = new department();
@@ -103,6 +103,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static List<DepartmentModel> GetDepartmentsByCpid(int cpid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
             List<departmentcollectionpoint> cps = new List<departmentcollectionpoint>();
@@ -127,6 +128,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static DepartmentModel GetDepartmentByReqid(int reqid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
             department dept = new department();
             requisition req = new requisition();

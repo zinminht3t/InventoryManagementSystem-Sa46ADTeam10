@@ -10,8 +10,6 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class ItemRepo
     {
-        // entites used only by Get Methods
-        private static LUSSISEntities entities = new LUSSISEntities();
         // Convert From Auto Generated DB Model to APIModel
         private static ItemModel CovertDBItemtoAPIItem(item item)
         {
@@ -21,6 +19,8 @@ namespace LUSSISADTeam10API.Repositories
         // Get the list of all items and will return with error if there is one.
         public static List<ItemModel> GetAllItems(out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<ItemModel> ims = new List<ItemModel>();
@@ -54,6 +54,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemByItemid(int itemid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             item item = new item();
@@ -75,6 +77,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemByCatid(int catid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             item item = new item();
@@ -97,6 +101,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemsByDisid(int disid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             item item = new item();
@@ -120,6 +126,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemByPoid(int poid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             item item = new item();
@@ -143,6 +151,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemByReqid(int reqid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
             item item = new item();
             requisitiondetail reqdet = new requisitiondetail();
@@ -165,6 +175,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static ItemModel GetItemBySupid(int supid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
             item item = new item();
             supplieritem supdet = new supplieritem();
