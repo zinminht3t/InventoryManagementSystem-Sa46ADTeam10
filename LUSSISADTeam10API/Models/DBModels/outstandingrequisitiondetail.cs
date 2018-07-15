@@ -19,5 +19,6 @@ namespace LUSSISADTeam10API.Models.DBModels
         public int qty { get; set; }
     
         public virtual item item { get; set; }
+        public virtual outstandingrequisition outstandingrequisition { get; set; }
     }
 }
