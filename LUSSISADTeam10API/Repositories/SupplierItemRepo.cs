@@ -50,5 +50,33 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sims;
         }
+        public static SupplierItemModel AddItemOfSupplier
+            (SupplierItemModel sim, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplieritem supitem = new supplieritem();
+            supitem.supid = sim.SupId;
+            supitem.itemid = sim.ItemId;
+            supitem.price = sim.Price;
+            entities.supplieritems.Add(supitem);
+            entities.SaveChanges();
+            return sim;
+        }
+
+        public static SupplierItemModel UpdateSupplierItem
+            (SupplierItemModel sim, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplieritem supitem = entities.supplieritems
+                .Where(x => x.supid == sim.SupId &&
+                x.itemid == sim.ItemId).First();
+            supitem.price = sim.Price;
+            entities.SaveChanges();
+            return sim;
+        }
     }
 }

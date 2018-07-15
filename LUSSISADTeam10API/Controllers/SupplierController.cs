@@ -134,5 +134,23 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sm);
         }
+
+        //to get items by supplier id
+        [HttpGet]
+        [Route("api/supplier/{supid}/items")]
+        public IHttpActionResult GetItemByItemid(int supid)
+        {
+            string error = "";
+            List<SupplierItemModel> ims = SupplierItemRepo.GetItemsBySupplier(supid, out error);
+            if (error != "" || ims == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Items Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(ims);
+        }
     }
 }

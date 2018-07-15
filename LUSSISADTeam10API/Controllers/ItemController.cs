@@ -59,7 +59,7 @@ namespace LUSSISADTeam10API.Controllers
 
         // to get item by category id
         [HttpGet]
-        [Route("api/item/{itemid}")]
+        [Route("api/item/category/{catid}")]
         public IHttpActionResult GetItemByCatid(int catid)
         {
             string error = "";
