@@ -8,13 +8,19 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class RequisitionModel
 
     {
-        public RequisitionModel(int reqid, int rasiedby, String rasiedbyname, int approvedby, String approvedbyname, int cpid, string cpname, int depid, string depname, int status, DateTime? reqdate) {
+        public RequisitionModel(int reqid, int? rasiedby, String rasiedbyname, 
+            int? approvedby, String approvedbyname, int cpid, string cpname,
+            int depid, string depname, int status, DateTime? reqdate) {
+
             this.reqid = reqid;
             this.raisedby = rasiedby;
             this.rasiedbyname = rasiedbyname;
             this.approvedby = approvedby;
             this.approvedbyname = approvedbyname;
             this.cpid = cpid;
+            this.cpname = cpname;
+            this.depid = depid;
+            this.depname = depname;
             this.status = status;
             this.reqdate = reqdate;
 
@@ -25,15 +31,17 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         public int reqid { get; set; }
 
-        public int raisedby { get; set; }
+        public int? raisedby { get; set; }
         public String rasiedbyname { get; set; }
 
-        public int approvedby { get; set; }
+        public int? approvedby { get; set; }
         public String approvedbyname { get; set; }
 
-        public int deptid { get; set; }
+        public int depid { get; set; }
+        public String depname { get; set; }
 
         public int cpid { get; set; }
+        public String cpname { get; set; }
 
         public int status { get; set; }
 
