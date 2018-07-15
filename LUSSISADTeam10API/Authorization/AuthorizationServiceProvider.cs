@@ -24,20 +24,20 @@ namespace LUSSISADTeam10API.Authorization
 
             UserModel u = UserRepo.ValidateUser(context.UserName, context.Password);
 
-            if (u.role == 0)
+            if (u.Role == 0)
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
                 identity.AddClaim(new Claim("username", "admin"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, u.username));
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.userid.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Name, u.Username));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.Userid.ToString()));
                 context.Validated(identity);
             }
-            else if (u.role == 1)
+            else if (u.Role == 1)
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
                 identity.AddClaim(new Claim("username", "user"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, u.username));
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.userid.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Name, u.Username));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.Userid.ToString()));
                 context.Validated(identity);
             }
             else
