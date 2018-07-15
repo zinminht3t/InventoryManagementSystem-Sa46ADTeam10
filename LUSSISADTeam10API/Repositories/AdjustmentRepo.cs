@@ -1,0 +1,232 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using LUSSISADTeam10API.Models.DBModels;
+using LUSSISADTeam10API.Models.APIModels;
+using LUSSISADTeam10API.Constants;
+
+namespace LUSSISADTeam10API.Repositories
+{
+    public class AdjustmentRepo
+    {
+        // Convert From Auto Generated DB Model to APIModel
+        private static AdjustmentModel ConvertDBtoAPIAdjust(adjustment adj)
+        {
+            AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate,adj.status);
+            return adjm;
+        }
+        //Get all adjustment list
+        public static List<AdjustmentModel> GetAllAdjustments(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<AdjustmentModel> adjm = new List<AdjustmentModel>();
+            try
+            {
+                // get adjustment list from database
+                List<adjustment> adjs = entities.adjustments.ToList<adjustment>();
+
+                // convert the DB Model list to API Model list
+                foreach (adjustment adj in adjs)
+                {
+                    adjm.Add(ConvertDBtoAPIAdjust(adj));
+                }
+            }
+
+            // if department not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return adjm;
+        }
+        //find Adjusment by id
+        public static AdjustmentModel GetAdjustmentByID(int adjid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            adjustment adj = new adjustment();
+            AdjustmentModel adjm = new AdjustmentModel();
+            try
+            {
+                adj = entities.adjustments.Where(a => a.adjid == adjid).FirstOrDefault<adjustment>();
+                adjm = ConvertDBtoAPIAdjust(adj);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //find Adjustment by raisedby id
+        public static List<AdjustmentModel> GetAdjustmentByRaisedById(int raisedby, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<adjustment> adj = new List<adjustment>();
+            List<AdjustmentModel> adjm = new List<AdjustmentModel>();
+            try
+            {
+                adj = entities.adjustments.Where(a => a.raisedby == raisedby).ToList<adjustment>();
+                foreach(adjustment ad in adj)
+                {
+                    adjm.Add(ConvertDBtoAPIAdjust(ad));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //find Adjustment by raisedto id
+        public static List<AdjustmentModel> GetAdjustmentByRaisedToId(int raisedto, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<adjustment> adj = new List<adjustment>();
+            List<AdjustmentModel> adjm = new List<AdjustmentModel>();
+            try
+            {
+                adj = entities.adjustments.Where(a => a.raisedto == raisedto).ToList<adjustment>();
+                foreach (adjustment ad in adj)
+                {
+                    adjm.Add(ConvertDBtoAPIAdjust(ad));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //find Adjustment by issued date
+        public static List<AdjustmentModel> GetAdjustmentByIssuedDate(DateTime date, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<adjustment> adj = new List<adjustment>();
+            List<AdjustmentModel> adjm = new List<AdjustmentModel>();
+            try
+            {
+                adj = entities.adjustments.Where(a => a.issueddate == date).ToList<adjustment>();
+                foreach (adjustment ad in adj)
+                {
+                    adjm.Add(ConvertDBtoAPIAdjust(ad));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //find Adjustment by status
+        public static List<AdjustmentModel> GetAdjustmentByStatus(int status,out string error)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<adjustment> adj = new List<adjustment>();
+            List<AdjustmentModel> adjm = new List<AdjustmentModel>();
+            try
+            {
+                adj = entities.adjustments.Where(a => a.status == status).ToList<adjustment>();
+                foreach (adjustment ad in adj)
+                {
+                    adjm.Add(ConvertDBtoAPIAdjust(ad));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //Create new Adjustment
+        public static AdjustmentModel CreateAdjustment(AdjustmentModel adjm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            adjustment adj = new adjustment();
+            try
+            {
+                adj.raisedby = adjm.raisedby;
+                adj.raisedto = adjm.raisedto;
+                adj.issueddate = adjm.issueddate;
+                adj.status = ConAdjustment.Active.PENDING;
+                adj = entities.adjustments.Add(adj);
+                entities.SaveChanges();
+                adjm = ConvertDBtoAPIAdjust(adj);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+        //Update Adjustment
+        public static AdjustmentModel UpdateAdjustment(AdjustmentModel adjm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            adjustment adj = new adjustment();
+             try
+            {
+                adj = entities.adjustments.Where(a => a.adjid == adjm.adjid).First<adjustment>();
+                adj.raisedby = adjm.raisedby;
+                adj.raisedto = adjm.raisedto;
+                adj.issueddate = adjm.issueddate;
+                adj.status = adjm.status;
+                adj = entities.adjustments.Add(adj);
+                entities.SaveChanges();
+                adjm = ConvertDBtoAPIAdjust(adj);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return adjm;
+        }
+    }
+}
