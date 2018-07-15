@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class AdjustmentModel
     {
-        public AdjustmentModel(int adjid, int? raisedby,string raisedbyname, int? raisedto,string raisedtoname, DateTime? issueddate, int status)
+        public AdjustmentModel(int adjid, int? raisedby,string raisedbyname, int? raisedto,string raisedtoname, DateTime? issueddate, int status, List<AdjustmentDetailModel> adjdms)
         {
             this.adjid = adjid;
             this.raisedby = raisedby;
@@ -16,8 +16,9 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.raisedtoname = raisedtoname;
             this.issueddate = issueddate;
             this.status = status;
+            this.adjds = adjdms;
         }
-        public AdjustmentModel() : this(0, 0,"", 0,"", new DateTime(), 0)
+        public AdjustmentModel() : this(0, 0,"", 0,"", new DateTime(), 0, new List<AdjustmentDetailModel>())
         {
         }
         public int adjid { get; set; }
@@ -27,5 +28,6 @@ namespace LUSSISADTeam10API.Models.APIModels
         public string raisedtoname { get; set; }
         public DateTime? issueddate { get; set; }
         public int status { get; set; } = 0;
+        public List<AdjustmentDetailModel> adjds { get; set; }
     }
 }

@@ -39,5 +39,35 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(adj);
 
         }
+        //show adjustmentdetail
+        [HttpGet]
+        [Route("api/adjustment/{adjid}")]        
+        public IHttpActionResult GetAdjustmentDetail(int adjid)
+        {
+            string error = "";
+            List<AdjustmentDetailModel> adjd = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adjid, out error);
+            if (error != "" || adjd == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adjd);
+        }
+        //show adjustment raisedby
+        [HttpGet]
+        [Route("api/adjustment/raisedby/{raisedby}")]
+        public IHttpActionResult GetAdjustmentRaisedBy(int raisedby)
+        {
+            string error = "";
+            List<AdjustmentModel> adjus = AdjustmentRepo.GetAdjustmentByRaisedById(raisedby, out error);
+            if (error != "" || adjus == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adjus);
+        }        
     }
 }

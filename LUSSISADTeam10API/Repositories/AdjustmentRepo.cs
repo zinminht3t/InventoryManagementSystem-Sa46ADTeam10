@@ -13,7 +13,11 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static AdjustmentModel ConvertDBtoAPIAdjust(adjustment adj)
         {
-            AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate,adj.status);
+            List<AdjustmentDetailModel> adjdm = new List<AdjustmentDetailModel>();            
+            foreach(adjustmentdetail adjd in adj.adjustmentdetails) { 
+             adjdm.Add(new AdjustmentDetailModel(adjd.adjid, adjd.itemid, adjd.item.description, adjd.adjustedqty, adjd.reason));
+            }
+            AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate,adj.status, adjdm);
             return adjm;
         }
         //Get all adjustment list
