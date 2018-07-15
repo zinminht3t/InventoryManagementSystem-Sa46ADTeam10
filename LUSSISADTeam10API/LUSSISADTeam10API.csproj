@@ -156,6 +156,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\LockerCollectionPointController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,6 +164,7 @@
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
+    <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\UserModel.cs" />
     <Compile Include="Models\DBModels\adjustment.cs" />
     <Compile Include="Models\DBModels\adjustmentdetail.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Repositories\DepartmentRepo.cs" />
     <Compile Include="Repositories\InventoryRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
+    <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
