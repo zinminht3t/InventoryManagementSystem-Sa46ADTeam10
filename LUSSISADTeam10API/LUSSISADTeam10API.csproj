@@ -161,6 +161,7 @@
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierItemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
