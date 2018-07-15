@@ -12,7 +12,6 @@ namespace LUSSISADTeam10API.Controllers
 {
     public class InventoryController : ApiController
     {
-
         // to show inventory list
         [HttpGet]
         [Route("api/inventories")]
@@ -37,7 +36,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dms);
 
         }
-
+        
         // to get inventory by inventory id
         [HttpGet]
         [Route("api/inventory/{invid}")]
@@ -55,7 +54,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(dm);
         }
-
+        
         // to get inventory by item id
         [HttpGet]
         [Route("api/inventory/item/{itemid}")]
@@ -63,6 +62,67 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             InventoryModel dm = InventoryRepo.GetInventoryByItemid(itemid, out error);
+            if (error != "" || dm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dm);
+        }
+        
+        // to show inventory detail list
+        [HttpGet]
+        [Route("api/inventorydetails")]
+        public IHttpActionResult GetAllInventoryDetails()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from inventoryrepo and will insert the error if there is one
+            List<InventoryDetailModel> dms = InventoryRepo.GetAllInventoryDetails(out error);
+
+            // if the erorr is not blank or the inventory detail list is null
+            if (error != "" || dms == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(dms);
+
+        }
+
+        // to get inventory by inventory id
+        [HttpGet]
+        [Route("api/inventorydetail/{invid}")]
+        public IHttpActionResult GetInventoryDetailByInvid(int invid)
+        {
+            string error = "";
+            InventoryDetailModel ivndm = InventoryRepo.GetInventoryDetailByInventoryid(invid, out error);
+            if (error != "" || ivndm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(ivndm);
+        }
+
+        // to get inventory by item id
+        [HttpGet]
+        [Route("api/inventorydetail/item/{itemid}")]
+        public IHttpActionResult GetInventoryDetailByItemid(int itemid)
+        {
+            string error = "";
+            InventoryDetailModel dm = InventoryRepo.GetInventoryDetailByItemid(itemid, out error);
             if (error != "" || dm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

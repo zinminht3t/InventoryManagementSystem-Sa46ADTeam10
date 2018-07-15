@@ -10,18 +10,33 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class InventoryRepo
     {
-
-        // entites used only by Get Methods
-        private static LUSSISEntities entities = new LUSSISEntities();
         // Convert From Auto Generated DB Model to APIModel
         private static InventoryModel CovertDBInventorytoAPIInventory(inventory inv)
         {
             InventoryModel invm = new InventoryModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty);
             return invm;
         }
+        // Convert From Auto Generated DB Model to APIModel for InventoryDetail
+        private static InventoryDetailModel CovertDBInventorytoAPIInventoryDet(inventory inv)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // to show the recommended order qty 
+            int? recommededorderqty = 0;
+
+            // if the stock is less than or equal reorder level
+            if (inv.stock <= inv.reorderlevel)
+            {
+                // the recommended order qty will be the minimum reorder level and reorder qty
+                recommededorderqty = (inv.reorderlevel - inv.stock) + inv.reorderqty;
+            }
+            InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty);
+            return invdm;
+        }
         // Get the list of all invs and will return with error if there is one.
         public static List<InventoryModel> GetAllInventories(out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<InventoryModel> invms = new List<InventoryModel>();
@@ -55,6 +70,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static InventoryModel GetInventoryByInventoryid(int inventoryid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             inventory inventory = new inventory();
@@ -76,6 +93,8 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static InventoryModel GetInventoryByItemid(int itemid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
+
             error = "";
 
             inventory inventory = new inventory();
@@ -94,6 +113,83 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return invm;
+        }
+        public static List<InventoryDetailModel> GetAllInventoryDetails(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<InventoryDetailModel> invdms = new List<InventoryDetailModel>();
+            try
+            {
+                // get inventory list from database
+                List<inventory> invs = entities.inventories.ToList<inventory>();
+
+                // convert the DB Model list to API Model list for inv detail
+                foreach (inventory inv in invs)
+                {
+                    invdms.Add(CovertDBInventorytoAPIInventoryDet(inv));
+                }
+            }
+
+            // if inventory not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return invdms;
+        }
+        public static InventoryDetailModel GetInventoryDetailByInventoryid(int inventoryid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            inventory inventory = new inventory();
+            InventoryDetailModel invdm = new InventoryDetailModel();
+            try
+            {
+                inventory = entities.inventories.Where(p => p.invid == inventoryid).FirstOrDefault<inventory>();
+                invdm = CovertDBInventorytoAPIInventoryDet(inventory);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return invdm;
+        }
+        public static InventoryDetailModel GetInventoryDetailByItemid(int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            inventory inventory = new inventory();
+            InventoryDetailModel invdm = new InventoryDetailModel();
+            try
+            {
+                inventory = entities.inventories.Where(p => p.itemid == itemid).FirstOrDefault<inventory>();
+                invdm = CovertDBInventorytoAPIInventoryDet(inventory);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return invdm;
         }
         public static InventoryModel UpdateInventory(InventoryModel invm, out string error)
         {
