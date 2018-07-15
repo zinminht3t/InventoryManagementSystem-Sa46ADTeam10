@@ -173,6 +173,8 @@
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="Models\APIModels\OutstandingReqDetailModel.cs" />
+    <Compile Include="Models\APIModels\OutstandingReqModel.cs" />
     <Compile Include="Models\APIModels\SupplierItemModel.cs" />
     <Compile Include="Models\APIModels\SupplierModel.cs" />
     <Compile Include="Models\APIModels\UserModel.cs" />
@@ -207,6 +209,8 @@
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\SupplierItemRepo.cs" />
+    <Compile Include="Repositories\OutstandingReqRepo.cs" />
+    <Compile Include="Repositories\OutStandingReqDetailRepo.cs" />
     <Compile Include="Repositories\SupplierRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
     <Compile Include="Startup.cs" />

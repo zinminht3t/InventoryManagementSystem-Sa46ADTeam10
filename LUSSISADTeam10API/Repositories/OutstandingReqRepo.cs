@@ -8,21 +8,17 @@ using System.Web;
 
 namespace LUSSISADTeam10API.Repositories
 {
-    public static class SupplierRepo
+    public static class OutstandingReqRepo
     {
         // Convert From Auto Generated DB Model to APIModel
-        private static SupplierModel ConvertDBSupToAPISup(supplier sup)
+        private static OutstandingReqModel ConvertDBOutReqToAPIOutReq(outstandingrequisition outreq)
         {
-            SupplierModel sm = new SupplierModel(
-                    sup.supid,
-                    sup.supname,
-                    sup.supemail,
-                    sup.supphone,
-                    sup.contactname,
-                    sup.gstregno,
-                    sup.active
+            return new OutstandingReqModel(
+                    outreq.outreqid,
+                    outreq.itemid,
+                    outreq.reason,
+                    outreq.status
                 );
-            return sm;
         }
 
         // Get the list of all suppliers and will return with error if there is one.
@@ -40,7 +36,7 @@ namespace LUSSISADTeam10API.Repositories
                 // convert the DB Model list to API Model list
                 foreach (supplier sup in sups)
                 {
-                    sms.Add(ConvertDBSupToAPISup(sup));
+                    sms.Add(ConvertDBOutReqToAPIOutReq(sup));
                 }
             }
 
@@ -72,7 +68,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup = entities.suppliers
                     .Where(x => x.supid == supid)
                     .First();
-                sm = ConvertDBSupToAPISup(sup);
+                sm = ConvertDBOutReqToAPIOutReq(sup);
             }
             catch (NullReferenceException)
             {
@@ -147,7 +143,7 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
 
                 // return the updated model 
-                s = ConvertDBSupToAPISup(sup);
+                s = ConvertDBOutReqToAPIOutReq(sup);
             }
             catch (NullReferenceException)
             {
@@ -166,6 +162,7 @@ namespace LUSSISADTeam10API.Repositories
             supplier sup = new supplier();
             try
             {
+                sup.supid = sm.SupId;
                 sup.supname = sm.SupName;
                 sup.supemail = sm.SupEmail;
                 sup.supphone = sm.SupPhone;
@@ -175,7 +172,7 @@ namespace LUSSISADTeam10API.Repositories
 
                 entities.suppliers.Add(sup);
                 entities.SaveChanges();
-                sm = ConvertDBSupToAPISup(sup);
+                sm = ConvertDBOutReqToAPIOutReq(sup);
             }
             catch (NullReferenceException)
             {
@@ -199,7 +196,7 @@ namespace LUSSISADTeam10API.Repositories
                     .First();
                 sup.active = ConSupplier.Active.INACTIVE;
                 entities.SaveChanges();
-                sm = ConvertDBSupToAPISup(sup);
+                sm = ConvertDBOutReqToAPIOutReq(sup);
             }
             catch (NullReferenceException)
             {
@@ -224,7 +221,7 @@ namespace LUSSISADTeam10API.Repositories
                     .First();
                 sup.active = ConSupplier.Active.ACTIVE;
                 entities.SaveChanges();
-                sm = ConvertDBSupToAPISup(sup);
+                sm = ConvertDBOutReqToAPIOutReq(sup);
             }
             catch (NullReferenceException)
             {
