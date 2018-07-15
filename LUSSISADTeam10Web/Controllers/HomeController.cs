@@ -43,5 +43,11 @@ namespace LUSSISADTeam10Web.Controllers
             List<DepartmentModel> dms = APIHelper.GetAllDepartments(token, out error);
             return View(dms);
         }
+        public ActionResult Login()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }
