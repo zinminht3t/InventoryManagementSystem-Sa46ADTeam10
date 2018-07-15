@@ -10,30 +10,23 @@ namespace LUSSISADTeam10API.Models
     {
         public UserModel(int userid, string username, string email, string password, int role, string fullname, int deptid, string deptname)
         {
-            this.userid = userid;
-            this.username = username;
-            this.email = email;
-            this.password = password;
-            this.role = role;
-            this.fullname = fullname;
-            this.deptid = deptid;
-            this.deptname = deptname;
+            this.Userid = userid;
+            this.Username = username;
+            this.Email = email;
+            this.Password = password;
+            this.Role = role;
+            this.Fullname = fullname;
+            this.Deptid = deptid;
+            this.Deptname = deptname;
         }
-
-        public int userid { get; set; }
-
-        public string username { get; set; }
-
-        public string email { get; set; }
-
-        public string password { get; set; }
-
-        public int role { get; set; }
-
-        public string fullname { get; set; }
-
-        public int deptid { get; set; }
-        public string deptname { get; set; }
+        public int Userid { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Role { get; set; }
+        public string Fullname { get; set; }
+        public int Deptid { get; set; }
+        public string Deptname { get; set; }
 
 
     }
