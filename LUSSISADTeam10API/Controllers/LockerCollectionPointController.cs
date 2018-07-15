@@ -107,7 +107,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetLockerCPBycpid(int cpid)
         {
             string error = "";
-            LockerCollectionPointModel lcpm = LockerCollectionPointRepo.GetLockerCPBycpid(cpid, out error);
+            List<LockerCollectionPointModel> lcpm = LockerCollectionPointRepo.GetLockerCPBycpid(cpid, out error);
             if (error != "" || lcpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -160,7 +160,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetLockerCPByCPName(string cpname)
         {
             string error = "";
-            LockerCollectionPointModel lcpm = LockerCollectionPointRepo.GetLockerCPByCPName(cpname, out error);
+            List<LockerCollectionPointModel> lcpm = LockerCollectionPointRepo.GetLockerCPByCPName(cpname, out error);
             if (error != "" || lcpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

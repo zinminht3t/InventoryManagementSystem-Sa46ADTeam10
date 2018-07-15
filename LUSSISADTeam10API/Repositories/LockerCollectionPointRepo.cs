@@ -132,16 +132,23 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
-        public static LockerCollectionPointModel GetLockerCPBycpid(int cpid, out string error)
+        public static List<LockerCollectionPointModel> GetLockerCPBycpid(int cpid, out string error)
         {
             error = "";
 
-            lockercollectionpoint lcp = new lockercollectionpoint();
+          
+            List<lockercollectionpoint> lcps = new List<lockercollectionpoint>();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
+            List<LockerCollectionPointModel> lcplm = new List<LockerCollectionPointModel>();
             try
             {
-                lcp = entities.lockercollectionpoints.Where(p => p.cpid == cpid).FirstOrDefault<lockercollectionpoint>();
-                lcpm = ConvertBDLockerCPToAPILockerCP(lcp);
+                lcps = entities.lockercollectionpoints.Where(p => p.cpid == cpid).ToList<lockercollectionpoint>();
+
+                foreach (lockercollectionpoint lcp in lcps)
+                {
+                    lcplm.Add(ConvertBDLockerCPToAPILockerCP(lcp));
+                }
+
             }
             catch (NullReferenceException)
             {
@@ -151,7 +158,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return lcpm;
+            return lcplm;
         }
 
         public static LockerCollectionPointModel UpdateLockerCP(LockerCollectionPointModel lcpm, out string error)
@@ -220,16 +227,24 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
-        public static LockerCollectionPointModel GetLockerCPByCPName(string cpname, out string error)
+        public static List<LockerCollectionPointModel> GetLockerCPByCPName(string cpname, out string error)
         {
             error = "";
 
-            lockercollectionpoint lcp = new lockercollectionpoint();
+            List<lockercollectionpoint> lcps = new List<lockercollectionpoint>();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
+            List<LockerCollectionPointModel> lcplm = new List<LockerCollectionPointModel>();
             try
             {
-                lcp = entities.lockercollectionpoints.Where(p => p.collectionpoint.cpname == cpname).FirstOrDefault<lockercollectionpoint>();
-                lcpm = ConvertBDLockerCPToAPILockerCP(lcp);
+                lcps = entities.lockercollectionpoints.Where(p => p.collectionpoint.cpname == cpname).ToList<lockercollectionpoint>();
+               
+                 foreach (lockercollectionpoint Lcp in lcps)
+                {
+                    lcplm.Add(ConvertBDLockerCPToAPILockerCP(Lcp));
+                }
+
+
+
             }
             catch (NullReferenceException)
             {
@@ -239,7 +254,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return lcpm;
+            return lcplm;
         }
 
 
