@@ -62,7 +62,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetCollectionPointByReqid(int reqid)
         {
             string error = "";
-            CollectionPointModel cpm = CollectionPointRepo.GetCollectionPointByReqid(reqid, out error);
+            List<CollectionPointModel> cpm = CollectionPointRepo.GetCollectionPointByReqid(reqid, out error);
             if (error != "" || cpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -79,7 +79,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetCollectionPointByDeptid(int deptid)
         {
             string error = "";
-            CollectionPointModel cpm = CollectionPointRepo.GetCollectionPointByDeptid(deptid, out error);
+            List<CollectionPointModel> cpm = CollectionPointRepo.GetCollectionPointByDeptid(deptid, out error);
             if (error != "" || cpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -96,7 +96,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetCollectionPointByLockerid(int lockerid)
         {
             string error = "";
-            CollectionPointModel cpm = CollectionPointRepo.GetCollectionPointByLockerid(lockerid, out error);
+            List<CollectionPointModel> cpm = CollectionPointRepo.GetCollectionPointByLockerid(lockerid, out error);
             if (error != "" || cpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

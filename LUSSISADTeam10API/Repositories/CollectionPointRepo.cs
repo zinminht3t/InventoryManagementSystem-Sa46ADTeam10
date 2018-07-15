@@ -25,6 +25,7 @@ namespace LUSSISADTeam10API.Repositories
         // Get the list of all collectionpoints and will return with error if there is one.
         public static List<CollectionPointModel> GetAllCollectionPoint(out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<CollectionPointModel> cpm = new List<CollectionPointModel>();
@@ -35,7 +36,7 @@ namespace LUSSISADTeam10API.Repositories
 
                 // convert the DB Model list to API Model list
                 foreach (collectionpoint cp in cps)
-                { 
+                {
                     cpm.Add(CovertDBCptoAPICp(cp));
                 }
             }
@@ -58,6 +59,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static CollectionPointModel GetCollectionPointByCpid(int cpid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
             collectionpoint cp = new collectionpoint();
@@ -78,18 +80,20 @@ namespace LUSSISADTeam10API.Repositories
             }
             return cpm;
         }
-        public static CollectionPointModel GetCollectionPointByReqid(int reqid, out string error)
+        public static List<CollectionPointModel> GetCollectionPointByReqid(int reqid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            collectionpoint cp = new collectionpoint();
-            requisition req = new requisition();
-            CollectionPointModel cpm = new CollectionPointModel();
 
+            List<requisition> req = new List<requisition>();
+            List<CollectionPointModel> cpm = new List<CollectionPointModel>();
             try
             {
-                req = entities.requisitions.Where(p => p.reqid == reqid).FirstOrDefault<requisition>();
-                cp = req.collectionpoint;
-                cpm = CovertDBCptoAPICp(cp);
+                req = entities.requisitions.Where(p => p.reqid == reqid).ToList<requisition>();
+                foreach (requisition r in req)
+                {
+                    cpm.Add(CovertDBCptoAPICp(r.collectionpoint));
+                }
             }
             catch (NullReferenceException)
             {
@@ -100,19 +104,22 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return cpm;
+
         }
-        public static CollectionPointModel GetCollectionPointByDeptid(int deptid, out string error)
+        public static List<CollectionPointModel> GetCollectionPointByDeptid(int deptid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
-            collectionpoint cp = new collectionpoint();
-            departmentcollectionpoint dcp = new departmentcollectionpoint();
-            CollectionPointModel cpm = new CollectionPointModel();
+            List<departmentcollectionpoint> dep = new List<departmentcollectionpoint>();
+            List<CollectionPointModel> cpm = new List<CollectionPointModel>();
             try
             {
-                dcp = entities.departmentcollectionpoints.Where(p => p.deptid == deptid).FirstOrDefault<departmentcollectionpoint>();
-                cp = dcp.collectionpoint;
-                cpm = CovertDBCptoAPICp(cp);
+                dep = entities.departmentcollectionpoints.Where(p => p.deptid == deptid).ToList<departmentcollectionpoint>();
+                foreach (departmentcollectionpoint d in dep)
+                {
+                    cpm.Add(CovertDBCptoAPICp(d.collectionpoint));
+                }
             }
             catch (NullReferenceException)
             {
@@ -123,19 +130,22 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return cpm;
+
         }
-        public static CollectionPointModel GetCollectionPointByLockerid(int lockerid, out string error)
+        public static List<CollectionPointModel> GetCollectionPointByLockerid(int lockerid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
-            collectionpoint cp = new collectionpoint();
-            lockercollectionpoint lcp = new lockercollectionpoint();
-            CollectionPointModel cpm = new CollectionPointModel();
+            List<lockercollectionpoint> lcp = new List<lockercollectionpoint>();
+            List<CollectionPointModel> cpm = new List<CollectionPointModel>();
             try
             {
-                lcp = entities.lockercollectionpoints.Where(p => p.lockerid == lockerid).FirstOrDefault<lockercollectionpoint>();
-                cp = lcp.collectionpoint;
-                cpm = CovertDBCptoAPICp(cp);
+                lcp = entities.lockercollectionpoints.Where(p => p.lockerid == lockerid).ToList<lockercollectionpoint>();
+                foreach (lockercollectionpoint l in lcp)
+                {
+                    cpm.Add(CovertDBCptoAPICp(l.collectionpoint));
+                }
             }
             catch (NullReferenceException)
             {
@@ -162,14 +172,14 @@ namespace LUSSISADTeam10API.Repositories
                 cp.cpname = cpm.cpname;
                 cp.cplocation = cpm.cplocation;
 
-              
+
 
                 // saving the update
                 entities.SaveChanges();
 
                 // return the updated model 
                 cpm = CovertDBCptoAPICp(cp);
-               
+
             }
             catch (NullReferenceException)
             {
@@ -190,10 +200,10 @@ namespace LUSSISADTeam10API.Repositories
             {
                 cp.cpname = cpm.cpname;
                 cp.cplocation = cpm.cplocation;
-                
+
                 cp = entities.collectionpoints.Add(cp);
                 entities.SaveChanges();
-                cpm = CovertDBCptoAPICp(cp);
+                cpm = GetCollectionPointByCpid(cp.cpid,out error);
             }
             catch (NullReferenceException)
             {
@@ -206,5 +216,5 @@ namespace LUSSISADTeam10API.Repositories
             return cpm;
         }
     }
-    }
+}
 
