@@ -11,7 +11,7 @@ namespace LUSSISADTeam10API.Repositories
     public class AdjustmentDetailRepo
     {
         //Changed from DB to APIModel
-        private static AdjustmentDetailModel ConvertDBtoAPIAdjustDetail(adjustmentdetail adjd)
+        public static AdjustmentDetailModel ConvertDBtoAPIAdjustDetail(adjustmentdetail adjd)
         {
             AdjustmentDetailModel adjdm = new AdjustmentDetailModel(adjd.adjid, adjd.itemid,adjd.item.description, adjd.adjustedqty, adjd.reason);
             return adjdm;
