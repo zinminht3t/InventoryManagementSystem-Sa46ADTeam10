@@ -21,8 +21,8 @@ namespace LUSSISADTeam10API.Models.DBModels
 
         public int? adjustedqty { get; set; }
 
-        [MaxLength(255)]
-        public byte[] reason { get; set; }
+        [StringLength(255)]
+        public string reason { get; set; }
 
         public virtual adjustment adjustment { get; set; }
 
