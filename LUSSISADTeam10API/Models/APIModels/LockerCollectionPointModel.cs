@@ -18,6 +18,7 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.cpid = cpid;
             this.status = status;
             this.cpname = cpname;
+          
                  
            
         }
@@ -38,5 +39,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int status { get; set; }
 
         public string cpname { get; set; }
+
+        
     }
 }
