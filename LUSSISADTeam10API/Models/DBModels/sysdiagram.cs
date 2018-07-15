@@ -12,20 +12,12 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Collections.Generic;
     
-    public partial class category
+    public partial class sysdiagram
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public category()
-        {
-            this.items = new HashSet<item>();
-        }
-    
-        public int catid { get; set; }
         public string name { get; set; }
-        public string shelflocation { get; set; }
-        public string shelflevel { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<item> items { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
