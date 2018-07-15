@@ -200,7 +200,7 @@ namespace LUSSISADTeam10API.Repositories
                 lcp.status = lcpm.status;
                 lcp = entities.lockercollectionpoints.Add(lcp);
                 entities.SaveChanges();
-                lcpm = ConvertBDLockerCPToAPILockerCP(lcp);
+                lcpm = GetLockerCPByLockerid(lcp.lockerid, out error);
             }
             catch (NullReferenceException)
             {
