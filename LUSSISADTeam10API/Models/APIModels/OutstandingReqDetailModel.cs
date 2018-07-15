@@ -8,18 +8,20 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class OutstandingReqDetailModel
     {
         public OutstandingReqDetailModel
-            (int OutReqId, int ReqId, int Qty)
+            (int OutReqId, int ItemId, string Desc, int Qty)
         {
             this.OutReqId = OutReqId;
-            this.ReqId = ReqId;
+            this.ItemId = ItemId;
+            this.Description = Desc;
             this.Qty = Qty;
         }
 
         public OutstandingReqDetailModel()
-            : this(0, 0, 0) { }
+            : this(0, 0, "", 0) { }
 
         public int OutReqId { get; set; }
-        public int ReqId { get; set; }
+        public int ItemId { get; set; }
+        public string Description { get; set; }
         public int Qty { get; set; }
     }
 }

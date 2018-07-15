@@ -8,34 +8,36 @@ using System.Web;
 
 namespace LUSSISADTeam10API.Repositories
 {
-    public static class OutStandingReqDetailRepo
+    public static class OutstandingReqDetailRepo
     {
         // Convert From Auto Generated DB Model to APIModel
         private static OutstandingReqDetailModel ConvertDBOutReqDetailToAPIModel(outstandingrequisitiondetail outreqdetail)
         {
             return new OutstandingReqDetailModel(
                     outreqdetail.outreqid,
-                    outreqdetail.reqid,
+                    outreqdetail.itemid,
+                    outreqdetail.item.description,
                     outreqdetail.qty
                 );
         }
 
         // Get the list of all suppliers and will return with error if there is one.
-        public static List<SupplierModel> GetAllSuppliers(out string error)
+        public static List<OutstandingReqDetailModel> GetAllOutReqDetails(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-            List<SupplierModel> sms = new List<SupplierModel>();
+            List<OutstandingReqDetailModel> ordms = new List<OutstandingReqDetailModel>();
             try
             {
                 // get department list from database
-                List<supplier> sups = entities.suppliers.ToList<supplier>();
+                List<outstandingrequisitiondetail> ouotreqdetails = 
+                    entities.outstandingrequisitiondetails.ToList();
 
                 // convert the DB Model list to API Model list
-                foreach (supplier sup in sups)
+                foreach (outstandingrequisitiondetail outreqdetail in ouotreqdetails)
                 {
-                    sms.Add(ConvertDBOutReqDetailToAPIModel(sup));
+                    ordms.Add(ConvertDBOutReqDetailToAPIModel(outreqdetail));
                 }
             }
 
@@ -53,21 +55,23 @@ namespace LUSSISADTeam10API.Repositories
             }
 
             //returning the list
-            return sms;
+            return ordms;
         }
-        public static SupplierModel GetSupplierById(int supid, out string error)
+
+        public static OutstandingReqModel GetOutstandingListByOutReqId(int reqid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
 
-            supplier sup = new supplier();
-            SupplierModel sm = new SupplierModel();
+            outstandingrequisition or = new outstandingrequisition();
+            List<outstandingrequisitiondetail> ordlist =
+                new List<outstandingrequisitiondetail>();
             try
             {
-                sup = entities.suppliers
-                    .Where(x => x.supid == supid)
-                    .First();
-                sm = ConvertDBOutReqDetailToAPIModel(sup);
+                or = entities.outstandingrequisitions
+                    .Where(x => x.reqid == reqid)
+                    .FirstOrDefault();
+                ordlist = or.
             }
             catch (NullReferenceException)
             {
@@ -77,72 +81,33 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return sm;
+            return orm;
         }
 
-        public static List<SupplierModel> GetSuppliersByItemId(int itemid, out string error)
+        public static OutstandingReqDetailModel UpdateOutReqDetail
+            (OutstandingReqDetailModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-
-            item item = new item();
-            List<supplieritem> supitems = new List<supplieritem>();
-            List<SupplierModel> sms = new List<SupplierModel>();
+            OutstandingReqDetailModel outreqdetailm = new OutstandingReqDetailModel();
+            outstandingrequisitiondetail outreqdetail = new outstandingrequisitiondetail();
             try
             {
-                item = entities.items
-                    .Where(x => x.itemid == itemid)
-                    .First();
-                supitems = item.supplieritems.ToList();
-                foreach (supplieritem si in supitems)
-                {
-                    sms.Add(new SupplierModel(
-                        si.supplier.supid,
-                        si.supplier.supname,
-                        si.supplier.supemail,
-                        si.supplier.supphone,
-                        si.supplier.contactname,
-                        si.supplier.gstregno,
-                        si.supplier.active
-                    ));
-                }
-            }
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return sms;
-        }
-
-        public static SupplierModel UpdateSupplier(SupplierModel sm, out string error)
-        {
-            LUSSISEntities entities = new LUSSISEntities();
-            error = "";
-            supplier sup = new supplier();
-            SupplierModel s = new SupplierModel();
-            try
-            {
-                // finding the supplier object using supplier API model
-                sup = entities.suppliers.Where(x => x.supid == sm.SupId).First();
+                // finding the db object using API model
+                outreqdetail = entities.outstandingrequisitiondetails
+                    .Where(x => x.outreqid == ordm.OutReqId &&
+                    x.itemid == ordm.ItemId).FirstOrDefault();
 
                 // transfering data from API model to DB Model
-                sup.supid = sm.SupId;
-                sup.supname = sm.SupName;
-                sup.supemail = sm.SupEmail;
-                sup.supphone = sm.SupPhone;
-                sup.contactname = sm.ContactName;
-                sup.gstregno = sm.GstRegNo;
-                sup.active = sm.Active;
+                outreqdetail.outreqid = ordm.OutReqId;
+                outreqdetail.itemid = ordm.ItemId;
+                outreqdetail.qty = ordm.Qty;
 
                 // saving the update
                 entities.SaveChanges();
 
                 // return the updated model 
-                s = ConvertDBOutReqDetailToAPIModel(sup);
+                outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
             }
             catch (NullReferenceException)
             {
@@ -152,26 +117,28 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return s;
+            return outreqdetailm;
         }
-        public static SupplierModel CreateSupplier(SupplierModel sm, out string error)
+        public static OutstandingReqDetailModel AddOutReqDetail
+            (OutstandingReqDetailModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            supplier sup = new supplier();
+            OutstandingReqDetailModel outreqdetailm = new OutstandingReqDetailModel();
+            outstandingrequisitiondetail outreqdetail = new outstandingrequisitiondetail();
             try
             {
-                sup.supid = sm.SupId;
-                sup.supname = sm.SupName;
-                sup.supemail = sm.SupEmail;
-                sup.supphone = sm.SupPhone;
-                sup.contactname = sm.ContactName;
-                sup.gstregno = sm.GstRegNo;
-                sup.active = sm.Active;
+                // transfering data from API model to DB Model
+                outreqdetail.outreqid = ordm.OutReqId;
+                outreqdetail.itemid = ordm.ItemId;
+                outreqdetail.qty = ordm.Qty;
 
-                entities.suppliers.Add(sup);
+                // adding into DB
+                entities.outstandingrequisitiondetails.Add(outreqdetail);
                 entities.SaveChanges();
-                sm = ConvertDBOutReqDetailToAPIModel(sup);
+
+                // return the model 
+                outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
             }
             catch (NullReferenceException)
             {
@@ -181,56 +148,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return sm;
-        }
-
-        public static SupplierModel DeactivateSupplier(SupplierModel sm, out string error){
-            LUSSISEntities entities = new LUSSISEntities();
-            supplier sup = new supplier();
-            error = "";
-            try
-            {
-                sup = entities.suppliers
-                    .Where(x => x.supid == sm.SupId)
-                    .First();
-                sup.active = ConSupplier.Active.INACTIVE;
-                entities.SaveChanges();
-                sm = ConvertDBOutReqDetailToAPIModel(sup);
-            }
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return sm;
-        }
-
-        public static SupplierModel ActivateSupplier(SupplierModel sm, out string error)
-        {
-            LUSSISEntities entities = new LUSSISEntities();
-            supplier sup = new supplier();
-            error = "";
-            try
-            {
-                sup = entities.suppliers
-                    .Where(x => x.supid == sm.SupId)
-                    .First();
-                sup.active = ConSupplier.Active.ACTIVE;
-                entities.SaveChanges();
-                sm = ConvertDBOutReqDetailToAPIModel(sup);
-            }
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return sm;
+            return outreqdetailm;
         }
     }
 }

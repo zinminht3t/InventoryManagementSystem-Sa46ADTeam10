@@ -170,6 +170,8 @@
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
+    <Compile Include="Controllers\OutstandingReqController.cs" />
+    <Compile Include="Controllers\OutstandingReqDetailController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierItemController.cs" />
     <Compile Include="Global.asax.cs">
@@ -279,7 +281,7 @@
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\SupplierItemRepo.cs" />
     <Compile Include="Repositories\OutstandingReqRepo.cs" />
-    <Compile Include="Repositories\OutStandingReqDetailRepo.cs" />
+    <Compile Include="Repositories\OutstandingReqDetailRepo.cs" />
     <Compile Include="Repositories\SupplierRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
     <Compile Include="Startup.cs" />

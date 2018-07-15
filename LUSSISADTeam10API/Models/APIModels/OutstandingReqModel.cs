@@ -9,10 +9,10 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class OutstandingReqModel
     {
         public OutstandingReqModel(
-                int OutReqId, int ItemId, string Reason, int Status)
+                int OutReqId, int ReqId, string Reason, int Status)
         {
             this.OutReqId = OutReqId;
-            this.ItemId = ItemId;
+            this.ReqId = ReqId;
             this.Reason = Reason;
             this.Status = Status;
         }
@@ -21,11 +21,8 @@ namespace LUSSISADTeam10API.Models.APIModels
             this(0,0,"", ConOutstandingsRequisition.Status.PENDING) { }
 
         public int OutReqId { get; set; }
-
-        public int ItemId { get; set; }
-
+        public int ReqId { get; set; }
         public string Reason { get; set; }
-
         public int Status { get; set; }
     }
 }
