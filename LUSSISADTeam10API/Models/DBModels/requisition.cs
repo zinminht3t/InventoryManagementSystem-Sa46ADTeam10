@@ -17,6 +17,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public requisition()
         {
+            this.disbursements = new HashSet<disbursement>();
             this.outstandingrequisitions = new HashSet<outstandingrequisition>();
             this.requisitiondetails = new HashSet<requisitiondetail>();
         }
@@ -31,7 +32,8 @@ namespace LUSSISADTeam10API.Models.DBModels
     
         public virtual collectionpoint collectionpoint { get; set; }
         public virtual department department { get; set; }
-        public virtual disbursement disbursement { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<disbursement> disbursements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<outstandingrequisition> outstandingrequisitions { get; set; }
         public virtual user user { get; set; }
