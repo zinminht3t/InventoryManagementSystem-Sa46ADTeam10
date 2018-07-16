@@ -108,10 +108,27 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(dele);
         }
+        // to Cancel delegation
+        [HttpPost]
+        [Route("api/delegation/cancel")]
+        public IHttpActionResult CancelDelegationi(DelegationModel del)
+        {
+            string error = "";
+            DelegationModel dele = DelegationRepo.CancelDelegation(del, out error);
+            if (error != "" || dele == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Delegation Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dele);
+        }
 
 
 
-       
+
 
 
     }

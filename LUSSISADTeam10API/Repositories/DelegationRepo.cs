@@ -131,6 +131,8 @@ namespace LUSSISADTeam10API.Repositories
             return dms;
         }
 
+
+        //update Delegation
         public static DelegationModel UpdateDelegation(DelegationModel dm , out String error)
         {
             error = "";
@@ -212,6 +214,38 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
+        //cancel delegation
+
+        public static DelegationModel CancelDelegation(DelegationModel dm, out String error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            delegation d = new delegation();
+            try
+            {
+                // finding the delegation object using delegation API model
+                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+
+             
+                d.active = ConDelegation.Active.INACTIVE;
+
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dm = GetDelegationByDelegationID(d.delid, out error); 
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dm;
+        }
 
 
     }
