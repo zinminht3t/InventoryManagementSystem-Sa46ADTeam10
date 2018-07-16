@@ -190,6 +190,60 @@ namespace LUSSISADTeam10API.Repositories
             // return the updated model 
             return GetDisbursementDetailsByDisbursementId(ndism.disid , out error);
         }
+
+        // to get the list for the clerk to retrive items from inventory
+        public static List<OutstandingItem> GetAllPreparingItems(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<OutstandingItem> ois = new List<OutstandingItem>();
+            try
+            {
+                // get outstanding details list from database
+               
+                List<disbursementdetail> outreqdetails =
+                    entities.disbursementdetails
+                    .Where(x => x.disbursement.requisition.status ==
+                    ConRequisition.Status.PREPARING).ToList();
+
+                var groupedBy =
+                    outreqdetails.GroupBy(x => x.item)
+                    .Select(y => new {
+                        Item = y.Key,
+                        Quantity = y.Sum(x => x.qty)
+                    });
+
+                // convert the DB Model list to API Model list
+                foreach (var item in groupedBy)
+                {
+                    ois.Add(new OutstandingItem(
+                            item.Item.itemid,
+                            item.Item.description,
+                            item.Item.uom,
+                            item.Item.catid,
+                            item.Item.category.name,
+                            item.Quantity
+                        ));
+                }
+            }
+
+            // if department not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return ois;
+        }
     }
 
 

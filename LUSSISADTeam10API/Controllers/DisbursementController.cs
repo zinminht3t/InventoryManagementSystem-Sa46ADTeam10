@@ -195,7 +195,29 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(dis);
         }
+        [HttpGet]
+        [Route("api/disbursement/clerk")]
+        public IHttpActionResult GetRetriveItemListforClerk()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
 
+            // get the list from Repo and convert it into outstanding item list
+            List<OutstandingItem> items = DisbursementDetailsRepo.GetAllPreparingItems(out error);
+
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "" || items == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Outstanding list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(items);
+
+        }
 
     }
 }
