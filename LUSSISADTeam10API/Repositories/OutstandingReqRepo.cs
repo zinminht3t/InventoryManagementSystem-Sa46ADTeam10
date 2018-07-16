@@ -174,7 +174,7 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
 
                 // return the model 
-                outreqm = GetOutstandingReqByReqId(outreq.reqid, out error);
+                outreqm = GetOutstandingReqById(outreq.outreqid, out error);
             }
             catch (NullReferenceException)
             {

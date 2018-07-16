@@ -209,6 +209,24 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(req);
         }
+
+        // to create new requisition with details
+        [HttpPost]
+        [Route("api/requisition/createdetails")]
+        public IHttpActionResult CreateRequisitionwithDetails(RequisitionModel reqm)
+        {
+            string error = "";
+            RequisitionModel req = RequisitionRepo.CreateRequisitionwithDetails(reqm, reqm.requisitiondetails, out error);
+            if (error != "" || req == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(req);
+        }
+
+
+
+
         // to update requisition
         [HttpPost]
         [Route("api/requisition/update")]
