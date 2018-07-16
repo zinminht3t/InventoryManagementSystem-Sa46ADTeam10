@@ -186,6 +186,8 @@
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
+    <Compile Include="Models\APIModels\PurchaseOrderModel.cs" />
     <Compile Include="Models\APIModels\RequisitionDetailsModel.cs" />
     <Compile Include="Models\APIModels\RequisitionModel.cs" />
     <Compile Include="Models\APIModels\SupplierItemModel.cs" />
