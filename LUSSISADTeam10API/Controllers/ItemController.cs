@@ -63,7 +63,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetItemByCatid(int catid)
         {
             string error = "";
-            ItemModel im = ItemRepo.GetItemByCatid(catid, out error);
+            List<ItemModel> im = ItemRepo.GetItemByCatid(catid, out error);
             if (error != "" || im == null)
             {
                 if (error == ConError.Status.NOTFOUND)

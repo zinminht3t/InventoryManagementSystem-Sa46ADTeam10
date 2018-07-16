@@ -75,20 +75,24 @@ namespace LUSSISADTeam10API.Repositories
             }
             return im;
         }
-        public static ItemModel GetItemByCatid(int catid, out string error)
+        public static List<ItemModel> GetItemByCatid(int catid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
-
             error = "";
 
-            item item = new item();
-            ItemModel im = new ItemModel();
+            List<ItemModel> item = new List<ItemModel>();
+            List<category> cat = new List<category>();
+            List<item> it = new List<item>();
+
             try
             {
-                
-                item = entities.items.Where(p => p.catid == catid).FirstOrDefault<item>();
-                im = CovertDBItemtoAPIItem(item);
+                it = entities.items.Where(p => p.catid == catid).ToList<item>();
+                foreach (item i in it)
+                {
+                    item.Add(CovertDBItemtoAPIItem(i));
+                }
             }
+
             catch (NullReferenceException)
             {
                 error = ConError.Status.NOTFOUND;
@@ -97,8 +101,9 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return im;
-        }
+            return item;
+        }     
+
         public static ItemModel GetItemsByDisid(int disid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
