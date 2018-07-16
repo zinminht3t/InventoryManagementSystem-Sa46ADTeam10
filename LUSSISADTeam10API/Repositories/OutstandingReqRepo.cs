@@ -15,14 +15,18 @@ namespace LUSSISADTeam10API.Repositories
         {
             List<OutstandingReqDetailModel> details =
                 new List<OutstandingReqDetailModel>();
-            //foreach(outstandingrequisitiondetail ord in outreq.)
-            return new OutstandingReqModel(
+            foreach (outstandingrequisitiondetail ord in outreq.outstandingrequisitiondetails)
+            {
+                details.Add(OutstandingReqDetailRepo.ConvertDBOutReqDetailToAPIModel(ord));
+            }
+            OutstandingReqModel orm = new OutstandingReqModel(
                     outreq.outreqid,
                     outreq.reqid,
                     outreq.reason,
                     outreq.status
-
                 );
+            orm.OutReqDetails = details;
+            return orm;
         }
         // Get the list of all suppliers and will return with error if there is one.
         public static List<OutstandingReqModel> GetAllOutstandingReq(out string error)
@@ -83,7 +87,7 @@ namespace LUSSISADTeam10API.Repositories
             return orm;
         }
 
-        public static OutstandingReqModel GetOutstandingReqDetailByReqId(int reqid, out string error)
+        public static OutstandingReqModel GetOutstandingReqByReqId(int reqid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
@@ -140,7 +144,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return outreqm;
         }
-        public static OutstandingReqModel AddOutReq
+        public static OutstandingReqModel CreateOutReq
             (OutstandingReqModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -150,10 +154,18 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // transfering data from API model to DB Model
+                List<outstandingrequisitiondetail> details =
+                    new List<outstandingrequisitiondetail>();
+                foreach(OutstandingReqDetailModel ordModel in ordm.OutReqDetails)
+                {
+                    details.Add(OutstandingReqDetailRepo
+                    .ConvertAPIOutReqDetailToDBModel(ordModel));
+                }
                 outreq.reqid = ordm.ReqId;
                 outreq.reason = ordm.Reason;
                 outreq.status = ConOutstandingsRequisition.Status.PENDING;
-
+                outreq.outstandingrequisitiondetails = details;
+                    
                 // adding into DB
                 entities.outstandingrequisitions.Add(outreq);
                 entities.SaveChanges();

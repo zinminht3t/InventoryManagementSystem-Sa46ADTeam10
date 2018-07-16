@@ -12,85 +12,177 @@ namespace LUSSISADTeam10API.Controllers
 {
     public class OutstandingReqController : ApiController
     {
-        // to show supplier list
+        // to show outstanding list
         [HttpGet]
         [Route("api/outstandingreqs")]
-        public IHttpActionResult GetAllSuppliers()
+        public IHttpActionResult GetAllOutReqs()
         {
             // declare and initialize error variable to accept the error from Repo
             string error = "";
 
-            // get the list from supplierRepo and will insert the error if there is one
-            List<SupplierModel> sms = SupplierRepo.GetAllSuppliers(out error);
+            // get the list from outstandingreqRepo and will insert the error if there is one
+            List<OutstandingReqModel> orm = 
+                OutstandingReqRepo.GetAllOutstandingReq(out error);
 
-            // if the erorr is not blank or the supplier list is null
-            if (error != "" || sms == null)
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "" || orm == null)
             {
                 // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
-                    return Content(HttpStatusCode.NotFound, "Suppliers Not Found");
+                    return Content(HttpStatusCode.NotFound, "Outstanding list Not Found");
                 // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
             // if there is no error
-            return Ok(sms);
+            return Ok(orm);
 
         }
 
-        // to get supplier by supplier id
+        // to get outstanding by outstandingreq id
         [HttpGet]
-        [Route("api/supplier/{supid}")]
-        public IHttpActionResult GetSupplierById(int supid)
+        [Route("api/outstandingreq/{outreqid}")]
+        public IHttpActionResult GetOutstandingReqById(int outreqid)
         {
             string error = "";
-            SupplierModel sm = SupplierRepo.GetSupplierById(supid, out error);
-            if (error != "" || sm == null)
+            OutstandingReqModel orm = 
+                OutstandingReqRepo.GetOutstandingReqById(outreqid, out error);
+            if (error != "" || orm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                 {
-                    return Content(HttpStatusCode.NotFound, "Supplier Not Found");
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
                 }
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(sm);
+            return Ok(orm);
         }
 
-        [HttpPost]
-        [Route("api/supplier/update")]
-        public IHttpActionResult UpdateSupplier(SupplierModel sup)
+        // to get outstandingreq of specific requisition
+        [HttpGet]
+        [Route("api/outstandingreq/requisition/{reqid}")]
+        public IHttpActionResult GetOutReqByReqId(int reqid)
         {
             string error = "";
-            SupplierModel sm = SupplierRepo.UpdateSupplier(sup, out error);
-            if (error != "" || sm == null)
+            OutstandingReqModel orm =
+                OutstandingReqRepo.GetOutstandingReqByReqId(reqid, out error);
+            if (error != "" || orm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                 {
-                    return Content(HttpStatusCode.NotFound, "Supplier Not Found");
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
                 }
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(sm);
+            return Ok(orm);
         }
 
-        // to create new supplier
+        // to update outstanding req
         [HttpPost]
-        [Route("api/supplier/create")]
-        public IHttpActionResult CreateSupplier(SupplierModel sup)
+        [Route("api/outstandingreq/update")]
+        public IHttpActionResult UpdateOutReq(OutstandingReqModel outreq)
         {
             string error = "";
-            SupplierModel sm = SupplierRepo.CreateSupplier(sup, out error);
-            if (error != "" || sm == null)
+            OutstandingReqModel orm = OutstandingReqRepo.UpdateOutReq(outreq, out error);
+            if (error != "" || orm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(orm);
+        }
+
+        // to create new outstanding req
+        [HttpPost]
+        [Route("api/outstandingreq/create")]
+        public IHttpActionResult CreateOutReq(OutstandingReqModel outreq)
+        {
+            string error = "";
+            OutstandingReqModel orm = OutstandingReqRepo.CreateOutReq(outreq, out error);
+            if (error != "" || orm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(sm);
+            return Ok(orm);
         }
 
+        // to complete the exisiting outstanding
         [HttpPost]
         [Route("api/outstandingreq/complete")]
-        public IHttpActionResult DeactivateSupplier(Object sup)
+        public IHttpActionResult CompleteOutstanding(OutstandingReqModel outreq)
         {
-            return Ok();
+            string error = "";
+            OutstandingReqModel orm = OutstandingReqRepo.Complete(outreq, out error);
+            if (error != "" || orm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(orm);
+        }
+
+        // to show outstanding detail list
+        [HttpGet]
+        [Route("api/outstandingreqdetails")]
+        public IHttpActionResult GetAllOutReqDetails()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from outstandingreqdetailRepo and will insert the error if there is one
+            List<OutstandingReqDetailModel> ordms =
+                OutstandingReqDetailRepo.GetAllOutReqDetails(out error);
+
+            // if the erorr is not blank or the outstanding detail list is null
+            if (error != "" || ordms == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Outstanding detail list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(ordms);
+        }
+
+        // to update outstanding req details
+        [HttpPost]
+        [Route("api/outstandingreqdetail/update")]
+        public IHttpActionResult UpdateOutReqDetail(OutstandingReqDetailModel outreqdetail)
+        {
+            string error = "";
+            OutstandingReqDetailModel ordm = 
+                OutstandingReqDetailRepo.UpdateOutReqDetail(outreqdetail, out error);
+            if (error != "" || ordm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(ordm);
+        }
+
+        // to create new outstanding req details
+        [HttpPost]
+        [Route("api/outstandingreqdetail/create")]
+        public IHttpActionResult CreateOutReqDetail(OutstandingReqDetailModel outreqdetail)
+        {
+            string error = "";
+            OutstandingReqDetailModel ordm = 
+                OutstandingReqDetailRepo.CreateOutReqDetail(outreqdetail, out error);
+            if (error != "" || ordm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(ordm);
         }
     }
 }

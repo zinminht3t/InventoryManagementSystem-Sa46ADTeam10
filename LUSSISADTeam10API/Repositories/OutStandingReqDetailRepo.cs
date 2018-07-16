@@ -11,7 +11,7 @@ namespace LUSSISADTeam10API.Repositories
     public static class OutstandingReqDetailRepo
     {
         // Convert From Auto Generated DB Model to APIModel
-        private static OutstandingReqDetailModel ConvertDBOutReqDetailToAPIModel(outstandingrequisitiondetail outreqdetail)
+        public static OutstandingReqDetailModel ConvertDBOutReqDetailToAPIModel(outstandingrequisitiondetail outreqdetail)
         {
             return new OutstandingReqDetailModel(
                     outreqdetail.outreqid,
@@ -19,6 +19,18 @@ namespace LUSSISADTeam10API.Repositories
                     outreqdetail.item.description,
                     outreqdetail.qty
                 );
+        }
+
+        // Covert From APIModel to DBModel
+        public static outstandingrequisitiondetail ConvertAPIOutReqDetailToDBModel(OutstandingReqDetailModel outreqdetail)
+        {
+            outstandingrequisitiondetail ord = 
+                new outstandingrequisitiondetail();
+            ord.outreqid = outreqdetail.OutReqId;
+            ord.itemid = outreqdetail.ItemId;
+            ord.qty = outreqdetail.Qty;
+
+            return ord;
         }
 
         // Get the list of all suppliers and will return with error if there is one.
@@ -93,7 +105,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return outreqdetailm;
         }
-        public static OutstandingReqDetailModel AddOutReqDetail
+        public static OutstandingReqDetailModel CreateOutReqDetail
             (OutstandingReqDetailModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
