@@ -412,7 +412,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_outstandingrequisitiondetail_requisition">
+        <Association Name="FK_outstandingrequisitiondetail_item">
           <End Role="item" Type="Self.item" Multiplicity="1" />
           <End Role="outstandingrequisitiondetail" Type="Self.outstandingrequisitiondetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -421,6 +421,18 @@
             </Principal>
             <Dependent Role="outstandingrequisitiondetail">
               <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_outstandingrequisitiondetail_outstandingrequisition">
+          <End Role="outstandingrequisition" Type="Self.outstandingrequisition" Multiplicity="1" />
+          <End Role="outstandingrequisitiondetail" Type="Self.outstandingrequisitiondetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="outstandingrequisition">
+              <PropertyRef Name="outreqid" />
+            </Principal>
+            <Dependent Role="outstandingrequisitiondetail">
+              <PropertyRef Name="outreqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -667,8 +679,12 @@
             <End Role="requisition" EntitySet="requisition" />
             <End Role="outstandingrequisition" EntitySet="outstandingrequisition" />
           </AssociationSet>
-          <AssociationSet Name="FK_outstandingrequisitiondetail_requisition" Association="Self.FK_outstandingrequisitiondetail_requisition">
+          <AssociationSet Name="FK_outstandingrequisitiondetail_item" Association="Self.FK_outstandingrequisitiondetail_item">
             <End Role="item" EntitySet="item" />
+            <End Role="outstandingrequisitiondetail" EntitySet="outstandingrequisitiondetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_outstandingrequisitiondetail_outstandingrequisition" Association="Self.FK_outstandingrequisitiondetail_outstandingrequisition">
+            <End Role="outstandingrequisition" EntitySet="outstandingrequisition" />
             <End Role="outstandingrequisitiondetail" EntitySet="outstandingrequisitiondetail" />
           </AssociationSet>
           <AssociationSet Name="FK_purchaseorder_supplier" Association="Self.FK_purchaseorder_supplier">
@@ -857,7 +873,7 @@
           <NavigationProperty Name="category" Relationship="Self.FK_item_category" FromRole="item" ToRole="category" />
           <NavigationProperty Name="disbursementdetails" Relationship="Self.FK_disbursementdetail_item" FromRole="item" ToRole="disbursementdetail" />
           <NavigationProperty Name="inventories" Relationship="Self.FK_inventory_item" FromRole="item" ToRole="inventory" />
-          <NavigationProperty Name="outstandingrequisitiondetails" Relationship="Self.FK_outstandingrequisitiondetail_requisition" FromRole="item" ToRole="outstandingrequisitiondetail" />
+          <NavigationProperty Name="outstandingrequisitiondetails" Relationship="Self.FK_outstandingrequisitiondetail_item" FromRole="item" ToRole="outstandingrequisitiondetail" />
           <NavigationProperty Name="purchaseorderdetails" Relationship="Self.FK_purchaseorderdetail_item1" FromRole="item" ToRole="purchaseorderdetail" />
           <NavigationProperty Name="requisitiondetails" Relationship="Self.FK_requisitiondetail_item" FromRole="item" ToRole="requisitiondetail" />
           <NavigationProperty Name="supplieritems" Relationship="Self.FK_supplieritem_item1" FromRole="item" ToRole="supplieritem" />
@@ -882,6 +898,7 @@
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="requisition" Relationship="Self.FK_outstandingrequisition_requisition" FromRole="outstandingrequisition" ToRole="requisition" />
+          <NavigationProperty Name="outstandingrequisitiondetails" Relationship="Self.FK_outstandingrequisitiondetail_outstandingrequisition" FromRole="outstandingrequisition" ToRole="outstandingrequisitiondetail" />
         </EntityType>
         <EntityType Name="outstandingrequisitiondetail">
           <Key>
@@ -891,7 +908,8 @@
           <Property Name="outreqid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
           <Property Name="qty" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="item" Relationship="Self.FK_outstandingrequisitiondetail_requisition" FromRole="outstandingrequisitiondetail" ToRole="item" />
+          <NavigationProperty Name="item" Relationship="Self.FK_outstandingrequisitiondetail_item" FromRole="outstandingrequisitiondetail" ToRole="item" />
+          <NavigationProperty Name="outstandingrequisition" Relationship="Self.FK_outstandingrequisitiondetail_outstandingrequisition" FromRole="outstandingrequisitiondetail" ToRole="outstandingrequisition" />
         </EntityType>
         <EntityType Name="purchaseorder">
           <Key>
@@ -1220,7 +1238,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_outstandingrequisitiondetail_requisition">
+        <Association Name="FK_outstandingrequisitiondetail_item">
           <End Role="item" Type="Self.item" Multiplicity="1" />
           <End Role="outstandingrequisitiondetail" Type="Self.outstandingrequisitiondetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1277,6 +1295,18 @@
             </Principal>
             <Dependent Role="outstandingrequisition">
               <PropertyRef Name="reqid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_outstandingrequisitiondetail_outstandingrequisition">
+          <End Role="outstandingrequisition" Type="Self.outstandingrequisition" Multiplicity="1" />
+          <End Role="outstandingrequisitiondetail" Type="Self.outstandingrequisitiondetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="outstandingrequisition">
+              <PropertyRef Name="outreqid" />
+            </Principal>
+            <Dependent Role="outstandingrequisitiondetail">
+              <PropertyRef Name="outreqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1459,7 +1489,7 @@
             <End Role="item" EntitySet="items" />
             <End Role="inventory" EntitySet="inventories" />
           </AssociationSet>
-          <AssociationSet Name="FK_outstandingrequisitiondetail_requisition" Association="Self.FK_outstandingrequisitiondetail_requisition">
+          <AssociationSet Name="FK_outstandingrequisitiondetail_item" Association="Self.FK_outstandingrequisitiondetail_item">
             <End Role="item" EntitySet="items" />
             <End Role="outstandingrequisitiondetail" EntitySet="outstandingrequisitiondetails" />
           </AssociationSet>
@@ -1478,6 +1508,10 @@
           <AssociationSet Name="FK_outstandingrequisition_requisition" Association="Self.FK_outstandingrequisition_requisition">
             <End Role="requisition" EntitySet="requisitions" />
             <End Role="outstandingrequisition" EntitySet="outstandingrequisitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_outstandingrequisitiondetail_outstandingrequisition" Association="Self.FK_outstandingrequisitiondetail_outstandingrequisition">
+            <End Role="outstandingrequisition" EntitySet="outstandingrequisitions" />
+            <End Role="outstandingrequisitiondetail" EntitySet="outstandingrequisitiondetails" />
           </AssociationSet>
           <AssociationSet Name="FK_purchaseorder_supplier" Association="Self.FK_purchaseorder_supplier">
             <End Role="supplier" EntitySet="suppliers" />
