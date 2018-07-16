@@ -12,6 +12,24 @@ namespace LUSSISADTeam10API.Controllers
 {
     public class SupplierItemController : ApiController
     {
+        [HttpGet]
+        [Route("api/supplieritems")]
+        public IHttpActionResult GetAllSupplierItems()
+        {
+            string error = "";
+            List<SupplierItemModel> sims = SupplierItemRepo
+                .GetAllSupplierItem(out error);
+            if (error != "" || sims == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Items and suppliers NOT FOUND!");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sims);
+        }
+
         // to update existing item of specific supplier
         [HttpPost]
         [Route("api/supplieritem/update")]

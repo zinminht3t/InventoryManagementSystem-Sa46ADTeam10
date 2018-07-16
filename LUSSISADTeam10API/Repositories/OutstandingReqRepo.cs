@@ -37,7 +37,7 @@ namespace LUSSISADTeam10API.Repositories
             List<OutstandingReqModel> orms = new List<OutstandingReqModel>();
             try
             {
-                // get department list from database
+                // get outstanding req list from database
                 List<outstandingrequisition> outreqs = 
                     entities.outstandingrequisitions.ToList();
 
@@ -47,7 +47,7 @@ namespace LUSSISADTeam10API.Repositories
                     orms.Add(ConvertDBOutReqToAPIOutReq(outreq));
                 }
             }
-            // if department not found, will throw NOTFOUND exception
+            // if outstanding req not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
                 // if there is NULL Exception error, error will be 404
@@ -62,6 +62,7 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return orms;
         }
+        // Get Outstanding Req Model by Id number
         public static OutstandingReqModel GetOutstandingReqById(int outreqid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -86,7 +87,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return orm;
         }
-
+        //Get Outstanding Req Model by Req Id
         public static OutstandingReqModel GetOutstandingReqByReqId(int reqid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -110,6 +111,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return orm;
         }
+        // To Update Outstanding Requisition
         public static OutstandingReqModel UpdateOutReq
             (OutstandingReqModel ordm, out string error)
         {
@@ -144,6 +146,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return outreqm;
         }
+        // To add new outstanding requisition
         public static OutstandingReqModel CreateOutReq
             (OutstandingReqModel ordm, out string error)
         {
@@ -183,9 +186,9 @@ namespace LUSSISADTeam10API.Repositories
             }
             return outreqm;
         }
-
+        // To change the status from pending to complete
         public static OutstandingReqModel Complete
-    (OutstandingReqModel ordm, out string error)
+            (OutstandingReqModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
