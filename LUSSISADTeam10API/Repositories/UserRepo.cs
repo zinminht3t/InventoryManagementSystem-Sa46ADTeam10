@@ -1,4 +1,5 @@
-﻿using LUSSISADTeam10API.Models;
+﻿using LUSSISADTeam10API.Constants;
+using LUSSISADTeam10API.Models;
 using LUSSISADTeam10API.Models.DBModels;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,36 @@ namespace LUSSISADTeam10API.Repositories
 
 
         // Start Phyo2
+        public static List<UserModel> GetUserByRoleandDeptid(int role,int deptid, out string error)
+        {
+            error = "";
+            List<user> user = new List<user>();
+            List<UserModel> usm = new List<UserModel>();
+            LUSSISEntities entities = new LUSSISEntities();
+            try
+            {
+                user = entities.users.Where(p => p.role == role && p.deptid == deptid).ToList<user>();
+                foreach (user u in user)
+                {
+                    usm.Add(CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
 
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return usm;
+
+            
+        }
+
+
+      
         // End Phyo2
 
 
