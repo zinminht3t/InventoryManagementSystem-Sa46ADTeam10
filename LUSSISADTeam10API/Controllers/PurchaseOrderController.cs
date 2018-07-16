@@ -13,9 +13,7 @@ namespace LUSSISADTeam10API.Controllers
 {
     public class PurchaseOrderController : ApiController
     {
-
-
-        // to show adjustment list
+        // to show purchase order list
         [HttpGet]
         [Route("api/purchaseorders")]
         public IHttpActionResult GetAllPurchaseOrders()
@@ -23,34 +21,20 @@ namespace LUSSISADTeam10API.Controllers
             // declare and initialize error variable to accept the error from Repo
             string error = "";
 
-            // get the list from departmentrepo and will insert the error if there is one
+            // get the list from purchase orderrepo and will insert the error if there is one
             List<PurchaseOrderModel> poms = PurchaseOrderRepo.GetAllPurchaseOrders(out error);
-            // if the erorr is not blank or the department list is null
+            // if the erorr is not blank or the purchase order list is null
             if (error != "" || poms == null)
             {
                 // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
-                    return Content(HttpStatusCode.NotFound, "Departments Not Found");
+                    return Content(HttpStatusCode.NotFound, "Purchase Order Not Found");
                 // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
             // if there is no error
             return Ok(poms);
 
-        }
-
-        // to create new department
-        [HttpPost]
-        [Route("api/purchaseorder/create")]
-        public IHttpActionResult CreateDepartment(PurchaseOrderModel pom)
-        {
-            string error = "";
-            PurchaseOrderModel newpom = PurchaseOrderRepo.CreatePurchaseOrder(pom, pom.podms, out error);
-            if (error != "" || newpom == null)
-            {
-                return Content(HttpStatusCode.BadRequest, error);
-            }
-            return Ok(newpom);
         }
     }
 }

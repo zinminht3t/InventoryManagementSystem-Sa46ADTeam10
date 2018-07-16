@@ -21,7 +21,8 @@ namespace LUSSISADTeam10API.Repositories
             PurchaseOrderModel pom = new PurchaseOrderModel(po.poid, po.purchasedby, po.user.fullname, po.supid, po.supplier.supname, po.podate, po.status, podms);
             return pom;
         }
-        //Get all purchaseorder list
+        
+        //Get all purchase order list
         public static List<PurchaseOrderModel> GetAllPurchaseOrders(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -56,7 +57,7 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return pom;
         }
-        //find Adjusment by id
+        //find Purchase Order by id
         public static PurchaseOrderModel GetPurchaseOrderByID(int poid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -79,6 +80,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return pom;
         }
+
         //find PurchaseOrder by purchased by id
         public static List<PurchaseOrderModel> GetPurchaseOrderByPurchasedById(int purchasedby, out string error)
         {
@@ -209,9 +211,15 @@ namespace LUSSISADTeam10API.Repositories
             purchaseorder po = new purchaseorder();
             try
             {
-                po = entities.purchaseorders.Add(po);
+                po = entities.purchaseorders.Where(p => p.poid == pom.PoId).FirstOrDefault<purchaseorder>();
+
+                po.purchasedby = pom.Purchasedby;
+                po.supid = pom.Supid;
+                po.podate = pom.Podate;
+                po.status = pom.Status;
                 entities.SaveChanges();
-                pom = ConvertDBtoAPIPOModel(po);
+
+                pom = GetPurchaseOrderByID(po.poid, out error);
             }
             catch (NullReferenceException)
             {

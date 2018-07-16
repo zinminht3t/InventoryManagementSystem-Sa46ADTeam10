@@ -296,6 +296,7 @@
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\OutstandingReqDetailRepo.cs" />
     <Compile Include="Repositories\OutstandingReqRepo.cs" />
+    <Compile Include="Repositories\PurchaseOrderDetailRepo.cs" />
     <Compile Include="Repositories\PurchaseOrderRepo.cs" />
     <Compile Include="Repositories\RequisitionDetailsRepo.cs" />
     <Compile Include="Repositories\RequisitionRepo.cs" />
