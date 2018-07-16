@@ -25,7 +25,6 @@ namespace LUSSISADTeam10API.Controllers
 
             // get the list from departmentrepo and will insert the error if there is one
             List<AdjustmentModel> adj = AdjustmentRepo.GetAllAdjustments(out error);
-
             // if the erorr is not blank or the department list is null
             if (error != "" || adj == null)
             {
@@ -68,6 +67,21 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(adjus);
-        }        
+        }
+        //show adjustment raisedto
+        [HttpGet]
+        [Route("api/adjustment/raisedto/{raisedto}")]
+        public IHttpActionResult GetAdjustmentRaisedTo(int raisedto)
+        {
+            string error = "";
+            List<AdjustmentModel> adjus = AdjustmentRepo.GetAdjustmentByRaisedToId(raisedto, out error);
+            if (error != "" || adjus == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adjus);
+        }
     }
 }
