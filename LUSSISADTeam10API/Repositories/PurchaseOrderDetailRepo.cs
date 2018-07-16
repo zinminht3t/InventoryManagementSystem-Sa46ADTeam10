@@ -64,7 +64,7 @@ namespace LUSSISADTeam10API.Repositories
             return podm;
         }
         //Create new PurchaseOrder
-        public static PurchaseOrderDetailModel CreatePurchaseOrder(PurchaseOrderDetailModel podm, out string error)
+        public static PurchaseOrderDetailModel CreatePurchaseOrderDetail(PurchaseOrderDetailModel podm, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
@@ -90,7 +90,7 @@ namespace LUSSISADTeam10API.Repositories
             return podm;
         }
         //Update PurchaseOrder
-        public static PurchaseOrderDetailModel UpdatePurchaseOrder(PurchaseOrderDetailModel podm, out string error)
+        public static PurchaseOrderDetailModel UpdatePurchaseOrderDetail(PurchaseOrderDetailModel podm, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
