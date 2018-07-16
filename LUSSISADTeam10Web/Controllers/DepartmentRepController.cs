@@ -11,7 +11,7 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: DepartmentRep
         public ActionResult Index()
         {
-            return View();
+            return View("DeptRepDashboard");
         }
     }
 }

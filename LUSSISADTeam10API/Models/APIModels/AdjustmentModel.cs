@@ -18,7 +18,7 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.status = status;
             this.adjds = adjdms;
         }
-        public AdjustmentModel() : this(0, 0,"", 0,"", new DateTime(), 0, new List<AdjustmentDetailModel>())
+        public AdjustmentModel() : this(0, 0, "", 0, "", new DateTime(), 0, new List<AdjustmentDetailModel>())
         {
         }
         public int adjid { get; set; }

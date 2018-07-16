@@ -42,7 +42,7 @@ namespace LUSSISADTeam10API.Repositories
             List<OutstandingReqDetailModel> ordms = new List<OutstandingReqDetailModel>();
             try
             {
-                // get department list from database
+                // get outstanding details list from database
                 List<outstandingrequisitiondetail> ouotreqdetails = 
                     entities.outstandingrequisitiondetails.ToList();
 
@@ -164,6 +164,56 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return outreqdetailm;
+        }
+
+        public static List<OutstandingItem> GetAllPendingOutstandingItems(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<OutstandingItem> ois = new List<OutstandingItem>();
+            try
+            {
+                // get outstanding details list from database
+                List<outstandingrequisitiondetail> outreqdetails =
+                    entities.outstandingrequisitiondetails
+                    .Where(x=> x.outstandingrequisition.status ==
+                    ConOutstandingsRequisition.Status.PENDING).ToList();
+
+                var groupedBy =
+                    outreqdetails.GroupBy(x => x.item)
+                    .Select(y => new { Item = y.Key,
+                        Quantity = y.Sum(x => x.qty) });
+
+                // convert the DB Model list to API Model list
+                foreach (var item in groupedBy)
+                {
+                    ois.Add(new OutstandingItem(
+                            item.Item.itemid,
+                            item.Item.description,
+                            item.Item.uom,
+                            item.Item.catid,
+                            item.Item.category.name,
+                            item.Quantity
+                        ));
+                }
+            }
+
+            // if department not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return ois;
         }
     }
 }

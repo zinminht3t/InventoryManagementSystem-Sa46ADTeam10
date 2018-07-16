@@ -11,7 +11,8 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: HOD
         public ActionResult Index()
         {
-            return View();
+            return View("HODDashboard");
         }
+        
     }
 }

@@ -41,19 +41,16 @@ namespace LUSSISADTeam10API.Repositories
             }
             return adjdm;
         }
-        //Get All adjustments by item id
-        public static List<AdjustmentDetailModel> GetAdjustmentDetailByItemID(int itemid, out string error)
+        //Get All adjustments by item id & adjustment id
+        public static AdjustmentDetailModel GetAdjustDetailByItemandAdjustID(int itemid,int adjid, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
-            List<AdjustmentDetailModel> adjdm = new List<AdjustmentDetailModel>();
+           AdjustmentDetailModel adjdm = new AdjustmentDetailModel();
             try
             {
-                List<adjustmentdetail> adjds = entities.adjustmentdetails.Where(a => a.itemid == itemid).ToList();                
-                foreach (adjustmentdetail adjd in adjds)
-                {                    
-                    adjdm.Add(ConvertDBtoAPIAdjustDetail(adjd));
-                }
+                adjustmentdetail adjd = entities.adjustmentdetails.Where(a => a.itemid == itemid && a.adjid==adjid).First<adjustmentdetail>();                                                 
+                    adjdm= ConvertDBtoAPIAdjustDetail(adjd);
             }
             catch (NullReferenceException)
             {
@@ -73,12 +70,14 @@ namespace LUSSISADTeam10API.Repositories
             adjustmentdetail adjd = new adjustmentdetail();
             try
             {
+                adjd.adjid = adjdm.adjid;
                 adjd.itemid = adjdm.itemid;
                 adjd.adjustedqty = adjdm.adjustedqty;
                 adjd.reason = adjdm.reason;
                 adjd = entities.adjustmentdetails.Add(adjd);
                 entities.SaveChanges();
-                adjdm = ConvertDBtoAPIAdjustDetail(adjd);
+                adjdm = GetAdjustDetailByItemandAdjustID(adjd.itemid, adjd.adjid, out error);
+                    
             }
             catch (NullReferenceException)
             {
@@ -98,13 +97,14 @@ namespace LUSSISADTeam10API.Repositories
             adjustmentdetail adjd = new adjustmentdetail ();            
             try
             {
-                //List<AdjustmentDetailModel> adjdmlist = GetAdjustmentDetailByAdjID(adjdm.adjid, out error);
                 adjd = entities.adjustmentdetails.Where(a => a.adjid == adjdm.adjid && a.itemid == adjdm.itemid).First<adjustmentdetail>();
+                //adjd.adjid = adjdm.adjid;
+                //adjd.itemid = adjdm.itemid;
                 adjd.reason = adjdm.reason;
                 adjd.adjustedqty = adjdm.adjustedqty;               
-                adjd = entities.adjustmentdetails.Add(adjd);
+               
                 entities.SaveChanges();
-                adjdm = ConvertDBtoAPIAdjustDetail(adjd);
+                adjdm = GetAdjustDetailByItemandAdjustID(adjd.itemid, adjd.adjid, out error);
             }
             catch (NullReferenceException)
             {

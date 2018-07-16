@@ -1417,11 +1417,18 @@
     <Content Include="styles\scss\_gauge.scss" />
     <Content Include="styles\scss\_switches.scss" />
     <Content Include="styles\scss\_widgets.scss" />
+    <Content Include="Views\HOD\HODDashboard.cshtml" />
+    <Content Include="Views\Employee\EmpDashboard.cshtml" />
+    <Content Include="Views\DepartmentRep\DeptRepDashboard.cshtml" />
+    <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
+    <Content Include="Views\Employee\Test.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Manager\ManagerDashboard.cshtml" />
+    <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Manager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
