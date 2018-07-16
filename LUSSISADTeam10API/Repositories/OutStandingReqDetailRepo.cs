@@ -70,6 +70,32 @@ namespace LUSSISADTeam10API.Repositories
             return ordms;
         }
 
+        // Get outstanding detail by specific req number and itemid
+        public static OutstandingReqDetailModel GetOutstandingReqDetailByIds
+            (int outreqid, int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            outstandingrequisitiondetail ord = new outstandingrequisitiondetail();
+            OutstandingReqDetailModel ordm = new OutstandingReqDetailModel();
+            try
+            {
+                ord = entities.outstandingrequisitiondetails
+                    .Where(x => x.outreqid == outreqid && x.itemid == itemid)
+                    .FirstOrDefault();
+                ordm = ConvertDBOutReqDetailToAPIModel(ord);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return ordm;
+        }
         public static OutstandingReqDetailModel UpdateOutReqDetail
             (OutstandingReqDetailModel ordm, out string error)
         {
@@ -119,12 +145,15 @@ namespace LUSSISADTeam10API.Repositories
                 outreqdetail.itemid = ordm.ItemId;
                 outreqdetail.qty = ordm.Qty;
 
-                // adding into DB
+               // adding into DB
                 entities.outstandingrequisitiondetails.Add(outreqdetail);
                 entities.SaveChanges();
 
-                // return the model 
-                outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
+                outreqdetailm = GetOutstandingReqDetailByIds
+                    (outreqdetail.outreqid, outreqdetail.itemid, out error);
+
+               //  return the model 
+               // outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
             }
             catch (NullReferenceException)
             {
