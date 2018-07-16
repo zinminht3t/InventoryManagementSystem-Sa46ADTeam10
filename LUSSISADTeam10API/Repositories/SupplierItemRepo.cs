@@ -88,9 +88,12 @@ namespace LUSSISADTeam10API.Repositories
             SupplierItemModel sim = new SupplierItemModel();
             try
             {
-                double min = entities.supplieritems.Min(x => x.price);
+                double min = entities.supplieritems
+                    .Where(x => x.itemid == itemid)
+                    .Min(x => x.price);
                 supitem = entities.supplieritems
-                    .Where(x => x.price == min).FirstOrDefault();
+                    .Where(x => x.price == min && x.itemid == itemid)
+                    .FirstOrDefault();
                 sim = ConvertDBSupItemToAPISupItem(supitem);
             }
             catch (NullReferenceException)
