@@ -8,6 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using LUSSISADTeam10API.Models.DBModels;
+using LUSSISADTeam10API.Repositories;
+using LUSSISADTeam10API.Constants;
+using LUSSISADTeam10API.Models;
 
 
 namespace LUSSISADTeam10API.Controllers
@@ -39,7 +43,25 @@ namespace LUSSISADTeam10API.Controllers
 
 
         // Start TAZ
+        [HttpGet]
+        [Route("api/user/depid/{depid}")]
+        public IHttpActionResult GetRequisitionByDepid(int depid)
+        {
+            string error = "";
+            
+            List<UserModel> usm = UserRepo.GetUserByDeptid(depid, out error);
+            if (error != "" || usm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "User Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(usm);
+        }
 
+       
         // End TAZ
     }
 }

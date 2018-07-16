@@ -63,7 +63,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetDelegationByUserid(int userid)
         {
             string error = "";
-            DelegationModel dm = DelegationRepo.GetDelegationByUserID(userid, out error);
+            List<DelegationModel> dm = DelegationRepo.GetDelegationByUserId(userid, out error);
             if (error != "" || dm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -80,7 +80,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetDelegationByAssignedbyid(int assignedbyid)
         {
             string error = "";
-            DelegationModel dm = DelegationRepo.GetDelegationByAssignedbyID(assignedbyid, out error);
+          List< DelegationModel> dm = DelegationRepo.GetDelegationByassignedby(assignedbyid, out error);
             if (error != "" || dm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

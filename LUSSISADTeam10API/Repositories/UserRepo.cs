@@ -1,5 +1,6 @@
 ﻿using LUSSISADTeam10API.Constants;
 using LUSSISADTeam10API.Models;
+using LUSSISADTeam10API.Constants;
 using LUSSISADTeam10API.Models.DBModels;
 using System;
 using System.Collections.Generic;
@@ -99,7 +100,36 @@ namespace LUSSISADTeam10API.Repositories
 
 
         // Start TAZ
+        public static List<UserModel> GetUserByDeptid(int deptid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
 
+            List<department> dept = new List<department>();
+            List<user> ums = new List<user>();
+            List<UserModel> urm = new List<UserModel>();
+            try
+            {
+                ums = entities.users.Where(p => p.deptid == deptid).ToList<user>();
+                foreach (user u in ums)
+                {
+                    urm.Add(CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return urm;
+
+        }
+
+
+      
         // End TAZ
 
 
