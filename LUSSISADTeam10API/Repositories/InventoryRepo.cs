@@ -19,6 +19,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for InventoryDetail
         private static InventoryDetailModel CovertDBInventorytoAPIInventoryDet(inventory inv)
         {
+            string error = "";
             LUSSISEntities entities = new LUSSISEntities();
             // to show the recommended order qty 
             int? recommededorderqty = 0;
@@ -26,8 +27,16 @@ namespace LUSSISADTeam10API.Repositories
             // if the stock is less than or equal reorder level
             if (inv.stock <= inv.reorderlevel)
             {
-                // the recommended order qty will be the minimum reorder level and reorder qty
+                // the recommended order qty will be the minimum reorder level and reorder qty and the total qty stock of outstanding req
                 recommededorderqty = (inv.reorderlevel - inv.stock) + inv.reorderqty;
+
+                List<OutstandingItem> outs = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
+
+                if(error == "" && outs != null)
+                {
+                    OutstandingItem outItem = outs.Where(p => p.ItemId == inv.itemid).First<OutstandingItem>();
+                    recommededorderqty += outItem.Total;
+                }
             }
             InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty);
             return invdm;

@@ -122,7 +122,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 disbursement = entities.disbursements.Where(p => p.disid == disid).FirstOrDefault<disbursement>();
-                dism = CovertDBDisbursementtoAPIDisbursement(disbursement);
+                dism = CovertDBDisbursementtoAPIDisbursementwithDetails(disbursement);
             }
             catch (NullReferenceException)
             {
@@ -209,7 +209,7 @@ namespace LUSSISADTeam10API.Repositories
             return dism;
         }
         //create the disbursement
-        public static DisbursementModel Createdisbursement(DisbursementModel dism, out string error)
+        public static DisbursementModel CreateDisbursement(DisbursementModel dism, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
@@ -233,6 +233,41 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dism;
         }
-        }
 
+
+        // update the disbursement
+        public static DisbursementModel UpdateDisbursement(DisbursementModel dism, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursement ndism = new disbursement();
+            try
+            {
+                // finding the inventory object using Inventory API model
+                ndism = entities.disbursements.Where(p => p.disid == dism.disid).First<disbursement>();
+
+                // transfering data from API model to DB Model
+                ndism.disid = dism.disid;
+                ndism.reqid = dism.reqid;
+                ndism.ackby = dism.ackby;
+              
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dism = GetDisbursementByDisbursementId(ndism.disid , out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dism;
+        }
     }
+
+}
