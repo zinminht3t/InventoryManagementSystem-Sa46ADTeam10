@@ -191,9 +191,13 @@ namespace LUSSISADTeam10API.Repositories
                 adj.raisedto = adjm.raisedto;
                 adj.issueddate = adjm.issueddate;
                 adj.status = ConAdjustment.Active.PENDING;
+               // adj.adjustmentdetails = new List<adjustmentdetail>();
                 adj = entities.adjustments.Add(adj);
                 entities.SaveChanges();
-                adjm = ConvertDBtoAPIAdjust(adj);
+
+                adjm = GetAdjustmentByID(adj.adjid, out error);
+
+                // adjm = ConvertDBtoAPIAdjust(adj);
             }
             catch (NullReferenceException)
             {
@@ -218,7 +222,7 @@ namespace LUSSISADTeam10API.Repositories
                 adj.raisedto = adjm.raisedto;
                 adj.issueddate = adjm.issueddate;
                 adj.status = adjm.status;
-                adj = entities.adjustments.Add(adj);
+               
                 entities.SaveChanges();
                 adjm = ConvertDBtoAPIAdjust(adj);
             }
