@@ -184,5 +184,30 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(ordm);
         }
+
+        // to get all outstanding items and total quantities
+        [HttpGet]
+        [Route("api/outstandingitemlist")]
+        public IHttpActionResult GetOutstandingItemList()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from Repo and convert it into outstanding item list
+            List<OutstandingItem> items = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
+
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "" || items == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Outstanding list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(items);
+
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace LUSSISADTeam10API.Repositories
             return CovertDBUsertoAPIUser(user);
         }
 
+
         public static List<UserModel> GetAllUsers()
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -59,6 +60,17 @@ namespace LUSSISADTeam10API.Repositories
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }
+
+
+
+        // Start Phyo2
+
+        // End Phyo2
+
+
+        // Start TAZ
+
+        // End TAZ
 
 
     }
