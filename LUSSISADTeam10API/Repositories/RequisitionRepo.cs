@@ -335,7 +335,7 @@ namespace LUSSISADTeam10API.Repositories
                 reqn.approvedby = req.approvedby;
                 reqn.deptid = req.depid;
                 reqn.cpid = req.cpid;
-                reqn.status = req.status;
+                reqn.status = ConRequisition.Status.PENDING;
                 reqn.reqdate = req.reqdate;
                 reqn = entities.requisitions.Add(reqn);
                 entities.SaveChanges();
@@ -402,7 +402,7 @@ namespace LUSSISADTeam10API.Repositories
                 req.approvedby = reqm.approvedby;
                 req.deptid = reqm.depid;
                 req.cpid = reqm.cpid;
-                req.status = reqm.status;
+                req.status = ConRequisition.Status.PENDING;
                 req.reqdate = reqm.reqdate;
 
                 req = entities.requisitions.Add(req);
