@@ -13,7 +13,7 @@ namespace LUSSISADTeam10Web.Constants
             public const int SUPERVISOR = 2;
             public const int MANAGER = 3;
             public const int HOD = 4;
-            public const int EMPLOYEEREP = 5;
+            public const int EMPLOYEE = 5;
             public const int DEPARTMENTREP = 6;
         }
     }

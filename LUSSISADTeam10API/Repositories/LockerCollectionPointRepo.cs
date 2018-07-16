@@ -205,6 +205,7 @@ namespace LUSSISADTeam10API.Repositories
                 lcp.lockersize = lcpm.lockersize;
                 lcp.cpid = lcpm.cpid;
                 lcp.status = lcpm.status;
+
                 lcp = entities.lockercollectionpoints.Add(lcp);
                 entities.SaveChanges();
                 lcpm = GetLockerCPByLockerid(lcp.lockerid, out error);
