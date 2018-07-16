@@ -13,7 +13,6 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static SupplierModel ConvertDBSupToAPISup(supplier sup)
         {
-            LUSSISEntities entities = new LUSSISEntities();
             SupplierModel sm = new SupplierModel(
                     sup.supid,
                     sup.supname,
@@ -167,7 +166,6 @@ namespace LUSSISADTeam10API.Repositories
             supplier sup = new supplier();
             try
             {
-                sup.supid = sm.SupId;
                 sup.supname = sm.SupName;
                 sup.supemail = sm.SupEmail;
                 sup.supphone = sm.SupPhone;
@@ -199,7 +197,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup = entities.suppliers
                     .Where(x => x.supid == sm.SupId)
                     .First();
-                sup.active = ConCommon.Active.INACTIVE;
+                sup.active = ConSupplier.Active.INACTIVE;
                 entities.SaveChanges();
                 sm = ConvertDBSupToAPISup(sup);
             }
@@ -224,7 +222,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup = entities.suppliers
                     .Where(x => x.supid == sm.SupId)
                     .First();
-                sup.active = ConCommon.Active.ACTIVE;
+                sup.active = ConSupplier.Active.ACTIVE;
                 entities.SaveChanges();
                 sm = ConvertDBSupToAPISup(sup);
             }

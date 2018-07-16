@@ -12,6 +12,7 @@ namespace LUSSISADTeam10API.Controllers
 {
     public class SupplierItemController : ApiController
     {
+        // to update existing item of specific supplier
         [HttpPost]
         [Route("api/supplieritem/update")]
         public IHttpActionResult UpdateSupplierItem(SupplierItemModel supitem)
@@ -30,7 +31,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(sim);
         }
 
-        // to create new supplier
+        // to create new item by supplier
         [HttpPost]
         [Route("api/supplieritem/create")]
         public IHttpActionResult CreateSupplier(SupplierItemModel supitem)

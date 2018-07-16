@@ -27,7 +27,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         }
 
         public SupplierModel() :
-            this(0, "", "", 0, "", "", ConCommon.Active.INACTIVE)
+            this(0, "", "", 0, "", "", ConSupplier.Active.INACTIVE)
         {
         }
 
