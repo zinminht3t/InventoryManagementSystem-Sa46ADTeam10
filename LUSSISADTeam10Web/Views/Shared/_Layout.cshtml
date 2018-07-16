@@ -36,7 +36,7 @@
                         <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
                     </div>
 
-                    @if (Session["UserName"] == null)
+                    @if (Session["UserName"] == "A")
                     {
                         <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                             <ul class="nav navbar-nav">
@@ -69,6 +69,26 @@
 
                             </ul>
                         </div><!-- /.navbar-collapse -->
+                    }
+                    else if(Session["UserName"] == null)
+                    {
+                        <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                            <ul class="nav navbar-nav">
+                                <li class="active">
+                                    <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                                </li>
+                                <h3 class="menu-title">Representative</h3><!-- /.menu-title -->
+                                <li>
+                                    <a href="widgets.html"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
+                                </li>                
+                                <li>
+                                    <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
+                                </li>
+                                <li>
+                                    <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>History </a>
+                                </li>                         
+                            </ul>
+                        </div>
                     }
                     </nav>
             </aside><!-- /#left-panel -->
