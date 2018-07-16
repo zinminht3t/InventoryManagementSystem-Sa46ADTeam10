@@ -9,8 +9,9 @@ namespace LUSSISADTeam10API.Constants
     {
         public static class Active
         {
-            public const int INACTIVE = 0;
+            public const int PENDING = 0;
             public const int ACTIVE = 1;
+            public const int REJECTED = 2;
         }
     }
 }

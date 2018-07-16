@@ -160,6 +160,8 @@
     <Compile Include="APIModels\InventoryModel.cs" />
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
+    <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
     <Compile Include="API\APIAccount.cs" />
     <Compile Include="API\APIAdjustment.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="API\APIInventory.cs" />
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
+    <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APISupplier.cs" />
     <Compile Include="API\APIUser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

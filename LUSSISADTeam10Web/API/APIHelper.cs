@@ -10,10 +10,52 @@ using System.Web;
 
 namespace LUSSISADTeam10Web.API
 {
-    public class APIHelper
+    public static class APIHelper
     {
         public static string Baseurl = System.Configuration.ConfigurationManager.AppSettings["apiURL"];
 
+        // for GET Methods
+        public static T Execute<T>(string _token, string url, out string error) where T : new()
+        {
+            error = "";
+            var request = new RestRequest();
+            var client = new RestClient
+            {
+                // Customizing the url based on the method
+                BaseUrl = new System.Uri(url)
+            };
+
+            // add the token security
+            request.AddParameter("Authorization", "Bearer " + _token.Trim(), ParameterType.HttpHeader);
+            var response = client.Execute<T>(request);
+
+            if (response.ErrorException != null)
+            {
+                // if the error exists
+                error += response.ResponseStatus.ToString();
+            }
+            return response.Data;
+        }
+
+        // for POST Methods
+        public static T Execute<T>(string _token, string objectstring, string url, out string error) where T : new()
+        {
+            error = "";
+            var request = new RestRequest(Method.POST);
+            request.AddParameter("application/json", objectstring, ParameterType.RequestBody);
+            var client = new RestClient
+            {
+                BaseUrl = new System.Uri(url)
+            };
+            request.AddParameter("Authorization", "Bearer " + _token.Trim(), ParameterType.HttpHeader);
+            var response = client.Execute<T>(request);
+
+            if (response.ErrorException != null)
+            {
+                error += response.ResponseStatus.ToString();
+            }
+            return response.Data;
+        }
 
     }
 }
