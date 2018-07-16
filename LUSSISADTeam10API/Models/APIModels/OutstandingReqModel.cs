@@ -15,6 +15,7 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.ReqId = ReqId;
             this.Reason = Reason;
             this.Status = Status;
+            this.OutReqDetails = new List<OutstandingReqDetailModel>();
         }
 
         public OutstandingReqModel() : 
@@ -24,5 +25,6 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int ReqId { get; set; }
         public string Reason { get; set; }
         public int Status { get; set; }
+        public List<OutstandingReqDetailModel> OutReqDetails { get; set; }
     }
 }

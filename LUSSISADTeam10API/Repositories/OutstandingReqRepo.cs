@@ -13,11 +13,15 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static OutstandingReqModel ConvertDBOutReqToAPIOutReq(outstandingrequisition outreq)
         {
+            List<OutstandingReqDetailModel> details =
+                new List<OutstandingReqDetailModel>();
+            //foreach(outstandingrequisitiondetail ord in outreq.)
             return new OutstandingReqModel(
                     outreq.outreqid,
                     outreq.reqid,
                     outreq.reason,
                     outreq.status
+
                 );
         }
         // Get the list of all suppliers and will return with error if there is one.

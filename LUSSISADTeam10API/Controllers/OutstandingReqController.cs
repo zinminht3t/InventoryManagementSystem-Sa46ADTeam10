@@ -88,15 +88,9 @@ namespace LUSSISADTeam10API.Controllers
 
         [HttpPost]
         [Route("api/outstandingreq/complete")]
-        public IHttpActionResult DeactivateSupplier(Outstand sup)
+        public IHttpActionResult DeactivateSupplier(Object sup)
         {
-            string error = "";
-            SupplierModel sm = SupplierRepo.DeactivateSupplier(sup, out error);
-            if (error != "" || sm == null)
-            {
-                return Content(HttpStatusCode.BadRequest, error);
-            }
-            return Ok(sm);
+            return Ok();
         }
     }
 }

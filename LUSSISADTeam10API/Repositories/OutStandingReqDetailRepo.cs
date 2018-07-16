@@ -58,32 +58,6 @@ namespace LUSSISADTeam10API.Repositories
             return ordms;
         }
 
-        public static OutstandingReqModel GetOutstandingListByOutReqId(int reqid, out string error)
-        {
-            LUSSISEntities entities = new LUSSISEntities();
-            error = "";
-
-            outstandingrequisition or = new outstandingrequisition();
-            List<outstandingrequisitiondetail> ordlist =
-                new List<outstandingrequisitiondetail>();
-            try
-            {
-                or = entities.outstandingrequisitions
-                    .Where(x => x.reqid == reqid)
-                    .FirstOrDefault();
-                ordlist = or.
-            }
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return orm;
-        }
-
         public static OutstandingReqDetailModel UpdateOutReqDetail
             (OutstandingReqDetailModel ordm, out string error)
         {
