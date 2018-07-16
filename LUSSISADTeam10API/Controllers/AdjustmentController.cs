@@ -114,36 +114,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adjus);
         }
-        //show adjustment greater than price
-        //[HttpGet]
-        //[Route("api/adjustment/greaterprice/{price}")]
-        //public IHttpActionResult GetAdjustmentGreaterPrice(double price)
-        //{
-        //    string error = "";
-        //    List<AdjustmentModel> adjus = AdjustmentRepo.G
-        //        if (error != "" || adjus == null)
-        //    {
-        //        if (error == ConError.Status.NOTFOUND)
-        //            return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    return Ok(adjus);
-        //}
-        ////show adjustment lower than price
-        //[HttpGet]
-        //[Route("api/adjustment/lesserprice/{price}")]
-        //public IHttpActionResult GetAdjustmentLesserPrice(double price)
-        //{
-        //    string error = "";
-        //    List<AdjustmentModel> adjus = AdjustmentRepo.
-        //        if (error != "" || adjus == null)
-        //    {
-        //        if (error == ConError.Status.NOTFOUND)
-        //            return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    return Ok(adjus);
-        //}
+        
 
         //create adjustment
         [HttpPost]
@@ -163,22 +134,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adjm);
         }
-        //create adjustment detail
-        //[HttpPost]
-        //[Route("api/adjustment/detail/create")]
-        //public IHttpActionResult CreateAdjustmentDetail(AdjustmentDetailModel adjd)
-        //{
-        //    string error = "";
-        //    AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
-        //    if (error != "" || adjdm == null)
-        //    {
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    //Add to adjustment
-        //    AdjustmentModel adj = AdjustmentRepo.GetAdjustmentByID(adjdm.adjid, out error);
-        //    adj.adjds.Add(adjdm);
-        //    return Ok(adjdm);
-        //}
+       
         //update adjustment
         [HttpPost]
         [Route("api/adjustment/update")]

@@ -225,28 +225,37 @@ namespace LUSSISADTeam10API.Repositories
                 adj.status = ConAdjustment.Active.PENDING;
                 List<AdjustmentDetailModel> adjds = adjm.adjds;
                
+                //check item price
                 foreach (AdjustmentDetailModel adjd in adjds)
                 {
                     SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.itemid, out error);
                     double? price = Math.Abs((Int32)adjd.adjustedqty) * supp.Price;
                     if (price >= (double?)250)
                     {
-                        user user = entities.users.Where(u => u.role == 3).First();
+                        user user = entities.users.Where(u => u.role == ConUser.Role.MANAGER).First();
                         adj.raisedto = user.userid;
+                        break;
                     }
                     else
                     {
-                        user user = entities.users.Where(u => u.role==2).First();
+                        user user = entities.users.Where(u => u.role==ConUser.Role.SUPERVISOR).First();
                         adj.raisedto = user.userid;
                     }                      
                 }
                 adj = entities.adjustments.Add(adj);                
                 entities.SaveChanges();
-                AdjustmentModel adjust = AdjustmentRepo.ConvertDBtoAPIAdjust(adj);
-                adjds = adjust.adjds;
-                foreach (AdjustmentDetailModel adjd in adjds)
+                                
+                foreach (AdjustmentDetailModel adjdm in adjds)
                 {
-                    AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
+                    adjustmentdetail adjd = new adjustmentdetail
+                    {
+                        adjid = adj.adjid,
+                        itemid = adjdm.itemid,
+                        adjustedqty = adjdm.adjustedqty,
+                        reason = adjdm.reason
+                    };
+                    adjd = entities.adjustmentdetails.Add(adjd);
+                    entities.SaveChanges();  
                 }
 
                 adjm = GetAdjustmentByID(adj.adjid, out error);
@@ -274,7 +283,7 @@ namespace LUSSISADTeam10API.Repositories
                 adj.raisedto = adjm.raisedto;
                 adj.issueddate = adjm.issueddate;
                 adj.status = adjm.status;
-                if (adj.status == 1)
+                if (adj.status == ConAdjustment.Active.APPROVED)
                 {;
                     List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
                     foreach(AdjustmentDetailModel adjustd in adjustds)
