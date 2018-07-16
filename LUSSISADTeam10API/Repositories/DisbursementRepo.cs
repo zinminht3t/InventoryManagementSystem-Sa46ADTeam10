@@ -268,6 +268,49 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dism;
         }
+
+
+
+        //Create new Disbursement with Detials
+        public static DisbursementModel CreateDisbursementwithDetails(DisbursementModel disb, List<DisbursementDetailsModel> disdm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursement dis = new disbursement();
+            List<disbursementdetail> dbdlist = new List<disbursementdetail>();
+            try
+            {
+                dis.reqid = disb.reqid;
+                dis.ackby = disb.ackby;
+                dis = entities.disbursements.Add(dis);
+                entities.SaveChanges();
+
+                foreach (DisbursementDetailsModel dbdm in disdm)
+                {
+                    disbursementdetail dbm = new disbursementdetail
+                    {
+                        disid = dis.disid,
+                        itemid= dbdm.itemid,
+                        qty = dbdm.qty
+                       
+                    };
+                    dbm = entities.disbursementdetails.Add(dbm);
+                    entities.SaveChanges();
+                    dbdlist.Add(dbm);
+                }
+
+                disb = GetDisbursementByDisbursementId(dis.disid, out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return disb;
+        }
     }
 
 }

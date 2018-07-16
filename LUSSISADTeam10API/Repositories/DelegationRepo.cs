@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using LUSSISADTeam10API.Constants;
 
+
+
 namespace LUSSISADTeam10API.Repositories
 {
     public class DelegationRepo
@@ -129,6 +131,8 @@ namespace LUSSISADTeam10API.Repositories
             return dms;
         }
 
+
+        //update Delegation
         public static DelegationModel UpdateDelegation(DelegationModel dm , out String error)
         {
             error = "";
@@ -165,21 +169,38 @@ namespace LUSSISADTeam10API.Repositories
         }
 
         //create delegation
-        public static DelegationModel CreateDelegation(DelegationModel del, out string error)
+        public static DelegationModel CreateDelegation(DelegationModel dele, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
             delegation d = new delegation();
+            DelegationModel ndel = new DelegationModel();
             try
             {
-                d.startdate = del.startdate;
-                d.enddate = del.enddate;
-                d.userid = del.userid;
-                d.active = del.active;             
-                d.assignedby = del.assignedbyId;
+              
+                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.userid , out error);
+                List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.deptid, out error);
+                foreach (UserModel u in userlist) {
+                    List<DelegationModel> delelist =  GetDelegationByUserId(u.Userid, out error);
+                    foreach (DelegationModel deleg in delelist) {
+                        delegation del = entities.delegations.Where(p => p.delid == deleg.delid).FirstOrDefault<delegation>();
+                        del.active = ConDelegation.Active.INACTIVE ;
+                        entities.SaveChanges();
+                    }
+                    
+
+                }
+                d.startdate = dele.startdate;
+                d.enddate = dele.enddate;
+                d.userid = dele.userid;
+                d.active = dele.active;
+                d.assignedby = dele.assignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
-                del = CovertDBDelegationtoAPIUser(d);
+
+                dele = GetDelegationByDelegationID(d.delid , out error);
+                
+
             }
             catch (NullReferenceException)
             {
@@ -189,10 +210,42 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return del;
+            return dele; 
         }
 
 
+        //cancel delegation
+
+        public static DelegationModel CancelDelegation(DelegationModel dm, out String error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            delegation d = new delegation();
+            try
+            {
+                // finding the delegation object using delegation API model
+                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+
+             
+                d.active = ConDelegation.Active.INACTIVE;
+
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dm = GetDelegationByDelegationID(d.delid, out error); 
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dm;
+        }
 
 
     }
