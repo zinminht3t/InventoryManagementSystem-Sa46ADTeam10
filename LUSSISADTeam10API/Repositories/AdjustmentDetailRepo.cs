@@ -40,7 +40,7 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return adjdm;
-        }
+        }       
         //Get All adjustments by item id & adjustment id
         public static AdjustmentDetailModel GetAdjustDetailByItemandAdjustID(int itemid,int adjid, out string error)
         {

@@ -31,7 +31,7 @@ namespace LUSSISADTeam10API.Controllers
             {
                 // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
-                    return Content(HttpStatusCode.NotFound, "Departments Not Found");
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
                 // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
@@ -39,7 +39,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(adj);
 
         }
-        //show adjustmentdetail
+        //show adjustment and detail by adjustment ID
         [HttpGet]
         [Route("api/adjustment/{adjid}")]        
         public IHttpActionResult GetAdjustmentDetail(int adjid)
@@ -54,6 +54,36 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adj);
         }
+        //find adjustment by status
+        [HttpGet]
+        [Route("api/adjustment/status/{status}")]
+        public IHttpActionResult GetAdjustmentByStatus(int status)
+        {
+            string error = "";
+            List<AdjustmentModel> adj = AdjustmentRepo.GetAdjustmentByStatus(status, out error);
+            if (error != "" || adj == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adj);
+        }
+        //find adjustment by issuedate
+        [HttpGet]
+        [Route("api/adjustment/issuedate/{issuedate}")]
+        public IHttpActionResult GetAdjustmentByDate(DateTime issuedate)
+        {
+            string error = "";
+            List<AdjustmentModel> adj = AdjustmentRepo.GetAdjustmentByIssuedDate(issuedate, out error);
+            if (error != "" || adj == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adj);
+        }       
         //show adjustment raisedby
         [HttpGet]
         [Route("api/adjustment/raisedby/{raisedby}")]
@@ -84,6 +114,8 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adjus);
         }
+        
+
         //create adjustment
         [HttpPost]
         [Route("api/adjustment/create")]
@@ -91,28 +123,18 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             AdjustmentModel adjm = AdjustmentRepo.CreateAdjustment(adj, out error);
+            //List<AdjustmentDetailModel> adjds = adjm.adjds;           
+            //foreach (AdjustmentDetailModel adjd in adjds)
+            //{
+            //    AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
+            //}
             if (error != "" || adjm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(adjm);
         }
-        //create adjustment detail
-        [HttpPost]
-        [Route("api/adjustment/detail/create")]
-        public IHttpActionResult CreateAdjustmentDetail(AdjustmentDetailModel adjd)
-        {
-            string error = "";
-            AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
-            if (error != "" || adjdm == null)
-            {
-                return Content(HttpStatusCode.BadRequest, error);
-            }
-            //Add to adjustment
-            AdjustmentModel adj = AdjustmentRepo.GetAdjustmentByID(adjdm.adjid, out error);
-            adj.adjds.Add(adjdm);
-            return Ok(adjdm);
-        }
+       
         //update adjustment
         [HttpPost]
         [Route("api/adjustment/update")]
