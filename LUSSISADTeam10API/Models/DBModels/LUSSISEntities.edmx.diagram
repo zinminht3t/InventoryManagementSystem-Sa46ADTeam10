@@ -4,29 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cc750fd44f1a4a37ad156da57963856e" Name="Diagram1">
-        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustment" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustmentdetail" Width="1.5" PointX="7.5" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.category" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.collectionpoint" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.delegation" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.department" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.departmentcollectionpoint" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursement" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursementdetail" Width="1.5" PointX="12.75" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.inventory" Width="1.5" PointX="7.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.item" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.lockercollectionpoint" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisition" Width="1.5" PointX="7.5" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisitiondetail" Width="1.5" PointX="9.75" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorder" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorderdetail" Width="1.5" PointX="10.5" PointY="20.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.requisition" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.requisitiondetail" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.supplier" Width="1.5" PointX="6" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.supplieritem" Width="1.5" PointX="12.25" PointY="11.5" IsExpanded="true" />
+      <Diagram DiagramId="037737c6fed54020b6198d4ed21cf77b" Name="Diagram1">
+        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustment" Width="1.5" PointX="5.25" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustmentdetail" Width="1.5" PointX="7.5" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.category" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.collectionpoint" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.delegation" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.department" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.departmentcollectionpoint" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursement" Width="1.5" PointX="10.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursementdetail" Width="1.5" PointX="12.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.inventory" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.item" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.lockercollectionpoint" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisition" Width="1.5" PointX="7.5" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisitiondetail" Width="1.5" PointX="9.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorder" Width="1.5" PointX="8.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorderdetail" Width="1.5" PointX="10.5" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.requisition" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.requisitiondetail" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.supplier" Width="1.5" PointX="6" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.supplieritem" Width="1.5" PointX="12.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SA46ADTeam10Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SA46ADTeam10Model.user" Width="1.5" PointX="3" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.user" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
         <AssociationConnector Association="SA46ADTeam10Model.FK_adjustment_user" ManuallyRouted="false" />
         <AssociationConnector Association="SA46ADTeam10Model.FK_adjustment_user1" ManuallyRouted="false" />
         <AssociationConnector Association="SA46ADTeam10Model.FK_adjustmentdetail_adjustment" ManuallyRouted="false" />

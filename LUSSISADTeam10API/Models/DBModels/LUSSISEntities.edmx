@@ -318,13 +318,13 @@
         </Association>
         <Association Name="FK_disbursement_requisition1">
           <End Role="requisition" Type="Self.requisition" Multiplicity="1" />
-          <End Role="disbursement" Type="Self.disbursement" Multiplicity="0..1" />
+          <End Role="disbursement" Type="Self.disbursement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="requisition">
               <PropertyRef Name="reqid" />
             </Principal>
             <Dependent Role="disbursement">
-              <PropertyRef Name="disid" />
+              <PropertyRef Name="reqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -949,7 +949,7 @@
           <Property Name="reqdate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="collectionpoint" Relationship="Self.FK_requisition_collectionpoint" FromRole="requisition" ToRole="collectionpoint" />
           <NavigationProperty Name="department" Relationship="Self.FK_requisition_department" FromRole="requisition" ToRole="department" />
-          <NavigationProperty Name="disbursement" Relationship="Self.FK_disbursement_requisition1" FromRole="requisition" ToRole="disbursement" />
+          <NavigationProperty Name="disbursements" Relationship="Self.FK_disbursement_requisition1" FromRole="requisition" ToRole="disbursement" />
           <NavigationProperty Name="outstandingrequisitions" Relationship="Self.FK_outstandingrequisition_requisition" FromRole="requisition" ToRole="outstandingrequisition" />
           <NavigationProperty Name="user" Relationship="Self.FK_requisition_user" FromRole="requisition" ToRole="user" />
           <NavigationProperty Name="user1" Relationship="Self.FK_requisition_user2" FromRole="requisition" ToRole="user" />
@@ -1180,13 +1180,13 @@
         </Association>
         <Association Name="FK_disbursement_requisition1">
           <End Role="requisition" Type="Self.requisition" Multiplicity="1" />
-          <End Role="disbursement" Type="Self.disbursement" Multiplicity="0..1" />
+          <End Role="disbursement" Type="Self.disbursement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="requisition">
               <PropertyRef Name="reqid" />
             </Principal>
             <Dependent Role="disbursement">
-              <PropertyRef Name="disid" />
+              <PropertyRef Name="reqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
