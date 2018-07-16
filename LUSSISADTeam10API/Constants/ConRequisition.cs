@@ -16,6 +16,7 @@ namespace LUSSISADTeam10API.Constants
             public const int DELIVERED = 4;
             public const int OUTSTANDINGREQUISITION = 5;
             public const int COMPLETED = 6;
+            public const int REJECTED = 7;
         }
     }
 }
