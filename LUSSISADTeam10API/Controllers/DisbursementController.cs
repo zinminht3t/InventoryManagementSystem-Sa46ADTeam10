@@ -134,7 +134,33 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult Createdisbursement(DisbursementModel dism)
         {
             string error = "";
-            DisbursementModel disbm = DisbursementRepo.Createdisbursement(dism, out error);
+            DisbursementModel disbm = DisbursementRepo.CreateDisbursement(dism, out error);
+            if (error != "" || disbm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(disbm);
+        }
+        // to create new disbursement  Details
+        [HttpPost]
+        [Route("api/disbursementdetails/create")]
+        public IHttpActionResult CreateDisbursementDetails(DisbursementDetailsModel dism)
+        {
+            string error = "";
+           List< DisbursementDetailsModel> disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
+            if (error != "" || disbm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(disbm);
+        }
+        // to upadate  disbursement 
+        [HttpPost]
+        [Route("api/disbursement/update")]
+        public IHttpActionResult UpadateDisbursement(DisbursementModel dism)
+        {
+            string error = "";
+            DisbursementModel disbm = DisbursementRepo.UpdateDisbursement(dism, out error);
             if (error != "" || disbm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
@@ -142,7 +168,19 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(disbm);
         }
 
-
+        // to update disbursement  Details
+        [HttpPost]
+        [Route("api/disbursementdetails/update")]
+        public IHttpActionResult UpadateDisbursementDetails(DisbursementDetailsModel dism)
+        {
+            string error = "";
+            List<DisbursementDetailsModel> disbm = DisbursementDetailsRepo.UpdateDisbursementDetails(dism, out error);
+            if (error != "" || disbm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(disbm);
+        }
 
     }
 }

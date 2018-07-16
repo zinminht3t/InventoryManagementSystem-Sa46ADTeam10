@@ -128,8 +128,69 @@ namespace LUSSISADTeam10API.Repositories
             return dism;
         }
 
+        //create the disbursement details
+        public static List< DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementdetail disdb = new disbursementdetail();
+           
+            try
+            {
+                disdb.disid = disdm.disid;
+                disdb.itemid = disdm.itemid;
+                disdb.qty = disdm.qty;
+                disdb = entities.disbursementdetails.Add(disdb);
+                entities.SaveChanges();
+             
+            }
 
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return GetDisbursementDetailsByDisbursementId(disdb.disid, out error);
+        }
 
+        // update the disbursement Details
+        public static List<DisbursementDetailsModel> UpdateDisbursementDetails(DisbursementDetailsModel dism, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementdetail ndism = new disbursementdetail();
+            try
+            {
+                // finding the inventory object using Inventory API model
+                ndism = entities.disbursementdetails.Where(p => p.disid == dism.disid && p.itemid == dism.itemid).First<disbursementdetail>();
 
+                // transfering data from API model to DB Model
+                ndism.disid = dism.disid;
+                ndism.itemid = dism.itemid;
+                ndism.qty = dism.qty;
+
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+              
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            // return the updated model 
+            return GetDisbursementDetailsByDisbursementId(ndism.disid , out error);
+        }
     }
+
+
 }
