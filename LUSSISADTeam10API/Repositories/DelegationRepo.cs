@@ -14,7 +14,11 @@ namespace LUSSISADTeam10API.Repositories
         private static LUSSISEntities entities = new LUSSISEntities();
        private static DelegationModel CovertDBDelegationtoAPIUser(delegation delegation)
        {
-            DelegationModel dgm = new DelegationModel(delegation.delid, delegation.startdate, delegation.enddate, delegation.userid, delegation.active, delegation.assignedby);
+            DelegationModel dgm = new DelegationModel(delegation.delid, delegation.startdate,
+                delegation.enddate, delegation.userid,delegation.user.username,delegation.user.role,
+                delegation.user.department.deptname,
+                delegation.active, delegation.assignedby,delegation.user.username, delegation.user.role,
+                delegation.user.department.deptname);
            return dgm;
        }
         public static DelegationModel GetDelegationByDelegationID(int delid , out string error )
@@ -40,51 +44,78 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dm;
         }
-        public static DelegationModel GetDelegationByUserID(int userid, out string error)
+        // to get the Disbursement by the UserId
+        public static List<DelegationModel> GetDelegationByUserId(int uid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
 
-
+            // Initializing the error variable to return only blank if there is no error
             error = "";
-
-            delegation dele = new delegation();
-            DelegationModel dm = new DelegationModel();
+            List<DelegationModel> dism = new List<DelegationModel>();
             try
             {
-                dele = entities.delegations.Where(p => p.userid == userid).FirstOrDefault<delegation>();
-                dm = CovertDBDelegationtoAPIUser(dele);
+                // get requisition list from database
+                List<delegation> dele = entities.delegations.Where(p => p.userid == uid).ToList<delegation>();
+
+                // convert the DB Model list to API Model list
+                foreach (delegation dis in dele)
+                {
+                    dism.Add(CovertDBDelegationtoAPIUser(dis));
+                }
             }
+
+            // if requisition not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
+
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
-            return dm;
+
+            //returning the list
+            return dism;
         }
-        public static DelegationModel GetDelegationByAssignedbyID(int aid, out string error)
+
+        // to get the Disbursement by the Assignedby ID
+        public static List<DelegationModel> GetDelegationByassignedby(int asid, out string error)
         {
+            LUSSISEntities entities = new LUSSISEntities();
 
-
+            // Initializing the error variable to return only blank if there is no error
             error = "";
-
-            delegation dele = new delegation();
-            DelegationModel dm = new DelegationModel();
+            List<DelegationModel> dism = new List<DelegationModel>();
             try
             {
-                dele = entities.delegations.Where(p => p.assignedby == aid).FirstOrDefault<delegation>();
-                dm = CovertDBDelegationtoAPIUser(dele);
+                // get requisition list from database
+                List<delegation> dele = entities.delegations.Where(p => p.assignedby == asid).ToList<delegation>();
+
+                // convert the DB Model list to API Model list
+                foreach (delegation dis in dele)
+                {
+                    dism.Add(CovertDBDelegationtoAPIUser(dis));
+                }
             }
+
+            // if requisition not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
+
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
-            return dm;
+
+            //returning the list
+            return dism;
         }
 
         public static List<DelegationModel> GetAllDelegations()
@@ -114,7 +145,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.enddate = dm.enddate;
                 d.userid = dm.userid;
                 d.active = dm.active;
-                d.assignedby = dm.assignedby;
+                d.assignedby = dm.assignedbyId;
 
                 // saving the update
                 entities.SaveChanges();
@@ -132,6 +163,8 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dm;
         }
+
+        //create delegation
         public static DelegationModel CreateDelegation(DelegationModel del, out string error)
         {
             error = "";
@@ -143,7 +176,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.enddate = del.enddate;
                 d.userid = del.userid;
                 d.active = del.active;             
-                d.assignedby = del.assignedby;
+                d.assignedby = del.assignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
                 del = CovertDBDelegationtoAPIUser(d);
