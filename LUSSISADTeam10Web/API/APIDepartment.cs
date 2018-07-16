@@ -13,7 +13,6 @@ namespace LUSSISADTeam10Web.API
         public static List<DepartmentModel> GetAllDepartments(string token, out string error)
         {
             error = "";
-            const string contentType = "application/json";
             List<DepartmentModel> dms = null;
             string url = APIHelper.Baseurl + "/departments";
             RestClient client = new RestClient(url);
@@ -31,11 +30,9 @@ namespace LUSSISADTeam10Web.API
             }
             return dms;
         }
-
         public static DepartmentModel GetDepartmentByDeptid(string token, int deptid, out string error)
         {
             error = "";
-            const string contentType = "application/json";
             DepartmentModel dm = null;
             string url = APIHelper.Baseurl + "/department/" + deptid;
             RestClient client = new RestClient(url);

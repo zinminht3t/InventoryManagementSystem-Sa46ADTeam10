@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using LUSSISADTeam10API.Constants;
 
+//Hsu Yee Phyo
 namespace LUSSISADTeam10API.Controllers
 {
     // to allow access only by login user
@@ -44,14 +45,14 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetAdjustmentDetail(int adjid)
         {
             string error = "";
-            List<AdjustmentDetailModel> adjd = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adjid, out error);
-            if (error != "" || adjd == null)
+            AdjustmentModel adj = AdjustmentRepo.GetAdjustmentByID(adjid, out error);
+            if (error != "" || adj == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(adjd);
+            return Ok(adj);
         }
         //show adjustment raisedby
         [HttpGet]
@@ -83,5 +84,69 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adjus);
         }
+        //create adjustment
+        [HttpPost]
+        [Route("api/adjustment/create")]
+        public IHttpActionResult CreateAdjustment(AdjustmentModel adj)
+        {
+            string error = "";
+            AdjustmentModel adjm = AdjustmentRepo.CreateAdjustment(adj, out error);
+            if (error != "" || adjm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adjm);
+        }
+        //create adjustment detail
+        [HttpPost]
+        [Route("api/adjustment/detail/create")]
+        public IHttpActionResult CreateAdjustmentDetail(AdjustmentDetailModel adjd)
+        {
+            string error = "";
+            AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
+            if (error != "" || adjdm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            //Add to adjustment
+            AdjustmentModel adj = AdjustmentRepo.GetAdjustmentByID(adjdm.adjid, out error);
+            adj.adjds.Add(adjdm);
+            return Ok(adjdm);
+        }
+        //update adjustment
+        [HttpPost]
+        [Route("api/adjustment/update")]
+        public IHttpActionResult UpdateAdjustment(AdjustmentModel adj)
+        {
+            string error = "";
+            AdjustmentModel adjm = AdjustmentRepo.UpdateAdjustment(adj, out error);
+            if (error != "" || adjm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Adjustment Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(adjm);          
+        }
+        //update adjustment detail
+        [HttpPost]
+        [Route("api/adjustment/detail/update")]
+        public IHttpActionResult UpdateAdjustmentDetail(AdjustmentDetailModel adjd)
+        {
+            string error = "";
+            AdjustmentDetailModel adjdm = AdjustmentDetailRepo.UpdateAdjustmentDetail(adjd, out error);
+            if(error !="" || adjdm == null)
+            {
+                if(error== ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Adjustment detail is Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+                    }
+            return Ok(adjdm);
+        }
+        
     }
 }

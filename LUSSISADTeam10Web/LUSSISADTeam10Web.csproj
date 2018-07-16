@@ -1108,7 +1108,9 @@
     <Content Include="styles\scss\style.css" />
     <Content Include="styles\scss\variables.css" />
     <Content Include="styles\scss\widgets.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
