@@ -23,6 +23,33 @@ namespace LUSSISADTeam10API.Repositories
                 );
         }
 
+        // Get all items of all suppliers
+        public static List<SupplierItemModel> GetAllSupplierItem(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<SupplierItemModel> sims = new List<SupplierItemModel>();
+            try
+            {
+                List<supplieritem> supplieritems = entities.supplieritems.ToList();
+                sims = new List<SupplierItemModel>();
+                foreach (supplieritem si in supplieritems)
+                {
+                    sims.Add(ConvertDBSupItemToAPISupItem(si));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sims;
+        }
+
+        // Get all items from by specific supplier
         public static List<SupplierItemModel> GetItemsBySupplier(int supid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -50,6 +77,41 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sims;
         }
+
+        // Get item price by itemid
+        public static SupplierItemModel GetSupplierItemByItemId(int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplieritem supitem = new supplieritem();
+            SupplierItemModel sim = new SupplierItemModel();
+            try
+            {
+                double min = 0.0;
+                min = entities.supplieritems
+                    .Where(x => x.itemid == itemid)
+                    .Min(x => x.price);
+                supitem = entities.supplieritems
+                    .Where(x => x.price == min && x.itemid == itemid)
+                    .FirstOrDefault();
+                sim = ConvertDBSupItemToAPISupItem(supitem);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (InvalidOperationException)
+            {
+                error = ConError.Status.BADREQUEST;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sim;
+        }
+        // Add item by specific supplier
         public static SupplierItemModel AddItemOfSupplier
             (SupplierItemModel sim, out string error)
         {
@@ -65,6 +127,7 @@ namespace LUSSISADTeam10API.Repositories
             return sim;
         }
 
+        // Update item by specific supplier
         public static SupplierItemModel UpdateSupplierItem
             (SupplierItemModel sim, out string error)
         {
