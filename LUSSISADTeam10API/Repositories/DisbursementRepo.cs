@@ -211,15 +211,19 @@ namespace LUSSISADTeam10API.Repositories
         //create the disbursement
         public static DisbursementModel CreateDisbursement(DisbursementModel dism, out string error)
         {
+            // initialize the error variable to return only blank if there is no error
             error = "";
+            //initialize the entities , dibursement  
             LUSSISEntities entities = new LUSSISEntities();
             disbursement disb = new disbursement();
             try
             {
+                //add the data to the disbursement  database
                 disb.reqid = dism.reqid;
                 disb.ackby = dism.ackby;
                 disb = entities.disbursements.Add(disb);
                 entities.SaveChanges();
+                //get the newly added disbursement 
                 dism = GetDisbursementByDisbursementId(disb.disid, out error);
             }
 
@@ -274,17 +278,20 @@ namespace LUSSISADTeam10API.Repositories
         //Create new Disbursement with Detials
         public static DisbursementModel CreateDisbursementwithDetails(DisbursementModel disb, List<DisbursementDetailsModel> disdm, out string error)
         {
+            // initialize the error variable to return only blank if there is no error
             error = "";
+            //initialize the entities , dibursement and disbursement list
             LUSSISEntities entities = new LUSSISEntities();
             disbursement dis = new disbursement();
             List<disbursementdetail> dbdlist = new List<disbursementdetail>();
             try
             {
+                // add the data to the disbursement 
                 dis.reqid = disb.reqid;
                 dis.ackby = disb.ackby;
                 dis = entities.disbursements.Add(dis);
                 entities.SaveChanges();
-
+                // add the arrary data to the disbursement details list
                 foreach (DisbursementDetailsModel dbdm in disdm)
                 {
                     disbursementdetail dbm = new disbursementdetail
@@ -298,7 +305,7 @@ namespace LUSSISADTeam10API.Repositories
                     entities.SaveChanges();
                     dbdlist.Add(dbm);
                 }
-
+                //get the added disbursement 
                 disb = GetDisbursementByDisbursementId(dis.disid, out error);
             }
             catch (NullReferenceException)
