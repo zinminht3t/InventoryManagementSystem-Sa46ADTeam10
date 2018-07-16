@@ -78,6 +78,31 @@ namespace LUSSISADTeam10API.Repositories
             return sims;
         }
 
+        // Get item price by itemid
+        public static SupplierItemModel GetSupplierItemByItemId(int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplieritem supitem = new supplieritem();
+            SupplierItemModel sim = new SupplierItemModel();
+            try
+            {
+                double min = entities.supplieritems.Min(x => x.price);
+                supitem = entities.supplieritems
+                    .Where(x => x.price == min).FirstOrDefault();
+                sim = ConvertDBSupItemToAPISupItem(supitem);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sim;
+        }
         // Add item by specific supplier
         public static SupplierItemModel AddItemOfSupplier
             (SupplierItemModel sim, out string error)
