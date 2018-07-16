@@ -182,5 +182,20 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(disbm);
         }
 
+        // to create new disbursement with details
+        [HttpPost]
+        [Route("api/disbursement/createdetails")]
+        public IHttpActionResult CreateRequisitionwithDetails(DisbursementModel dism)
+        {
+            string error = "";
+            DisbursementModel dis = DisbursementRepo.CreateDisbursementwithDetails(dism, dism.disbursementlist, out error);
+            if (error != "" || dis == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dis);
+        }
+
+
     }
 }

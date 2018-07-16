@@ -388,6 +388,51 @@ namespace LUSSISADTeam10API.Repositories
             }
             return reqm;
         }
+        //Create new Requisition with Detials
+        public static RequisitionModel CreateRequisitionwithDetails(RequisitionModel reqm, List<RequisitionDetailsModel> reqd, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            requisition req = new requisition();
+            List<requisitiondetail> reqlist = new List<requisitiondetail>();
+            try
+            {
+                req.reqid = reqm.reqid;
+                req.raisedby = reqm.raisedby;
+                req.approvedby = reqm.approvedby;
+                req.deptid = reqm.depid;
+                req.cpid = reqm.cpid;
+                req.status = reqm.status;
+                req.reqdate = reqm.reqdate;
 
+                req = entities.requisitions.Add(req);
+                entities.SaveChanges();
+
+                foreach (RequisitionDetailsModel rdm in reqd)
+                {
+                    requisitiondetail rqd = new requisitiondetail
+                    {
+                        reqid = req.reqid,
+                        itemid = rdm.itemid,
+                        qty = rdm.qty
+                    };
+                    rqd = entities.requisitiondetails.Add(rqd);
+                    entities.SaveChanges();
+                    reqlist.Add(rqd);
+                }
+
+                reqm = GetRequisitionByRequisitionId(req.reqid, out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return reqm;
+        }
     }
+
 }
