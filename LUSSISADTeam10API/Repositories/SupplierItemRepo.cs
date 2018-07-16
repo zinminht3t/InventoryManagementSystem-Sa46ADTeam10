@@ -88,7 +88,8 @@ namespace LUSSISADTeam10API.Repositories
             SupplierItemModel sim = new SupplierItemModel();
             try
             {
-                double min = entities.supplieritems
+                double min = 0.0;
+                min = entities.supplieritems
                     .Where(x => x.itemid == itemid)
                     .Min(x => x.price);
                 supitem = entities.supplieritems
@@ -99,6 +100,10 @@ namespace LUSSISADTeam10API.Repositories
             catch (NullReferenceException)
             {
                 error = ConError.Status.NOTFOUND;
+            }
+            catch (InvalidOperationException)
+            {
+                error = ConError.Status.BADREQUEST;
             }
             catch (Exception e)
             {
