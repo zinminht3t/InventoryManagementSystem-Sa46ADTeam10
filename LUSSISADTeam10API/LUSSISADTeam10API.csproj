@@ -171,6 +171,7 @@
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
+    <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierItemController.cs" />
     <Compile Include="Global.asax.cs">
@@ -284,6 +285,7 @@
     <Compile Include="Repositories\InventoryRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
+    <Compile Include="Repositories\PurchaseOrderRepo.cs" />
     <Compile Include="Repositories\SupplierItemRepo.cs" />
     <Compile Include="Repositories\SupplierRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
