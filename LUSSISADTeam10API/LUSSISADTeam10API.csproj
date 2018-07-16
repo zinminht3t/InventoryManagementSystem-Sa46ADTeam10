@@ -134,6 +134,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Models\DBModels\LUSSISEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LUSSISEntities.edmx</DependentUpon>
+      <LastGenOutput>LUSSISEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DBModels\LUSSISEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LUSSISEntities.edmx</DependentUpon>
+      <LastGenOutput>LUSSISEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -153,58 +163,143 @@
     <Compile Include="Constants\ConSupplier.cs" />
     <Compile Include="Constants\ConUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdjustmentController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CollectionPointController.cs" />
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierItemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\APIModels\AdjustmentModel.cs" />
+    <Compile Include="Models\APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="Models\APIModels\CategoryModel.cs" />
+    <Compile Include="Models\APIModels\CollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DelegationModel.cs" />
     <Compile Include="Models\APIModels\DepartmentModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
+    <Compile Include="Models\APIModels\PurchaseOrderModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionModel.cs" />
+    <Compile Include="Models\APIModels\SupplierItemModel.cs" />
+    <Compile Include="Models\APIModels\SupplierModel.cs" />
     <Compile Include="Models\APIModels\UserModel.cs" />
-    <Compile Include="Models\DBModels\adjustment.cs" />
-    <Compile Include="Models\DBModels\adjustmentdetail.cs" />
-    <Compile Include="Models\DBModels\category.cs" />
-    <Compile Include="Models\DBModels\collectionpoint.cs" />
-    <Compile Include="Models\DBModels\delegation.cs" />
-    <Compile Include="Models\DBModels\department.cs" />
-    <Compile Include="Models\DBModels\departmentcollectionpoint.cs" />
-    <Compile Include="Models\DBModels\disbursement.cs" />
-    <Compile Include="Models\DBModels\disbursementdetail.cs" />
-    <Compile Include="Models\DBModels\inventory.cs" />
-    <Compile Include="Models\DBModels\item.cs" />
-    <Compile Include="Models\DBModels\lockercollectionpoint.cs" />
-    <Compile Include="Models\DBModels\LUSSISEntities.cs" />
-    <Compile Include="Models\DBModels\outstandingrequisition.cs" />
-    <Compile Include="Models\DBModels\outstandingrequisitiondetail.cs" />
-    <Compile Include="Models\DBModels\purchaseorder.cs" />
-    <Compile Include="Models\DBModels\purchaseorderdetail.cs" />
-    <Compile Include="Models\DBModels\requisition.cs" />
-    <Compile Include="Models\DBModels\requisitiondetail.cs" />
-    <Compile Include="Models\DBModels\supplier.cs" />
-    <Compile Include="Models\DBModels\supplieritem.cs" />
-    <Compile Include="Models\DBModels\user.cs" />
+    <Compile Include="Models\DBModels\adjustment.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\adjustmentdetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\category.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\collectionpoint.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\delegation.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\department.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\departmentcollectionpoint.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\disbursement.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\disbursementdetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\inventory.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\item.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\lockercollectionpoint.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\LUSSISEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LUSSISEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\LUSSISEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\LUSSISEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LUSSISEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\outstandingrequisition.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\outstandingrequisitiondetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\purchaseorder.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\purchaseorderdetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\requisition.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\requisitiondetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\supplier.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\supplieritem.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\sysdiagram.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\user.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AdjustmentDetailRepo.cs" />
+    <Compile Include="Repositories\AdjustmentRepo.cs" />
     <Compile Include="Repositories\CategoryRepo.cs" />
+    <Compile Include="Repositories\CollectionPointRepo.cs" />
     <Compile Include="Repositories\DelegationRepo.cs" />
     <Compile Include="Repositories\DepartmentRepo.cs" />
     <Compile Include="Repositories\InventoryRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
+    <Compile Include="Repositories\SupplierItemRepo.cs" />
+    <Compile Include="Repositories\SupplierRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <EntityDeploy Include="Models\DBModels\LUSSISEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LUSSISEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DBModels\LUSSISEntities.edmx.diagram">
+      <DependentUpon>LUSSISEntities.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\LUSSISADTeam10API - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -214,6 +309,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Adjustment\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

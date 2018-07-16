@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cc750fd44f1a4a37ad156da57963856e" Name="Diagram1">
+        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustment" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.adjustmentdetail" Width="1.5" PointX="7.5" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.category" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.collectionpoint" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.delegation" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.department" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.departmentcollectionpoint" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursement" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.disbursementdetail" Width="1.5" PointX="12.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.inventory" Width="1.5" PointX="7.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.item" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.lockercollectionpoint" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisition" Width="1.5" PointX="7.5" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.outstandingrequisitiondetail" Width="1.5" PointX="9.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorder" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.purchaseorderdetail" Width="1.5" PointX="10.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.requisition" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.requisitiondetail" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.supplier" Width="1.5" PointX="6" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.supplieritem" Width="1.5" PointX="12.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.user" Width="1.5" PointX="3" PointY="17.25" IsExpanded="true" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_adjustment_user" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_adjustment_user1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_adjustmentdetail_adjustment" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_adjustmentdetail_item" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_departmentcollectionpoint_collectionpoint" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_lockercollectionpoint_collectionpoint" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisition_collectionpoint" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_delegation_user" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_delegation_user1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_departmentcollectionpoint_department" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisition_department" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_user_department" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_disbursement_requisition1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_disbursement_user1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_disbursementdetail_disbursement" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_disbursementdetail_item" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_inventory_item" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_outstandingrequisitiondetail_item" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_purchaseorderdetail_item1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisitiondetail_item" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_supplieritem_item1" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_outstandingrequisition_requisition" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_outstandingrequisitiondetail_outstandingrequisition" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_purchaseorder_supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_purchaseorder_user" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_purchaseorderdetail_purchaseorder" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisition_user" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisition_user2" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_requisitiondetail_requestion" ManuallyRouted="false" />
+        <AssociationConnector Association="SA46ADTeam10Model.FK_supplieritem_supplier" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

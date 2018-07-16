@@ -1,0 +1,76 @@
+﻿@{
+
+    ViewBag.Title = "Login";
+}
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+   @* <meta http-equiv="X-UA-Compatible" content="IE=edge">*@
+   @* <title>Sufee Admin - HTML5 Admin Template</title>*@
+   @* <meta name="description" content="Sufee Admin - HTML5 Admin Template">*@
+  @*  <meta name="viewport" content="width=device-width, initial-scale=1">*@
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/css/normalize.css">
+    <link rel="stylesheet" href="styles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/css/themify-icons.css">
+    <link rel="stylesheet" href="styles/css/flag-icon.min.css">
+    <link rel="stylesheet" href="styles/css/cs-skin-elastic.css">
+    <!-- <link rel="stylesheet" href="styles/css/bootstrap-select.less"> -->
+    <link rel="stylesheet" href="styles/scss/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+</head>
+<body class="bg-dark">
+
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                    <a href="index.html">
+                        <img class="align-content" src="images/logo.png" alt="">
+                    </a>
+                </div>
+                <div class="login-form">
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                        <div class="col-md-12">
+                            <div class="text-center m-b-md">
+                                <small>Login Panel</small>
+                            </div>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="hpanel">
+                                <div class="panel-body">
+                                    <div class="form-group" style="margin:10px">
+                                        <label class="control-label" for="email">Username</label>
+                                        <input asp-for="Username" placeholder="Username" title="Please enter you username" required="" value="@Model.Username" name="Username" id="Username" class="form-control" />
+                                        <span asp-validation-for="Username" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group" style="margin:10px">
+                                        <label class="control-label" for="password">Password</label>
+                                        <input asp-for="Password" type="password" title="Please enter your password" placeholder="Password" required="" value="" name="password" id="password" class="form-control">
+
+                                    </div>
+                                    <button class="btn btn-success btn-block">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="styles/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="styles/js/popper.min.js"></script>
+    <script src="styles/js/plugins.js"></script>
+    <script src="styles/js/main.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Constants;
+using LUSSISADTeam10Web.Models;
+using LUSSISADTeam10Web.Models.APIModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +14,12 @@ namespace LUSSISADTeam10Web.Controllers
     {
         public ActionResult Index()
         {
+            string error = "";
+            string token = APIAccount.getToken("admin", "admin", out error);
+            ViewBag.token = token;
+            Session["token"] = token;
+
+            token = (string)Session["token"];
             return View();
         }
 
@@ -25,6 +35,15 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Haha()
+        {
+            string error = "";
+
+            string token = (string)Session["token"];
+            List<DepartmentModel> dms = APIDepartment.GetAllDepartments(token, out error);
+            return View(dms);
         }
     }
 }
