@@ -168,6 +168,7 @@
     <Compile Include="Controllers\CollectionPointController.cs" />
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DisbursementController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
@@ -183,6 +184,8 @@
     <Compile Include="Models\APIModels\CollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DelegationModel.cs" />
     <Compile Include="Models\APIModels\DepartmentModel.cs" />
+    <Compile Include="Models\APIModels\DisbursementModel.cs" />
+    <Compile Include="Models\APIModels\DisbursementDetailsModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
@@ -280,9 +283,12 @@
     <Compile Include="Repositories\CollectionPointRepo.cs" />
     <Compile Include="Repositories\DelegationRepo.cs" />
     <Compile Include="Repositories\DepartmentRepo.cs" />
+    <Compile Include="Repositories\DisbursementDetailsRepo.cs" />
+    <Compile Include="Repositories\DisbursementRepo.cs" />
     <Compile Include="Repositories\InventoryRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
+    <Compile Include="Repositories\RequisitionDetailsRepo.cs" />
     <Compile Include="Repositories\RequisitionRepo.cs" />
     <Compile Include="Repositories\SupplierItemRepo.cs" />
     <Compile Include="Repositories\SupplierRepo.cs" />

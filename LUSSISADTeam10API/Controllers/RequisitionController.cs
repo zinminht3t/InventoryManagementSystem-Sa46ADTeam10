@@ -24,6 +24,16 @@ namespace LUSSISADTeam10API.Controllers
             List<RequisitionModel> reqs = RequisitionRepo.GetAllRequisition(out string error);
             return Ok(reqs);
         }
+
+        [HttpGet]
+        [Route("api/reqDetails")]
+        public IHttpActionResult GetAllRequisitionwtihDetails()
+        {
+
+            List<RequisitionModel> reqs = RequisitionRepo.GetAllRequisitionwithDetails(out string error);
+            return Ok(reqs);
+        }
+
         [HttpGet]
         [Route("api/requisition/reqid/{reqid}")]
         public IHttpActionResult GetRequisitionByReqid(int reqid)
@@ -129,21 +139,21 @@ namespace LUSSISADTeam10API.Controllers
         }
 
         [HttpGet]
-        [Route("api/requisitiondetail")]
+        [Route("api/requisitiondetails")]
         public IHttpActionResult GetAllRequisitionDetails()
         {
 
-            List<RequisitionDetailsModel> reqds = RequisitionRepo.GetAllRequisitionDetails(out string error);
+            List<RequisitionDetailsModel> reqds = RequisitionDetailsRepo.GetAllRequisitionDetails(out string error);
             return Ok(reqds);
         }
 
 
         [HttpGet]
-        [Route("api/requisitiondetail/reqid/{reqid}")]
+        [Route("api/requisitiondetails/reqid/{reqid}")]
         public IHttpActionResult GetRequisitionDetailsByReqId(int reqid)
         {
             string error = "";
-            List<RequisitionDetailsModel> reqds = RequisitionRepo.GetRequisitionDetailsByRequisitionId(reqid, out error);
+            List<RequisitionDetailsModel> reqds = RequisitionDetailsRepo.GetRequisitionDetailsByRequisitionId(reqid, out error);
             if (error != "" || reqds == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -156,11 +166,11 @@ namespace LUSSISADTeam10API.Controllers
         }
 
         [HttpGet]
-        [Route("api/requisitiondetail/itemid/{itemid}")]
+        [Route("api/requisitiondetails/itemid/{itemid}")]
         public IHttpActionResult GetRequisitionDetailsByItemId(int itemid)
         {
             string error = "";
-            List<RequisitionDetailsModel> reqds = RequisitionRepo.GetRequisitionDetailsByItemId(itemid, out error);
+            List<RequisitionDetailsModel> reqds = RequisitionDetailsRepo.GetRequisitionDetailsByItemId(itemid, out error);
             if (error != "" || reqds == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -170,6 +180,68 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(reqds);
+        }
+
+        // to create new requisition Details
+        [HttpPost]
+        [Route("api/requisitiondetails/create")]
+        public IHttpActionResult CreateRequisitionDetails(RequisitionDetailsModel reqdm)
+        {
+            string error = "";
+           List< RequisitionDetailsModel> reqden = RequisitionDetailsRepo.CreateRequisitionDetails(reqdm, out error);
+            if (error != "" || reqden == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(reqden);
+        }
+
+        // to create new requisition 
+        [HttpPost]
+        [Route("api/requisition/create")]
+        public IHttpActionResult CreateRequisition(RequisitionModel reqm)
+        {
+            string error = "";
+            RequisitionModel req = RequisitionRepo.CreateRequisition(reqm, out error);
+            if (error != "" || req == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(req);
+        }
+        // to update requisition
+        [HttpPost]
+        [Route("api/requisition/update")]
+        public IHttpActionResult UpdateRequisition(RequisitionModel reqm)
+        {
+            string error = "";
+            RequisitionModel rm = RequisitionRepo.UpdateRequisition(reqm, out error);
+            if (error != "" || rm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rm);
+        }
+        // to update requisition Details
+        [HttpPost]
+        [Route("api/requisitiondetails/update")]
+        public IHttpActionResult UpdateRequisitionDetails(RequisitionDetailsModel reqdm)
+        {
+            string error = "";
+            RequisitionDetailsModel rdm = RequisitionDetailsRepo.UpdateRequisitionDetail(reqdm, out error);
+            if (error != "" || rdm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rdm);
         }
 
     }

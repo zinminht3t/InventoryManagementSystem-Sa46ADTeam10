@@ -10,7 +10,7 @@ namespace LUSSISADTeam10API.Models.APIModels
     {
         public RequisitionModel(int reqid, int? rasiedby, String rasiedbyname, 
             int? approvedby, String approvedbyname, int cpid, string cpname,
-            int depid, string depname, int status, DateTime? reqdate) {
+            int depid, string depname, int status, DateTime? reqdate , List<RequisitionDetailsModel> rdms) {
 
             this.reqid = reqid;
             this.raisedby = rasiedby;
@@ -23,9 +23,11 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.depname = depname;
             this.status = status;
             this.reqdate = reqdate;
+            this.requisitiondetails = rdms;
+
 
         }
-        public RequisitionModel() : this(0, 0, "",0,"", 0, "", 0, "", 0, null)
+        public RequisitionModel() : this(0, 0, "",0,"", 0, "", 0, "", 0, null , null)
         {
         }
 
@@ -44,10 +46,10 @@ namespace LUSSISADTeam10API.Models.APIModels
         public String cpname { get; set; }
 
         public int status { get; set; }
+        
 
-    
         public DateTime? reqdate { get; set; }
 
-
+        public List<RequisitionDetailsModel> requisitiondetails { get; set; }
     }
 }
