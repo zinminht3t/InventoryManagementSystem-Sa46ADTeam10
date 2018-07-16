@@ -5,6 +5,7 @@ using System.Web;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Constants;
+using LUSSISADTeam10API.Models;
 
 namespace LUSSISADTeam10API.Repositories
 {
@@ -77,7 +78,39 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return adjm;
-        }
+        }       
+        //get adjustment greaterprice
+        //public static List<AdjustmentModel> GetAdjustmentGreaterPrice(double price, out string error)
+        //{
+        //    LUSSISEntities entities = new LUSSISEntities();
+        //    error = "";
+        //    List<AdjustmentModel> greater = new List<AdjustmentModel>();
+        //    try
+        //    {                
+        //        List<AdjustmentModel> alladj = GetAllAdjustments(out error);
+
+        //        foreach (AdjustmentModel adj in alladj)
+        //        {
+        //            List<AdjustmentDetailModel> adjds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid,out error);
+        //            foreach(AdjustmentDetailModel adjd in adjds)
+        //            {
+        //                SupplierItemModel supp = SupplierItemRepo.
+        //                double price = supplieritem.
+        //                supplieritem.itemid
+        //                    adjd.itemid
+        //            }
+        //        }
+        //    }
+        //    catch (NullReferenceException)
+        //    {
+        //        error = ConError.Status.NOTFOUND;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        error = e.Message;
+        //    }
+        //    return greater;           
+        //}
         //find Adjustment by raisedby id
         public static List<AdjustmentModel> GetAdjustmentByRaisedById(int raisedby, out string error)
         {
@@ -187,17 +220,36 @@ namespace LUSSISADTeam10API.Repositories
             adjustment adj = new adjustment();
             try
             {
-                adj.raisedby = adjm.raisedby;
-                adj.raisedto = adjm.raisedto;
+                adj.raisedby = adjm.raisedby;               
                 adj.issueddate = adjm.issueddate;
                 adj.status = ConAdjustment.Active.PENDING;
-               // adj.adjustmentdetails = new List<adjustmentdetail>();
-                adj = entities.adjustments.Add(adj);
+                List<AdjustmentDetailModel> adjds = adjm.adjds;
+               
+                foreach (AdjustmentDetailModel adjd in adjds)
+                {
+                    SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.itemid, out error);
+                    double? price = Math.Abs((Int32)adjd.adjustedqty) * supp.Price;
+                    if (price >= (double?)250)
+                    {
+                        user user = entities.users.Where(u => u.role == 3).First();
+                        adj.raisedto = user.userid;
+                    }
+                    else
+                    {
+                        user user = entities.users.Where(u => u.role==2).First();
+                        adj.raisedto = user.userid;
+                    }                      
+                }
+                adj = entities.adjustments.Add(adj);                
                 entities.SaveChanges();
+                AdjustmentModel adjust = AdjustmentRepo.ConvertDBtoAPIAdjust(adj);
+                adjds = adjust.adjds;
+                foreach (AdjustmentDetailModel adjd in adjds)
+                {
+                    AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
+                }
 
                 adjm = GetAdjustmentByID(adj.adjid, out error);
-
-                // adjm = ConvertDBtoAPIAdjust(adj);
             }
             catch (NullReferenceException)
             {
@@ -222,7 +274,17 @@ namespace LUSSISADTeam10API.Repositories
                 adj.raisedto = adjm.raisedto;
                 adj.issueddate = adjm.issueddate;
                 adj.status = adjm.status;
-               
+                if (adj.status == 1)
+                {;
+                    List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
+                    foreach(AdjustmentDetailModel adjustd in adjustds)
+                    {
+                        InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.itemid, out error);
+                        inventory invent = entities.inventories.Where(i => i.invid == inventm.Invid).First<inventory>();
+                        invent.stock += adjustd.adjustedqty;
+                    }                    
+                }
+                
                 entities.SaveChanges();
                 adjm = ConvertDBtoAPIAdjust(adj);
             }
