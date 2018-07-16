@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "HODDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<html>
+<head>
+
+</head>
+<body>
+
+   
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+
+
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body" style="background-color:gray; width:300px;">
+                                <h4 class="mb-3">Top 5 Frequenet order item  </h4>
+                                <canvas id="doughutChart"></canvas>
+                            </div>
+
+                           
+
+
+                        </div><!-- /# column -->
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body" style="background-color:gray; width:300px; ">
+                                    <h4 class="mb-3">Number of Request For 2018</h4>
+                                    <canvas id="doughutChart"></canvas>
+                                </div>
+                            </div>
+                            </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body" style="background-color:gray; width:700px;">
+                                        <h4 class="mb-3">Expense of Item Cost for 2018</h4>
+                                        <canvas id="doughutChart"></canvas>
+                                    </div>
+                                </div>
+                            </div><!-- /# column -->
+
+                        </div><!-- .animated -->
+                    </div><!-- .content -->
+        </div>
+
+
+        <script src="styles/js/lib/chart-js/Chart.bundle.js"></script>
+        <script src="styles/js/lib/chart-js/chartjs-init.js"></script>
+</body>
+</html>

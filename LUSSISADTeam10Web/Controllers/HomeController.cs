@@ -45,5 +45,6 @@ namespace LUSSISADTeam10Web.Controllers
             List<DepartmentModel> dms = APIDepartment.GetAllDepartments(token, out error);
             return View(dms);
         }
+      
     }
 }
