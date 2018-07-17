@@ -83,5 +83,19 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sim);
         }
+
+        [HttpGet]
+        [Route("api/supplieritem/item/{itemid}")]
+        public IHttpActionResult GetSupplierItemByItemId(int itemid)
+        {
+            string error = "";
+            List<SupplierItemModel> sims = SupplierItemRepo
+                .GetSupplierItemListByItemId(itemid, out error);
+            if (error != "" || sims == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sims);
+        }
     }
 }
