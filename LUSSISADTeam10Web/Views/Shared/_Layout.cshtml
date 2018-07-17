@@ -36,7 +36,7 @@
                         <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
                     </div>
 
-                    @if (Session["UserName"] == null)
+                    @if (Session["Role"].ToString() ==  "4")
                     {
                         <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                             <ul class="nav navbar-nav">
@@ -70,7 +70,7 @@
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     }
-                    else if (Session["UserName"] == "Rep" || Session["UserName"] == "Emp")
+                    else if (Session["Role"].ToString() == "5" || Session["Role"].ToString() == "6")
                     {
 
                         <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
@@ -92,7 +92,7 @@
                             </ul>
                         </div>
                     }
-                    else if (Session["UserName"] == "clerk")
+                    else if (Session["Role"].ToString() == "1")
                     {
 
                         <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
@@ -127,12 +127,12 @@
                             </ul>
                         </div>
                     }
-                    else if (Session["UserName"] == "supervisor" || Session["UserName"] == "manager")
+                    else if (Session["Role"].ToString() == "2" || Session["Role"].ToString() == "3")
                     {
 
                         <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                             <ul class="nav navbar-nav">
-                                @if (Session["UserName"] == "supervisor")
+                                @if (Session["Role"].ToString() == "2")
                                 {
                                     <li class="active">
                                         @Html.ActionLink("Dashboard", "Index", "Supervisor")

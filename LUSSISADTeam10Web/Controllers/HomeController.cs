@@ -14,25 +14,7 @@ namespace LUSSISADTeam10Web.Controllers
     {
         public ActionResult Index()
         {
-            string error = "";
-            string token = APIAccount.getToken("admin", "admin", out error);
-            ViewBag.token = token;
-            Session["token"] = token;
-
-            token = (string)Session["token"];
-
-            List<PurchaseOrderModel> poms = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
-
-            PurchaseOrderModel pom = APIPurchaseOrder.GetPurchaseOrderByID(token, 1, out error);
-            pom.Podate = new DateTime();
-
-            pom = APIPurchaseOrder.CreatePurchaseOrder(token, pom, out error);
-
-            DepartmentModel dm = APIDepartment.GetDepartmentByDeptid(token, 2, out error);
-            dm.deptname = "Testing";
-
-            dm = APIDepartment.CreateDepartment(token, dm, out error);
-            
+            Session["Role"] = 0;
             return View();
         }
 
