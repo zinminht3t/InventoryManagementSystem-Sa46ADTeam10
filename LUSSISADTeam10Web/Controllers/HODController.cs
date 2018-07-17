@@ -14,6 +14,7 @@ namespace LUSSISADTeam10Web.Controllers
     public class HODController : Controller
     {
         // GET: HOD/{id}
+        [Authorize(Roles = "Clerk")]
         public ActionResult Index()
         {
             return View();

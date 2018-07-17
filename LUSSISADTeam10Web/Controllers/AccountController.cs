@@ -36,7 +36,8 @@ namespace LUSSISADTeam10Web.Controllers
                 // User found in the database
                 if (error == "" || token != "")
                 {
-                    FormsAuthentication.SetAuthCookie(username, false);
+                    FormsAuthentication.SetAuthCookie(token, false);
+                    // FormsAuthentication.SetAuthCookie(token, false);
                     Session["token"] = token;
 
                     UserModel um = APIAccount.GetUserProfile(token, out error);
@@ -85,5 +86,6 @@ namespace LUSSISADTeam10Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
     }
 }
