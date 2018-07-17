@@ -59,7 +59,7 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel GetLockerCPByLockerid(int lockerid, out string error)
         {
             error = "";
-            // entites used only by Get Methods
+            
             LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
@@ -70,10 +70,12 @@ namespace LUSSISADTeam10API.Repositories
             }
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
             return lcpm;
@@ -83,12 +85,14 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel GetLockerCPByLockername(string lockername, out string error)
         {
             error = "";
-            // entites used only by Get Methods
+            // declare and initialize new LUSSISEntities to get LockerCollectionPoint By LockerName
             LUSSISEntities entities = new LUSSISEntities();
+
             lockercollectionpoint lcp = new lockercollectionpoint();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             try
             {
+
                 lcp = entities.lockercollectionpoints.Where(p => p.lockername == lockername).FirstOrDefault<lockercollectionpoint>();
                 lcpm = ConvertBDLockerCPToAPILockerCP(lcp);
             }
@@ -115,22 +119,28 @@ namespace LUSSISADTeam10API.Repositories
 
             try
             {
+                // get lockercollectionpoint list from database by LockerSize
                 lcps = entities.lockercollectionpoints.Where(p => p.lockersize == lockersize).ToList<lockercollectionpoint>();
 
-                foreach(lockercollectionpoint lcp in lcps)
+                // convert the DB Model list to API Model list
+                foreach (lockercollectionpoint lcp in lcps)
                 {
                     lcplm.Add(ConvertBDLockerCPToAPILockerCP(lcp));
                 }
 
             }
+            // if locker not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
+            //returning the Lockercollectionpoint List
             return lcplm;
         }
 
@@ -154,26 +164,31 @@ namespace LUSSISADTeam10API.Repositories
                 }
 
             }
+            // if locker not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
+            //returning the locker collection point 
             return lcplm;
         }
 
         public static LockerCollectionPointModel UpdateLockerCP(LockerCollectionPointModel lcpm, out string error)
         {
+            // Initializing the error variable to return only blank if there is no error
             error = "";
             // declare and initialize new LUSSISEntities to perform update
             LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             try
             {
-                // finding the department object using Department API model
+                // finding the lockercollectionpoint by lockerid 
                 lcp = entities.lockercollectionpoints.Where(p => p.lockerid == lcpm.lockerid).First<lockercollectionpoint>();
 
                 // transfering data from API model to DB Model
@@ -188,14 +203,18 @@ namespace LUSSISADTeam10API.Repositories
                 // return the updated model 
                 lcpm = ConvertBDLockerCPToAPILockerCP(lcp);
             }
+            // if locker not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
+            //returning the lockercollectionpoint object
             return lcpm;
         }
         public static LockerCollectionPointModel CreateLockerCP(LockerCollectionPointModel lcpm, out string error)
@@ -206,23 +225,31 @@ namespace LUSSISADTeam10API.Repositories
             lockercollectionpoint lcp = new lockercollectionpoint();
             try
             {
+                // transfering data from API model to DB Model
                 lcp.lockername = lcpm.lockername;
                 lcp.lockersize = lcpm.lockersize;
                 lcp.cpid = lcpm.cpid;
                 lcp.status = lcpm.status;
-
+                //Add the updated data to DB Model
                 lcp = entities.lockercollectionpoints.Add(lcp);
+                // saving the update
                 entities.SaveChanges();
+                //retrieving the LockerColletionPoint By Lockerid
                 lcpm = GetLockerCPByLockerid(lcp.lockerid, out error);
             }
+
+            // if locker not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
+            //retuning the lockercollectionpoint object
             return lcpm;
         }
 
@@ -252,14 +279,18 @@ namespace LUSSISADTeam10API.Repositories
 
 
             }
+            // if locker not found, will throw NOTFOUND exception
             catch (NullReferenceException)
             {
+                // if there is NULL Exception error, error will be 404
                 error = ConError.Status.NOTFOUND;
             }
             catch (Exception e)
             {
+                // for other exceptions
                 error = e.Message;
             }
+            //retuning the locker collection point list 
             return lcplm;
         }
 
