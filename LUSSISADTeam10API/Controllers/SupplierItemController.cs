@@ -72,7 +72,7 @@ namespace LUSSISADTeam10API.Controllers
         // to create new item by supplier
         [HttpPost]
         [Route("api/supplieritem/create")]
-        public IHttpActionResult CreateSupplier(SupplierItemModel supitem)
+        public IHttpActionResult CreateSupplierItem(SupplierItemModel supitem)
         {
             string error = "";
             SupplierItemModel sim = SupplierItemRepo
