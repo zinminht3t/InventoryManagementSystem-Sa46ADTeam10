@@ -219,7 +219,27 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult ConfirmDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
         {
             string error = "";
+            DepartmentCollectionPointModel activeDcpm = DepartmentRepo.GetActiveDepartmentCollectionPointByDeptID(dcpm.DeptID, out error);
+            activeDcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
+            activeDcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(activeDcpm, out error);
+
             dcpm.Status = ConDepartmentCollectionPoint.Status.ACTIVE;
+            dcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
+            if (error != "" || dcpm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+        // to reject new department collection point
+        [HttpPost]
+        [Route("api/departmentcollectionpoint/reject")]
+        public IHttpActionResult RejectDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
+        {
+            string error = "";
+
+            dcpm.Status = ConDepartmentCollectionPoint.Status.REJECTED;
             dcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
             if (error != "" || dcpm == null)
             {
