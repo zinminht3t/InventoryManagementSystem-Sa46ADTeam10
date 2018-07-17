@@ -1434,10 +1434,10 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
-    <Content Include="Views\HOD\RequsitionApproveReject.cshtml" />
     <Content Include="Views\HOD\AssignDepRep.cshtml" />
     <Content Include="Views\HOD\DelegateAuthority.cshtml" />
     <Content Include="Views\HOD\OrderHistory.cshtml" />
+    <Content Include="Views\HOD\GetRequsitionApporRej.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
