@@ -199,6 +199,7 @@
     <Compile Include="Controllers\ClerkController.cs" />
     <Compile Include="Controllers\DepartmentRepController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HeadofDepartmentController.cs" />
     <Compile Include="Controllers\HODController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
@@ -1442,6 +1443,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\HeadofDepartment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

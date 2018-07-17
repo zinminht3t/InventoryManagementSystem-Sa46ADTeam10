@@ -67,7 +67,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
         // Start Phyo2
-        public static List<UserModel> GetUserByRoleandDeptid(int role,int deptid, out string error)
+        public static List<UserModel> GetUserByRoleandDeptid(int role, int deptid, out string error)
         {
             error = "";
             List<user> user = new List<user>();
@@ -92,11 +92,11 @@ namespace LUSSISADTeam10API.Repositories
             }
             return usm;
 
-            
+
         }
 
 
-      
+
         // End Phyo2
 
 
@@ -130,7 +130,36 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
-      
+        public static List<UserModel> GetUsersForHOD(int deptid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            List<department> dept = new List<department>();
+            List<user> ums = new List<user>();
+            List<UserModel> urm = new List<UserModel>();
+            try
+            {
+                ums = entities.users.Where(p => p.deptid == deptid && p.role != ConUser.Role.HOD).ToList<user>();
+                foreach (user u in ums)
+                {
+                    urm.Add(CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return urm;
+
+        }
+
+
+
         // End TAZ
 
 
