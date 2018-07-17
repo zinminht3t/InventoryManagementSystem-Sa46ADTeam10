@@ -156,6 +156,7 @@
   <ItemGroup>
     <Compile Include="APIModels\CategoryModel.cs" />
     <Compile Include="APIModels\CollectionPointModel.cs" />
+    <Compile Include="APIModels\DelegationModel.cs" />
     <Compile Include="APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
@@ -1433,7 +1434,10 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
-    <Content Include="Views\HOD\GetRequsitionApporRej.cshtml" />
+    <Content Include="Views\HOD\RequsitionApproveReject.cshtml" />
+    <Content Include="Views\HOD\AssignDepRep.cshtml" />
+    <Content Include="Views\HOD\DelegateAuthority.cshtml" />
+    <Content Include="Views\HOD\OrderHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
