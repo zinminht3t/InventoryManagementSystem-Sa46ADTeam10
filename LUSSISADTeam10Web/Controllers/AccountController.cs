@@ -16,6 +16,7 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            Session["Role"] = 0;
             ViewBag.Message = "Your Login page.";
             return View(new UserModel());
         }
@@ -32,6 +33,10 @@ namespace LUSSISADTeam10Web.Controllers
                 {
                     um = APIAccount.GetUserProfile(token, out error);
                     Session["token"] = token;
+
+                    Session["user"] = um;
+                    Session["role"] = um.Role;
+                    ViewBag.Role = um.Role;
 
                     switch (um.Role)
                     {

@@ -13,6 +13,26 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View("HODDashboard");
         }
+
+        // Start AM
+
+        // End AM
+
+        // Start Phyo2
+
+        // End Phyo2
+         
+        // Start MaHSU
+
+        // End MaHsu
+
+        // Start TAZ
+
+        // ENd TAZ
+
+        // Start ZMH
+
+        // End ZMH
         
     }
 }

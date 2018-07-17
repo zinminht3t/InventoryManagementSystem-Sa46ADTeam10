@@ -111,6 +111,40 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sim;
         }
+
+        // Get item price by itemid
+        public static List<SupplierItemModel> GetSupplierItemListByItemId(int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            List<supplieritem> supitems = new List<supplieritem>();
+            List<SupplierItemModel> sims = new List<SupplierItemModel>();
+
+            try
+            {
+                supitems = entities.supplieritems
+                    .Where(x => x.itemid == itemid).ToList();
+                foreach(supplieritem si in supitems)
+                {
+                    sims.Add(ConvertDBSupItemToAPISupItem(si));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (InvalidOperationException)
+            {
+                error = ConError.Status.BADREQUEST;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sims;
+        }
+
         // Add item by specific supplier
         public static SupplierItemModel AddItemOfSupplier
             (SupplierItemModel sim, out string error)

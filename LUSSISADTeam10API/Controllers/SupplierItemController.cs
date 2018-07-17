@@ -72,7 +72,7 @@ namespace LUSSISADTeam10API.Controllers
         // to create new item by supplier
         [HttpPost]
         [Route("api/supplieritem/create")]
-        public IHttpActionResult CreateSupplier(SupplierItemModel supitem)
+        public IHttpActionResult CreateSupplierItem(SupplierItemModel supitem)
         {
             string error = "";
             SupplierItemModel sim = SupplierItemRepo
@@ -82,6 +82,20 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(sim);
+        }
+
+        [HttpGet]
+        [Route("api/supplieritem/item/{itemid}")]
+        public IHttpActionResult GetSupplierItemByItemId(int itemid)
+        {
+            string error = "";
+            List<SupplierItemModel> sims = SupplierItemRepo
+                .GetSupplierItemListByItemId(itemid, out error);
+            if (error != "" || sims == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sims);
         }
     }
 }

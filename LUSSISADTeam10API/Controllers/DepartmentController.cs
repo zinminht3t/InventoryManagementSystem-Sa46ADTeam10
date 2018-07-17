@@ -143,7 +143,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
-        // to get department collection point by department collection id
+        //-- to get department collection point by department collection id
         [HttpGet]
         [Route("api/departmentcollectionpoint/{dcpid}")]
         public IHttpActionResult GetDepartmentCollectionPointByDcpID(int dcpid)
@@ -181,8 +181,8 @@ namespace LUSSISADTeam10API.Controllers
 
         // to get the list of department collection points by status
         [HttpGet]
-        [Route("api/departmentcollectionpoint/status/{dcpid}")]
-        public IHttpActionResult GetActiveDepartmentCollectionPointByStatus(int status)
+        [Route("api/departmentcollectionpoint/status/{status}")]
+        public IHttpActionResult GetDepartmentCollectionPointByStatus(int status)
         {
             string error = "";
             List<DepartmentCollectionPointModel> dcpms = DepartmentRepo.GetDepartmentCollectionPointsByStatus(status, out error);
