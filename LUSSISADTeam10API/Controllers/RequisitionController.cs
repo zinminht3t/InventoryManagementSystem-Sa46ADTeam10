@@ -263,7 +263,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(rdm);
         }
 
-        // to update inventory in papareing state
+        // to update inventory in preparing state
         [HttpPost]
         [Route("api/requisition/preparing")]
         public IHttpActionResult UpdateRequisitionStatus(RequisitionModel po)

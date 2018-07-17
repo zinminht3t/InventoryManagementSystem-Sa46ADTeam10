@@ -79,8 +79,8 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/user/depid/{depid}")]
-        public IHttpActionResult GetRequisitionByDepid(int depid)
+        [Route("api/user/department/{depid}")]
+        public IHttpActionResult GetUserByDepid(int depid)
         {
             string error = "";
             

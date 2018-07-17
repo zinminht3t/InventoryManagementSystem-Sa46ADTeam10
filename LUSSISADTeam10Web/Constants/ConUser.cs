@@ -15,6 +15,7 @@ namespace LUSSISADTeam10Web.Constants
             public const int HOD = 4;
             public const int EMPLOYEE = 5;
             public const int DEPARTMENTREP = 6;
+            public const int TEMPORARYHOD = 7;
         }
         public static class RoleString
         {
