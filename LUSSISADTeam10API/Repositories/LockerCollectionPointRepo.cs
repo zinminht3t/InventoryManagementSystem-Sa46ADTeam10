@@ -10,8 +10,8 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class LockerCollectionPointRepo
     {
-        // entites used only by Get Methods
-        private static LUSSISEntities entities = new LUSSISEntities();
+       
+     
 
 
         // Convert From Auto Generated DB Model to APIModel
@@ -24,6 +24,7 @@ namespace LUSSISADTeam10API.Repositories
         // Get the list of all LockerCollectionPoint and will return with error if there is one.
         public static List<LockerCollectionPointModel> GetAllLockerCP(out string error)
         {
+            // entites used only by Get Methods
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
@@ -58,7 +59,8 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel GetLockerCPByLockerid(int lockerid, out string error)
         {
             error = "";
-
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             try
@@ -81,7 +83,8 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel GetLockerCPByLockername(string lockername, out string error)
         {
             error = "";
-
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             try
@@ -104,7 +107,8 @@ namespace LUSSISADTeam10API.Repositories
         public static List<LockerCollectionPointModel> GetLockerCPByLockersize(string lockersize, out string error)
         {
             error = "";
-
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
             List<lockercollectionpoint> lcps = new List<lockercollectionpoint>();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             List<LockerCollectionPointModel> lcplm = new List<LockerCollectionPointModel>();
@@ -135,8 +139,8 @@ namespace LUSSISADTeam10API.Repositories
         public static List<LockerCollectionPointModel> GetLockerCPBycpid(int cpid, out string error)
         {
             error = "";
-
-          
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
             List<lockercollectionpoint> lcps = new List<lockercollectionpoint>();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             List<LockerCollectionPointModel> lcplm = new List<LockerCollectionPointModel>();
@@ -197,6 +201,7 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel CreateLockerCP(LockerCollectionPointModel lcpm, out string error)
         {
             error = "";
+            // entites used only by Get Methods
             LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             try
@@ -231,7 +236,7 @@ namespace LUSSISADTeam10API.Repositories
         public static List<LockerCollectionPointModel> GetLockerCPByCPName(string cpname, out string error)
         {
             error = "";
-
+            LUSSISEntities entities = new LUSSISEntities();
             List<lockercollectionpoint> lcps = new List<lockercollectionpoint>();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
             List<LockerCollectionPointModel> lcplm = new List<LockerCollectionPointModel>();
