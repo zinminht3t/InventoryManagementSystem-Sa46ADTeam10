@@ -138,7 +138,7 @@ namespace LUSSISADTeam10API.Controllers
         //to get items by supplier id
         [HttpGet]
         [Route("api/supplier/{supid}/items")]
-        public IHttpActionResult GetItemByItemid(int supid)
+        public IHttpActionResult GetItemsBySupplierId(int supid)
         {
             string error = "";
             List<SupplierItemModel> ims = SupplierItemRepo.GetItemsBySupplier(supid, out error);
