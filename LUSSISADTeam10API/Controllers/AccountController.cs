@@ -31,16 +31,5 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(um);
         }
 
-
-        [Authorize(Roles = "admin")]
-        [HttpGet]
-        [Route("api/users")]
-        public IHttpActionResult GetAllUsers()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            List<UserModel> ums = UserRepo.GetAllUsers();
-            return Ok(ums);
-        }
-
     }
 }

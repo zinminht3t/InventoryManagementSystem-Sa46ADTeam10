@@ -9,39 +9,37 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using LUSSISADTeam10API.Models.DBModels;
-using LUSSISADTeam10API.Repositories;
-using LUSSISADTeam10API.Constants;
-using LUSSISADTeam10API.Models;
 
 
 namespace LUSSISADTeam10API.Controllers
 {
+    // to allow access only by login user
+    [Authorize]
     public class UserController : ApiController
     {
-        // Start Taz
-        // To show users
+
+        // To show user list
         [HttpGet]
         [Route("api/users")]
         public IHttpActionResult GetAllUsers()
         {
             // declare and initialize error variable to accept the error from Repo
             string error = "";
-
             // get the list from userrepo and will insert the error if there is one
-            List<UserModel> usr = UserRepo.GetAllUser(out error);
+            List<UserModel> usr = UserRepo.GetAllUsers();
 
-            // if the erorr is not blank or the collectionpoint list is null
+            // if the erorr is not blank or the user list is null
             if (error != "" || usr == null)
             {
                 // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
+                {
                     return Content(HttpStatusCode.NotFound, "User Not Found");
+                }
                 // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            // if there is no error
             return Ok(usr);
-
         }
         // to get user by user id
         [HttpGet]
@@ -49,7 +47,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetUserByUserid(int userid)
         {
             string error = "";
-            UserModel usr = UserRepo.GetUserByUserid(userid, out error);
+            UserModel usr = UserRepo.GetUserByUserID(userid);
             if (error != "" || usr == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -60,8 +58,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(usr);
         }
-        // End Taz
-        // Start Phyo2
+
 
         [HttpGet]
         [Route("api/user/role/{role}/{deptid}")]
@@ -81,11 +78,6 @@ namespace LUSSISADTeam10API.Controllers
         }
 
 
-      
-        // End Phyo2
-
-
-        // Start TAZ
         [HttpGet]
         [Route("api/user/depid/{depid}")]
         public IHttpActionResult GetRequisitionByDepid(int depid)
@@ -105,6 +97,5 @@ namespace LUSSISADTeam10API.Controllers
         }
 
        
-        // End TAZ
     }
 }

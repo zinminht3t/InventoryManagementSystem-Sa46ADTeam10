@@ -20,15 +20,11 @@ namespace LUSSISADTeam10API.Repositories
 
         public static UserModel ValidateUser(string username, string password)
         {
+            // entites used only by Get Methods
             LUSSISEntities entities = new LUSSISEntities();
 
             user user = entities.users.Where(e => e.username == username && e.password == password).FirstOrDefault<user>();
             return CovertDBUsertoAPIUser(user);
-        }
-
-        internal static List<UserModel> GetAllUser(out string error)
-        {
-            throw new NotImplementedException();
         }
 
         public static UserModel GetUserByUserID(int userid)
@@ -40,7 +36,7 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
-        public static List<UserModel> GetAllUser()
+        public static List<UserModel> GetAllUsers()
         {
             LUSSISEntities entities = new LUSSISEntities();
 
@@ -51,16 +47,6 @@ namespace LUSSISADTeam10API.Repositories
                 ums.Add(CovertDBUsertoAPIUser(user));
             }
             return ums;
-        }
-
-        internal static UserModel GetUserByUserid(int userid, out string error)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static UserModel GetUserByUserID(int userid, out string error)
-        {
-            throw new NotImplementedException();
         }
 
         public static UserModel UpdateUser(UserModel um)
