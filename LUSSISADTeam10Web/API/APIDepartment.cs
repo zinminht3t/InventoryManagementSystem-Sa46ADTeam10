@@ -32,5 +32,14 @@ namespace LUSSISADTeam10Web.API
             dm = APIHelper.Execute<DepartmentModel>(token, objectstring, url, out error);
             return dm;
         }
+
+        public static DepartmentModel UpdateDepartment(string token, DepartmentModel dm, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/department/create";
+            string objectstring = JsonConvert.SerializeObject(dm);
+            dm = APIHelper.Execute<DepartmentModel>(token, objectstring, url, out error);
+            return dm;
+        }
     }
 }
