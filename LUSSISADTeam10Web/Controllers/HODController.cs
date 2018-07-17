@@ -23,6 +23,10 @@ namespace LUSSISADTeam10Web.Controllers
         // End Phyo2
          
         // Start MaHSU
+        public ActionResult OrderHistory()
+        {
+            return View("OrderHistory");
+        }
 
         // End MaHsu
 
