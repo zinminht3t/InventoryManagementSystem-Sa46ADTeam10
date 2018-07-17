@@ -26,6 +26,11 @@ namespace LUSSISADTeam10API.Repositories
             return CovertDBUsertoAPIUser(user);
         }
 
+        internal static List<UserModel> GetAllUser(out string error)
+        {
+            throw new NotImplementedException();
+        }
+
         public static UserModel GetUserByUserID(int userid)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -35,7 +40,7 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
-        public static List<UserModel> GetAllUsers()
+        public static List<UserModel> GetAllUser()
         {
             LUSSISEntities entities = new LUSSISEntities();
 
@@ -46,6 +51,16 @@ namespace LUSSISADTeam10API.Repositories
                 ums.Add(CovertDBUsertoAPIUser(user));
             }
             return ums;
+        }
+
+        internal static UserModel GetUserByUserid(int userid, out string error)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static UserModel GetUserByUserID(int userid, out string error)
+        {
+            throw new NotImplementedException();
         }
 
         public static UserModel UpdateUser(UserModel um)
