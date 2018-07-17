@@ -267,7 +267,7 @@ namespace LUSSISADTeam10API.Repositories
 
             try
             {
-                dcps = entities.departmentcollectionpoints.Where(p => p.status == dcpm.Status).ToList<departmentcollectionpoint>();
+                dcps = entities.departmentcollectionpoints.Where(p => p.status == status).ToList<departmentcollectionpoint>();
                 // return the updated model
                 foreach(departmentcollectionpoint dcp in dcps)
                 {

@@ -213,14 +213,13 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dcpm);
         }
 
-
-        // to add new department collection point
+        // to confirm new department collection point
         [HttpPost]
         [Route("api/departmentcollectionpoint/confirm")]
         public IHttpActionResult ConfirmDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
         {
             string error = "";
-            dcpm.Status = ConDepartmentCollectionPoint.Status.PENDING;
+            dcpm.Status = ConDepartmentCollectionPoint.Status.ACTIVE;
             dcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
             if (error != "" || dcpm == null)
             {
