@@ -19,8 +19,8 @@ namespace LUSSISADTeam10API.Repositories
             DelegationModel dgm = new DelegationModel(delegation.delid, delegation.startdate,
                 delegation.enddate, delegation.userid,delegation.user.username,delegation.user.role,
                 delegation.user.department.deptname,
-                delegation.active, delegation.assignedby,delegation.user.username, delegation.user.role,
-                delegation.user.department.deptname);
+                delegation.active, delegation.assignedby,delegation.user1.username, delegation.user1.role,
+                delegation.user1.department.deptname);
            return dgm;
        }
         public static DelegationModel GetDelegationByDelegationID(int delid , out string error )
