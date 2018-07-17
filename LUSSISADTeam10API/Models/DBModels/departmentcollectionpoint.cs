@@ -14,9 +14,10 @@ namespace LUSSISADTeam10API.Models.DBModels
     
     public partial class departmentcollectionpoint
     {
+        public int deptcpid { get; set; }
         public int deptid { get; set; }
         public int cpid { get; set; }
-        public int active { get; set; }
+        public int status { get; set; }
     
         public virtual collectionpoint collectionpoint { get; set; }
         public virtual department department { get; set; }
