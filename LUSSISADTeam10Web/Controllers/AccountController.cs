@@ -79,8 +79,6 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult Forbidden()
         {
             return View();
-
-
         }
     }
 }
