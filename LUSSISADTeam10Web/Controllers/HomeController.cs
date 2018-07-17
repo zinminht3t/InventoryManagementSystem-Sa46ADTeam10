@@ -12,7 +12,6 @@ namespace LUSSISADTeam10Web.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
         public ActionResult Index()
         {
             Session["Role"] = 0;

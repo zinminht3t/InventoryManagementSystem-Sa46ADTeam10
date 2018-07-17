@@ -80,5 +80,23 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View();
         }
+
+        private void createAccountAcitvatedClaim()
+        {
+            const string Issuer = "http://pptcs.net";
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Role, "account-activated", ClaimValueTypes.String, Issuer));
+            var userIdentity = new ClaimsIdentity("account-activated");
+            userIdentity.AddClaims(claims);
+            var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+            HttpContext.Authentication.SignInAsync("Cookie", userPrincipal,
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                    IsPersistent = false,
+                    AllowRefresh = false
+                });
+        }
     }
 }
