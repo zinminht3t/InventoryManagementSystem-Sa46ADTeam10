@@ -17,6 +17,12 @@ namespace LUSSISADTeam10API.Repositories
             return dm;
         }
 
+        private static DepartmentCollectionPointModel CovertDBDCPtoAPIDCP(departmentcollectionpoint dcp)
+        {
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel(dcp.deptcpid, dcp.deptid, dcp.department.deptname, dcp.cpid, dcp.status, dcp.collectionpoint.cpname, dcp.collectionpoint.cplocation);
+            return dcpm;
+        }
+
         // Get the list of all departments and will return with error if there is one.
         public static List<DepartmentModel> GetAllDepartments(out string error)
         {
@@ -207,8 +213,137 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dm;
         }
+        public static DepartmentCollectionPointModel GetDepartmentCollectionPointByDcpID(int dcpid, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            departmentcollectionpoint dcp = new departmentcollectionpoint();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            try
+            {
+                dcp = entities.departmentcollectionpoints.Where(p => p.deptcpid == dcpid).FirstOrDefault<departmentcollectionpoint>();
+                dcpm = CovertDBDCPtoAPIDCP(dcp);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpm;
+        }
+        public static DepartmentCollectionPointModel GetActiveDepartmentCollectionPointByDeptID(int deptid, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            departmentcollectionpoint dcp = new departmentcollectionpoint();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            try
+            {
+                dcp = entities.departmentcollectionpoints.Where(p => p.deptid == deptid && p.status == ConDepartmentCollectionPoint.Status.ACTIVE).FirstOrDefault<departmentcollectionpoint>();
+                dcpm = CovertDBDCPtoAPIDCP(dcp);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpm;
+        }
+        public static List<DepartmentCollectionPointModel> GetDepartmentCollectionPointsByStatus(int status, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            List<departmentcollectionpoint> dcps = new List<departmentcollectionpoint>();
+            List<DepartmentCollectionPointModel> dcpms = new List<DepartmentCollectionPointModel>();
 
+            try
+            {
+                dcps = entities.departmentcollectionpoints.Where(p => p.status == status).ToList<departmentcollectionpoint>();
+                // return the updated model
+                foreach(departmentcollectionpoint dcp in dcps)
+                {
+                    dcpms.Add(CovertDBDCPtoAPIDCP(dcp));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpms;
+        }
+        public static DepartmentCollectionPointModel AddDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            try
+            {
 
+                departmentcollectionpoint dcp = new departmentcollectionpoint
+                {
+                    deptid = dcpm.DeptID,
+                    cpid = dcpm.CpID,
+                    status = dcpm.Status
+                };
+                entities.departmentcollectionpoints.Add(dcp);
 
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dcpm = GetDepartmentCollectionPointByDcpID(dcp.deptcpid, out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpm;
+        }
+        public static DepartmentCollectionPointModel UpdateDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            departmentcollectionpoint dcp = new departmentcollectionpoint();
+            try
+            {
+                dcp = entities.departmentcollectionpoints.Where(p => p.deptcpid == dcpm.DeptCpID).FirstOrDefault<departmentcollectionpoint>();
+
+                dcp.deptid = dcpm.DeptID;
+                dcp.cpid = dcpm.CpID;
+                dcp.status = dcpm.Status;
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dcpm = GetDepartmentCollectionPointByDcpID(dcp.deptcpid, out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpm;
+        }
     }
 }

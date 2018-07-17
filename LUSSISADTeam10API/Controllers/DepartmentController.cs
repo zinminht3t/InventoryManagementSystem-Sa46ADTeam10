@@ -143,5 +143,112 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+        // to get department collection point by department collection id
+        [HttpGet]
+        [Route("api/departmentcollectionpoint/{dcpid}")]
+        public IHttpActionResult GetDepartmentCollectionPointByDcpID(int dcpid)
+        {
+            string error = "";
+            DepartmentCollectionPointModel dcpm = DepartmentRepo.GetDepartmentCollectionPointByDcpID(dcpid, out error);
+            if (error != "" || dcpm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Department Collection Point Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+        // to get active department collection point by department id
+        [HttpGet]
+        [Route("api/departmentcollectionpoint/department/{deptid}")]
+        public IHttpActionResult GetActiveDepartmentCollectionPointByDeptID(int deptid)
+        {
+            string error = "";
+            DepartmentCollectionPointModel dcpm = DepartmentRepo.GetActiveDepartmentCollectionPointByDeptID(deptid, out error);
+            if (error != "" || dcpm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Department Collection Point Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+        // to get the list of department collection points by status
+        [HttpGet]
+        [Route("api/departmentcollectionpoint/status/{dcpid}")]
+        public IHttpActionResult GetActiveDepartmentCollectionPointByStatus(int status)
+        {
+            string error = "";
+            List<DepartmentCollectionPointModel> dcpms = DepartmentRepo.GetDepartmentCollectionPointsByStatus(status, out error);
+            if (error != "" || dcpms == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Department Collection Points Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpms);
+        }
+
+        // to add new department collection point
+        [HttpPost]
+        [Route("api/departmentcollectionpoint/create")]
+        public IHttpActionResult CreateDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
+        {
+            string error = "";
+            dcpm.Status = ConDepartmentCollectionPoint.Status.PENDING;
+            dcpm = DepartmentRepo.AddDepartmentCollectionPoint(dcpm, out error);
+
+            if (error != "" || dcpm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+        // to confirm new department collection point
+        [HttpPost]
+        [Route("api/departmentcollectionpoint/confirm")]
+        public IHttpActionResult ConfirmDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
+        {
+            string error = "";
+            DepartmentCollectionPointModel activeDcpm = DepartmentRepo.GetActiveDepartmentCollectionPointByDeptID(dcpm.DeptID, out error);
+            activeDcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
+            activeDcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(activeDcpm, out error);
+
+            dcpm.Status = ConDepartmentCollectionPoint.Status.ACTIVE;
+            dcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
+            if (error != "" || dcpm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+        // to reject new department collection point
+        [HttpPost]
+        [Route("api/departmentcollectionpoint/reject")]
+        public IHttpActionResult RejectDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
+        {
+            string error = "";
+
+            dcpm.Status = ConDepartmentCollectionPoint.Status.REJECTED;
+            dcpm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
+            if (error != "" || dcpm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dcpm);
+        }
+
+
+
     }
 }

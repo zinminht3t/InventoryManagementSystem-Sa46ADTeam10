@@ -186,6 +186,7 @@
     <Compile Include="Models\APIModels\CategoryModel.cs" />
     <Compile Include="Models\APIModels\CollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DelegationModel.cs" />
+    <Compile Include="Models\APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DepartmentModel.cs" />
     <Compile Include="Models\APIModels\DisbursementDetailsModel.cs" />
     <Compile Include="Models\APIModels\DisbursementModel.cs" />

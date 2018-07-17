@@ -65,12 +65,12 @@
         </EntityType>
         <EntityType Name="departmentcollectionpoint">
           <Key>
-            <PropertyRef Name="deptid" />
-            <PropertyRef Name="cpid" />
+            <PropertyRef Name="deptcpid" />
           </Key>
+          <Property Name="deptcpid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="deptid" Type="int" Nullable="false" />
           <Property Name="cpid" Type="int" Nullable="false" />
-          <Property Name="active" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="disbursement">
           <Key>
@@ -292,7 +292,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_departmentcollectionpoint_collectionpoint">
+        <Association Name="FK_departmentcollectionpoint_collectionpoint1">
           <End Role="collectionpoint" Type="Self.collectionpoint" Multiplicity="1" />
           <End Role="departmentcollectionpoint" Type="Self.departmentcollectionpoint" Multiplicity="*" />
           <ReferentialConstraint>
@@ -304,7 +304,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_departmentcollectionpoint_department">
+        <Association Name="FK_departmentcollectionpoint_department1">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="departmentcollectionpoint" Type="Self.departmentcollectionpoint" Multiplicity="*" />
           <ReferentialConstraint>
@@ -639,11 +639,11 @@
             <End Role="user" EntitySet="user" />
             <End Role="delegation" EntitySet="delegation" />
           </AssociationSet>
-          <AssociationSet Name="FK_departmentcollectionpoint_collectionpoint" Association="Self.FK_departmentcollectionpoint_collectionpoint">
+          <AssociationSet Name="FK_departmentcollectionpoint_collectionpoint1" Association="Self.FK_departmentcollectionpoint_collectionpoint1">
             <End Role="collectionpoint" EntitySet="collectionpoint" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoint" />
           </AssociationSet>
-          <AssociationSet Name="FK_departmentcollectionpoint_department" Association="Self.FK_departmentcollectionpoint_department">
+          <AssociationSet Name="FK_departmentcollectionpoint_department1" Association="Self.FK_departmentcollectionpoint_department1">
             <End Role="department" EntitySet="department" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoint" />
           </AssociationSet>
@@ -787,7 +787,7 @@
           <Property Name="cpid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cpname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cplocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_collectionpoint" FromRole="collectionpoint" ToRole="departmentcollectionpoint" />
+          <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_collectionpoint1" FromRole="collectionpoint" ToRole="departmentcollectionpoint" />
           <NavigationProperty Name="lockercollectionpoints" Relationship="Self.FK_lockercollectionpoint_collectionpoint" FromRole="collectionpoint" ToRole="lockercollectionpoint" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_collectionpoint" FromRole="collectionpoint" ToRole="requisition" />
         </EntityType>
@@ -813,20 +813,20 @@
           <Property Name="deptcontactname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="deptphone" Type="Int32" />
           <Property Name="deptemail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_department" FromRole="department" ToRole="departmentcollectionpoint" />
+          <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_department1" FromRole="department" ToRole="departmentcollectionpoint" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_department" FromRole="department" ToRole="requisition" />
           <NavigationProperty Name="users" Relationship="Self.FK_user_department" FromRole="department" ToRole="user" />
         </EntityType>
         <EntityType Name="departmentcollectionpoint">
           <Key>
-            <PropertyRef Name="deptid" />
-            <PropertyRef Name="cpid" />
+            <PropertyRef Name="deptcpid" />
           </Key>
+          <Property Name="deptcpid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deptid" Type="Int32" Nullable="false" />
           <Property Name="cpid" Type="Int32" Nullable="false" />
-          <Property Name="active" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="collectionpoint" Relationship="Self.FK_departmentcollectionpoint_collectionpoint" FromRole="departmentcollectionpoint" ToRole="collectionpoint" />
-          <NavigationProperty Name="department" Relationship="Self.FK_departmentcollectionpoint_department" FromRole="departmentcollectionpoint" ToRole="department" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="collectionpoint" Relationship="Self.FK_departmentcollectionpoint_collectionpoint1" FromRole="departmentcollectionpoint" ToRole="collectionpoint" />
+          <NavigationProperty Name="department" Relationship="Self.FK_departmentcollectionpoint_department1" FromRole="departmentcollectionpoint" ToRole="department" />
         </EntityType>
         <EntityType Name="disbursement">
           <Key>
@@ -1082,7 +1082,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_departmentcollectionpoint_collectionpoint">
+        <Association Name="FK_departmentcollectionpoint_collectionpoint1">
           <End Role="collectionpoint" Type="Self.collectionpoint" Multiplicity="1" />
           <End Role="departmentcollectionpoint" Type="Self.departmentcollectionpoint" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1142,7 +1142,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_departmentcollectionpoint_department">
+        <Association Name="FK_departmentcollectionpoint_department1">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="departmentcollectionpoint" Type="Self.departmentcollectionpoint" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1437,7 +1437,7 @@
             <End Role="category" EntitySet="categories" />
             <End Role="item" EntitySet="items" />
           </AssociationSet>
-          <AssociationSet Name="FK_departmentcollectionpoint_collectionpoint" Association="Self.FK_departmentcollectionpoint_collectionpoint">
+          <AssociationSet Name="FK_departmentcollectionpoint_collectionpoint1" Association="Self.FK_departmentcollectionpoint_collectionpoint1">
             <End Role="collectionpoint" EntitySet="collectionpoints" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoints" />
           </AssociationSet>
@@ -1457,7 +1457,7 @@
             <End Role="user" EntitySet="users" />
             <End Role="delegation" EntitySet="delegations" />
           </AssociationSet>
-          <AssociationSet Name="FK_departmentcollectionpoint_department" Association="Self.FK_departmentcollectionpoint_department">
+          <AssociationSet Name="FK_departmentcollectionpoint_department1" Association="Self.FK_departmentcollectionpoint_department1">
             <End Role="department" EntitySet="departments" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoints" />
           </AssociationSet>
@@ -1614,9 +1614,10 @@
           <EntitySetMapping Name="departmentcollectionpoints">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.departmentcollectionpoint">
               <MappingFragment StoreEntitySet="departmentcollectionpoint">
+                <ScalarProperty Name="deptcpid" ColumnName="deptcpid" />
                 <ScalarProperty Name="deptid" ColumnName="deptid" />
                 <ScalarProperty Name="cpid" ColumnName="cpid" />
-                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
