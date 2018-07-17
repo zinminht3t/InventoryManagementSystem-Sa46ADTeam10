@@ -129,6 +129,26 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dm);
         }
 
+
+
+        // to update department collection point
+        //[HttpPost]
+        //[Route("api/department/collectionpoint/update")]
+        //public IHttpActionResult UpdateDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm)
+        //{
+        //    string error = "";
+        //    DepartmentModel dm = DepartmentRepo.UpdateDepartmentCollectionPoint(dcpm, out error);
+        //    if (error != "" || dm == null)
+        //    {
+        //        if (error == ConError.Status.NOTFOUND)
+        //        {
+        //            return Content(HttpStatusCode.NotFound, "Department or Collection Point Not Found");
+        //        }
+        //        return Content(HttpStatusCode.BadRequest, error);
+        //    }
+        //    return Ok(dm);
+        //}
+
         // to create new department
         [HttpPost]
         [Route("api/department/create")]
