@@ -155,7 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModels\CategoryModel.cs" />
-    <Compile Include="APIModels\DelegationModel.cs" />
+    <Compile Include="APIModels\CollectionPointModel.cs" />
+    <Compile Include="APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
@@ -163,6 +164,8 @@
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
+    <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="APIModels\RequisitionModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
     <Compile Include="API\APIAccount.cs" />
     <Compile Include="API\APIAdjustment.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
+    <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
     <Compile Include="API\APIUser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1429,8 +1433,6 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
-    <Content Include="Views\HOD\DelegateAuthority.cshtml" />
-    <Content Include="Views\HOD\AssignDepRep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
