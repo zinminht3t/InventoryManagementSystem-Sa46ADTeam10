@@ -1,37 +1,69 @@
-﻿@model LUSSISADTeam10Web.Models.Account.UserViewModel
+﻿
+@model LUSSISADTeam10Web.Models.Account.UserViewModel
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>UserViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <!doctype html>
+    <html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Logic University - Login</title>
+        <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-icon.png">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="~/styles/css/normalize.css">
+        <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/styles/css/themify-icons.css">
+        <link rel="stylesheet" href="~/styles/css/flag-icon.min.css">
+        <link rel="stylesheet" href="~/styles/css/cs-skin-elastic.css">
+        <link rel="stylesheet" href="~/styles/scss/style.css">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+
+    </head>
+    <body class="bg-dark">
+
+
+        <div class="sufee-login d-flex align-content-center flex-wrap">
+            <div class="container">
+                <div class="login-content">
+                    <div class="login-logo">
+                        <a href="index.html">
+                            <img class="align-content" width="150" src="~/styles/images/logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="login-form">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                     
+                        <button type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <script src="~/styles/js/vendor/jquery-2.1.4.min.js"></script>
+        <script src="~/styles/js/popper.min.js"></script>
+        <script src="~/styles/js/plugins.js"></script>
+        <script src="~/styles/js/main.js"></script>
+    </body>
+</html>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

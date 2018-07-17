@@ -11,10 +11,10 @@ using System.Web.Mvc;
 
 namespace LUSSISADTeam10Web.Controllers
 {
+    [Authorize(Roles = "HOD")]
     public class HODController : Controller
     {
-        // GET: HOD/{id}
-        [Authorize(Roles = "Clerk")]
+        // GET: HOD
         public ActionResult Index()
         {
             return View();

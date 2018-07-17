@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace LUSSISADTeam10Web.Controllers
 {
+    [Authorize(Roles ="DepartmentRep")]
     public class DepartmentRepController : Controller
     {
         // GET: DepartmentRep

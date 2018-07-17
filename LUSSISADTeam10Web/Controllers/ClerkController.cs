@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace LUSSISADTeam10Web.Controllers
 {
+    [Authorize(Roles = "Clerk")]
     public class ClerkController : Controller
     {
         // GET: Clerk
