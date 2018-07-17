@@ -207,6 +207,61 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dm;
         }
+        public static List<DepartmentCollectionPointModel> GetDepartmentCollectionPointsByStatus(DepartmentCollectionPointModel dcpm, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            List<departmentcollectionpoint> dcps = new List<departmentcollectionpoint>();
+
+            try
+            {
+                dcps = entities.departmentcollectionpoints.Where(p => p.active == dcpm.Active).ToList<departmentcollectionpoint>();
+                // return the updated model 
+                dcpm.DeptCpID = 1; //todo
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcps;
+        }
+        public static DepartmentCollectionPointModel AddDepartmentCollectionPoint(DepartmentCollectionPointModel dcpm, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            try
+            {
+
+                departmentcollectionpoint dcp = new departmentcollectionpoint
+                {
+                    deptid = dcpm.DeptID,
+                    cpid = dcpm.CpID,
+                    active = dcpm.Active
+                };
+                entities.departmentcollectionpoints.Add(dcp);
+
+                // saving the update
+                entities.SaveChanges();
+
+                // return the updated model 
+                dcpm.DeptCpID = 1; //todo
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return dcpm;
+        }
 
 
 
