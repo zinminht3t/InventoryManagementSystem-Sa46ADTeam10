@@ -199,7 +199,6 @@
     <Compile Include="Controllers\ClerkController.cs" />
     <Compile Include="Controllers\DepartmentRepController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
-    <Compile Include="Controllers\HeadofDepartmentController.cs" />
     <Compile Include="Controllers\HODController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
@@ -1427,7 +1426,6 @@
     <Content Include="styles\scss\_gauge.scss" />
     <Content Include="styles\scss\_switches.scss" />
     <Content Include="styles\scss\_widgets.scss" />
-    <Content Include="Views\HOD\HODDashboard.cshtml" />
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
     <Content Include="Views\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
@@ -1435,10 +1433,6 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
-    <Content Include="Views\HOD\AssignDepRep.cshtml" />
-    <Content Include="Views\HOD\DelegateAuthority.cshtml" />
-    <Content Include="Views\HOD\OrderHistory.cshtml" />
-    <Content Include="Views\HOD\GetRequsitionApporRej.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
