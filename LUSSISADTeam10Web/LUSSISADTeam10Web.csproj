@@ -155,6 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModels\CategoryModel.cs" />
+    <Compile Include="APIModels\CollectionPointModel.cs" />
+    <Compile Include="APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
