@@ -24,6 +24,7 @@ namespace LUSSISADTeam10API.Authorization
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+
             UserModel u = UserRepo.ValidateUser(context.UserName, HashPassword(context.Password));
 
             if (u == null)
@@ -33,34 +34,40 @@ namespace LUSSISADTeam10API.Authorization
             else
             {
 
-                identity.AddClaim(new Claim(ClaimTypes.Name, u.Fullname));
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.Userid.ToString()));
-                identity.AddClaim(new Claim("username", u.Username));
-                switch (u.Role)
-                {
-                    case ConUser.Role.CLERK:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.CLERK.ToString()));
-                        break;
-                    case ConUser.Role.DEPARTMENTREP:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.DEPARTMENTREP.ToString()));
-                        break;
+                //identity.AddClaim(new Claim(ClaimTypes.Name, u.Fullname));
+                //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.Userid.ToString()));
+                //identity.AddClaim(new Claim("username", u.Username));
+                //switch (u.Role)
+                //{
+                //    case ConUser.Role.CLERK:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.CLERK.ToString()));
+                //        break;
+                //    case ConUser.Role.DEPARTMENTREP:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.DEPARTMENTREP.ToString()));
+                //        break;
 
-                    case ConUser.Role.EMPLOYEEREP:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.EMPLOYEEREP.ToString()));
-                        break;
+                //    case ConUser.Role.EMPLOYEEREP:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.EMPLOYEEREP.ToString()));
+                //        break;
 
-                    case ConUser.Role.HOD:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.HOD.ToString()));
-                        break;
+                //    case ConUser.Role.HOD:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.HOD.ToString()));
+                //        break;
 
-                    case ConUser.Role.MANAGER:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.MANAGER.ToString()));
-                        break;
+                //    case ConUser.Role.MANAGER:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.MANAGER.ToString()));
+                //        break;
 
-                    case ConUser.Role.SUPERVISOR:
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.SUPERVISOR.ToString()));
-                        break;
-                }
+                //    case ConUser.Role.SUPERVISOR:
+                //        identity.AddClaim(new Claim(ClaimTypes.Role, ConUser.Role.SUPERVISOR.ToString()));
+                //        break;
+                //}
+
+                    identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+                    identity.AddClaim(new Claim("username", "admin"));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, u.Username));
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, u.Userid.ToString()));
+                    context.Validated(identity);
             }
         }
 
