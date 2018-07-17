@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModels\CategoryModel.cs" />
+    <Compile Include="APIModels\DelegationModel.cs" />
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
@@ -1428,6 +1429,8 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
+    <Content Include="Views\HOD\DelegateAuthority.cshtml" />
+    <Content Include="Views\HOD\AssignDepRep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
