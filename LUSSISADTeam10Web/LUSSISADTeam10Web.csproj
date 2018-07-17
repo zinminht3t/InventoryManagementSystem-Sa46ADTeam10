@@ -206,6 +206,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1133,7 +1134,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Haha.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Clerk\Index.cshtml" />
     <Content Include="Views\Supervisor\Index.cshtml" />
     <Content Include="Views\HOD\Index.cshtml" />
@@ -1432,10 +1432,10 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Account\" />
     <Folder Include="Models\Clerk\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Employee\" />

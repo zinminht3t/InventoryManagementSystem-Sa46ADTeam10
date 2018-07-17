@@ -1,102 +1,89 @@
 ﻿using LUSSISADTeam10Web.API;
 using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
+using LUSSISADTeam10Web.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
     public class AccountController : Controller
     {
-        [HttpGet]
         public ActionResult Login()
         {
             Session["Role"] = 0;
-            ViewBag.Message = "Your Login page.";
-            return View(new UserModel());
+            return PartialView(new UserViewModel());
         }
 
         [HttpPost]
-        public ActionResult Login(UserModel um)
+        public ActionResult Login(UserViewModel model, string returnUrl)
         {
-            string error = "";
-
-            if (um.Username != "" || um.Password != "")
+            // Lets first check if the Model is valid or not
+            if (ModelState.IsValid)
             {
-                string token = APIAccount.getToken(um.Username, um.Password, out error);
-                if (error == "")
+                string username = model.Username;
+                string password = model.Password;
+
+                string token = "";
+
+                token = APIAccount.getToken(username, password, out string error);
+
+                // User found in the database
+                if (error == "" || token != "")
                 {
-                    um = APIAccount.GetUserProfile(token, out error);
+                    FormsAuthentication.SetAuthCookie(username, false);
                     Session["token"] = token;
 
-                    Session["user"] = um;
+                    UserModel um = APIAccount.GetUserProfile(token, out error);
+
                     Session["role"] = um.Role;
                     ViewBag.Role = um.Role;
 
-                    switch (um.Role)
+
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
-                        case ConUser.Role.CLERK:
-                            return RedirectToAction("Index", "Clerk");
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
 
-                        case ConUser.Role.SUPERVISOR:
-                            return RedirectToAction("Index", "Supervisor");
-
-                        case ConUser.Role.DEPARTMENTREP:
-                            return RedirectToAction("Index", "DepartmentRep");
-
-                        case ConUser.Role.EMPLOYEE:
-                            return RedirectToAction("Index", "Employee");
-
-                        case ConUser.Role.HOD:
-                            return RedirectToAction("Index", "HOD");
-
-                        case ConUser.Role.MANAGER:
-                            return RedirectToAction("Index", "Supervisor");
-
+                        switch (um.Role)
+                        {
+                            case ConUser.Role.CLERK:
+                                return RedirectToAction("Index", "Clerk");
+                            case ConUser.Role.SUPERVISOR:
+                                return RedirectToAction("Index", "Supervisor");
+                            case ConUser.Role.DEPARTMENTREP:
+                                return RedirectToAction("Index", "DepartmentRep");
+                            case ConUser.Role.EMPLOYEE:
+                                return RedirectToAction("Index", "Employee");
+                            case ConUser.Role.HOD:
+                                return RedirectToAction("Index", "HOD");
+                            case ConUser.Role.MANAGER:
+                                return RedirectToAction("Index", "Supervisor");
+                        }
+                        return RedirectToAction("Index", "Home");
                     }
                 }
-
-            }
-            return View();
-        }
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "UserDashboard");
-            }
-        }
-
-        public ActionResult Forbidden()
-        {
-            return View();
-        }
-
-        private void createAccountAcitvatedClaim()
-        {
-            const string Issuer = "http://pptcs.net";
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Role, "account-activated", ClaimValueTypes.String, Issuer));
-            var userIdentity = new ClaimsIdentity("account-activated");
-            userIdentity.AddClaims(claims);
-            var userPrincipal = new ClaimsPrincipal(userIdentity);
-
-            HttpContext.Authentication.SignInAsync("Cookie", userPrincipal,
-                new AuthenticationProperties
+                else
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-                    IsPersistent = false,
-                    AllowRefresh = false
-                });
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
