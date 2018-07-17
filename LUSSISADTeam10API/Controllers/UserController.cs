@@ -96,6 +96,25 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(usm);
         }
 
-       
+
+        // new
+        [HttpGet]
+        [Route("api/user/hod/{deptid}")]
+        public IHttpActionResult GetUsersForHOD(int deptid)
+        {
+            string error = "";
+            List<UserModel> usm = UserRepo.GetUsersForHOD(deptid, out error);
+            if (error != "" || usm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "User Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(usm);
+        }
+
+
     }
 }
