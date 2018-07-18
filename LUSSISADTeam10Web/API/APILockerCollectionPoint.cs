@@ -9,7 +9,7 @@ using System.Net;
 using System.Web;
 
 
-namespace LUSSISADTeam10Api.API
+namespace LUSSISADTeam10Web.API
 {
     public class APILockerCollectionPoint
     {
