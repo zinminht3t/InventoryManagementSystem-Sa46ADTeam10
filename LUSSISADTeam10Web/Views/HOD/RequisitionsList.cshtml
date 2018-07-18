@@ -1,69 +1,637 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.RequisitionModel>
 
 @{
+    /**/
+
     ViewBag.Title = "Requisitions List";
 }
 <h2>RequisitionsList</h2>
 
 <br />
-<table id="myTable" class="table table-striped table-bordered">
+@*<table id="datatable-fixed-header" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <td>
+                    Date
+                </td>
+                <td>
+                    Raised By
+                </td>
+                <td>
+                    Approved By
+                </td>
+                <td>
+                    Department Name
+                </td>
+                <td>
+                    Collection Point
+                </td>
+                <td>
+                    Status
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @item.reqdate.Value.ToString("d")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rasiedbyname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.approvedbyname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.depname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cpname)
+                    </td>
+                    <td>
+                        @item.status
+                    </td>
+                    <td>
+                        <a href="@Url.Action("TrackRequisition", "HOD",  new {id = item.reqid }, null)" class="btn btn-info">Track</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>*@
+
+
+
+
+<table id="datatable" class="table table-striped table-bordered">
     <thead>
         <tr>
 
-            <th>
+            <td>
                 Date
-            </th>
-            <th>
+            </td>
+            <td>
                 Raised By
-            </th>
-            <th>
+            </td>
+            <td>
                 Approved By
-            </th>
-            <th>
+            </td>
+            <td>
                 Department Name
-            </th>
-            <th>
+            </td>
+            <td>
                 Collection Point
-            </th>
-            <th>
+            </td>
+            <td>
                 Status
-            </th>
-            <th>
-
-            </th>
+            </td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
 
-        @foreach (var item in Model)
-        {
-            <tr>
+        <tr>
 
-                <td>
-                    @item.reqdate.Value.ToString("d")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.rasiedbyname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.approvedbyname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.depname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.cpname)
-                </td>
-                <td>
-                    @item.status
-                </td>
-                <td>
-                    <a href="@Url.Action("TrackRequisition", "HOD",  new {id = item.reqid }, null)" class="btn btn-info">Track</a>
-                </td>
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                Computer Science
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/1" class="btn btn-info">Track</a>
+            </td>
 
-            </tr>
-        }
+        </tr>
+        <tr>
+
+            <td>
+                1/1/2018
+            </td>
+            <td>
+                george
+            </td>
+            <td>
+                george
+            </td>
+            <td>
+                HR Dept
+            </td>
+            <td>
+                Utown
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/2" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                30/5/2018
+            </td>
+            <td>
+                potter
+            </td>
+            <td>
+                potter
+            </td>
+            <td>
+                Music Dept
+            </td>
+            <td>
+                Terrace
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/3" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                12/6/2018
+            </td>
+            <td>
+                edward
+            </td>
+            <td>
+                edward
+            </td>
+            <td>
+                Accounting Dept
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                5
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/4" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                13/7/2018
+            </td>
+            <td>
+                snow
+            </td>
+            <td>
+                snow
+            </td>
+            <td>
+                Marketing Dept
+            </td>
+            <td>
+                Techno Edge
+            </td>
+            <td>
+                4
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/5" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                16/7/2018
+            </td>
+            <td>
+                joseph
+            </td>
+            <td>
+                joseph
+            </td>
+            <td>
+                Commerce Dept
+            </td>
+            <td>
+                Techno Edge
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/7" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                16/3/2018
+            </td>
+            <td>
+                jose
+            </td>
+            <td>
+                jose
+            </td>
+            <td>
+                Law Dept
+            </td>
+            <td>
+                Biz
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/8" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                17/3/2018
+            </td>
+            <td>
+                richard
+            </td>
+            <td>
+                richard
+            </td>
+            <td>
+                Computer Science
+            </td>
+            <td>
+                Biz
+            </td>
+            <td>
+                2
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/9" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                17/4/2018
+            </td>
+            <td>
+                paul
+            </td>
+            <td>
+                paul
+            </td>
+            <td>
+                Registrar Dept
+            </td>
+            <td>
+                Terrace
+            </td>
+            <td>
+                1
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/10" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                18/7/2018
+            </td>
+            <td>
+                brian
+            </td>
+            <td>
+                brian
+            </td>
+            <td>
+                Accounting Dept
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/11" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                richard
+            </td>
+            <td>
+                richard
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/13" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/14" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/15" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/16" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                7
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/17" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                david
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/18" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                william
+            </td>
+            <td>
+                william
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/24" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                william
+            </td>
+            <td>
+                william
+            </td>
+            <td>
+                English Department
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/25" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                tommen
+            </td>
+            <td>
+                tommen
+            </td>
+            <td>
+                Computer Science
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/28" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/4/2018
+            </td>
+            <td>
+                tommen
+            </td>
+            <td>
+                tommen
+            </td>
+            <td>
+                Computer Science
+            </td>
+            <td>
+                Science
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/29" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                1/1/2018
+            </td>
+            <td>
+                george
+            </td>
+            <td>
+                george
+            </td>
+            <td>
+                HR Dept
+            </td>
+            <td>
+                Utown
+            </td>
+            <td>
+                6
+            </td>
+            <td>
+                <a href="/HOD/TrackRequisition/35" class="btn btn-info">Track</a>
+            </td>
+
+        </tr>
     </tbody>
 
 </table>
 
+@section Scripts {
+<script type="text/javascript">
+    function data() {
+        $('#datatable').DataTable();
+    }
+    window.onload = data;
+    </script>
+}

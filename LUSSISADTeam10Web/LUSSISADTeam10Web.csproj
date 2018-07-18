@@ -208,6 +208,7 @@
     <Compile Include="Controllers\ClerkController.cs" />
     <Compile Include="Controllers\DepartmentRepController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HODController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
@@ -228,6 +229,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Styles\Content\Site.css" />
+    <Content Include="Styles\css\datatable.min.css" />
     <Content Include="Styles\images\admin.jpg" />
     <Content Include="Styles\images\avatar\1.jpg" />
     <Content Include="Styles\images\avatar\2.jpg" />
@@ -1006,6 +1008,8 @@
     <Content Include="Styles\images\placeholder.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
+    <Content Include="Styles\js\datatable.min.js" />
+    <Content Include="Styles\js\jquery.min.js" />
     <Content Include="Styles\Scripts\bootstrap.js" />
     <Content Include="Styles\Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1144,7 +1148,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Haha.cshtml" />
     <Content Include="Views\Clerk\Index.cshtml" />
     <Content Include="Views\Supervisor\Index.cshtml" />
     <Content Include="Views\HOD\Index.cshtml" />
@@ -1451,6 +1454,7 @@
     <Content Include="Views\HOD\OrderHistory.cshtml" />
     <Content Include="Views\HOD\RequisitionDetail.cshtml" />
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

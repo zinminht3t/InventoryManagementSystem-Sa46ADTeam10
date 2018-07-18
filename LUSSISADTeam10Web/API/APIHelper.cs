@@ -34,7 +34,7 @@ namespace LUSSISADTeam10Web.API
             if (response.ErrorException != null)
             {
                 // if the error exists
-                error += response.ResponseStatus.ToString();
+                error += response.ErrorMessage.ToString();
             }
             return response.Data;
         }
@@ -54,7 +54,7 @@ namespace LUSSISADTeam10Web.API
 
             if (response.ErrorException != null)
             {
-                error += response.ResponseStatus.ToString();
+                error += response.ErrorMessage.ToString();
             }
             return response.Data;
         }

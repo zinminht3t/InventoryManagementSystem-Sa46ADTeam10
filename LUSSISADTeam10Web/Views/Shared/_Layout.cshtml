@@ -16,8 +16,9 @@
     <link rel="stylesheet" href="~/styles/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="~/styles/scss/style.css">
     <link href="~/styles/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+    <link href="~/styles/css/datatable.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    
+
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
 
@@ -288,7 +289,7 @@
     </div>
 
 
-    <script src="~/styles/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="~/styles/js/jquery.min.js"></script>
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>
     <script src="~/styles/js/main.js"></script>
@@ -296,6 +297,8 @@
     <script src="~/styles/js/lib/vector-map/jquery.vmap.min.js"></script>
     <script src="~/styles/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
     <script src="~/styles/js/lib/vector-map/country/jquery.vmap.world.js"></script>
+    <!-- DataTable -->
+    <script src="~/styles/js/datatable.min.js"></script>
     @RenderSection("scripts", required: false)
 
 </body>
