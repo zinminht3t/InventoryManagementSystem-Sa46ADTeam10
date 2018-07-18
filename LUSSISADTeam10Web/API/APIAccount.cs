@@ -12,7 +12,7 @@ namespace LUSSISADTeam10Web.API
     public class APIAccount
     {
 
-        public static string getToken(string username, string password, out string error)
+        public static string GetToken(string username, string password, out string error)
         {
             error = "";
             string token = "";
