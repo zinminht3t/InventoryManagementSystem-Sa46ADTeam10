@@ -1,0 +1,207 @@
+﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
+
+@{
+    ViewBag.Title = "TrackRequisition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
+
+    .stepwizard-row {
+        display: table-row;
+    }
+
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+    }
+
+    .stepwizard-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+    }
+
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+</style>
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Icons</a></li>
+                    <li class="active">FontAwesome</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title">Track Requisition : @Model.reqid</strong>
+            </div>
+            <div class="card-body">
+
+
+                <div class="stepwizard">
+                    <div class="stepwizard-row">
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-success btn-circle">1</button>
+                            <p>Pending</p>
+                        </div>
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-success btn-circle" disabled="disabled">2</button>
+                            <p>Preparing</p>
+                        </div>
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-warning btn-circle" disabled="disabled">3</button>
+                            <p>Ready to Collect</p>
+                        </div>
+                        <div class="stepwizard-step">
+                            <button type="button" class="btn btn-danger btn-circle" disabled="disabled">4</button>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reqid)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqid)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.raisedby)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.raisedby)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.rasiedbyname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.rasiedbyname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.approvedby)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.approvedby)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.approvedbyname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.approvedbyname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.depid)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.depid)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.depname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.depname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.cpid)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.cpid)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.cpname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.cpname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.status)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.status)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reqdate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqdate)
+                    </dd>
+
+                </dl>
+
+
+            </div>
+        </div>
+
+
+
+    </div><!-- .animated -->
+</div><!-- .content -->

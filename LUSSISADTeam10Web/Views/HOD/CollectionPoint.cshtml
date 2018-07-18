@@ -1,0 +1,91 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.CollectionPointModel>
+
+@{
+    ViewBag.Title = "Collection Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Collection Point</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Collection Point</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Current Collection Point : @ViewBag.ActiveCollectionPoint </strong>
+            </div>
+            <div class="card-body">
+
+                @if (ViewBag.PendingCPR)
+                {
+                    <h4>Pending Collection Point Request</h4>
+
+
+                    foreach (var item in ViewBag.PendingCollectionPoints)
+                    {
+                        <h5>@item.CpName</h5>
+                        <h5>@item.CpLocation</h5>
+                        <h5>Waiting for Approval from Clerk</h5>
+                        <hr />
+                    }
+
+                }
+
+                else
+                {
+                    <h4>Change Collection Point</h4>
+
+                    <form asp-action="CollectionPoint" asp-controller="HOD" method="post">
+                        <div class="form-check">
+                            @foreach (var item in ViewBag.CollectionPointsList)
+                            {
+                                <div class="radio">
+                                    <label for="@item.Code" class="form-check-label ">
+                                        <input asp-for="SelectedRole" type="radio" id="@item.Code" name="id"
+                                               @if (item.Value == ViewBag.ActiveCollectionPoint) { @: checked
+                                               }
+                                               value="@item.Code" class="ifrm-check-input"> @item.Value
+                                        </label>
+                                    </div>
+                                }
+                            <input type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30" value="Change Collection Point">
+                        </div>
+                    </form>
+                }
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}
