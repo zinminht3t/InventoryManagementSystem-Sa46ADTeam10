@@ -9,6 +9,7 @@ namespace LUSSISADTeam10Web.API
 {
     public class APIRequisition
     {
+        
         public static List<RequisitionModel> GetAllRequisition(string token, out string error)
         {
             string url = APIHelper.Baseurl + "/requisition/";

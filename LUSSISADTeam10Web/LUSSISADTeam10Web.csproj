@@ -1433,6 +1433,8 @@
     <Content Include="Views\Manager\ManagerDashboard.cshtml" />
     <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\HOD\RequisitionsList.cshtml" />
+    <Content Include="Views\HOD\TrackRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

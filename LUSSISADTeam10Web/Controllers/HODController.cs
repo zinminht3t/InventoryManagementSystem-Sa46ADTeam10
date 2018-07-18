@@ -19,5 +19,26 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View();
         }
+
+        public ActionResult RequisitionsList()
+        {
+            string token = "";
+            token = (string)Session["token"];
+            List<RequisitionModel> reqms = APIRequisition.GetAllRequisition(token, out string error);
+
+            if (error == "")
+            {
+                return View(reqms);
+            }
+
+            return View(new List<RequisitionModel>());
+        }
+        public ActionResult TrackRequisition(int id)
+        {
+            string token = "";
+            token = (string)Session["token"];
+            RequisitionModel reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+            return View(reqm);
+        }
     }
 }

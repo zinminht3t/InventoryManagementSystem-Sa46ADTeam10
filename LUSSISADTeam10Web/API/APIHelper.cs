@@ -21,11 +21,13 @@ namespace LUSSISADTeam10Web.API
             var request = new RestRequest();
             var client = new RestClient
             {
-                // Customizing the url based on the method
                 BaseUrl = new System.Uri(url)
             };
+            if (_token == null)
+            {
+                _token = "";
+            }
 
-            // add the token security
             request.AddParameter("Authorization", "Bearer " + _token.Trim(), ParameterType.HttpHeader);
             var response = client.Execute<T>(request);
 

@@ -2,6 +2,7 @@
 using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.Account;
+using LUSSISADTeam10Web.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,12 @@ namespace LUSSISADTeam10Web.Controllers
     {
         public ActionResult Login()
         {
-            Session["Role"] = 0;
             return PartialView(new UserViewModel());
         }
 
         [HttpPost]
         public ActionResult Login(UserViewModel model, string returnUrl)
         {
-            // Lets first check if the Model is valid or not
             if (ModelState.IsValid)
             {
                 string username = model.Username;
@@ -37,7 +36,6 @@ namespace LUSSISADTeam10Web.Controllers
                 if (error == "" || token != "")
                 {
                     FormsAuthentication.SetAuthCookie(token, false);
-                    // FormsAuthentication.SetAuthCookie(token, false);
                     Session["token"] = token;
 
                     UserModel um = APIAccount.GetUserProfile(token, out error);
