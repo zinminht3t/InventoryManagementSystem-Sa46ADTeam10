@@ -19,6 +19,7 @@ namespace LUSSISADTeam10API.Models
             this.Deptid = deptid;
             this.Deptname = deptname;
         }
+        public UserModel() : this(0, "", "", "", 0, "", 0, "") { }
         public int Userid { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }

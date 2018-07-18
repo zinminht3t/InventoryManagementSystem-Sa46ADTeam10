@@ -1,96 +1,110 @@
 ﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
 
+@{
+    ViewBag.Title = "Approve Requisition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Approve Requisition</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Approve Requisition</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
+            </div>
+            <div class="card-body">
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reqdate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqdate)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.rasiedbyname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.rasiedbyname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.cpname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.cpname)
+                    </dd>
+
+
+                </dl>
+                <hr />
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Request Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.requisitiondetails)
+                        {
+                            <tr>
+                                <td>@item.itemname</td>
+                                <td>@item.qty</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <hr />
+
+
+
+                <button type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}
 
 
 
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.reqid)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.reqid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.raisedby)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.raisedby)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.rasiedbyname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.rasiedbyname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.approvedby)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.approvedby)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.approvedbyname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.approvedbyname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.depid)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.depid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.depname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.depname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.cpid)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.cpid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.cpname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.cpname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.reqdate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.reqdate)
-        </dd>
-
-    </dl>

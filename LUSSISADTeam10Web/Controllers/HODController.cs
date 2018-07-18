@@ -15,7 +15,7 @@ namespace LUSSISADTeam10Web.Controllers
     [Authorize(Roles = "HOD")]
     public class HODController : Controller
     {
-        // GET: HOD
+        #region Get Methods
         public ActionResult Index()
         {
             return View();
@@ -92,6 +92,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(cpms);
         }
+        public ActionResult RequisitionDetail(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            RequisitionModel reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+            return View(reqm);
+        }
+        public ActionResult ApproveRequisition(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            RequisitionModel reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+            return View(reqm);
+        }
+
+        #endregion
+
+        #region Post Methods
 
         [HttpPost]
         public ActionResult CollectionPoint(int id)
@@ -107,13 +125,9 @@ namespace LUSSISADTeam10Web.Controllers
             dcpm = APICollectionPoint.CreateDepartmentCollectionPoint(token, dcpm, out error);
             return RedirectToAction("CollectionPoint");
         }
-        public ActionResult RequisitionDetail(int id)
-        {
-            string token = GetToken();
-            UserModel um = GetUser();
-            RequisitionModel reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
-            return View(reqm);
-        }
+        #endregion
+
+        #region Utilities
         public string GetToken()
         {
             string token = "";
@@ -126,5 +140,6 @@ namespace LUSSISADTeam10Web.Controllers
             um = (UserModel)Session["user"];
             return um;
         }
+        #endregion
     }
 }
