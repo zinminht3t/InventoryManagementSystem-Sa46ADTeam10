@@ -207,6 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1435,6 +1436,10 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />
     <Content Include="Views\HOD\TrackRequisition.cshtml" />
+    <Content Include="Views\HOD\CollectionPoint.cshtml" />
+    <Content Include="Views\HOD\ToCopy.cshtml" />
+    <Content Include="Views\HOD\OrderHistory.cshtml" />
+    <Content Include="Views\HOD\RequisitionDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

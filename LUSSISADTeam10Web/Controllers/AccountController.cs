@@ -39,7 +39,7 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["token"] = token;
 
                     UserModel um = APIAccount.GetUserProfile(token, out error);
-
+                    Session["user"] = um;
                     Session["role"] = um.Role;
                     ViewBag.Role = um.Role;
 

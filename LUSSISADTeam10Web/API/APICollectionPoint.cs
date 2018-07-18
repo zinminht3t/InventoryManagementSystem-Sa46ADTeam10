@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using RestSharp;
@@ -18,10 +17,10 @@ namespace LUSSISADTeam10Web.API
             List<CollectionPointModel> cpm = APIHelper.Execute<List<CollectionPointModel>>(token, url, out error);
             return cpm;
         }
-        public static List<CollectionPointModel> GetCollectionPointBycpid(string token, int cpid, out string error)
+        public static CollectionPointModel GetCollectionPointBycpid(string token, int cpid, out string error)
         {
             string url = APIHelper.Baseurl + "/collectionpoint/" + cpid;
-            List<CollectionPointModel> cpm = APIHelper.Execute<List<CollectionPointModel>>(token, url, out error);
+            CollectionPointModel cpm = APIHelper.Execute<CollectionPointModel>(token, url, out error);
             return cpm;
         }
         public static List<CollectionPointModel> GetCollectionPointByReqid(string token,int reqid, out string error)
@@ -30,24 +29,27 @@ namespace LUSSISADTeam10Web.API
             List<CollectionPointModel> cpm = APIHelper.Execute<List<CollectionPointModel>>(token, url, out error);
             return cpm;
         }
-
         public static List<CollectionPointModel> GetCollectionPointByDeptid(string token, int deptid, out string error)
         {
             string url = APIHelper.Baseurl + "/collectionpoint/department" + deptid;
             List<CollectionPointModel> cpm = APIHelper.Execute<List<CollectionPointModel>>(token, url, out error);
             return cpm;
         }
-
         public static List<CollectionPointModel> GetCollectionPointByLockerid(string token, int lockerid, out string error)
         {
             string url = APIHelper.Baseurl + "/collectionpoint/lockercollectionpoint" + lockerid;
             List<CollectionPointModel> cpm = APIHelper.Execute<List<CollectionPointModel>>(token, url, out error);
             return cpm;
         }
-
         public static DepartmentCollectionPointModel GetDepartmentCollectionPointByDcpid(string token, int dcpid, out string error)
         {
             string url = APIHelper.Baseurl + "/departmentcollection/" + dcpid;
+            DepartmentCollectionPointModel dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, url, out error);
+            return dcpm;
+        }
+        public static DepartmentCollectionPointModel GetActiveDepartmentCollectionPointByDeptID(string token, int deptid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/department/" + deptid;
             DepartmentCollectionPointModel dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, url, out error);
             return dcpm;
         }
@@ -59,7 +61,6 @@ namespace LUSSISADTeam10Web.API
             cpm = APIHelper.Execute<CollectionPointModel>(token, objectstring, url, out error);
             return cpm;
         }
-
         public static CollectionPointModel UpdateCollectionPoint(string token, CollectionPointModel cpm, out string error)
         {
             error = "";
@@ -68,5 +69,21 @@ namespace LUSSISADTeam10Web.API
             cpm = APIHelper.Execute<CollectionPointModel>(token, objectstring, url, out error);
             return cpm;
         }
+        public static DepartmentCollectionPointModel CreateDepartmentCollectionPoint(string token, DepartmentCollectionPointModel cpm, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/create";
+            string objectstring = JsonConvert.SerializeObject(cpm);
+            cpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, objectstring, url, out error);
+            return cpm;
+        }
+        public static List<DepartmentCollectionPointModel> GetDepartmentCollectionPointByStatus(string token, int status, out string error)
+        {
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/status/" + status;
+            List<DepartmentCollectionPointModel> dcpm = APIHelper.Execute<List<DepartmentCollectionPointModel>>(token, url, out error);
+            return dcpm;
+        }
+
+
     }
 }
