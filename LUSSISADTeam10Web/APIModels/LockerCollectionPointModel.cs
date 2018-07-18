@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Spatial;
 
 namespace LUSSISADTeam10Web.Models.APIModels
 {
@@ -17,6 +18,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
             this.cpid = cpid;
             this.status = status;
             this.cpname = cpname;
+          
                  
            
         }
@@ -37,5 +39,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public int status { get; set; }
 
         public string cpname { get; set; }
+
+        
     }
 }

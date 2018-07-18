@@ -4,6 +4,7 @@ namespace LUSSISADTeam10Web.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     public class UserModel
     {
@@ -18,8 +19,6 @@ namespace LUSSISADTeam10Web.Models
             this.Deptid = deptid;
             this.Deptname = deptname;
         }
-
-        public UserModel(): this(0, "", "", "", 0, "", 0, "") { }
         public int Userid { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }

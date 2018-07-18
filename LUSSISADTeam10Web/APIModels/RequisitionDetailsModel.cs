@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using LUSSISADTeam10Web.Models.DBModels;
 
 namespace LUSSISADTeam10Web.Models.APIModels
 {

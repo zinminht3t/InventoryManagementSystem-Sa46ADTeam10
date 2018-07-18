@@ -154,19 +154,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\AdjustmentDetailModel.cs" />
+    <Compile Include="APIModels\AdjustmentModel.cs" />
     <Compile Include="APIModels\CategoryModel.cs" />
     <Compile Include="APIModels\CollectionPointModel.cs" />
     <Compile Include="APIModels\DelegationModel.cs" />
     <Compile Include="APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="APIModels\DepartmentModel.cs" />
+    <Compile Include="APIModels\DisbursementDetailsModel.cs" />
+    <Compile Include="APIModels\DisbursementModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="APIModels\OutstandingItem.cs" />
+    <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
+    <Compile Include="APIModels\OutstandingReqModel.cs" />
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
+    <Compile Include="APIModels\SupplierItemModel.cs" />
+    <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
     <Compile Include="API\APIAccount.cs" />
     <Compile Include="API\APIAdjustment.cs" />
