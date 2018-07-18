@@ -34,5 +34,20 @@ namespace LUSSISADTeam10Web.Controllers
         // Start Phyo2
 
         // End Phyo2
+
+        #region Utilities
+        public string GetToken()
+        {
+            string token = "";
+            token = (string)Session["token"];
+            return token;
+        }
+        public UserModel GetUser()
+        {
+            UserModel um = new UserModel();
+            um = (UserModel)Session["user"];
+            return um;
+        }
+        #endregion
     }
 }
