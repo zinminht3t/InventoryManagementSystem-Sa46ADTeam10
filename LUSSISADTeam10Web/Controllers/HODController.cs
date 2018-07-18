@@ -3,9 +3,11 @@ using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Common;
+using LUSSISADTeam10Web.Models.HOD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -104,9 +106,13 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
-            return View(reqm);
+            ViewBag.RequisitionModel = reqm;
+            ApproveRequisitionViewModel viewmodel = new ApproveRequisitionViewModel
+            {
+                ReqID = reqm.reqid
+            };
+            return View(viewmodel);
         }
-
         #endregion
 
         #region Post Methods
@@ -125,6 +131,33 @@ namespace LUSSISADTeam10Web.Controllers
             dcpm = APICollectionPoint.CreateDepartmentCollectionPoint(token, dcpm, out error);
             return RedirectToAction("CollectionPoint");
         }
+
+        [HttpPost]
+        public ActionResult ApproveRequisition(ApproveRequisitionViewModel viewmodel)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            RequisitionModel reqm = new RequisitionModel();
+
+            reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
+
+            reqm.status = ConRequisition.Status.APPROVED;
+
+            if(!viewmodel.Approve)
+            {
+                reqm.status = ConRequisition.Status.REJECTED;
+            }
+
+            reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
+
+            if (viewmodel.Approve)
+            {
+                return RedirectToAction("TrackRequisition", new { id = reqm.reqid });
+            }
+            return RedirectToAction("RequisitionList");
+
+        }
         #endregion
 
         #region Utilities
@@ -141,5 +174,7 @@ namespace LUSSISADTeam10Web.Controllers
             return um;
         }
         #endregion
+
+
     }
 }

@@ -1,5 +1,4 @@
-﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
-
+﻿@model LUSSISADTeam10Web.Models.HOD.ApproveRequisitionViewModel
 @{
     ViewBag.Title = "Approve Requisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -36,32 +35,32 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Title Here </strong>
+                <strong class="card-title"> Requisition ID : @ViewBag.RequisitionModel.reqid </strong>
             </div>
             <div class="card-body">
                 <dl class="dl-horizontal">
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.reqdate)
+                        Requisition Date : 
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.reqdate)
+                        @ViewBag.RequisitionModel.reqdate
                     </dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.rasiedbyname)
+                        Raised By : 
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.rasiedbyname)
+                        @ViewBag.RequisitionModel.rasiedbyname
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.cpname)
+                        Collection Point :
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cpname)
+                       @ViewBag.RequisitionModel.cpname
                     </dd>
 
 
@@ -75,7 +74,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.requisitiondetails)
+                        @foreach (var item in ViewBag.RequisitionModel.requisitiondetails)
                         {
                             <tr>
                                 <td>@item.itemname</td>
@@ -87,9 +86,24 @@
 
                 <hr />
 
+                <form asp-action="ApproveCollectionPoint" asp-controller="HOD" method="post">
+                    <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
+                    <br />
+
+                    <div class="form-check-inline form-check">
+                        <label for="inline-radio1" class="form-check-label ">
+                            <input type="hidden" name="ReqID" asp-for="@Model.ReqID" value="@Model.ReqID" />
+                            <input type="radio" id="inline-radio1" name="approve" asp-for="@Model.Approve" value="true" class="form-check-input"> Approve
+                        </label>
+                        <label for="inline-radio2" class="form-check-label ">
+                            <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
+                        </label>
+                    </div>
 
 
-                <button type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+                    <input type="Submit" class="btn btn-outline-success btn-flat m-b-30 m-t-30" value="Submit">
+                </form>
+
 
 
             </div>

@@ -217,6 +217,7 @@
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
+    <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1456,7 +1457,6 @@
     <Folder Include="Models\Clerk\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Employee\" />
-    <Folder Include="Models\HOD\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
