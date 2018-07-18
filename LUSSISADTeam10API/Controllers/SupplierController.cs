@@ -57,6 +57,24 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(sm);
         }
 
+        // to get supplier by supplier status
+        [HttpGet]
+        [Route("api/supplier/status/{status}")]
+        public IHttpActionResult GetSupplierByStatus(int status)
+        {
+            string error = "";
+            List<SupplierModel> sms = SupplierRepo.GetSupplierByStatus(status, out error);
+            if (error != "" || sms == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Supplier Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sms);
+        }
+
         // to get department by user id
         [HttpGet]
         [Route("api/supplier/item/{itemid}")]

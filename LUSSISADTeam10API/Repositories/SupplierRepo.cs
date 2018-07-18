@@ -84,6 +84,33 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sm;
         }
+        public static List<SupplierModel> GetSupplierByStatus(int status, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            List<supplier> sups = new List<supplier>();
+            List<SupplierModel> sm = new List<SupplierModel>();
+            try
+            {
+                sups = entities.suppliers
+                    .Where(x => x.supid == status)
+                    .ToList();
+                foreach(supplier s in sups)
+                {
+                    sm.Add(ConvertDBSupToAPISup(s));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sm;
+        }
 
         public static List<SupplierModel> GetSuppliersByItemId(int itemid, out string error)
         {
@@ -188,7 +215,8 @@ namespace LUSSISADTeam10API.Repositories
             return sm;
         }
 
-        public static SupplierModel DeactivateSupplier(SupplierModel sm, out string error){
+        public static SupplierModel DeactivateSupplier(SupplierModel sm, out string error)
+        {
             LUSSISEntities entities = new LUSSISEntities();
             supplier sup = new supplier();
             error = "";
