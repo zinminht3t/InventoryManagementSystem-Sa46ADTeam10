@@ -182,6 +182,7 @@
     <Compile Include="API\APICollectionPoint.cs" />
     <Compile Include="API\APIDelegation.cs" />
     <Compile Include="API\APIDepartment.cs" />
+    <Compile Include="API\APIDisbursement.cs" />
     <Compile Include="API\APIHelper.cs" />
     <Compile Include="API\APIInventory.cs" />
     <Compile Include="API\APIItem.cs" />
@@ -1455,6 +1456,7 @@
     <Content Include="Views\HOD\RequisitionDetail.cshtml" />
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\HOD\Qwww.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
