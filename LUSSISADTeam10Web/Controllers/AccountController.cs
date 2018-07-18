@@ -30,7 +30,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 string token = "";
 
-                token = APIAccount.getToken(username, password, out string error);
+                token = APIAccount.GetToken(username, password, out string error);
 
                 // User found in the database
                 if (error == "" || token != "")

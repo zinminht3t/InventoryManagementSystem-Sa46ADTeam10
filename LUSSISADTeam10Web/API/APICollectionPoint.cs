@@ -69,14 +69,24 @@ namespace LUSSISADTeam10Web.API
             cpm = APIHelper.Execute<CollectionPointModel>(token, objectstring, url, out error);
             return cpm;
         }
-        public static DepartmentCollectionPointModel CreateDepartmentCollectionPoint(string token, DepartmentCollectionPointModel cpm, out string error)
+        public static DepartmentCollectionPointModel CreateDepartmentCollectionPoint(string token, DepartmentCollectionPointModel dcpm, out string error)
         {
             error = "";
             string url = APIHelper.Baseurl + "/departmentcollectionpoint/create";
-            string objectstring = JsonConvert.SerializeObject(cpm);
-            cpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, objectstring, url, out error);
-            return cpm;
+            string objectstring = JsonConvert.SerializeObject(dcpm);
+            dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, objectstring, url, out error);
+            return dcpm;
         }
+        
+        public static DepartmentCollectionPointModel ConfirmDepartmentCollectionPoint(string token, DepartmentCollectionPointModel dcpm, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/update";
+            string objectstring = JsonConvert.SerializeObject(dcpm);
+            dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, objectstring, url, out error);
+            return dcpm;
+        }
+
         public static List<DepartmentCollectionPointModel> GetDepartmentCollectionPointByStatus(string token, int status, out string error)
         {
             string url = APIHelper.Baseurl + "/departmentcollectionpoint/status/" + status;
