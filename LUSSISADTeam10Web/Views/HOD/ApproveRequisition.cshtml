@@ -35,7 +35,7 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Requisition ID : @ViewBag.RequisitionModel.reqid </strong>
+                <strong class="card-title"> Requisition ID : @ViewBag.RequisitionModel.Reqid </strong>
             </div>
             <div class="card-body">
                 <dl class="dl-horizontal">
@@ -45,14 +45,14 @@
                     </dt>
 
                     <dd>
-                        @ViewBag.RequisitionModel.reqdate
+                        @ViewBag.RequisitionModel.Reqdate
                     </dd>
                     <dt>
                         Raised By : 
                     </dt>
 
                     <dd>
-                        @ViewBag.RequisitionModel.rasiedbyname
+                        @ViewBag.RequisitionModel.Rasiedbyname
                     </dd>
 
                     <dt>
@@ -60,7 +60,7 @@
                     </dt>
 
                     <dd>
-                       @ViewBag.RequisitionModel.cpname
+                       @ViewBag.RequisitionModel.Cpname
                     </dd>
 
 
@@ -74,11 +74,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in ViewBag.RequisitionModel.requisitiondetails)
+                        @foreach (var item in ViewBag.RequisitionModel.Requisitiondetails)
                         {
                             <tr>
-                                <td>@item.itemname</td>
-                                <td>@item.qty</td>
+                                <td>@item.Itemname</td>
+                                <td>@item.Qty</td>
                             </tr>
                         }
                     </tbody>

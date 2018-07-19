@@ -41,25 +41,25 @@
                 <tr>
 
                     <td>
-                        @item.reqdate.Value.ToString("d")
+                        @item.Reqdate.Value.ToString("d")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.rasiedbyname)
+                        @Html.DisplayFor(modelItem => item.Rasiedbyname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.approvedbyname)
+                        @Html.DisplayFor(modelItem => item.Approvedbyname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.depname)
+                        @Html.DisplayFor(modelItem => item.Depname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.cpname)
+                        @Html.DisplayFor(modelItem => item.Cpname)
                     </td>
                     <td>
-                        @item.status
+                        @item.Status
                     </td>
                     <td>
-                        <a href="@Url.Action("TrackRequisition", "HOD",  new {id = item.reqid }, null)" class="btn btn-info">Track</a>
+                        <a href="@Url.Action("TrackRequisition", "HOD",  new {id = item.Reqid }, null)" class="btn btn-info">Track</a>
                     </td>
 
                 </tr>

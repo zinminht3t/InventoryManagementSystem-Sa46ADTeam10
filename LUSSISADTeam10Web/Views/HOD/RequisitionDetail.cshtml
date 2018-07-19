@@ -37,98 +37,98 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Requisition Detail : @Model.reqid </strong>
+                <strong class="card-title"> Requisition Detail : @Model.Reqid </strong>
             </div>
             <div class="card-body">
 
 
                 <dl class="dl-horizontal">
                     <dt>
-                        @Html.DisplayNameFor(model => model.reqid)
+                        @Html.DisplayNameFor(model => model.Reqid)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.reqid)
+                        @Html.DisplayFor(model => model.Reqid)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.raisedby)
+                        @Html.DisplayNameFor(model => model.Raisedby)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.raisedby)
+                        @Html.DisplayFor(model => model.Raisedby)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.rasiedbyname)
+                        @Html.DisplayNameFor(model => model.Rasiedbyname)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.rasiedbyname)
+                        @Html.DisplayFor(model => model.Rasiedbyname)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.approvedby)
+                        @Html.DisplayNameFor(model => model.Approvedby)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.approvedby)
+                        @Html.DisplayFor(model => model.Approvedby)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.approvedbyname)
+                        @Html.DisplayNameFor(model => model.Approvedbyname)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.approvedbyname)
+                        @Html.DisplayFor(model => model.Approvedbyname)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.depid)
+                        @Html.DisplayNameFor(model => model.Depid)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.depid)
+                        @Html.DisplayFor(model => model.Depid)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.depname)
+                        @Html.DisplayNameFor(model => model.Depname)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.depname)
+                        @Html.DisplayFor(model => model.Depname)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.cpid)
+                        @Html.DisplayNameFor(model => model.Cpid)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cpid)
+                        @Html.DisplayFor(model => model.Cpid)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.cpname)
+                        @Html.DisplayNameFor(model => model.Cpname)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cpname)
+                        @Html.DisplayFor(model => model.Cpname)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.status)
+                        @Html.DisplayNameFor(model => model.Status)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.status)
+                        @Html.DisplayFor(model => model.Status)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.reqdate)
+                        @Html.DisplayNameFor(model => model.Reqdate)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.reqdate)
+                        @Html.DisplayFor(model => model.Reqdate)
                     </dd>
 
                 </dl>
@@ -143,11 +143,11 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var reqdet in Model.requisitiondetails)
+                        @foreach (var reqdet in Model.Requisitiondetails)
                         {
                             <tr>
-                                <td>@reqdet.itemname</td>
-                                <td>@reqdet.qty</td>
+                                <td>@reqdet.Itemname</td>
+                                <td>@reqdet.Qty</td>
                             </tr>
                         }
                     </tbody>

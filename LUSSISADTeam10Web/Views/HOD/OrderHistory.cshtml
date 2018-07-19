@@ -69,19 +69,19 @@
                             <tr>
 
                                 <td>
-                                    @item.reqdate.Value.ToString("d")
+                                    @item.Reqdate.Value.ToString("d")
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.rasiedbyname)
+                                    @Html.DisplayFor(modelItem => item.Rasiedbyname)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.approvedbyname)
+                                    @Html.DisplayFor(modelItem => item.Approvedbyname)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.cpname)
+                                    @Html.DisplayFor(modelItem => item.Cpname)
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("RequisitionDetail", "HOD",  new {id = item.reqid }, null)"> <i class="text-info fa fa-align-justify"></i></a>
+                                    <a href="@Url.Action("RequisitionDetail", "HOD",  new {id = item.Reqid }, null)"> <i class="text-info fa fa-align-justify"></i></a>
                                 </td>
                         <button type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
 
