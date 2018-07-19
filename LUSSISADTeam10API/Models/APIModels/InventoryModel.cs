@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class InventoryModel
     {
-        public InventoryModel(int invid, int itemid, string itemDescription, int? stock, int? reorderLevel, int? reorderQty)
+        public InventoryModel(int invid, int itemid, string itemDescription, int stock, int? reorderLevel, int? reorderQty)
         {
             Invid = invid;
             Itemid = itemid;
@@ -21,7 +21,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int Invid { get; set; }
         public int Itemid { get; set; }
         public string ItemDescription { get; set; }
-        public int? Stock { get; set; }
+        public int Stock { get; set; }
         public int? ReorderLevel { get; set; }
         public int? ReorderQty { get; set; }
     }

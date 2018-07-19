@@ -284,14 +284,28 @@ namespace LUSSISADTeam10API.Repositories
                 adj.issueddate = adjm.Issueddate;
                 adj.status = adjm.Status;
                 if (adj.status == ConAdjustment.Active.APPROVED)
-                {;
+                {
                     List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
                     foreach(AdjustmentDetailModel adjustd in adjustds)
                     {
                         InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.Itemid, out error);
                         inventory invent = entities.inventories.Where(i => i.invid == inventm.Invid).First<inventory>();
                         invent.stock += adjustd.Adjustedqty;
-                    }                    
+
+                        InventoryTransactionModel invtm = new InventoryTransactionModel();
+
+                        invtm.InvID = invent.invid;
+                        invtm.ItemID = invent.itemid;
+                        invtm.Qty = adjustd.Adjustedqty;
+                        invtm.TransType = ConInventoryTransaction.TransType.ADJUSTMENT;
+                        invtm.TransDate = DateTime.Now;
+                        invtm.Remark = adjustd.Reason;
+
+                        invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
+                    }    
+                    
+
+
                 }
                 
                 entities.SaveChanges();

@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class PurchaseOrderDetailModel
     {
-        public PurchaseOrderDetailModel(int poId, int itemid, String itemDescription, int qty, int? delivQty)
+        public PurchaseOrderDetailModel(int poId, int itemid, String itemDescription, int qty, int delivQty)
         {
             PoId = poId;
             Itemid = itemid;
@@ -22,6 +22,6 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int Itemid { get; set; }
         public String ItemDescription { get; set; }
         public int Qty { get; set; }
-        public int? DelivQty { get; set; }
+        public int DelivQty { get; set; }
     }
 }

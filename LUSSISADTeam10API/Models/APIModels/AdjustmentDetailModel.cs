@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class AdjustmentDetailModel
     {
-        public AdjustmentDetailModel(int adjid, int itemid, string itemdescription, int? adjustedqty, string reason)
+        public AdjustmentDetailModel(int adjid, int itemid, string itemdescription, int adjustedqty, string reason)
         {
             this.Adjid = adjid;
             this.Itemid = itemid;
@@ -21,7 +21,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int Adjid { get; set; }
         public int Itemid { get; set; }
         public string Itemdescription { get; set; }
-        public int? Adjustedqty { get; set; }
+        public int Adjustedqty { get; set; }
         public string Reason { get; set; }
     }
 }
