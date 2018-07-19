@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LUSSISADTeam10Web.Models.Clerk;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -32,24 +33,25 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel user = GetUser();
            
-            List<InventoryModel> ivm = new List<InventoryModel>();
-            List<InventoryDetailModel> inventory = new List<InventoryDetailModel>();
+            List<InventoryModel> ivmlist = new List<InventoryModel>();
+            List<InventoryCheckViewModel> ivclist = new List<InventoryCheckViewModel>();
             try
             {
-                ivm = APIInventory.GetAllInventories(token, out string error);
-                //foreach (InventoryModel invent in ivm)
-                //{
-                //    foreach(InventoryDetailModel ivdm in inventory)
-                //    {
-                       
-                //    }
-                //}
+                ivmlist = APIInventory.GetAllInventories(token, out string error);
+                
+                foreach (InventoryModel invent in ivmlist)
+                { 
+                    CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
+                    ItemModel item = APIItem.GetItemByItemID(invent.Itemid,token,out error);
+                    InventoryCheckViewModel ivc = new InventoryCheckViewModel(invent.Invid, cat.name, invent.ItemDescription, invent.Stock, item.Uom);
+                    ivclist.Add(ivc);
+                }
             }
             catch (Exception e)
             {
 
             }
-            return View(ivm);
+            return View(ivclist);
         }
 
         // End MaHus
