@@ -33,82 +33,65 @@
 
 
         <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Requisition ID : @ViewBag.RequisitionModel.Reqid </strong>
-            </div>
             <div class="card-body">
-                <dl class="dl-horizontal">
+                <div class="mx-auto d-block">
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-check fa-3x"></i><br /> Approve / Reject Requisition </h5><br />
+                    <h6>Raised By :  @ViewBag.RequisitionModel.Rasiedbyname </h6><br />
+                    <h6>Collection Point : @ViewBag.RequisitionModel.Cpname</h6><br />
+                    <h6>Requested Date :  @ViewBag.RequisitionModel.Reqdate</h6><br />
+                    <div class="text-sm-center">
 
-                    <dt>
-                        Requisition Date : 
-                    </dt>
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Category Name</th>
+                                    <th>Quantity</th>
+                                    <th>UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.RequisitionModel.Requisitiondetails)
+                                {
+                                    <tr>
+                                        <td>@item.Itemname</td>
+                                        <td>@item.CategoryName</td>
+                                        <td>@item.Qty</td>
+                                        <td>@item.UOM</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
 
-                    <dd>
-                        @ViewBag.RequisitionModel.Reqdate
-                    </dd>
-                    <dt>
-                        Raised By : 
-                    </dt>
-
-                    <dd>
-                        @ViewBag.RequisitionModel.Rasiedbyname
-                    </dd>
-
-                    <dt>
-                        Collection Point :
-                    </dt>
-
-                    <dd>
-                       @ViewBag.RequisitionModel.Cpname
-                    </dd>
-
-
-                </dl>
-                <hr />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Request Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in ViewBag.RequisitionModel.Requisitiondetails)
-                        {
-                            <tr>
-                                <td>@item.Itemname</td>
-                                <td>@item.Qty</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
-                <hr />
-
-                <form asp-action="ApproveRequisition" asp-controller="HOD" method="post">
-                    <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
-                    <br />
-
-                    <div class="form-check-inline form-check">
-                        <label for="inline-radio1" class="form-check-label ">
-                            <input type="hidden" name="ReqID" asp-for="@Model.ReqID" value="@Model.ReqID" />
-                            <input type="radio" id="inline-radio1" name="approve" asp-for="@Model.Approve" value="true" class="form-check-input"> Approve
-                        </label>
-                        <label for="inline-radio2" class="form-check-label ">
-                            <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
-                        </label>
                     </div>
+                </div>
 
 
-                    <input type="Submit" class="btn btn-outline-success btn-flat m-b-30 m-t-30" value="Submit">
-                </form>
+                <hr>
 
 
+                <div class="card-text text-sm-center">
 
+                    <form asp-action="ApproveRequisition" asp-controller="HOD" method="post">
+                        <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
+                        <br />
+
+                        <div class="form-check-inline form-check">
+                            <label for="inline-radio1" class="form-check-label ">
+                                <input type="hidden" name="ReqID" asp-for="@Model.ReqID" value="@Model.ReqID" />
+                                <input type="radio" id="inline-radio1" name="approve" checked asp-for="@Model.Approve" value="true" class="form-check-input"> Approve &nbsp;&nbsp;&nbsp;
+                            </label>
+                            <label for="inline-radio2" class="form-check-label ">
+                                <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
+                            </label>
+                        </div>
+
+
+                        <input type="Submit" class="btn btn-outline-success pull-right btn-flat m-b-30 m-t-30" value="Submit">
+                    </form>
+                </div>
             </div>
         </div>
-
 
 
     </div>
