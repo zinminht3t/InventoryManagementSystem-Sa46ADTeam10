@@ -42,7 +42,7 @@ namespace LUSSISADTeam10API.Controllers
         //show adjustment and detail by adjustment ID
         [HttpGet]
         [Route("api/adjustment/{adjid}")]        
-        public IHttpActionResult GetAdjustmentDetail(int adjid)
+        public IHttpActionResult GetAdjustmentbyAdjId(int adjid)
         {
             string error = "";
             AdjustmentModel adj = AdjustmentRepo.GetAdjustmentByID(adjid, out error);

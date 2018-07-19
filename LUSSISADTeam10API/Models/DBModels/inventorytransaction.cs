@@ -12,22 +12,17 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Collections.Generic;
     
-    public partial class inventory
+    public partial class inventorytransaction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public inventory()
-        {
-            this.inventorytransactions = new HashSet<inventorytransaction>();
-        }
-    
+        public int tranid { get; set; }
+        public System.DateTime datetime { get; set; }
         public int invid { get; set; }
         public int itemid { get; set; }
-        public Nullable<int> stock { get; set; }
-        public Nullable<int> reorderlevel { get; set; }
-        public Nullable<int> reorderqty { get; set; }
+        public int trantype { get; set; }
+        public int qty { get; set; }
+        public string remark { get; set; }
     
+        public virtual inventory inventory { get; set; }
         public virtual item item { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<inventorytransaction> inventorytransactions { get; set; }
     }
 }

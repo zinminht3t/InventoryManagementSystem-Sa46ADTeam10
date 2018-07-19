@@ -35,8 +35,10 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<disbursement> disbursements { get; set; }
         public virtual DbSet<disbursementdetail> disbursementdetails { get; set; }
         public virtual DbSet<inventory> inventories { get; set; }
+        public virtual DbSet<inventorytransaction> inventorytransactions { get; set; }
         public virtual DbSet<item> items { get; set; }
         public virtual DbSet<lockercollectionpoint> lockercollectionpoints { get; set; }
+        public virtual DbSet<notification> notifications { get; set; }
         public virtual DbSet<outstandingrequisition> outstandingrequisitions { get; set; }
         public virtual DbSet<outstandingrequisitiondetail> outstandingrequisitiondetails { get; set; }
         public virtual DbSet<purchaseorder> purchaseorders { get; set; }
