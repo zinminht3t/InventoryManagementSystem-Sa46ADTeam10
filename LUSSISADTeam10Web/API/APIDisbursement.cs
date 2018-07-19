@@ -99,10 +99,10 @@ namespace LUSSISADTeam10Web.API
             DisbursementDetailsModel db = APIHelper.Execute<DisbursementDetailsModel>(token, objectstring, url, out error);
             return db;
         }
-        public static List<OutstandingItem> GetRetriveItemListforClerk(string token, out string error)
+        public static List<OutstandingItemModel> GetRetriveItemListforClerk(string token, out string error)
         {
             string url = APIHelper.Baseurl + "/disbursement/clerk/" ;
-            List<OutstandingItem> dbdlist = APIHelper.Execute<List<OutstandingItem>>(token, url, out error);
+            List<OutstandingItemModel> dbdlist = APIHelper.Execute<List<OutstandingItemModel>>(token, url, out error);
             return dbdlist;
 
         }

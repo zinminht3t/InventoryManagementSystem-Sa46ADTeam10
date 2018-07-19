@@ -54,7 +54,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.status == ConRequisition.Status.COMPLETED).ToList();
+                reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).ToList();
 
                 if (error != "")
                 {
@@ -113,7 +113,7 @@ namespace LUSSISADTeam10Web.Controllers
                 cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
                 foreach (CollectionPointModel cpm in cpms)
                 {
-                    CollectionPointsList.Add(new CodeValue { Code = cpm.cpid, Value = cpm.cpname });
+                    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
                 }
                 ViewBag.CollectionPointsList = CollectionPointsList;
 
@@ -153,7 +153,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
                 ViewBag.RequisitionModel = reqm;
-                viewmodel.ReqID = reqm.reqid;
+                viewmodel.ReqID = reqm.Reqid;
             }
             catch (Exception ex)
             {
@@ -176,7 +176,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.status == ConRequisition.Status.COMPLETED).ToList();
+                reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).ToList();
 
                 if (error != "")
                 {
@@ -224,7 +224,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 cpm = APICollectionPoint.GetCollectionPointBycpid(token, id, out string error);
-                dcpm.CpID = cpm.cpid;
+                dcpm.CpID = cpm.Cpid;
                 dcpm.DeptID = um.Deptid;
                 dcpm = APICollectionPoint.CreateDepartmentCollectionPoint(token, dcpm, out error);
             }
@@ -241,7 +241,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
-            reqm.status = ConRequisition.Status.APPROVED;
+            reqm.Status = ConRequisition.Status.APPROVED;
 
             reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
 
@@ -249,14 +249,14 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (!viewmodel.Approve)
                 {
-                    reqm.status = ConRequisition.Status.REJECTED;
+                    reqm.Status = ConRequisition.Status.REJECTED;
                 }
 
                 reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
 
                 if (viewmodel.Approve)
                 {
-                    return RedirectToAction("TrackRequisition", new { id = reqm.reqid });
+                    return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
                 }
                 return RedirectToAction("RequisitionList");
             }

@@ -1,6 +1,7 @@
 ﻿using LUSSISADTeam10Web.API;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
+using LUSSISADTeam10Web.Models.Clerk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace LUSSISADTeam10Web.Controllers
                 { 
                     CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
                     ItemModel item = APIItem.GetItemByItemID(invent.Itemid,token,out error);
-                    InventoryCheckViewModel ivc = new InventoryCheckViewModel(invent.Invid, cat.name, invent.ItemDescription, invent.Stock, item.Uom);
+                    InventoryCheckViewModel ivc = new InventoryCheckViewModel(invent.Invid, cat.Name, invent.ItemDescription, invent.Stock, item.Uom);
                     ivclist.Add(ivc);
                 }
             }
