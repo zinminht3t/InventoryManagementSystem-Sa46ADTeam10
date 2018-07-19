@@ -18,6 +18,10 @@ namespace LUSSISADTeam10Web.Controllers
     public class HODController : Controller
     {
         #region Get Methods
+        public ActionResult Chart()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
