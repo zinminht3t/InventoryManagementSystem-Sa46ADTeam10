@@ -1,0 +1,87 @@
+﻿@model LUSSISADTeam10Web.Models.APIModels.DelegationModel
+
+@{
+    ViewBag.Title = "SearchPreviousDelegation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Delegate Authority</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Delegation</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Previous Delegation </strong>
+            </div>
+            <div class="card-body">
+                    @if (Model.startdate != null)
+                    {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.username)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.username)
+                            </td>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.startdate)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.startdate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.enddate)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.enddate)
+                            </td>
+                        </tr>
+                    </table>
+                    }
+                    else
+                    {
+                        <p>There is no previous delegation.</p>
+
+                    }
+                    
+                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = Model.delid})" class="btn btn-outline-danger">Cancel</a>
+                    <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Create</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}

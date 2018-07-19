@@ -1,0 +1,122 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.UserModel>
+
+@{
+    ViewBag.Title = "CreateDelegationList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Employeelist</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Employeelist</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Employeelist </strong>
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Username)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Role)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @{
+                                    switch (item.Role)
+                                    {
+
+                                        case 1:
+                                            <p>Clerk</p>
+                                            break;
+                                        case 2:
+                                            <p>Superviosr</p>
+                                            break;
+                                        case 3:
+                                            <p>Manager</p>
+                                            break;
+                                        case 4:
+                                            <p>HOD</p>
+                                            break;
+                                        case 5:
+                                            <p>Employee</p>
+                                            break;
+                                        case 6:
+                                            <p>Department Rep</p>
+                                            break;
+
+
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}
