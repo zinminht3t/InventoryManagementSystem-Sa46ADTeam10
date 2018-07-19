@@ -219,5 +219,32 @@ namespace LUSSISADTeam10API.Controllers
 
         }
 
+
+
+        [HttpGet]
+        [Route("api/disbursement/BreakDown")]
+        public IHttpActionResult GetBreakdownByDepartment()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from Repo and convert it into outstanding item list
+            List<BreakdownByDepartmentModel> breakdown = DisbursementDetailsRepo.GetBreakdownByDepartment(out error);
+
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "" || breakdown == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Breakdown list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(breakdown);
+
+        }
+
+
     }
 }

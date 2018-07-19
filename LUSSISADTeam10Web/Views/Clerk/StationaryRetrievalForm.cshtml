@@ -1,0 +1,123 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.OutstandingItemModel>
+
+@{
+    ViewBag.Title = "StationaryRetrievalForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>StationaryRetrievalForm</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CatId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CatName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+
+<table class="table">
+
+    <tr>
+        <th>
+            <label>Bin</label>
+        </th>
+        <th>
+            <label>Stationary Description</label>
+        </th>
+        <th>
+            <label>Total Quantity</label>
+        </th>
+        <th colspan="2">
+            <label>Breakdown By Department</label>
+        </th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+
+        <th>Retrieved</th>
+        <th>Department Name</th>
+
+        <th>Actual</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemId)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.CatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.CatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+    }
+
+
+</table>
+
