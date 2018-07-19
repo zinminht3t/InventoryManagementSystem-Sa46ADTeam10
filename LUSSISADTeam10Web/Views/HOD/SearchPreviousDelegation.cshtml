@@ -39,32 +39,32 @@
                 <strong class="card-title"> Previous Delegation </strong>
             </div>
             <div class="card-body">
-                    @if (Model.startdate != null)
+                    @if (Model.Startdate != null)
                     {
                     <table class="table">
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.username)
+                                @Html.DisplayNameFor(model => model.Username)
                             </th>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.username)
+                                @Html.DisplayFor(modelItem => Model.Username)
                             </td>
                             <th></th>
                         </tr>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.startdate)
+                                @Html.DisplayNameFor(model => model.Startdate)
                             </th>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.startdate)
+                                @Html.DisplayFor(modelItem => Model.Startdate)
                             </td>
                         </tr>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.enddate)
+                                @Html.DisplayNameFor(model => model.Enddate)
                             </th>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.enddate)
+                                @Html.DisplayFor(modelItem => Model.Enddate)
                             </td>
                         </tr>
                     </table>
@@ -75,7 +75,7 @@
 
                     }
                     
-                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = Model.delid})" class="btn btn-outline-danger">Cancel</a>
+                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = Model.Delid})" class="btn btn-outline-danger">Cancel</a>
                     <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Create</a>
             </div>
         </div>
