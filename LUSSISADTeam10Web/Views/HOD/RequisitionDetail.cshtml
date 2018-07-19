@@ -42,116 +42,51 @@
             <div class="card-body">
 
 
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Reqid)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Reqid)
-                    </dd>
+                <div class="card">
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Raisedby)
-                    </dt>
+                    <div class="card-body">
+                        <div class="mx-auto d-block">
+                            <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Requisition Detail </h5><br />
+                            <h6>Raised By :  @Model.Rasiedbyname </h6><br />
+                            <h6>Collection Point : @Model.Cpname</h6><br />
+                            <h6>Requested Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
+                            <div class="text-sm-center">
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Raisedby)
-                    </dd>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Category Name</th>
+                                            <th>Quantity</th>
+                                            <th>UOM</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Requisitiondetails)
+                                        {
+                                            <tr>
+                                                <td>@item.Itemname</td>
+                                                <td>@item.CategoryName</td>
+                                                <td>@item.Qty</td>
+                                                <td>@item.UOM</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Rasiedbyname)
-                    </dt>
+                            </div>
+                        </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Rasiedbyname)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Approvedby)
-                    </dt>
+                        <hr>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Approvedby)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Approvedbyname)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Approvedbyname)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Depid)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Depid)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Depname)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Depname)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Cpid)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Cpid)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Cpname)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Cpname)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Status)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Status)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Reqdate)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Reqdate)
-                    </dd>
-
-                </dl>
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Qty</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var reqdet in Model.Requisitiondetails)
-                        {
-                            <tr>
-                                <td>@reqdet.Itemname</td>
-                                <td>@reqdet.Qty</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                        <div class="card-text text-sm-right">
+                            Approved By : <strong>@Model.Approvedbyname</strong>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>

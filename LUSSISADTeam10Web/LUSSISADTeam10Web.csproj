@@ -156,6 +156,7 @@
   <ItemGroup>
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="APIModels\AdjustmentModel.cs" />
+    <Compile Include="APIModels\BreakdownByDepartmentModel.cs" />
     <Compile Include="APIModels\CategoryModel.cs" />
     <Compile Include="APIModels\CollectionPointModel.cs" />
     <Compile Include="APIModels\DelegationModel.cs" />
@@ -188,8 +189,10 @@
     <Compile Include="API\APIDisbursement.cs" />
     <Compile Include="API\APIHelper.cs" />
     <Compile Include="API\APIInventory.cs" />
+    <Compile Include="API\APIInventoryTranscation.cs" />
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
+    <Compile Include="API\APINotification.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
@@ -1467,6 +1470,9 @@
     <Content Include="Views\Clerk\Inventory.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
+    <Content Include="Views\HOD\Chart.cshtml" />
+    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
+    <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1501,7 +1507,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50714</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

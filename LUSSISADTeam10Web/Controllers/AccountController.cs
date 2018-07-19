@@ -17,6 +17,7 @@ namespace LUSSISADTeam10Web.Controllers
     {
         public ActionResult Login()
         {
+            FormsAuthentication.SignOut();
             return PartialView(new UserViewModel());
         }
 

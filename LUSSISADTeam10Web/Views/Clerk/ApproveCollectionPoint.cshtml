@@ -53,7 +53,20 @@
                 </dl>
             </div>
 
+            <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
+                <div class="form-check-inline form-check">
+                    <label for="inline-radio1" class="form-check-label ">
+                        <input type="hidden" name="CpID" asp-for="@Model.CpID" value="@Model.CpID" />
+                        <input type="radio" id="inline-radio1" name="approve" asp-for="@Model.Approve" value="true" class="form-check-input"> Approve
+                    </label>
+                    <label for="inline-radio2" class="form-check-label ">
+                        <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
+                    </label>
+                </div>
 
+
+                <input type="Submit" class="btn btn-outline-success btn-flat m-b-30 m-t-30" value="Submit">
+            </form>
 
 
         </div>
