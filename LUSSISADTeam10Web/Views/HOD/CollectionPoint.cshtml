@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.CollectionPointModel>
-
 @{
     ViewBag.Title = "Collection Point";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +7,6 @@
     <style>
     </style>
 }
-
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -28,36 +26,51 @@
         </div>
     </div>
 </div>
-
 <div class="content mt-3">
     <div class="animated fadeIn">
-
 
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Current Collection Point : @ViewBag.ActiveCollectionPoint </strong>
+                <strong class="card-title"> Current Collection Point : <span class="text-info">@ViewBag.ActiveCollectionPoint </span></strong>
             </div>
             <div class="card-body">
-
                 @if (ViewBag.PendingCPR)
                 {
-                    <h4>Pending Collection Point Request</h4>
+
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-map-marker fa-3x"></i><br /> Pending Collection Point Request </h5><br />
+
 
 
                     foreach (var item in ViewBag.PendingCollectionPoints)
                     {
-                        <h5>@item.CpName</h5>
-                        <h5>@item.CpLocation</h5>
-                        <h5>Waiting for Approval from Clerk</h5>
-                        <hr />
+                        <h5>Location Name : @item.CpName</h5><br />
+                        <h5>Location : @item.CpLocation</h5>
+                        <br />
+
+                        <div id="map_populate" style="width:100%; height:200px;"></div>
+                        <br />
+                        <div class="card-text text-sm-right">
+                            <a href="@Url.Action("CancelCollectionPoint", "HOD", new { id = item.DeptCpID })" class="btn btn-outline-danger">Cancel Request</a>
+                        </div>
                     }
+
+                    double lat = 21.9874;
+                    double lng = 96.0932;
+
+                    <script type="text/javascript">
+                    window.onload = function () {
+                        initMap(@lat, @lng );
+                    };
+                    </script>
 
                 }
 
                 else
                 {
-                    <h4>Change Collection Point</h4>
+
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-map-marker fa-3x"></i><br /> Change Collection Point </h5><br />
+
 
                     <form asp-action="CollectionPoint" asp-controller="HOD" method="post">
                         <div class="form-check">
@@ -71,21 +84,46 @@
                                                value="@item.Code" class="ifrm-check-input"> @item.Value
                                         </label>
                                     </div>
+                                    <br />
                                 }
-                            <input type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30" value="Change Collection Point">
+                            <br />
+                            <input type="Submit" class="btn btn-outline-info m-b-30 m-t-30 pull-right" value="Change Collection Point">
                         </div>
+
                     </form>
                 }
-
-
             </div>
         </div>
 
-
-
     </div>
 </div>
-
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9_QAjl1wb52bEUzzgmKvAkj1upYQqd-c" type="text/javascript"></script>
+    <script type="text/javascript">
+        var mapcode;
+        var diag;
+        var marker;
+
+        function initMap(lat, lng) {
+            mapcode = new google.maps.Geocoder();
+            var lnt = new google.maps.LatLng(lat, lng);
+            var diagChoice = {
+                zoom: 13,
+                center: lnt,
+                diagId: google.maps.MapTypeId.ROADMAP
+            }
+            diag = new google.maps.Map(document.getElementById('map_populate'), diagChoice);
+
+            mark(lnt);
+
+            function mark(location) {
+                marker = new google.maps.Marker({
+                    map: diag,
+                    draggable: true,
+                    position: location
+                });
+            }
+        }
+        window.onload = initMap;
+    </script>
 }
