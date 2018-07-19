@@ -35,8 +35,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                reqms = APIRequisition.GetAllRequisition(token, out string error);
-
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+                reqms = reqms.Where(p => p.Status >= ConRequisition.Status.APPROVED && p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+                 
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -76,15 +77,74 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel um = GetUser();
-
+            string error = "";
             RequisitionModel reqm = new RequisitionModel();
+
+            ViewBag.Pending = "btn-danger";
+            ViewBag.Preparing = "btn-danger";
+            ViewBag.Ready = "btn-danger";
+            ViewBag.Collected = "btn-danger";
+            ViewBag.Track = "";
+
             try
             {
-                reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+                if(reqm.Depid != um.Deptid)
+                {
+                    error = "You don't have authority to view this requisition";
+                }
+                switch(reqm.Status)
+                {
+                    case ConRequisition.Status.REQUESTPENDING:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
+                    case ConRequisition.Status.PREPARING:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-warning";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Preparing Items";
+
+                        break;
+                    case ConRequisition.Status.DELIVERED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-warning";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Ready to Collect";
+
+                        break;
+                    case ConRequisition.Status.OUTSTANDINGREQUISITION:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-warning";
+                        ViewBag.Track = "Completed";
+
+                        break;
+                    case ConRequisition.Status.COMPLETED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-success";
+                        ViewBag.Track = "Completed";
+                        break;
+                    default:
+                        break;
+                }
+
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            if(error != "")
+            {
+                return RedirectToAction("Index", "Error", new { error });
             }
             return View(reqm);
         }
