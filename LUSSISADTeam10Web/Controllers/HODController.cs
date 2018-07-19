@@ -31,8 +31,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                reqms = APIRequisition.GetAllRequisition(token, out string error);
-
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+                reqms = reqms.Where(p => p.Status >= ConRequisition.Status.APPROVED && p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+                 
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -72,15 +73,19 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel um = GetUser();
-
+            string error = "";
             RequisitionModel reqm = new RequisitionModel();
             try
             {
-                reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            if(error != "")
+            {
+                return RedirectToAction("Index", "Error", new { error });
             }
             return View(reqm);
         }
