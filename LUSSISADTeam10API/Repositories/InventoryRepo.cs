@@ -32,10 +32,21 @@ namespace LUSSISADTeam10API.Repositories
 
                 List<OutstandingItem> outs = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
 
-                if(error == "" && outs != null)
+                if (error == "" && outs != null)
                 {
-                    OutstandingItem outItem = outs.Where(p => p.ItemId == inv.itemid).First<OutstandingItem>();
-                    recommededorderqty += outItem.Total;
+                    try
+                    {
+                        int itemlist = outs.Where(p => p.ItemId == inv.itemid).Count<OutstandingItem>();
+                        if(itemlist > 0)
+                        {
+                            OutstandingItem outItem = outs.Where(p => p.ItemId == inv.itemid).FirstOrDefault<OutstandingItem>();
+                            recommededorderqty += outItem.Total;
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        error = e.Message;
+                    }
                 }
             }
             InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty);
