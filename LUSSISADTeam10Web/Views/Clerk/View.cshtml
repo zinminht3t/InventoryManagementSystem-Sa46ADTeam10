@@ -1,0 +1,75 @@
+﻿@model LUSSISADTeam10Web.Models.APIModels.DepartmentCollectionPointModel
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<div>
+    <h4>DepartmentCollectionPointModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptCpID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptCpID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CpID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CpID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CpName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CpName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CpLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CpLocation)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

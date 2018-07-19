@@ -12,7 +12,7 @@ namespace LUSSISADTeam10API.Repositories
     public static class UserRepo
     {
 
-        private static UserModel CovertDBUsertoAPIUser(user user)
+        public static UserModel CovertDBUsertoAPIUser(user user)
         {
             UserModel um = new UserModel(user.userid, user.username, user.email, user.password, user.role, user.fullname, user.deptid, user.department.deptname);
             return um;

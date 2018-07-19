@@ -189,13 +189,13 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the lockercollectionpoint by lockerid 
-                lcp = entities.lockercollectionpoints.Where(p => p.lockerid == lcpm.lockerid).First<lockercollectionpoint>();
+                lcp = entities.lockercollectionpoints.Where(p => p.lockerid == lcpm.Lockerid).First<lockercollectionpoint>();
 
                 // transfering data from API model to DB Model
-                lcp.lockername = lcpm.lockername;
-                lcp.lockersize = lcpm.lockersize;
-                lcp.cpid = lcpm.cpid;
-                lcp.status = lcpm.status;
+                lcp.lockername = lcpm.Lockername;
+                lcp.lockersize = lcpm.Lockersize;
+                lcp.cpid = lcpm.Cpid;
+                lcp.status = lcpm.Status;
 
                 // saving the update
                 entities.SaveChanges();
@@ -226,10 +226,10 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // transfering data from API model to DB Model
-                lcp.lockername = lcpm.lockername;
-                lcp.lockersize = lcpm.lockersize;
-                lcp.cpid = lcpm.cpid;
-                lcp.status = lcpm.status;
+                lcp.lockername = lcpm.Lockername;
+                lcp.lockersize = lcpm.Lockersize;
+                lcp.cpid = lcpm.Cpid;
+                lcp.status = lcpm.Status;
                 //Add the updated data to DB Model
                 lcp = entities.lockercollectionpoints.Add(lcp);
                 // saving the update

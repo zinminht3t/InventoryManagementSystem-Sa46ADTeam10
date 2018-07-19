@@ -43,7 +43,7 @@ namespace LUSSISADTeam10Web.API
         }
         public static DepartmentCollectionPointModel GetDepartmentCollectionPointByDcpid(string token, int dcpid, out string error)
         {
-            string url = APIHelper.Baseurl + "/departmentcollection/" + dcpid;
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/" + dcpid;
             DepartmentCollectionPointModel dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, url, out error);
             return dcpm;
         }

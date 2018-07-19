@@ -217,7 +217,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateRequisitionwithDetails(RequisitionModel reqm)
         {
             string error = "";
-            RequisitionModel req = RequisitionRepo.CreateRequisitionwithDetails(reqm, reqm.requisitiondetails, out error);
+            RequisitionModel req = RequisitionRepo.CreateRequisitionwithDetails(reqm, reqm.Requisitiondetails, out error);
             if (error != "" || req == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
@@ -270,28 +270,40 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
 
-            po = RequisitionRepo.GetRequisitionByRequisitionId(po.reqid, out error);
+            po = RequisitionRepo.GetRequisitionByRequisitionId(po.Reqid, out error);
 
             // if the staff has already updated the status to "preparing"
-            if (po.status == ConRequisition.Status.PREPARING)
+            if (po.Status == ConRequisition.Status.PREPARING)
             {
                 return Ok(po);
             }
-            po.status = ConRequisition.Status.PREPARING;
+            po.Status = ConRequisition.Status.PREPARING;
 
-            List<RequisitionDetailsModel> podms = RequisitionDetailsRepo.GetRequisitionDetailsByRequisitionId(po.reqid, out error);
+            List<RequisitionDetailsModel> podms = RequisitionDetailsRepo.GetRequisitionDetailsByRequisitionId(po.Reqid, out error);
 
             // if the requisiton preparing is completed, the stock must be updated according to  qty.
             foreach (RequisitionDetailsModel podm in podms)
             {
                 // get the inventory using the item id from Requisition details
-                InventoryModel invm = InventoryRepo.GetInventoryByItemid(podm.itemid, out error);
+                InventoryModel invm = InventoryRepo.GetInventoryByItemid(podm.Itemid, out error);
 
                 // subtract  the stock accoring to  qty
-                invm.Stock -= podm.qty;
+                invm.Stock -= podm.Qty;
 
                 // update the inventory
                 invm = InventoryRepo.UpdateInventory(invm, out error);
+
+
+                InventoryTransactionModel invtm = new InventoryTransactionModel
+                {
+                    InvID = invm.Invid,
+                    ItemID = invm.Itemid,
+                    Qty = invm.Stock,
+                    TransType = ConInventoryTransaction.TransType.DISBURSEMENT,
+                    TransDate = DateTime.Now,
+                    Remark = podm.Reqid.ToString()
+                };
+                invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
             }
 
             // updating the status

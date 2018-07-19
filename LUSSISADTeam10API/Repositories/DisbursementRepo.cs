@@ -18,7 +18,7 @@ namespace LUSSISADTeam10API.Repositories
             List<DisbursementDetailsModel> reqdm = new List<DisbursementDetailsModel>();
             foreach (disbursementdetail rqdm in disb.disbursementdetails)
             {
-                reqdm.Add(new DisbursementDetailsModel(rqdm.disid, rqdm.itemid, rqdm.item.description, rqdm.qty));
+                reqdm.Add(new DisbursementDetailsModel(rqdm.disid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
             }
             DisbursementModel reqm = new DisbursementModel(disb.disid , disb.reqid , disb.ackby , disb.requisition.reqdate ,
                 disb.requisition.status, disb.requisition.collectionpoint.cpname, disb.user.username , 
@@ -219,8 +219,8 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 //add the data to the disbursement  database
-                disb.reqid = dism.reqid;
-                disb.ackby = dism.ackby;
+                disb.reqid = dism.Reqid;
+                disb.ackby = dism.Ackby;
                 disb = entities.disbursements.Add(disb);
                 entities.SaveChanges();
                 //get the newly added disbursement 
@@ -249,12 +249,12 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the inventory object using Inventory API model
-                ndism = entities.disbursements.Where(p => p.disid == dism.disid).First<disbursement>();
+                ndism = entities.disbursements.Where(p => p.disid == dism.Disid).First<disbursement>();
 
                 // transfering data from API model to DB Model
-                ndism.disid = dism.disid;
-                ndism.reqid = dism.reqid;
-                ndism.ackby = dism.ackby;
+                ndism.disid = dism.Disid;
+                ndism.reqid = dism.Reqid;
+                ndism.ackby = dism.Ackby;
               
                 // saving the update
                 entities.SaveChanges();
@@ -287,8 +287,8 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // add the data to the disbursement 
-                dis.reqid = disb.reqid;
-                dis.ackby = disb.ackby;
+                dis.reqid = disb.Reqid;
+                dis.ackby = disb.Ackby;
                 dis = entities.disbursements.Add(dis);
                 entities.SaveChanges();
                 // add the arrary data to the disbursement details list
@@ -297,8 +297,8 @@ namespace LUSSISADTeam10API.Repositories
                     disbursementdetail dbm = new disbursementdetail
                     {
                         disid = dis.disid,
-                        itemid= dbdm.itemid,
-                        qty = dbdm.qty
+                        itemid= dbdm.Itemid,
+                        qty = dbdm.Qty
                        
                     };
                     dbm = entities.disbursementdetails.Add(dbm);

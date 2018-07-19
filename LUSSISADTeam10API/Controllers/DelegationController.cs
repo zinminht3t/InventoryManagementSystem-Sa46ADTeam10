@@ -8,6 +8,7 @@ using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Repositories;
 using LUSSISADTeam10API.Constants;
+using LUSSISADTeam10API.Models;
 
 namespace LUSSISADTeam10API.Controllers
 {
@@ -126,7 +127,24 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dele);
         }
 
-     
+        // to search  previous delegation
+        [HttpGet]
+        [Route("api/delegation/search/{depid}")]
+        public IHttpActionResult SearchPreviousDelegationwithdepid(int depid)
+        {
+            string error = "";
+            DelegationModel dele = DelegationRepo.SearchPreviousDelegation(depid, out error);
+            if (error != "" || dele == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Delegation Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dele);
+        }
+
 
 
 
