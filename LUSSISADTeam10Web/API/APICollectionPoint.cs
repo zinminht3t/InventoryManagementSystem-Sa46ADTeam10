@@ -81,7 +81,7 @@ namespace LUSSISADTeam10Web.API
         public static DepartmentCollectionPointModel ConfirmDepartmentCollectionPoint(string token, DepartmentCollectionPointModel dcpm, out string error)
         {
             error = "";
-            string url = APIHelper.Baseurl + "/departmentcollectionpoint/update";
+            string url = APIHelper.Baseurl + "/departmentcollectionpoint/confirm";
             string objectstring = JsonConvert.SerializeObject(dcpm);
             dcpm = APIHelper.Execute<DepartmentCollectionPointModel>(token, objectstring, url, out error);
             return dcpm;
