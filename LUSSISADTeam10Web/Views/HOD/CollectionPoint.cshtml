@@ -55,14 +55,7 @@
                         </div>
                     }
 
-                    double lat = 21.9874;
-                    double lng = 96.0932;
 
-                    <script type="text/javascript">
-                    window.onload = function () {
-                        initMap(@lat, @lng );
-                    };
-                    </script>
 
                 }
 
@@ -77,11 +70,11 @@
                             @foreach (var item in ViewBag.CollectionPointsList)
                             {
                                 <div class="radio">
-                                    <label for="@item.Code" class="form-check-label ">
-                                        <input asp-for="SelectedRole" type="radio" id="@item.Code" name="id"
-                                               @if (item.Value == ViewBag.ActiveCollectionPoint) { @: checked
+                                    <label for="@item.Cpid" class="form-check-label ">
+                                        <input asp-for="SelectedRole" type="radio" id="@item.Cpid" name="id"
+                                               @if (item.Cpname == ViewBag.ActiveCollectionPoint) { @: checked
                                                }
-                                               value="@item.Code" class="ifrm-check-input"> @item.Value
+                                               value="@item.Cpid" class="ifrm-check-input"> @item.Cpname
                                         </label>
                                     </div>
                                     <br />
@@ -104,6 +97,8 @@
         var diag;
         var marker;
 
+        var lat = 21.9874;
+        var lng = 96.0932;
         function initMap(lat, lng) {
             mapcode = new google.maps.Geocoder();
             var lnt = new google.maps.LatLng(lat, lng);
