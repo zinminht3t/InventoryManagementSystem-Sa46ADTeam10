@@ -219,6 +219,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1457,10 +1458,11 @@
     <Content Include="Views\HOD\RequisitionDetail.cshtml" />
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
+    <Content Include="Views\Clerk\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Clerk\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Employee\" />
     <Folder Include="Models\Home\" />
