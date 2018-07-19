@@ -193,7 +193,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.startdate = dele.startdate;
                 d.enddate = dele.enddate;
                 d.userid = dele.userid;
-                d.active = dele.active;
+                d.active = ConDelegation.Active.ACTIVE;
                 d.assignedby = dele.assignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
@@ -248,5 +248,64 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
+
+
+ 
+        //search the previous delegation with userlist
+        public static DelegationModel SearchPreviousDelegation(int deptid , out string error)
+        {
+
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            List<department> dept = new List<department>();
+            List<user> ums = new List<user>();
+            List<UserModel> urm = new List<UserModel>();
+            try
+            {
+                ums = entities.users.Where(p => p.deptid == deptid && p.role != ConUser.Role.HOD).ToList<user>();
+                foreach (user u in ums)
+                {
+                    urm.Add(UserRepo.CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+
+            delegation d = new delegation();
+            DelegationModel ndel = new DelegationModel();
+            try
+            {
+                foreach (UserModel um in urm)
+                {
+                    List< DelegationModel> delee = GetDelegationByUserId(um.Userid , out error);
+                        
+                    foreach(DelegationModel dm in delee)
+                    {
+                        if (dm.active == ConDelegation.Active.ACTIVE) {
+                            ndel = dm ;
+                        }
+
+
+                    }
+
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return ndel;
+        }
     }
 }
