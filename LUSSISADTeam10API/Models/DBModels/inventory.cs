@@ -22,7 +22,7 @@ namespace LUSSISADTeam10API.Models.DBModels
     
         public int invid { get; set; }
         public int itemid { get; set; }
-        public Nullable<int> stock { get; set; }
+        public int stock { get; set; }
         public Nullable<int> reorderlevel { get; set; }
         public Nullable<int> reorderqty { get; set; }
     

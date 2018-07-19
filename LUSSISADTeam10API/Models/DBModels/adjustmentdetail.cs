@@ -16,7 +16,7 @@ namespace LUSSISADTeam10API.Models.DBModels
     {
         public int adjid { get; set; }
         public int itemid { get; set; }
-        public Nullable<int> adjustedqty { get; set; }
+        public int adjustedqty { get; set; }
         public string reason { get; set; }
     
         public virtual adjustment adjustment { get; set; }

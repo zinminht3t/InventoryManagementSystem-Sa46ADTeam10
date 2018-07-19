@@ -22,7 +22,7 @@
           </Key>
           <Property Name="adjid" Type="int" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
-          <Property Name="adjustedqty" Type="int" />
+          <Property Name="adjustedqty" Type="int" Nullable="false" />
           <Property Name="reason" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="category">
@@ -97,7 +97,7 @@
           </Key>
           <Property Name="invid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
-          <Property Name="stock" Type="int" />
+          <Property Name="stock" Type="int" Nullable="false" />
           <Property Name="reorderlevel" Type="int" />
           <Property Name="reorderqty" Type="int" />
         </EntityType>
@@ -180,7 +180,7 @@
           <Property Name="poid" Type="int" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
           <Property Name="qty" Type="int" Nullable="false" />
-          <Property Name="delivqty" Type="int" />
+          <Property Name="delivqty" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="requisition">
           <Key>
@@ -841,7 +841,7 @@
           </Key>
           <Property Name="adjid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
-          <Property Name="adjustedqty" Type="Int32" />
+          <Property Name="adjustedqty" Type="Int32" Nullable="false" />
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="adjustment" Relationship="Self.FK_adjustmentdetail_adjustment" FromRole="adjustmentdetail" ToRole="adjustment" />
           <NavigationProperty Name="item" Relationship="Self.FK_adjustmentdetail_item" FromRole="adjustmentdetail" ToRole="item" />
@@ -935,7 +935,7 @@
           </Key>
           <Property Name="invid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
-          <Property Name="stock" Type="Int32" />
+          <Property Name="stock" Type="Int32" Nullable="false" />
           <Property Name="reorderlevel" Type="Int32" />
           <Property Name="reorderqty" Type="Int32" />
           <NavigationProperty Name="item" Relationship="Self.FK_inventory_item" FromRole="inventory" ToRole="item" />
@@ -1040,7 +1040,7 @@
           <Property Name="poid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
           <Property Name="qty" Type="Int32" Nullable="false" />
-          <Property Name="delivqty" Type="Int32" />
+          <Property Name="delivqty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="item" Relationship="Self.FK_purchaseorderdetail_item1" FromRole="purchaseorderdetail" ToRole="item" />
           <NavigationProperty Name="purchaseorder" Relationship="Self.FK_purchaseorderdetail_purchaseorder" FromRole="purchaseorderdetail" ToRole="purchaseorder" />
         </EntityType>

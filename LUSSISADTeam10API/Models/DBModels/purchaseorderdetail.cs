@@ -17,7 +17,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public int poid { get; set; }
         public int itemid { get; set; }
         public int qty { get; set; }
-        public Nullable<int> delivqty { get; set; }
+        public int delivqty { get; set; }
     
         public virtual item item { get; set; }
         public virtual purchaseorder purchaseorder { get; set; }
