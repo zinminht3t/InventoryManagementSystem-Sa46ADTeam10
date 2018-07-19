@@ -186,6 +186,23 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(cpms);
         }
+        public ActionResult CancelCollectionPoint(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            try
+            {
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+                dcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
+                dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("CollectionPoint");
+        }
         public ActionResult RequisitionDetail(int id)
         {
             string token = GetToken();
@@ -226,7 +243,6 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = new UserModel();
             return View();
         }
-
         public ActionResult SearchPreviousDelegation()
         {
 
@@ -250,7 +266,6 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(reqms);
         }
-
         public ActionResult CancelDelegation(int id)
         {
             string token = GetToken();
@@ -276,7 +291,6 @@ namespace LUSSISADTeam10Web.Controllers
 
             return RedirectToAction("SearchPreviousDelegation");
         }
-
         public ActionResult CreateDelegationList() {
 
             string token = GetToken();
@@ -346,12 +360,13 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
-            reqm.Status = ConRequisition.Status.APPROVED;
 
             reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
 
             try
             {
+                reqm.Status = ConRequisition.Status.APPROVED;
+
                 if (!viewmodel.Approve)
                 {
                     reqm.Status = ConRequisition.Status.REJECTED;
