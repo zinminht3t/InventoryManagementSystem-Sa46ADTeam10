@@ -225,6 +225,7 @@
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
+    <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

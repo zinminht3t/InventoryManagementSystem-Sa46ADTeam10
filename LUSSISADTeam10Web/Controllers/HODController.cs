@@ -175,7 +175,7 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel reqms = new DelegationModel();
             try
             {
-                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid , out string error);
+                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
 
 
                 if (error != "")
@@ -195,8 +195,9 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel um = GetUser();
-            
-            if (id != 0) {
+
+            if (id != 0)
+            {
                 try
                 {
 
@@ -206,26 +207,28 @@ namespace LUSSISADTeam10Web.Controllers
                     if (error != "")
                     {
                         return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
-                   }
-                } 
-            catch (Exception ex)
-            {
-                return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                }
             }
-        }
 
             return RedirectToAction("SearchPreviousDelegation");
         }
 
-        public ActionResult CreateDelegationList() {
+        public ActionResult CreateDelegationList( )
+        {
 
             string token = GetToken();
             UserModel um = GetUser();
             List<UserModel> newum = new List<UserModel>();
+            CreateDelegationViewModel viewModel = new CreateDelegationViewModel();
             try
             {
-                newum = APIUser.GetUsersForHOD(um.Deptid , token,  out string error);
-
+                newum = APIUser.GetUsersForHOD(um.Deptid, token, out string error);
+                ViewBag.userlist = newum;
 
                 if (error != "")
                 {
@@ -237,24 +240,9 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return View(newum);
+            return View(viewModel);
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         #endregion
 
@@ -309,25 +297,53 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-
         }
-        #endregion
 
-        #region Utilities
-        public string GetToken()
+        [HttpPost]
+        public ActionResult CreateNewDelegation(CreateDelegationViewModel viewmodel)
         {
-            string token = "";
-            token = (string)Session["token"];
-            return token;
-        }
-        public UserModel GetUser()
-        {
-            UserModel um = new UserModel();
-            um = (UserModel)Session["user"];
-            return um;
-        }
-        #endregion
+            
+            string token = GetToken();
+            UserModel um = GetUser();
+            viewmodel.assignedby = um.Userid;
+            DelegationModel dm = new DelegationModel();
 
+            dm.Userid = viewmodel.Userid;
+            dm.Enddate = viewmodel.EndDate;
+            dm.Startdate = viewmodel.StartDate;
+            dm.AssignedbyId = viewmodel.assignedby;
 
+            try
+            {
+                if (viewmodel != null)
+                {
+                    APIDelegation.CancelDelegation(token, dm , out string error);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("SearchPreviousDelegation");
+        }
+   
+    #endregion
+
+    #region Utilities
+    public string GetToken()
+    {
+        string token = "";
+        token = (string)Session["token"];
+        return token;
     }
+    public UserModel GetUser()
+    {
+        UserModel um = new UserModel();
+        um = (UserModel)Session["user"];
+        return um;
+    }
+    #endregion
+
 }
+} 
