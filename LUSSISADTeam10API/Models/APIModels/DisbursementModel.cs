@@ -10,32 +10,32 @@ namespace LUSSISADTeam10API.Models.APIModels
         public DisbursementModel(int disid, int reqid, int ackby, DateTime? reqdate,
             int status, String cpname, String username, String Departmentname, List<DisbursementDetailsModel> dbm )
         {
-            this.disid = disid;
-            this.reqid = reqid;
-            this.ackby = ackby;
-            this.reqdate = reqdate;
-            this.status = status;
-            this.cpname = cpname;
-            this.username = username;
+            this.Disid = disid;
+            this.Reqid = reqid;
+            this.Ackby = ackby;
+            this.Reqdate = reqdate;
+            this.Status = status;
+            this.Cpname = cpname;
+            this.Username = username;
             this.Departmentname = Departmentname;
-            this.disbursementlist = dbm;
+            this.Disbursementlist = dbm;
 
         }
         public DisbursementModel() : this(0, 0, 0, null ,0,"","","",null)
         {
         }
 
-        public int disid { get; set; }
-        public int reqid { get; set; }
-        public int status { get; set; }
+        public int Disid { get; set; }
+        public int Reqid { get; set; }
+        public int Status { get; set; }
         
-        public int ackby { get; set; }
-        public String username { get; set; }
+        public int Ackby { get; set; }
+        public String Username { get; set; }
         public String Departmentname { get; set; }
-        public String cpname { get; set; }
-        public DateTime? reqdate { get; set; }
+        public String Cpname { get; set; }
+        public DateTime? Reqdate { get; set; }
 
-        public List<DisbursementDetailsModel> disbursementlist { get; set; }
+        public List<DisbursementDetailsModel> Disbursementlist { get; set; }
 
 
 

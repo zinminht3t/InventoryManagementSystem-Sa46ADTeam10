@@ -95,10 +95,10 @@ namespace LUSSISADTeam10API.Repositories
             category ca = new category();
             try
             {
-                ca = entities.categories.Where(c => c.catid == cat.catid).First<category>();
-                ca.name = cat.name;
-                ca.shelflocation = cat.shelflocation;
-                ca.shelflevel = cat.shelflevel;
+                ca = entities.categories.Where(c => c.catid == cat.Catid).First<category>();
+                ca.name = cat.Name;
+                ca.shelflocation = cat.Shelflocation;
+                ca.shelflevel = cat.Shelflevel;
                 entities.SaveChanges();
                 cat = ConvertDBCategorytoAPICategory(ca);
             }
@@ -120,9 +120,9 @@ namespace LUSSISADTeam10API.Repositories
             category c = new category();            
             try
             {               
-                c.name = cat.name;
-                c.shelflocation = cat.shelflocation;
-                c.shelflevel = cat.shelflevel;
+                c.name = cat.Name;
+                c.shelflocation = cat.Shelflocation;
+                c.shelflevel = cat.Shelflevel;
                 c = entities.categories.Add(c);
                 entities.SaveChanges();
                 cat = ConvertDBCategorytoAPICategory(c);

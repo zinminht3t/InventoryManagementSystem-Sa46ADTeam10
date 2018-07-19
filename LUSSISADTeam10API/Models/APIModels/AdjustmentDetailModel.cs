@@ -9,19 +9,19 @@ namespace LUSSISADTeam10API.Models.APIModels
     {
         public AdjustmentDetailModel(int adjid, int itemid, string itemdescription, int? adjustedqty, string reason)
         {
-            this.adjid = adjid;
-            this.itemid = itemid;
-            this.itemdescription = itemdescription;
-            this.adjustedqty = adjustedqty;
-            this.reason = reason;
+            this.Adjid = adjid;
+            this.Itemid = itemid;
+            this.Itemdescription = itemdescription;
+            this.Adjustedqty = adjustedqty;
+            this.Reason = reason;
         }
         public AdjustmentDetailModel(): this(0, 0,"", 0, "")
         {
         }
-        public int adjid { get; set; }
-        public int itemid { get; set; }
-        public string itemdescription { get; set; }
-        public int? adjustedqty { get; set; }
-        public string reason { get; set; }
+        public int Adjid { get; set; }
+        public int Itemid { get; set; }
+        public string Itemdescription { get; set; }
+        public int? Adjustedqty { get; set; }
+        public string Reason { get; set; }
     }
 }

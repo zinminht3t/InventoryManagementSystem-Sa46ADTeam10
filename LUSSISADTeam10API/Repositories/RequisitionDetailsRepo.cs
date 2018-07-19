@@ -137,9 +137,9 @@ namespace LUSSISADTeam10API.Repositories
             requisitiondetail reqdn = new requisitiondetail();
             try
             {
-                reqdn.reqid = reqd.reqid;
-                reqdn.itemid = reqd.itemid;
-                reqdn.qty = reqd.qty;
+                reqdn.reqid = reqd.Reqid;
+                reqdn.itemid = reqd.Itemid;
+                reqdn.qty = reqd.Qty;
 
                 reqdn = entities.requisitiondetails.Add(reqdn);
                 entities.SaveChanges();
@@ -165,12 +165,12 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the inventory object using Inventory API model
-                reqd = entities.requisitiondetails.Where(p => p.reqid == reqdm.reqid && p.itemid == reqdm.itemid).FirstOrDefault<requisitiondetail>();
+                reqd = entities.requisitiondetails.Where(p => p.reqid == reqdm.Reqid && p.itemid == reqdm.Itemid).FirstOrDefault<requisitiondetail>();
 
                 // transfering data from API model to DB Model
-                reqd.reqid = reqdm.reqid;
-                reqd.itemid = reqdm.itemid;
-                reqd.qty = reqdm.qty;
+                reqd.reqid = reqdm.Reqid;
+                reqd.itemid = reqdm.Itemid;
+                reqd.qty = reqdm.Qty;
           
                 // saving the update
                 entities.SaveChanges();

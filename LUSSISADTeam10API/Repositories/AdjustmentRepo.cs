@@ -220,16 +220,16 @@ namespace LUSSISADTeam10API.Repositories
             adjustment adj = new adjustment();
             try
             {
-                adj.raisedby = adjm.raisedby;               
-                adj.issueddate = adjm.issueddate;
+                adj.raisedby = adjm.Raisedby;               
+                adj.issueddate = adjm.Issueddate;
                 adj.status = ConAdjustment.Active.PENDING;
-                List<AdjustmentDetailModel> adjds = adjm.adjds;
+                List<AdjustmentDetailModel> adjds = adjm.Adjds;
                
                 //check item price
                 foreach (AdjustmentDetailModel adjd in adjds)
                 {
-                    SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.itemid, out error);
-                    double? price = Math.Abs((Int32)adjd.adjustedqty) * supp.Price;
+                    SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.Itemid, out error);
+                    double? price = Math.Abs((Int32)adjd.Adjustedqty) * supp.Price;
                     if (price >= (double?)250)
                     {
                         user user = entities.users.Where(u => u.role == ConUser.Role.MANAGER).First();
@@ -250,9 +250,9 @@ namespace LUSSISADTeam10API.Repositories
                     adjustmentdetail adjd = new adjustmentdetail
                     {
                         adjid = adj.adjid,
-                        itemid = adjdm.itemid,
-                        adjustedqty = adjdm.adjustedqty,
-                        reason = adjdm.reason
+                        itemid = adjdm.Itemid,
+                        adjustedqty = adjdm.Adjustedqty,
+                        reason = adjdm.Reason
                     };
                     adjd = entities.adjustmentdetails.Add(adjd);
                     entities.SaveChanges();  
@@ -278,19 +278,19 @@ namespace LUSSISADTeam10API.Repositories
             adjustment adj = new adjustment();
              try
             {
-                adj = entities.adjustments.Where(a => a.adjid == adjm.adjid).First<adjustment>();
-                adj.raisedby = adjm.raisedby;
-                adj.raisedto = adjm.raisedto;
-                adj.issueddate = adjm.issueddate;
-                adj.status = adjm.status;
+                adj = entities.adjustments.Where(a => a.adjid == adjm.Adjid).First<adjustment>();
+                adj.raisedby = adjm.Raisedby;
+                adj.raisedto = adjm.Raisedto;
+                adj.issueddate = adjm.Issueddate;
+                adj.status = adjm.Status;
                 if (adj.status == ConAdjustment.Active.APPROVED)
                 {;
                     List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
                     foreach(AdjustmentDetailModel adjustd in adjustds)
                     {
-                        InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.itemid, out error);
+                        InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.Itemid, out error);
                         inventory invent = entities.inventories.Where(i => i.invid == inventm.Invid).First<inventory>();
-                        invent.stock += adjustd.adjustedqty;
+                        invent.stock += adjustd.Adjustedqty;
                     }                    
                 }
                 

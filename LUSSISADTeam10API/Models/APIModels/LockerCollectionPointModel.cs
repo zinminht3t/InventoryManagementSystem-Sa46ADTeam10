@@ -12,12 +12,12 @@ namespace LUSSISADTeam10API.Models.APIModels
     {
         public LockerCollectionPointModel(int lockerid, string lockername, string lockersize,int cpid,int status,string cpname)
         {
-            this.lockerid = lockerid;
-            this.lockername = lockername;
-            this.lockersize = lockersize;
-            this.cpid = cpid;
-            this.status = status;
-            this.cpname = cpname;
+            this.Lockerid = lockerid;
+            this.Lockername = lockername;
+            this.Lockersize = lockersize;
+            this.Cpid = cpid;
+            this.Status = status;
+            this.Cpname = cpname;
           
                  
            
@@ -28,17 +28,17 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         }
 
-        public int lockerid { get; set; }
+        public int Lockerid { get; set; }
 
-        public string lockername { get; set; }
+        public string Lockername { get; set; }
 
-        public string lockersize { get; set; }
+        public string Lockersize { get; set; }
 
-        public int cpid { get; set; }
+        public int Cpid { get; set; }
 
-        public int status { get; set; }
+        public int Status { get; set; }
 
-        public string cpname { get; set; }
+        public string Cpname { get; set; }
 
         
     }

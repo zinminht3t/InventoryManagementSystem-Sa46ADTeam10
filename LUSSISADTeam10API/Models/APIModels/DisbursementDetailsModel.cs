@@ -8,10 +8,10 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class DisbursementDetailsModel
     {
         public DisbursementDetailsModel(int disid , int itemid ,String itemname , int qty  ) {
-            this.disid = disid;
-            this.itemid = itemid;
-            this.itemname = itemname;
-            this.qty = qty;
+            this.Disid = disid;
+            this.Itemid = itemid;
+            this.Itemname = itemname;
+            this.Qty = qty;
 
 
         }
@@ -19,10 +19,10 @@ namespace LUSSISADTeam10API.Models.APIModels
         {
         }
 
-        public int disid { get; set;}
-        public int itemid { get; set; }
-        public String itemname { get; set; }
-        public int qty { get; set; }
+        public int Disid { get; set;}
+        public int Itemid { get; set; }
+        public String Itemname { get; set; }
+        public int Qty { get; set; }
 
 
 

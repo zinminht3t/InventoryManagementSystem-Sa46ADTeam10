@@ -188,7 +188,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateRequisitionwithDetails(DisbursementModel dism)
         {
             string error = "";
-            DisbursementModel dis = DisbursementRepo.CreateDisbursementwithDetails(dism, dism.disbursementlist, out error);
+            DisbursementModel dis = DisbursementRepo.CreateDisbursementwithDetails(dism, dism.Disbursementlist, out error);
             if (error != "" || dis == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);

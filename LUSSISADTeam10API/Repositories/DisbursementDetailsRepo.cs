@@ -137,9 +137,9 @@ namespace LUSSISADTeam10API.Repositories
            
             try
             {
-                disdb.disid = disdm.disid;
-                disdb.itemid = disdm.itemid;
-                disdb.qty = disdm.qty;
+                disdb.disid = disdm.Disid;
+                disdb.itemid = disdm.Itemid;
+                disdb.qty = disdm.Qty;
                 disdb = entities.disbursementdetails.Add(disdb);
                 entities.SaveChanges();
              
@@ -166,12 +166,12 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the inventory object using Inventory API model
-                ndism = entities.disbursementdetails.Where(p => p.disid == dism.disid && p.itemid == dism.itemid).First<disbursementdetail>();
+                ndism = entities.disbursementdetails.Where(p => p.disid == dism.Disid && p.itemid == dism.Itemid).First<disbursementdetail>();
 
                 // transfering data from API model to DB Model
-                ndism.disid = dism.disid;
-                ndism.itemid = dism.itemid;
-                ndism.qty = dism.qty;
+                ndism.disid = dism.Disid;
+                ndism.itemid = dism.Itemid;
+                ndism.qty = dism.Qty;
 
                 // saving the update
                 entities.SaveChanges();

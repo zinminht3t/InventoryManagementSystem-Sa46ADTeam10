@@ -164,13 +164,13 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the department object using Department API model
-                d = entities.departments.Where(p => p.deptid == dm.deptid).First<department>();
+                d = entities.departments.Where(p => p.deptid == dm.Deptid).First<department>();
 
                 // transfering data from API model to DB Model
-                d.deptname = dm.deptname;
-                d.deptcontactname = dm.deptcontactname;
-                d.deptphone = dm.deptphone;
-                d.deptemail = dm.deptemail;
+                d.deptname = dm.Deptname;
+                d.deptcontactname = dm.Deptcontactname;
+                d.deptphone = dm.Deptphone;
+                d.deptemail = dm.Deptemail;
 
                 // saving the update
                 entities.SaveChanges();
@@ -195,10 +195,10 @@ namespace LUSSISADTeam10API.Repositories
             department d = new department();
             try
             {
-                d.deptname = dm.deptname;
-                d.deptcontactname = dm.deptcontactname;
-                d.deptphone = dm.deptphone;
-                d.deptemail = dm.deptemail;
+                d.deptname = dm.Deptname;
+                d.deptcontactname = dm.Deptcontactname;
+                d.deptphone = dm.Deptphone;
+                d.deptemail = dm.Deptemail;
                 d = entities.departments.Add(d);
                 entities.SaveChanges();
                 dm = CovertDBDepttoAPIDept(d);
