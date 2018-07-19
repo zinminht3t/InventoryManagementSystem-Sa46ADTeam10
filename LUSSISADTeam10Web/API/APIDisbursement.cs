@@ -1,4 +1,5 @@
-﻿using LUSSISADTeam10Web.Models.APIModels;
+﻿using LUSSISADTeam10API.Models.APIModels;
+using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,6 +106,13 @@ namespace LUSSISADTeam10Web.API
             List<OutstandingItemModel> dbdlist = APIHelper.Execute<List<OutstandingItemModel>>(token, url, out error);
             return dbdlist;
 
+        }
+
+        public static List<BreakdownByDepartmentModel> GetBreakDown (string token,out string error)
+        {
+            string url = APIHelper.Baseurl + "/disbursement/BreakDown/";
+            List<BreakdownByDepartmentModel> bdlist = APIHelper.Execute<List<BreakdownByDepartmentModel>>(token, url, out error);
+            return bdlist;
         }
 
 

@@ -113,6 +113,56 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start Phyo2
 
+        public ActionResult GetOrderRecommndation()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<InventoryDetailModel> inendetail = new List<InventoryDetailModel>();
+
+            try
+            {
+                inendetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(inendetail);
+        }
+
+
+        public ActionResult StationaryRetrievalForm()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<OutstandingItemModel> inendetail = new List<OutstandingItemModel>();
+
+            try
+            {
+                inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(inendetail);
+        }
+
+
         // End Phyo2
 
         #region Utilities
