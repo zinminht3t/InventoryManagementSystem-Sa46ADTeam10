@@ -16,7 +16,7 @@ namespace LUSSISADTeam10API.Repositories
         {
             List<AdjustmentDetailModel> adjdm = new List<AdjustmentDetailModel>();            
             foreach(adjustmentdetail adjd in adj.adjustmentdetails) { 
-             adjdm.Add(new AdjustmentDetailModel(adjd.adjid, adjd.itemid, adjd.item.description, adjd.adjustedqty, adjd.reason));
+             adjdm.Add(new AdjustmentDetailModel(adjd.adjid, adjd.itemid, adjd.item.description, adjd.adjustedqty, adjd.reason, adjd.item.category.name, adjd.item.uom));
             }
             AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate,adj.status, adjdm);
             return adjm;

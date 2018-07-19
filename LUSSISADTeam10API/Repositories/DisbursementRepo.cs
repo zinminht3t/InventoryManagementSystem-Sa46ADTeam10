@@ -18,7 +18,7 @@ namespace LUSSISADTeam10API.Repositories
             List<DisbursementDetailsModel> reqdm = new List<DisbursementDetailsModel>();
             foreach (disbursementdetail rqdm in disb.disbursementdetails)
             {
-                reqdm.Add(new DisbursementDetailsModel(rqdm.disid, rqdm.itemid, rqdm.item.description, rqdm.qty));
+                reqdm.Add(new DisbursementDetailsModel(rqdm.disid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
             }
             DisbursementModel reqm = new DisbursementModel(disb.disid , disb.reqid , disb.ackby , disb.requisition.reqdate ,
                 disb.requisition.status, disb.requisition.collectionpoint.cpname, disb.user.username , 

@@ -16,7 +16,7 @@ namespace LUSSISADTeam10API.Repositories
             List<PurchaseOrderDetailModel> podms = new List<PurchaseOrderDetailModel>();
             foreach (purchaseorderdetail pod in po.purchaseorderdetails)
             {
-                podms.Add(new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty));
+                podms.Add(new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom));
             }
             PurchaseOrderModel pom = new PurchaseOrderModel(po.poid, po.purchasedby, po.user.fullname, po.supid, po.supplier.supname, po.podate, po.status, podms);
             return pom;

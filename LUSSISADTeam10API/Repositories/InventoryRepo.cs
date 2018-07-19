@@ -13,7 +13,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static InventoryModel CovertDBInventorytoAPIInventory(inventory inv)
         {
-            InventoryModel invm = new InventoryModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty);
+            InventoryModel invm = new InventoryModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.category.name, inv.item.uom);
             return invm;
         }
         // Convert From Auto Generated DB Model to APIModel for InventoryDetail
@@ -30,16 +30,16 @@ namespace LUSSISADTeam10API.Repositories
                 // the recommended order qty will be the minimum reorder level and reorder qty and the total qty stock of outstanding req
                 recommededorderqty = (inv.reorderlevel - inv.stock) + inv.reorderqty;
 
-                List<OutstandingItem> outs = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
+                List<OutstandingItemModel> outs = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
 
                 if (error == "" && outs != null)
                 {
                     try
                     {
-                        int itemlist = outs.Where(p => p.ItemId == inv.itemid).Count<OutstandingItem>();
+                        int itemlist = outs.Where(p => p.ItemId == inv.itemid).Count<OutstandingItemModel>();
                         if(itemlist > 0)
                         {
-                            OutstandingItem outItem = outs.Where(p => p.ItemId == inv.itemid).FirstOrDefault<OutstandingItem>();
+                            OutstandingItemModel outItem = outs.Where(p => p.ItemId == inv.itemid).FirstOrDefault<OutstandingItemModel>();
                             recommededorderqty += outItem.Total;
                         }
                     }
