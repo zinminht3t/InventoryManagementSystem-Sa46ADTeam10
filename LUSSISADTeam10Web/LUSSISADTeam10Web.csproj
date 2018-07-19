@@ -179,6 +179,7 @@
     <Compile Include="APIModels\UserModel.cs" />
     <Compile Include="API\APIAccount.cs" />
     <Compile Include="API\APIAdjustment.cs" />
+    <Compile Include="API\APICategory.cs" />
     <Compile Include="API\APICollectionPoint.cs" />
     <Compile Include="API\APIDelegation.cs" />
     <Compile Include="API\APIDepartment.cs" />
