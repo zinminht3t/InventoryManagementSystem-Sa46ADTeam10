@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DisbursementController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\InventoryTransactionController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Models\APIModels\DisbursementModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
+    <Compile Include="Models\APIModels\InventoryTransactionModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
@@ -304,6 +306,7 @@
     <Compile Include="Repositories\DisbursementDetailsRepo.cs" />
     <Compile Include="Repositories\DisbursementRepo.cs" />
     <Compile Include="Repositories\InventoryRepo.cs" />
+    <Compile Include="Repositories\InventoryTransactionRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\NotificationRepo.cs" />
