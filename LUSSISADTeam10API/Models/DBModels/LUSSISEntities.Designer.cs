@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Zin Min Htet\source\repos\project\Lastest\LUSSISADTeam10Web\LUSSISADTeam10API\Models\DBModels\LUSSISEntities.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Zin Min Htet\Source\Repos\Latest\LUSSISADTeam10Web\LUSSISADTeam10API\Models\DBModels\LUSSISEntities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
