@@ -1457,6 +1457,8 @@
     <Content Include="Views\HOD\RequisitionDetail.cshtml" />
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
+    <Content Include="Views\HOD\CreateDelegationList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

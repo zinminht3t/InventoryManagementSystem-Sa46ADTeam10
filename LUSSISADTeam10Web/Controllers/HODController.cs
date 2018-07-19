@@ -172,11 +172,11 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            DelegationModel reqms = new DelegationModel();
             try
             {
-                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.status == ConRequisition.Status.COMPLETED).ToList();
+                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid , out string error);
+
 
                 if (error != "")
                 {
@@ -191,9 +191,54 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqms);
         }
 
+        public ActionResult CancelDelegation(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            
+            if (id != 0) {
+                try
+                {
+
+                    DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
+                    DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
+
+                    if (error != "")
+                    {
+                        return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                   }
+                } 
+            catch (Exception ex)
+            {
+                return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+            }
+        }
+
+            return RedirectToAction("SearchPreviousDelegation");
+        }
+
+        public ActionResult CreateDelegationList() {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<UserModel> newum = new List<UserModel>();
+            try
+            {
+                newum = APIUser.GetUsersForHOD(um.Deptid , token,  out string error);
 
 
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
+            return View(newum);
+        }
 
 
 

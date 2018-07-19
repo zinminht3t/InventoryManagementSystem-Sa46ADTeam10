@@ -21,13 +21,13 @@ namespace LUSSISADTeam10Web.API
 
         public static DelegationModel GetDelegationByDeleid(string token, int id , out string error)
         {
-            string url = APIHelper.Baseurl + "/delegation /deleid/" + id;
+            string url = APIHelper.Baseurl + "/delegation/deleid/" + id;
             DelegationModel delelist = APIHelper.Execute<DelegationModel>(token, url, out error);
             return delelist;
         }
         public static List<DelegationModel> GetDelegationByAssignedbyid(string token,int id, out string error)
         {
-            string url = APIHelper.Baseurl + "/delegation /assignedby/" + id;
+            string url = APIHelper.Baseurl + "/delegation/assignedby/" + id;
             List<DelegationModel> delelist = APIHelper.Execute<List<DelegationModel>>(token, url, out error);
             return delelist;
         }
@@ -61,6 +61,14 @@ namespace LUSSISADTeam10Web.API
             string objectstring = JsonConvert.SerializeObject(dm);
             dm = APIHelper.Execute<DelegationModel>(token, objectstring, url, out error);
             return dm;
+        }
+
+
+        public static DelegationModel GetPreviousDelegationByDepid(string token, int id, out string error)
+        {
+            string url = APIHelper.Baseurl + "/delegation/search/" + id;
+           DelegationModel delelist = APIHelper.Execute<DelegationModel>(token, url, out error);
+            return delelist;
         }
 
 
