@@ -157,6 +157,7 @@
     <Compile Include="Constants\ConDepartmentCollectionPoint.cs" />
     <Compile Include="Constants\ConError.cs" />
     <Compile Include="Constants\ConLockerCollectionPoint.cs" />
+    <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Constants\ConOutstandingsRequisition.cs" />
     <Compile Include="Constants\ConPurchaseOrder.cs" />
     <Compile Include="Constants\ConRequisition.cs" />
