@@ -22,7 +22,7 @@
           </Key>
           <Property Name="adjid" Type="int" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
-          <Property Name="adjustedqty" Type="int" />
+          <Property Name="adjustedqty" Type="int" Nullable="false" />
           <Property Name="reason" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="category">
@@ -41,6 +41,8 @@
           <Property Name="cpid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cpname" Type="varchar" MaxLength="50" />
           <Property Name="cplocation" Type="varchar" MaxLength="50" />
+          <Property Name="latitude" Type="float" />
+          <Property Name="longitude" Type="float" />
         </EntityType>
         <EntityType Name="delegation">
           <Key>
@@ -95,9 +97,21 @@
           </Key>
           <Property Name="invid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
-          <Property Name="stock" Type="int" />
+          <Property Name="stock" Type="int" Nullable="false" />
           <Property Name="reorderlevel" Type="int" />
           <Property Name="reorderqty" Type="int" />
+        </EntityType>
+        <EntityType Name="inventorytransaction">
+          <Key>
+            <PropertyRef Name="tranid" />
+          </Key>
+          <Property Name="tranid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="datetime" Type="datetime" Nullable="false" />
+          <Property Name="invid" Type="int" Nullable="false" />
+          <Property Name="itemid" Type="int" Nullable="false" />
+          <Property Name="trantype" Type="int" Nullable="false" />
+          <Property Name="qty" Type="int" Nullable="false" />
+          <Property Name="remark" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="item">
           <Key>
@@ -117,6 +131,18 @@
           <Property Name="lockersize" Type="varchar" MaxLength="50" />
           <Property Name="cpid" Type="int" Nullable="false" />
           <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="notiid" />
+          </Key>
+          <Property Name="notiid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="datetime" Type="datetime" Nullable="false" />
+          <Property Name="deptid" Type="int" Nullable="false" />
+          <Property Name="role" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" />
+          <Property Name="remark" Type="nvarchar" MaxLength="255" />
+          <Property Name="isread" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="outstandingrequisition">
           <Key>
@@ -154,7 +180,7 @@
           <Property Name="poid" Type="int" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
           <Property Name="qty" Type="int" Nullable="false" />
-          <Property Name="delivqty" Type="int" />
+          <Property Name="delivqty" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="requisition">
           <Key>
@@ -376,6 +402,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_inventorytransaction_inventory">
+          <End Role="inventory" Type="Self.inventory" Multiplicity="1" />
+          <End Role="inventorytransaction" Type="Self.inventorytransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inventory">
+              <PropertyRef Name="invid" />
+            </Principal>
+            <Dependent Role="inventorytransaction">
+              <PropertyRef Name="invid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inventorytransaction_item">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="inventorytransaction" Type="Self.inventorytransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="itemid" />
+            </Principal>
+            <Dependent Role="inventorytransaction">
+              <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_item_category">
           <End Role="category" Type="Self.category" Multiplicity="1" />
           <End Role="item" Type="Self.item" Multiplicity="*" />
@@ -397,6 +447,18 @@
             </Principal>
             <Dependent Role="lockercollectionpoint">
               <PropertyRef Name="cpid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_notification_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="notification" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="deptid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -603,8 +665,10 @@
           <EntitySet Name="disbursement" EntityType="Self.disbursement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="disbursementdetail" EntityType="Self.disbursementdetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inventorytransaction" EntityType="Self.inventorytransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lockercollectionpoint" EntityType="Self.lockercollectionpoint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notification" EntityType="Self.notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="outstandingrequisition" EntityType="Self.outstandingrequisition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="outstandingrequisitiondetail" EntityType="Self.outstandingrequisitiondetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="purchaseorder" EntityType="Self.purchaseorder" Schema="dbo" store:Type="Tables" />
@@ -667,6 +731,14 @@
             <End Role="item" EntitySet="item" />
             <End Role="inventory" EntitySet="inventory" />
           </AssociationSet>
+          <AssociationSet Name="FK_inventorytransaction_inventory" Association="Self.FK_inventorytransaction_inventory">
+            <End Role="inventory" EntitySet="inventory" />
+            <End Role="inventorytransaction" EntitySet="inventorytransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inventorytransaction_item" Association="Self.FK_inventorytransaction_item">
+            <End Role="item" EntitySet="item" />
+            <End Role="inventorytransaction" EntitySet="inventorytransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_item_category" Association="Self.FK_item_category">
             <End Role="category" EntitySet="category" />
             <End Role="item" EntitySet="item" />
@@ -674,6 +746,10 @@
           <AssociationSet Name="FK_lockercollectionpoint_collectionpoint" Association="Self.FK_lockercollectionpoint_collectionpoint">
             <End Role="collectionpoint" EntitySet="collectionpoint" />
             <End Role="lockercollectionpoint" EntitySet="lockercollectionpoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notification_department" Association="Self.FK_notification_department">
+            <End Role="department" EntitySet="department" />
+            <End Role="notification" EntitySet="notification" />
           </AssociationSet>
           <AssociationSet Name="FK_outstandingrequisition_requisition" Association="Self.FK_outstandingrequisition_requisition">
             <End Role="requisition" EntitySet="requisition" />
@@ -765,7 +841,7 @@
           </Key>
           <Property Name="adjid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
-          <Property Name="adjustedqty" Type="Int32" />
+          <Property Name="adjustedqty" Type="Int32" Nullable="false" />
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="adjustment" Relationship="Self.FK_adjustmentdetail_adjustment" FromRole="adjustmentdetail" ToRole="adjustment" />
           <NavigationProperty Name="item" Relationship="Self.FK_adjustmentdetail_item" FromRole="adjustmentdetail" ToRole="item" />
@@ -787,6 +863,8 @@
           <Property Name="cpid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cpname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cplocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="latitude" Type="Double" />
+          <Property Name="longitude" Type="Double" />
           <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_collectionpoint1" FromRole="collectionpoint" ToRole="departmentcollectionpoint" />
           <NavigationProperty Name="lockercollectionpoints" Relationship="Self.FK_lockercollectionpoint_collectionpoint" FromRole="collectionpoint" ToRole="lockercollectionpoint" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_collectionpoint" FromRole="collectionpoint" ToRole="requisition" />
@@ -814,6 +892,7 @@
           <Property Name="deptphone" Type="Int32" />
           <Property Name="deptemail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_department1" FromRole="department" ToRole="departmentcollectionpoint" />
+          <NavigationProperty Name="notifications" Relationship="Self.FK_notification_department" FromRole="department" ToRole="notification" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_department" FromRole="department" ToRole="requisition" />
           <NavigationProperty Name="users" Relationship="Self.FK_user_department" FromRole="department" ToRole="user" />
         </EntityType>
@@ -856,10 +935,25 @@
           </Key>
           <Property Name="invid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
-          <Property Name="stock" Type="Int32" />
+          <Property Name="stock" Type="Int32" Nullable="false" />
           <Property Name="reorderlevel" Type="Int32" />
           <Property Name="reorderqty" Type="Int32" />
           <NavigationProperty Name="item" Relationship="Self.FK_inventory_item" FromRole="inventory" ToRole="item" />
+          <NavigationProperty Name="inventorytransactions" Relationship="Self.FK_inventorytransaction_inventory" FromRole="inventory" ToRole="inventorytransaction" />
+        </EntityType>
+        <EntityType Name="inventorytransaction">
+          <Key>
+            <PropertyRef Name="tranid" />
+          </Key>
+          <Property Name="tranid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="invid" Type="Int32" Nullable="false" />
+          <Property Name="itemid" Type="Int32" Nullable="false" />
+          <Property Name="trantype" Type="Int32" Nullable="false" />
+          <Property Name="qty" Type="Int32" Nullable="false" />
+          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="inventory" Relationship="Self.FK_inventorytransaction_inventory" FromRole="inventorytransaction" ToRole="inventory" />
+          <NavigationProperty Name="item" Relationship="Self.FK_inventorytransaction_item" FromRole="inventorytransaction" ToRole="item" />
         </EntityType>
         <EntityType Name="item">
           <Key>
@@ -873,6 +967,7 @@
           <NavigationProperty Name="category" Relationship="Self.FK_item_category" FromRole="item" ToRole="category" />
           <NavigationProperty Name="disbursementdetails" Relationship="Self.FK_disbursementdetail_item" FromRole="item" ToRole="disbursementdetail" />
           <NavigationProperty Name="inventories" Relationship="Self.FK_inventory_item" FromRole="item" ToRole="inventory" />
+          <NavigationProperty Name="inventorytransactions" Relationship="Self.FK_inventorytransaction_item" FromRole="item" ToRole="inventorytransaction" />
           <NavigationProperty Name="outstandingrequisitiondetails" Relationship="Self.FK_outstandingrequisitiondetail_item" FromRole="item" ToRole="outstandingrequisitiondetail" />
           <NavigationProperty Name="purchaseorderdetails" Relationship="Self.FK_purchaseorderdetail_item1" FromRole="item" ToRole="purchaseorderdetail" />
           <NavigationProperty Name="requisitiondetails" Relationship="Self.FK_requisitiondetail_item" FromRole="item" ToRole="requisitiondetail" />
@@ -888,6 +983,19 @@
           <Property Name="cpid" Type="Int32" Nullable="false" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="collectionpoint" Relationship="Self.FK_lockercollectionpoint_collectionpoint" FromRole="lockercollectionpoint" ToRole="collectionpoint" />
+        </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="notiid" />
+          </Key>
+          <Property Name="notiid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="deptid" Type="Int32" Nullable="false" />
+          <Property Name="role" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isread" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="department" Relationship="Self.FK_notification_department" FromRole="notification" ToRole="department" />
         </EntityType>
         <EntityType Name="outstandingrequisition">
           <Key>
@@ -932,7 +1040,7 @@
           <Property Name="poid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
           <Property Name="qty" Type="Int32" Nullable="false" />
-          <Property Name="delivqty" Type="Int32" />
+          <Property Name="delivqty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="item" Relationship="Self.FK_purchaseorderdetail_item1" FromRole="purchaseorderdetail" ToRole="item" />
           <NavigationProperty Name="purchaseorder" Relationship="Self.FK_purchaseorderdetail_purchaseorder" FromRole="purchaseorderdetail" ToRole="purchaseorder" />
         </EntityType>
@@ -1154,6 +1262,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_notification_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="notification" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_requisition_department">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="requisition" Type="Self.requisition" Multiplicity="*" />
@@ -1234,6 +1354,30 @@
               <PropertyRef Name="itemid" />
             </Principal>
             <Dependent Role="inventory">
+              <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inventorytransaction_inventory">
+          <End Role="inventory" Type="Self.inventory" Multiplicity="1" />
+          <End Role="inventorytransaction" Type="Self.inventorytransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inventory">
+              <PropertyRef Name="invid" />
+            </Principal>
+            <Dependent Role="inventorytransaction">
+              <PropertyRef Name="invid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inventorytransaction_item">
+          <End Role="item" Type="Self.item" Multiplicity="1" />
+          <End Role="inventorytransaction" Type="Self.inventorytransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="itemid" />
+            </Principal>
+            <Dependent Role="inventorytransaction">
               <PropertyRef Name="itemid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1405,8 +1549,10 @@
           <EntitySet Name="disbursements" EntityType="Self.disbursement" />
           <EntitySet Name="disbursementdetails" EntityType="Self.disbursementdetail" />
           <EntitySet Name="inventories" EntityType="Self.inventory" />
+          <EntitySet Name="inventorytransactions" EntityType="Self.inventorytransaction" />
           <EntitySet Name="items" EntityType="Self.item" />
           <EntitySet Name="lockercollectionpoints" EntityType="Self.lockercollectionpoint" />
+          <EntitySet Name="notifications" EntityType="Self.notification" />
           <EntitySet Name="outstandingrequisitions" EntityType="Self.outstandingrequisition" />
           <EntitySet Name="outstandingrequisitiondetails" EntityType="Self.outstandingrequisitiondetail" />
           <EntitySet Name="purchaseorders" EntityType="Self.purchaseorder" />
@@ -1461,6 +1607,10 @@
             <End Role="department" EntitySet="departments" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoints" />
           </AssociationSet>
+          <AssociationSet Name="FK_notification_department" Association="Self.FK_notification_department">
+            <End Role="department" EntitySet="departments" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
           <AssociationSet Name="FK_requisition_department" Association="Self.FK_requisition_department">
             <End Role="department" EntitySet="departments" />
             <End Role="requisition" EntitySet="requisitions" />
@@ -1488,6 +1638,14 @@
           <AssociationSet Name="FK_inventory_item" Association="Self.FK_inventory_item">
             <End Role="item" EntitySet="items" />
             <End Role="inventory" EntitySet="inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inventorytransaction_inventory" Association="Self.FK_inventorytransaction_inventory">
+            <End Role="inventory" EntitySet="inventories" />
+            <End Role="inventorytransaction" EntitySet="inventorytransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inventorytransaction_item" Association="Self.FK_inventorytransaction_item">
+            <End Role="item" EntitySet="items" />
+            <End Role="inventorytransaction" EntitySet="inventorytransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_outstandingrequisitiondetail_item" Association="Self.FK_outstandingrequisitiondetail_item">
             <End Role="item" EntitySet="items" />
@@ -1585,6 +1743,8 @@
                 <ScalarProperty Name="cpid" ColumnName="cpid" />
                 <ScalarProperty Name="cpname" ColumnName="cpname" />
                 <ScalarProperty Name="cplocation" ColumnName="cplocation" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1650,6 +1810,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="inventorytransactions">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.inventorytransaction">
+              <MappingFragment StoreEntitySet="inventorytransaction">
+                <ScalarProperty Name="tranid" ColumnName="tranid" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="invid" ColumnName="invid" />
+                <ScalarProperty Name="itemid" ColumnName="itemid" />
+                <ScalarProperty Name="trantype" ColumnName="trantype" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="items">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.item">
               <MappingFragment StoreEntitySet="item">
@@ -1668,6 +1841,19 @@
                 <ScalarProperty Name="lockersize" ColumnName="lockersize" />
                 <ScalarProperty Name="cpid" ColumnName="cpid" />
                 <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifications">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.notification">
+              <MappingFragment StoreEntitySet="notification">
+                <ScalarProperty Name="notiid" ColumnName="notiid" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="isread" ColumnName="isread" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

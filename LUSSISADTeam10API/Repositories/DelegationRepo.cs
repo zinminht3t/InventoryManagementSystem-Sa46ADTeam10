@@ -142,14 +142,14 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the delegation object using delegation API model
-                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+                d = entities.delegations.Where(p => p.delid == dm.Delid).First<delegation>();
 
                 // transfering data from API model to DB Model
-                d.startdate = dm.startdate;
-                d.enddate = dm.enddate;
-                d.userid = dm.userid;
-                d.active = dm.active;
-                d.assignedby = dm.assignedbyId;
+                d.startdate = dm.Startdate;
+                d.enddate = dm.Enddate;
+                d.userid = dm.Userid;
+                d.active = dm.Active;
+                d.assignedby = dm.AssignedbyId;
 
                 // saving the update
                 entities.SaveChanges();
@@ -178,23 +178,23 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
               
-                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.userid , out error);
-                List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.deptid, out error);
+                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.Userid , out error);
+                List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.Deptid, out error);
                 foreach (UserModel u in userlist) {
                     List<DelegationModel> delelist =  GetDelegationByUserId(u.Userid, out error);
                     foreach (DelegationModel deleg in delelist) {
-                        delegation del = entities.delegations.Where(p => p.delid == deleg.delid).FirstOrDefault<delegation>();
+                        delegation del = entities.delegations.Where(p => p.delid == deleg.Delid).FirstOrDefault<delegation>();
                         del.active = ConDelegation.Active.INACTIVE ;
                         entities.SaveChanges();
                     }
                     
 
                 }
-                d.startdate = dele.startdate;
-                d.enddate = dele.enddate;
-                d.userid = dele.userid;
-                d.active = dele.active;
-                d.assignedby = dele.assignedbyId;
+                d.startdate = dele.Startdate;
+                d.enddate = dele.Enddate;
+                d.userid = dele.Userid;
+                d.active = ConDelegation.Active.ACTIVE;
+                d.assignedby = dele.AssignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
 
@@ -225,7 +225,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the delegation object using delegation API model
-                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+                d = entities.delegations.Where(p => p.delid == dm.Delid).First<delegation>();
 
              
                 d.active = ConDelegation.Active.INACTIVE;
@@ -248,5 +248,64 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
+
+
+ 
+        //search the previous delegation with userlist
+        public static DelegationModel SearchPreviousDelegation(int deptid , out string error)
+        {
+
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            List<department> dept = new List<department>();
+            List<user> ums = new List<user>();
+            List<UserModel> urm = new List<UserModel>();
+            try
+            {
+                ums = entities.users.Where(p => p.deptid == deptid && p.role != ConUser.Role.HOD).ToList<user>();
+                foreach (user u in ums)
+                {
+                    urm.Add(UserRepo.CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+
+            delegation d = new delegation();
+            DelegationModel ndel = new DelegationModel();
+            try
+            {
+                foreach (UserModel um in urm)
+                {
+                    List< DelegationModel> delee = GetDelegationByUserId(um.Userid , out error);
+                        
+                    foreach(DelegationModel dm in delee)
+                    {
+                        if (dm.Active == ConDelegation.Active.ACTIVE) {
+                            ndel = dm ;
+                        }
+
+
+                    }
+
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return ndel;
+        }
     }
 }

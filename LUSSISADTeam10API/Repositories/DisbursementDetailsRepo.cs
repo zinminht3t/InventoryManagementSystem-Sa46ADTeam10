@@ -12,7 +12,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Disbursement Details
         private static DisbursementDetailsModel CovertDBDisbursementDetailsstoAPIDisbursementDetails(disbursementdetail disbm)
         {
-            DisbursementDetailsModel dism = new DisbursementDetailsModel(disbm.disid, disbm.itemid, disbm.item.description, disbm.qty);
+            DisbursementDetailsModel dism = new DisbursementDetailsModel(disbm.disid, disbm.itemid, disbm.item.description, disbm.qty, disbm.item.category.name, disbm.item.uom);
             return dism;
         }
         // Get the list of all Disbursement Details
@@ -137,9 +137,9 @@ namespace LUSSISADTeam10API.Repositories
            
             try
             {
-                disdb.disid = disdm.disid;
-                disdb.itemid = disdm.itemid;
-                disdb.qty = disdm.qty;
+                disdb.disid = disdm.Disid;
+                disdb.itemid = disdm.Itemid;
+                disdb.qty = disdm.Qty;
                 disdb = entities.disbursementdetails.Add(disdb);
                 entities.SaveChanges();
              
@@ -166,12 +166,12 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the inventory object using Inventory API model
-                ndism = entities.disbursementdetails.Where(p => p.disid == dism.disid && p.itemid == dism.itemid).First<disbursementdetail>();
+                ndism = entities.disbursementdetails.Where(p => p.disid == dism.Disid && p.itemid == dism.Itemid).First<disbursementdetail>();
 
                 // transfering data from API model to DB Model
-                ndism.disid = dism.disid;
-                ndism.itemid = dism.itemid;
-                ndism.qty = dism.qty;
+                ndism.disid = dism.Disid;
+                ndism.itemid = dism.Itemid;
+                ndism.qty = dism.Qty;
 
                 // saving the update
                 entities.SaveChanges();
@@ -192,12 +192,12 @@ namespace LUSSISADTeam10API.Repositories
         }
 
         // to get the list for the clerk to retrive items from inventory
-        public static List<OutstandingItem> GetAllPreparingItems(out string error)
+        public static List<OutstandingItemModel> GetAllPreparingItems(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-            List<OutstandingItem> ois = new List<OutstandingItem>();
+            List<OutstandingItemModel> ois = new List<OutstandingItemModel>();
             try
             {
                 // get outstanding details list from database
@@ -217,7 +217,7 @@ namespace LUSSISADTeam10API.Repositories
                 // convert the DB Model list to API Model list
                 foreach (var item in groupedBy)
                 {
-                    ois.Add(new OutstandingItem(
+                    ois.Add(new OutstandingItemModel(
                             item.Item.itemid,
                             item.Item.description,
                             item.Item.uom,

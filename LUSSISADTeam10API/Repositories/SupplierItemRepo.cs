@@ -19,7 +19,8 @@ namespace LUSSISADTeam10API.Repositories
                     supitem.itemid,
                     supitem.item.description,
                     supitem.price,
-                    supitem.item.uom
+                    supitem.item.uom,
+                    supitem.item.category.name
                 );
         }
 

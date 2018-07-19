@@ -12,14 +12,17 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Collections.Generic;
     
-    public partial class adjustmentdetail
+    public partial class inventorytransaction
     {
-        public int adjid { get; set; }
+        public int tranid { get; set; }
+        public System.DateTime datetime { get; set; }
+        public int invid { get; set; }
         public int itemid { get; set; }
-        public int adjustedqty { get; set; }
-        public string reason { get; set; }
+        public int trantype { get; set; }
+        public int qty { get; set; }
+        public string remark { get; set; }
     
-        public virtual adjustment adjustment { get; set; }
+        public virtual inventory inventory { get; set; }
         public virtual item item { get; set; }
     }
 }

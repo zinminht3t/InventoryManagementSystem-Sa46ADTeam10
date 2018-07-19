@@ -13,7 +13,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static PurchaseOrderDetailModel ConvertDBtoAPIPOModel(purchaseorderdetail pod)
         {
-            PurchaseOrderDetailModel pom = new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty);
+            PurchaseOrderDetailModel pom = new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom);
             return pom;
         }
         //find Purchase Order by id

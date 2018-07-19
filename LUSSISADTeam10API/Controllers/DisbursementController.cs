@@ -188,7 +188,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateRequisitionwithDetails(DisbursementModel dism)
         {
             string error = "";
-            DisbursementModel dis = DisbursementRepo.CreateDisbursementwithDetails(dism, dism.disbursementlist, out error);
+            DisbursementModel dis = DisbursementRepo.CreateDisbursementwithDetails(dism, dism.Disbursementlist, out error);
             if (error != "" || dis == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
@@ -203,7 +203,7 @@ namespace LUSSISADTeam10API.Controllers
             string error = "";
 
             // get the list from Repo and convert it into outstanding item list
-            List<OutstandingItem> items = DisbursementDetailsRepo.GetAllPreparingItems(out error);
+            List<OutstandingItemModel> items = DisbursementDetailsRepo.GetAllPreparingItems(out error);
 
             // if the erorr is not blank or the outstanding list is null
             if (error != "" || items == null)

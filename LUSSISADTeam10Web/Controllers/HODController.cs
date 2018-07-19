@@ -166,6 +166,51 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = new UserModel();
             return View();
         }
+
+        public ActionResult SearchPreviousDelegation()
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            try
+            {
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+                reqms = reqms.Where(p => p.status == ConRequisition.Status.COMPLETED).ToList();
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(reqms);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         #endregion
 
         #region Post Methods

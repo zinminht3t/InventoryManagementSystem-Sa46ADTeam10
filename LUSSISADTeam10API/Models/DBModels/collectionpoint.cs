@@ -25,6 +25,8 @@ namespace LUSSISADTeam10API.Models.DBModels
         public int cpid { get; set; }
         public string cpname { get; set; }
         public string cplocation { get; set; }
+        public Nullable<double> latitude { get; set; }
+        public Nullable<double> longitude { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<departmentcollectionpoint> departmentcollectionpoints { get; set; }

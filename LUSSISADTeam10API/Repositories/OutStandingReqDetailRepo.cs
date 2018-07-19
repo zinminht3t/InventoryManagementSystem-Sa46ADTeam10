@@ -17,7 +17,7 @@ namespace LUSSISADTeam10API.Repositories
                     outreqdetail.outreqid,
                     outreqdetail.itemid,
                     outreqdetail.item.description,
-                    outreqdetail.qty
+                    outreqdetail.qty, outreqdetail.item.category.name, outreqdetail.item.uom
                 );
         }
 
@@ -166,12 +166,12 @@ namespace LUSSISADTeam10API.Repositories
             return outreqdetailm;
         }
 
-        public static List<OutstandingItem> GetAllPendingOutstandingItems(out string error)
+        public static List<OutstandingItemModel> GetAllPendingOutstandingItems(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-            List<OutstandingItem> ois = new List<OutstandingItem>();
+            List<OutstandingItemModel> ois = new List<OutstandingItemModel>();
             try
             {
                 // get outstanding details list from database
@@ -188,7 +188,7 @@ namespace LUSSISADTeam10API.Repositories
                 // convert the DB Model list to API Model list
                 foreach (var item in groupedBy)
                 {
-                    ois.Add(new OutstandingItem(
+                    ois.Add(new OutstandingItemModel(
                             item.Item.itemid,
                             item.Item.description,
                             item.Item.uom,

@@ -11,40 +11,40 @@ namespace LUSSISADTeam10API.Models.APIModels
         public DelegationModel(int delid, DateTime? startdate, DateTime? enddate, int userid, String username , int role , string depname,
             int active, int assignedby , String ausername , int arole ,String adeptname)
         {
-            this.delid = delid;
-            this.startdate = startdate;
-            this.enddate = enddate;
-            this.userid = userid;
-            this.username = username;
-            this.role = role;
-            this.depname = depname;
-            this.active = active;
-            this.assignedbyId = assignedby;
-            this.assignedbyusername = ausername;
-            this.assignedbyrole = arole;
-            this.assignedbydepname = adeptname;
+            this.Delid = delid;
+            this.Startdate = startdate;
+            this.Enddate = enddate;
+            this.Userid = userid;
+            this.Username = username;
+            this.Role = role;
+            this.Depname = depname;
+            this.Active = active;
+            this.AssignedbyId = assignedby;
+            this.Assignedbyusername = ausername;
+            this.Assignedbyrole = arole;
+            this.Assignedbydepname = adeptname;
         }
         public DelegationModel() : this(0,null,null, 0,"", 0, "" ,0, 0 ,"" ,0 ,"")
         {
         }
-        public int delid { get; set; }
+        public int Delid { get; set; }
 
-        public DateTime? startdate { get; set; }
+        public DateTime? Startdate { get; set; }
 
-        public DateTime? enddate { get; set; }
+        public DateTime? Enddate { get; set; }
 
-        public int userid { get; set; }
+        public int Userid { get; set; }
 
-        public String username { get; set; }
-        public int role { get; set; }
-        public String depname { get; set; }
+        public String Username { get; set; }
+        public int Role { get; set; }
+        public String Depname { get; set; }
 
-        public int active { get; set; }
+        public int Active { get; set; }
 
-        public int assignedbyId { get; set; }
-        public String assignedbyusername { get; set; }
-        public int assignedbyrole { get; set; }
-        public String assignedbydepname { get; set; }
+        public int AssignedbyId { get; set; }
+        public String Assignedbyusername { get; set; }
+        public int Assignedbyrole { get; set; }
+        public String Assignedbydepname { get; set; }
 
     }
 }

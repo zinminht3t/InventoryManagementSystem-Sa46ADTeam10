@@ -18,7 +18,7 @@ namespace LUSSISADTeam10API.Repositories
             List<RequisitionDetailsModel> reqdm = new List<RequisitionDetailsModel>();
             foreach (requisitiondetail rqdm in req.requisitiondetails)
             {
-                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid ,rqdm.item.description ,rqdm.qty));
+                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid ,rqdm.item.description ,rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
             }
             RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.username
                                     , req.approvedby, req.user.username, req.cpid, req.collectionpoint.cpname
@@ -331,12 +331,12 @@ namespace LUSSISADTeam10API.Repositories
             requisition reqn = new requisition();
             try
             {
-                reqn.raisedby = req.raisedby;
-                reqn.approvedby = req.approvedby;
-                reqn.deptid = req.depid;
-                reqn.cpid = req.cpid;
+                reqn.raisedby = req.Raisedby;
+                reqn.approvedby = req.Approvedby;
+                reqn.deptid = req.Depid;
+                reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
-                reqn.reqdate = req.reqdate;
+                reqn.reqdate = req.Reqdate;
                 reqn = entities.requisitions.Add(reqn);
                 entities.SaveChanges();
                 req = GetRequisitionByRequisitionId(reqn.reqid , out error);
@@ -363,15 +363,15 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the inventory object using Inventory API model
-                req = entities.requisitions.Where(p => p.reqid == reqm.reqid).First<requisition>();
+                req = entities.requisitions.Where(p => p.reqid == reqm.Reqid).First<requisition>();
 
                 // transfering data from API model to DB Model
-                req.reqid = reqm.reqid;
-                req.raisedby = reqm.raisedby;
-                req.approvedby = reqm.approvedby;
-                req.deptid = reqm.depid;
-                req.status = reqm.status;
-                req.reqdate = reqm.reqdate;
+                req.reqid = reqm.Reqid;
+                req.raisedby = reqm.Raisedby;
+                req.approvedby = reqm.Approvedby;
+                req.deptid = reqm.Depid;
+                req.status = reqm.Status;
+                req.reqdate = reqm.Reqdate;
                 // saving the update
                 entities.SaveChanges();
 
@@ -397,13 +397,13 @@ namespace LUSSISADTeam10API.Repositories
             List<requisitiondetail> reqlist = new List<requisitiondetail>();
             try
             {
-                req.reqid = reqm.reqid;
-                req.raisedby = reqm.raisedby;
-                req.approvedby = reqm.approvedby;
-                req.deptid = reqm.depid;
-                req.cpid = reqm.cpid;
+                req.reqid = reqm.Reqid;
+                req.raisedby = reqm.Raisedby;
+                req.approvedby = reqm.Approvedby;
+                req.deptid = reqm.Depid;
+                req.cpid = reqm.Cpid;
                 req.status = ConRequisition.Status.PENDING;
-                req.reqdate = reqm.reqdate;
+                req.reqdate = reqm.Reqdate;
 
                 req = entities.requisitions.Add(req);
                 entities.SaveChanges();
@@ -413,8 +413,8 @@ namespace LUSSISADTeam10API.Repositories
                     requisitiondetail rqd = new requisitiondetail
                     {
                         reqid = req.reqid,
-                        itemid = rdm.itemid,
-                        qty = rdm.qty
+                        itemid = rdm.Itemid,
+                        qty = rdm.Qty
                     };
                     rqd = entities.requisitiondetails.Add(rqd);
                     entities.SaveChanges();

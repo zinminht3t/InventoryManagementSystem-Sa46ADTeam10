@@ -12,14 +12,16 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Collections.Generic;
     
-    public partial class adjustmentdetail
+    public partial class notification
     {
-        public int adjid { get; set; }
-        public int itemid { get; set; }
-        public int adjustedqty { get; set; }
-        public string reason { get; set; }
+        public int notiid { get; set; }
+        public System.DateTime datetime { get; set; }
+        public int deptid { get; set; }
+        public int role { get; set; }
+        public string title { get; set; }
+        public string remark { get; set; }
+        public bool isread { get; set; }
     
-        public virtual adjustment adjustment { get; set; }
-        public virtual item item { get; set; }
+        public virtual department department { get; set; }
     }
 }

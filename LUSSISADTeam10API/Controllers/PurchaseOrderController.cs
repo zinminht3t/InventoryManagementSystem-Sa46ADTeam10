@@ -163,6 +163,18 @@ namespace LUSSISADTeam10API.Controllers
 
                 // update the inventory
                 invm = InventoryRepo.UpdateInventory(invm, out error);
+
+
+                InventoryTransactionModel invtm = new InventoryTransactionModel();
+
+                invtm.InvID = invm.Invid;
+                invtm.ItemID = invm.Itemid;
+                invtm.Qty = invm.Stock;
+                invtm.TransType = ConInventoryTransaction.TransType.PURCHASEORDER_RECEIEVED;
+                invtm.TransDate = DateTime.Now;
+                invtm.Remark = podm.PoId.ToString();
+                invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
+
             }
 
             // updating the status

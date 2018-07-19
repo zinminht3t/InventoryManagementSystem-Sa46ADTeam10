@@ -20,6 +20,7 @@ namespace LUSSISADTeam10API.Models.DBModels
             this.adjustmentdetails = new HashSet<adjustmentdetail>();
             this.disbursementdetails = new HashSet<disbursementdetail>();
             this.inventories = new HashSet<inventory>();
+            this.inventorytransactions = new HashSet<inventorytransaction>();
             this.outstandingrequisitiondetails = new HashSet<outstandingrequisitiondetail>();
             this.purchaseorderdetails = new HashSet<purchaseorderdetail>();
             this.requisitiondetails = new HashSet<requisitiondetail>();
@@ -38,6 +39,8 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual ICollection<disbursementdetail> disbursementdetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<inventory> inventories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<inventorytransaction> inventorytransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<outstandingrequisitiondetail> outstandingrequisitiondetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
