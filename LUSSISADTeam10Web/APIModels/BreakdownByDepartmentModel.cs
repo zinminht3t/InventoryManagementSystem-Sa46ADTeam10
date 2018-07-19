@@ -1,10 +1,10 @@
-﻿using LUSSISADTeam10API.Constants;
+﻿using LUSSISADTeam10Web.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LUSSISADTeam10API.Models.APIModels
+namespace LUSSISADTeam10Web.Models.APIModels
 {
     public class BreakdownByDepartmentModel
     {
