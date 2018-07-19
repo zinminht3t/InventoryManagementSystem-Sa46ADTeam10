@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.DebuggerVisualizers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LUSSISADTeam10Web.Models.APIModels
 {

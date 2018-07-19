@@ -165,9 +165,11 @@
     <Compile Include="APIModels\DisbursementModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
+    <Compile Include="APIModels\InventoryTransactionModel.cs" />
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
-    <Compile Include="APIModels\OutstandingItem.cs" />
+    <Compile Include="APIModels\NotificationModel.cs" />
+    <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
