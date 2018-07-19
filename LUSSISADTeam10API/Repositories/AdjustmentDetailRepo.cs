@@ -13,7 +13,7 @@ namespace LUSSISADTeam10API.Repositories
         //Changed from DB to APIModel
         public static AdjustmentDetailModel ConvertDBtoAPIAdjustDetail(adjustmentdetail adjd)
         {
-            AdjustmentDetailModel adjdm = new AdjustmentDetailModel(adjd.adjid, adjd.itemid,adjd.item.description, adjd.adjustedqty, adjd.reason);
+            AdjustmentDetailModel adjdm = new AdjustmentDetailModel(adjd.adjid, adjd.itemid,adjd.item.description, adjd.adjustedqty, adjd.reason, adjd.item.category.name, adjd.item.uom);
             return adjdm;
         }
 
@@ -70,10 +70,10 @@ namespace LUSSISADTeam10API.Repositories
             adjustmentdetail adjd = new adjustmentdetail();
             try
             {
-                adjd.adjid = adjdm.adjid;
-                adjd.itemid = adjdm.itemid;
-                adjd.adjustedqty = adjdm.adjustedqty;
-                adjd.reason = adjdm.reason;
+                adjd.adjid = adjdm.Adjid;
+                adjd.itemid = adjdm.Itemid;
+                adjd.adjustedqty = adjdm.Adjustedqty;
+                adjd.reason = adjdm.Reason;
                 adjd = entities.adjustmentdetails.Add(adjd);
                 entities.SaveChanges();
                 adjdm = GetAdjustDetailByItemandAdjustID(adjd.itemid, adjd.adjid, out error);
@@ -97,11 +97,11 @@ namespace LUSSISADTeam10API.Repositories
             adjustmentdetail adjd = new adjustmentdetail ();            
             try
             {
-                adjd = entities.adjustmentdetails.Where(a => a.adjid == adjdm.adjid && a.itemid == adjdm.itemid).First<adjustmentdetail>();
+                adjd = entities.adjustmentdetails.Where(a => a.adjid == adjdm.Adjid && a.itemid == adjdm.Itemid).First<adjustmentdetail>();
                 //adjd.adjid = adjdm.adjid;
                 //adjd.itemid = adjdm.itemid;
-                adjd.reason = adjdm.reason;
-                adjd.adjustedqty = adjdm.adjustedqty;               
+                adjd.reason = adjdm.Reason;
+                adjd.adjustedqty = adjdm.Adjustedqty;               
                
                 entities.SaveChanges();
                 adjdm = GetAdjustDetailByItemandAdjustID(adjd.itemid, adjd.adjid, out error);

@@ -12,18 +12,18 @@ namespace LUSSISADTeam10API.Models.APIModels
             int? approvedby, String approvedbyname, int cpid, string cpname,
             int depid, string depname, int status, DateTime? reqdate , List<RequisitionDetailsModel> rdms) {
 
-            this.reqid = reqid;
-            this.raisedby = rasiedby;
-            this.rasiedbyname = rasiedbyname;
-            this.approvedby = approvedby;
-            this.approvedbyname = approvedbyname;
-            this.cpid = cpid;
-            this.cpname = cpname;
-            this.depid = depid;
-            this.depname = depname;
-            this.status = status;
-            this.reqdate = reqdate;
-            this.requisitiondetails = rdms;
+            this.Reqid = reqid;
+            this.Raisedby = rasiedby;
+            this.Rasiedbyname = rasiedbyname;
+            this.Approvedby = approvedby;
+            this.Approvedbyname = approvedbyname;
+            this.Cpid = cpid;
+            this.Cpname = cpname;
+            this.Depid = depid;
+            this.Depname = depname;
+            this.Status = status;
+            this.Reqdate = reqdate;
+            this.Requisitiondetails = rdms;
 
 
         }
@@ -31,25 +31,25 @@ namespace LUSSISADTeam10API.Models.APIModels
         {
         }
 
-        public int reqid { get; set; }
+        public int Reqid { get; set; }
 
-        public int? raisedby { get; set; }
-        public String rasiedbyname { get; set; }
+        public int? Raisedby { get; set; }
+        public String Rasiedbyname { get; set; }
 
-        public int? approvedby { get; set; }
-        public String approvedbyname { get; set; }
+        public int? Approvedby { get; set; }
+        public String Approvedbyname { get; set; }
 
-        public int depid { get; set; }
-        public String depname { get; set; }
+        public int Depid { get; set; }
+        public String Depname { get; set; }
 
-        public int cpid { get; set; }
-        public String cpname { get; set; }
+        public int Cpid { get; set; }
+        public String Cpname { get; set; }
 
-        public int status { get; set; }
+        public int Status { get; set; }
         
 
-        public DateTime? reqdate { get; set; }
+        public DateTime? Reqdate { get; set; }
 
-        public List<RequisitionDetailsModel> requisitiondetails { get; set; }
+        public List<RequisitionDetailsModel> Requisitiondetails { get; set; }
     }
 }

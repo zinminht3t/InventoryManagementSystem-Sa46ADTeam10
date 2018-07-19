@@ -11,13 +11,11 @@ namespace LUSSISADTeam10API.Repositories
 {
     public static class CollectionPointRepo
     {
-        // entites used only by Get Methods
-        private static LUSSISEntities entities = new LUSSISEntities();
 
         // Convert From Auto Generated DB Model to APIModel
         private static CollectionPointModel CovertDBCptoAPICp(collectionpoint cp)
         {
-            CollectionPointModel cpm = new CollectionPointModel(cp.cpid, cp.cpname, cp.cplocation);
+            CollectionPointModel cpm = new CollectionPointModel(cp.cpid, cp.cpname, cp.cplocation, cp.latitude, cp.longitude);
             return cpm;
         }
 
@@ -166,11 +164,13 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the collectionpoint object using CollectionPoint API model
-                cp = entities.collectionpoints.Where(p => p.cpid == cpm.cpid).First<collectionpoint>();
+                cp = entities.collectionpoints.Where(p => p.cpid == cpm.Cpid).First<collectionpoint>();
 
                 // transfering data from API model to DB Model
-                cp.cpname = cpm.cpname;
-                cp.cplocation = cpm.cplocation;
+                cp.cpname = cpm.Cpname;
+                cp.cplocation = cpm.Cplocation;
+                cp.latitude = cpm.Latitude;
+                cpm.Longitude = cpm.Longitude;
 
 
 
@@ -198,8 +198,10 @@ namespace LUSSISADTeam10API.Repositories
             collectionpoint cp = new collectionpoint();
             try
             {
-                cp.cpname = cpm.cpname;
-                cp.cplocation = cpm.cplocation;
+                cp.cpname = cpm.Cpname;
+                cp.cplocation = cpm.Cplocation;
+                cp.latitude = cpm.Latitude;
+                cpm.Longitude = cpm.Longitude;
 
                 cp = entities.collectionpoints.Add(cp);
                 entities.SaveChanges();

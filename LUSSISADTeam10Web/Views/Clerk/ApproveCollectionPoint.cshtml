@@ -1,13 +1,13 @@
-﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
-
+﻿@model LUSSISADTeam10Web.Models.Clerk.ApproveCollectionPointViewModel
 @{
-    ViewBag.Title = "Track Requisition";
+    ViewBag.Title = "ApproveCollectionPoint";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
     <style>
     </style>
 }
+<h3>Approve CollectionPoint</h3>
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -40,16 +40,28 @@
             </div>
             <div class="card-body">
 
+                <dl class="dl-horizontal">
+                    <dt>
+                        Department Collection Point:
+                    </dt>
 
-                
+                    <dd>
+                        @Html.DisplayFor(model => model.CpID)
+                    </dd>
 
 
+                </dl>
             </div>
+
+
+
+
         </div>
-
-
-
     </div>
+
+
+
+</div>
 </div>
 
 @section Scripts {

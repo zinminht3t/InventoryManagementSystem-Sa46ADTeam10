@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 
 
-namespace LUSSISADTeam10API.Models.APIModels
+namespace LUSSISADTeam10Web.Models.APIModels
 {
     public class NotificationModel
     {

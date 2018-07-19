@@ -10,17 +10,17 @@ namespace LUSSISADTeam10Web.Models.APIModels
     {
         public CategoryModel(int catid, string name, string shelflocation, string shelflevel)
         {
-            this.catid = catid;
-            this.name = name;
-            this.shelflocation = shelflocation;
-            this.shelflevel = shelflevel;
+            this.Catid = catid;
+            this.Name = name;
+            this.Shelflocation = shelflocation;
+            this.Shelflevel = shelflevel;
         }
         public CategoryModel(): this(0, "", "", "")
         {            
         }
-        public int catid { get; set; }
-        public string name { get; set; }
-        public string shelflocation { get; set; }
-        public string shelflevel { get; set; }
+        public int Catid { get; set; }
+        public string Name { get; set; }
+        public string Shelflocation { get; set; }
+        public string Shelflevel { get; set; }
     }
 }

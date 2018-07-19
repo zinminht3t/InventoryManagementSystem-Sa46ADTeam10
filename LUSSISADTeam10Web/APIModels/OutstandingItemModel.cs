@@ -1,14 +1,14 @@
-﻿using LUSSISADTeam10API.Constants;
+﻿using LUSSISADTeam10Web.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LUSSISADTeam10API.Models.APIModels
+namespace LUSSISADTeam10Web.Models.APIModels
 {
-    public class OutstandingItem
+    public class OutstandingItemModel
     {
-        public OutstandingItem
+        public OutstandingItemModel
             (int ItemId, string Description, string Uom,
             int CatId, string CatName, int Total)
         {
@@ -20,7 +20,7 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Total = Total;
         }
 
-        public OutstandingItem() : this(0, "", "", 0, "", 0) { }
+        public OutstandingItemModel() : this(0, "", "", 0, "", 0) { }
 
         public int ItemId { get; set; }
         public string Description { get; set; }

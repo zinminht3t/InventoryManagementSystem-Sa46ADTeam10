@@ -9,7 +9,7 @@ namespace LUSSISADTeam10API.Models.APIModels
     {
         public SupplierItemModel
             (int SupId, string SupName, int ItemId,
-            string Description, double Price, string Uom)
+            string Description, double Price, string Uom, string category)
         {
             this.SupId = SupId;
             this.SupName = SupName;
@@ -17,10 +17,11 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Description = Description;
             this.Price = Price;
             this.Uom = Uom;
+            this.CategoryName = category;
         }
 
         public SupplierItemModel() :
-            this(0, "", 0, "", 0.0, "")
+            this(0, "", 0, "", 0.0, "", "")
         {
         }
 
@@ -29,6 +30,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int ItemId { get; set; }
 
         public string SupName { get; set; }
+        public string CategoryName { get; set; }
 
         public string Description { get; set; }
 

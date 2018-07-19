@@ -156,7 +156,9 @@
     <Compile Include="Constants\ConDelegation.cs" />
     <Compile Include="Constants\ConDepartmentCollectionPoint.cs" />
     <Compile Include="Constants\ConError.cs" />
+    <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Constants\ConLockerCollectionPoint.cs" />
+    <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Constants\ConOutstandingsRequisition.cs" />
     <Compile Include="Constants\ConPurchaseOrder.cs" />
     <Compile Include="Constants\ConRequisition.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DisbursementController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\InventoryTransactionController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LockerCollectionPointController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -193,10 +196,11 @@
     <Compile Include="Models\APIModels\DisbursementModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
+    <Compile Include="Models\APIModels\InventoryTransactionModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
-    <Compile Include="Models\APIModels\OutstandingItem.cs" />
+    <Compile Include="Models\APIModels\OutstandingItemModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
@@ -303,6 +307,7 @@
     <Compile Include="Repositories\DisbursementDetailsRepo.cs" />
     <Compile Include="Repositories\DisbursementRepo.cs" />
     <Compile Include="Repositories\InventoryRepo.cs" />
+    <Compile Include="Repositories\InventoryTransactionRepo.cs" />
     <Compile Include="Repositories\ItemRepo.cs" />
     <Compile Include="Repositories\LockerCollectionPointRepo.cs" />
     <Compile Include="Repositories\NotificationRepo.cs" />
@@ -327,7 +332,9 @@
       <DependentUpon>LUSSISEntities.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\LUSSISADTeam10API - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISADTeam10API - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\LUSSISADTeam10API - Web Deploy1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

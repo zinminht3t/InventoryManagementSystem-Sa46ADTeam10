@@ -142,14 +142,14 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the delegation object using delegation API model
-                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+                d = entities.delegations.Where(p => p.delid == dm.Delid).First<delegation>();
 
                 // transfering data from API model to DB Model
-                d.startdate = dm.startdate;
-                d.enddate = dm.enddate;
-                d.userid = dm.userid;
-                d.active = dm.active;
-                d.assignedby = dm.assignedbyId;
+                d.startdate = dm.Startdate;
+                d.enddate = dm.Enddate;
+                d.userid = dm.Userid;
+                d.active = dm.Active;
+                d.assignedby = dm.AssignedbyId;
 
                 // saving the update
                 entities.SaveChanges();
@@ -178,23 +178,23 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
               
-                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.userid , out error);
-                List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.deptid, out error);
+                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.Userid , out error);
+                List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.Deptid, out error);
                 foreach (UserModel u in userlist) {
                     List<DelegationModel> delelist =  GetDelegationByUserId(u.Userid, out error);
                     foreach (DelegationModel deleg in delelist) {
-                        delegation del = entities.delegations.Where(p => p.delid == deleg.delid).FirstOrDefault<delegation>();
+                        delegation del = entities.delegations.Where(p => p.delid == deleg.Delid).FirstOrDefault<delegation>();
                         del.active = ConDelegation.Active.INACTIVE ;
                         entities.SaveChanges();
                     }
                     
 
                 }
-                d.startdate = dele.startdate;
-                d.enddate = dele.enddate;
-                d.userid = dele.userid;
+                d.startdate = dele.Startdate;
+                d.enddate = dele.Enddate;
+                d.userid = dele.Userid;
                 d.active = ConDelegation.Active.ACTIVE;
-                d.assignedby = dele.assignedbyId;
+                d.assignedby = dele.AssignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
 
@@ -225,7 +225,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // finding the delegation object using delegation API model
-                d = entities.delegations.Where(p => p.delid == dm.delid).First<delegation>();
+                d = entities.delegations.Where(p => p.delid == dm.Delid).First<delegation>();
 
              
                 d.active = ConDelegation.Active.INACTIVE;
@@ -288,7 +288,7 @@ namespace LUSSISADTeam10API.Repositories
                         
                     foreach(DelegationModel dm in delee)
                     {
-                        if (dm.active == ConDelegation.Active.ACTIVE) {
+                        if (dm.Active == ConDelegation.Active.ACTIVE) {
                             ndel = dm ;
                         }
 
