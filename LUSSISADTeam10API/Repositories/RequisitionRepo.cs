@@ -20,8 +20,8 @@ namespace LUSSISADTeam10API.Repositories
             {
                 reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid ,rqdm.item.description ,rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
             }
-            RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.username
-                                    , req.approvedby, req.user1.username, req.cpid, req.collectionpoint.cpname
+            RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.fullname
+                                    , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
                                      , req.deptid, req.department.deptname, req.status, req.reqdate, reqdm);
             return reqm;
         }
@@ -30,8 +30,8 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Requisition
         private static RequisitionModel CovertDBRequisitiontoAPIRequisition(requisition req)
         {
-            RequisitionModel reqm = new RequisitionModel(req.reqid , req.raisedby ,req.user.username 
-                                    , req.approvedby , req.user1.username , req.cpid, req.collectionpoint.cpname
+            RequisitionModel reqm = new RequisitionModel(req.reqid , req.raisedby ,req.user.fullname 
+                                    , req.approvedby , req.user1.fullname , req.cpid, req.collectionpoint.cpname
                                      , req.deptid , req.department.deptname ,req.status,req.reqdate, new List<RequisitionDetailsModel>() );
             return reqm;
         }

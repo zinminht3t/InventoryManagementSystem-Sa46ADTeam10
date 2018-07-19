@@ -75,9 +75,64 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             string error = "";
             RequisitionModel reqm = new RequisitionModel();
+
+            ViewBag.Pending = "btn-danger";
+            ViewBag.Preparing = "btn-danger";
+            ViewBag.Ready = "btn-danger";
+            ViewBag.Collected = "btn-danger";
+            ViewBag.Track = "";
+
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+                if(reqm.Depid != um.Deptid)
+                {
+                    error = "You don't have authority to view this requisition";
+                }
+                switch(reqm.Status)
+                {
+                    case ConRequisition.Status.REQUESTPENDING:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
+                    case ConRequisition.Status.PREPARING:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-warning";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Preparing Items";
+
+                        break;
+                    case ConRequisition.Status.DELIVERED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-warning";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Ready to Collect";
+
+                        break;
+                    case ConRequisition.Status.OUTSTANDINGREQUISITION:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-warning";
+                        ViewBag.Track = "Completed";
+
+                        break;
+                    case ConRequisition.Status.COMPLETED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-success";
+                        ViewBag.Track = "Completed";
+                        break;
+                    default:
+                        break;
+                }
+
             }
             catch (Exception ex)
             {

@@ -36,28 +36,36 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Current Collection Point : @ViewBag.ActiveCollectionPoint </strong>
+                <strong class="card-title"> Current Collection Point : <span class="text-info">@ViewBag.ActiveCollectionPoint </span></strong>
             </div>
             <div class="card-body">
 
                 @if (ViewBag.PendingCPR)
                 {
-                    <h4>Pending Collection Point Request</h4>
+
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-map-marker fa-3x"></i><br /> Pending Collection Point Request </h5><br />
+
 
 
                     foreach (var item in ViewBag.PendingCollectionPoints)
                     {
-                        <h5>@item.CpName</h5>
-                        <h5>@item.CpLocation</h5>
-                        <h5>Waiting for Approval from Clerk</h5>
+                        <h5>Location Name : @item.CpName</h5><br />
+                        <h5>Location : @item.CpLocation</h5>
                         <hr />
+
+                        <div class="card-text text-sm-right">
+                            <a href="@Url.Action("CancelCollectionPoint", "HOD", new { id = item.DeptCpID })" class="btn btn-outline-warning">Cancel Request</a>
+                        </div>
+
                     }
 
                 }
 
                 else
                 {
-                    <h4>Change Collection Point</h4>
+
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-map-marker fa-3x"></i><br /> Change Collection Point </h5><br />
+
 
                     <form asp-action="CollectionPoint" asp-controller="HOD" method="post">
                         <div class="form-check">
@@ -71,8 +79,13 @@
                                                value="@item.Code" class="ifrm-check-input"> @item.Value
                                         </label>
                                     </div>
+                                    <br />
                                 }
-                            <input type="Submit" class="btn btn-success btn-flat m-b-30 m-t-30" value="Change Collection Point">
+
+                            <br />
+                            <div id="map_populate"></div>
+
+                            <input type="Submit" class="btn btn-outline-info m-b-30 m-t-30 pull-right" value="Change Collection Point">
                         </div>
                     </form>
                 }
@@ -87,5 +100,40 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZW2GmsDAt2u4nAWt0dmUOg-S82bFKmW8&callback=initMap" type="text/javascript"></script>
+    <script type="text/javascript">
+        var mapcode;
+        var diag;
+        var marker;
+
+        $(document).ready(function initMap() {
+            mapcode = new google.maps.Geocoder();
+            var lnt = new google.maps.LatLng(21.9874, 96.0832);
+            var diagChoice = {
+                zoom: 13,
+                center: lnt,
+                diagId: google.maps.MapTypeId.ROADMAP
+            }
+            diag = new google.maps.Map(document.getElementById('map_populate'), diagChoice);
+
+            function mark(location) {
+                marker = new google.maps.Marker({
+                    map: diag,
+                    draggable: true,
+                    position: location
+                });
+            }
+
+            diag.addListener('click', function (event) {
+                if (marker && marker.setMap) {
+                    marker.setMap(null);
+                }
+                mark(event.latLng);
+                var lat = marker.getPosition().lat();
+                var lng = marker.getPosition().lng();
+                document.getElementById("lat").value = lat;
+                document.getElementById("lng").value = lng;
+            });
+        })
+    </script>
 }
