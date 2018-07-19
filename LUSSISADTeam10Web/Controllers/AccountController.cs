@@ -76,7 +76,7 @@ namespace LUSSISADTeam10Web.Controllers
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
             }
-            return View(model);
+            return PartialView(model);
         }
 
         public ActionResult LogOff()

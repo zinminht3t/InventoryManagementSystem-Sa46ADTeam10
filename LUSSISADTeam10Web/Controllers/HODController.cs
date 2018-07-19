@@ -381,7 +381,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewDelegation(CreateDelegationViewModel viewmodel)
+        public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel)
         {
 
             string token = GetToken();
