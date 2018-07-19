@@ -1,0 +1,140 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.InventoryModel>
+
+@{
+    ViewBag.Title = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Title Here</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Title Here</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                           Category
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Itemid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ItemDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReorderLevel)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReorderQty)
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.Catid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CatName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Uom)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RecommendedOrderQty)
+                        </th>*@
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+        {
+            <tr>
+                <td typeof="hidden">
+                    @Html.DisplayFor(modelItem => item.Invid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Itemid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderQty)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Catid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CatName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecommendedOrderQty)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+}
+
+                </table>
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}

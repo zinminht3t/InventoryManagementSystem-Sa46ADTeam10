@@ -1,4 +1,6 @@
-﻿using LUSSISADTeam10Web.Models;
+﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Models;
+using LUSSISADTeam10Web.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,30 @@ namespace LUSSISADTeam10Web.Controllers
         // END TAZ
 
         // Start Mahsu
+        public ActionResult Inventory()
+        {
+            string token = GetToken();
+            UserModel user = GetUser();
+           
+            List<InventoryModel> ivm = new List<InventoryModel>();
+            List<InventoryDetailModel> inventory = new List<InventoryDetailModel>();
+            try
+            {
+                ivm = APIInventory.GetAllInventories(token, out string error);
+                //foreach (InventoryModel invent in ivm)
+                //{
+                //    foreach(InventoryDetailModel ivdm in inventory)
+                //    {
+                       
+                //    }
+                //}
+            }
+            catch (Exception e)
+            {
+
+            }
+            return View(ivm);
+        }
 
         // End MaHus
 
