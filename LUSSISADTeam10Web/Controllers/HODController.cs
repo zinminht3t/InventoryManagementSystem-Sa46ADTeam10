@@ -37,7 +37,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
                 reqms = reqms.Where(p => p.Status >= ConRequisition.Status.APPROVED && p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
-                 
+
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -89,11 +89,11 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
-                if(reqm.Depid != um.Deptid)
+                if (reqm.Depid != um.Deptid)
                 {
                     error = "You don't have authority to view this requisition";
                 }
-                switch(reqm.Status)
+                switch (reqm.Status)
                 {
                     case ConRequisition.Status.REQUESTPENDING:
                         ViewBag.Pending = "btn-warning";
@@ -142,7 +142,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            if(error != "")
+            if (error != "")
             {
                 return RedirectToAction("Index", "Error", new { error });
             }
@@ -166,6 +166,12 @@ namespace LUSSISADTeam10Web.Controllers
                 dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
                 ViewBag.ActiveCollectionPoint = dcpm.CpName;
 
+                CollectionPointModel current = 
+                    APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
+
+                ViewBag.Latitude = current.Latitude;
+                ViewBag.Longitude = current.Longitude;
+
                 // to show pending list if exists
                 dcpms = dcpms.Where(p => p.DeptID == um.Deptid).ToList();
                 ViewBag.PendingCollectionPoints = dcpms;
@@ -175,11 +181,11 @@ namespace LUSSISADTeam10Web.Controllers
 
                 // for radio button 
                 cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
-                foreach (CollectionPointModel cpm in cpms)
-                {
-                    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
-                }
-                ViewBag.CollectionPointsList = CollectionPointsList;
+                //foreach (CollectionPointModel cpm in cpms)
+                //{
+                //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
+                //}
+                ViewBag.CollectionPointsList = cpms;                
 
             }
             catch (Exception ex)
@@ -297,7 +303,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("SearchPreviousDelegation");
         }
 
-        public ActionResult CreateDelegationList( )
+        public ActionResult CreateDelegationList()
         {
 
             string token = GetToken();
@@ -477,5 +483,5 @@ namespace LUSSISADTeam10Web.Controllers
     }
     #endregion
 
+    }
 }
-} 

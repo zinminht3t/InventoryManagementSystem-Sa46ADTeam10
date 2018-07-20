@@ -1,6 +1,6 @@
-﻿
-using LUSSISADTeam10Web.Models.APIModels;
+﻿using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +112,27 @@ namespace LUSSISADTeam10Web.API
         {
             string url = APIHelper.Baseurl + "/disbursement/BreakDown/";
             List<BreakdownByDepartmentModel> bdlist = APIHelper.Execute<List<BreakdownByDepartmentModel>>(token, url, out error);
-            return bdlist;
+
+            error = "";
+            var request = new RestRequest();
+            var client = new RestClient
+            {
+                BaseUrl = new System.Uri(url)
+            };
+            if (token == null)
+            {
+                token = "";
+            }
+
+            request.AddParameter("Authorization", "Bearer " + token.Trim(), ParameterType.HttpHeader);
+            var response = client.Execute<List<BreakdownByDepartmentModel>>(request);
+
+            if (response.ErrorException != null)
+            {
+                // if the error exists
+                error += response.ErrorMessage.ToString();
+            }
+            return response.Data;
         }
 
 

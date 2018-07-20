@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Collection Point";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var lat = 1.3521;
+    var lng = 103.8698;
+    var cplist = new List<double[]>();
+    var counter = 0;
 }
 @section Styles {
     <style>
@@ -44,6 +48,9 @@
 
                     foreach (var item in ViewBag.PendingCollectionPoints)
                     {
+                        lat = ViewBag.Latitude;
+                        lng = ViewBag.Longitude;
+
                         <h5>Location Name : @item.CpName</h5><br />
                         <h5>Location : @item.CpLocation</h5>
                         <br />
@@ -55,14 +62,7 @@
                         </div>
                     }
 
-                    double lat = 21.9874;
-                    double lng = 96.0932;
 
-                    <script type="text/javascript">
-                    window.onload = function () {
-                        initMap(@lat, @lng );
-                    };
-                    </script>
 
                 }
 
@@ -73,23 +73,29 @@
 
 
                     <form asp-action="CollectionPoint" asp-controller="HOD" method="post">
-                        <div class="form-check">
+                        <div class="form-check col-md-4" id="radio" onchange="change()">
                             @foreach (var item in ViewBag.CollectionPointsList)
                             {
+                                cplist.Add(new double[] { item.Latitude, item.Longitude });
+                                counter++;
                                 <div class="radio">
-                                    <label for="@item.Code" class="form-check-label ">
-                                        <input asp-for="SelectedRole" type="radio" id="@item.Code" name="id"
-                                               @if (item.Value == ViewBag.ActiveCollectionPoint) { @: checked
+                                    <label for="@item.Cpid" class="form-check-label">
+                                        <input asp-for="SelectedRole" type="radio" id="@item.Cpid" name="id"
+                                               @if (item.Cpname == ViewBag.ActiveCollectionPoint) { @: checked
+                                                   lat = item.Latitude;
+                                                   lng = item.Longitude;
                                                }
-                                               value="@item.Code" class="ifrm-check-input"> @item.Value
+                                               value="@item.Cpid" class="ifrm-check-input"> @item.Cpname
                                         </label>
                                     </div>
                                     <br />
-                                }
+                            }
                             <br />
                             <input type="Submit" class="btn btn-outline-info m-b-30 m-t-30 pull-right" value="Change Collection Point">
                         </div>
-
+                        <div class="col-md-8">
+                            <div id="map_populate" style="width:100%; height:320px;"></div>
+                        </div>
                     </form>
                 }
             </div>
@@ -97,16 +103,36 @@
 
     </div>
 </div>
+</div>
 @section Scripts {
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9_QAjl1wb52bEUzzgmKvAkj1upYQqd-c" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8UpozIrTb-kqTx2K8zydcLiNbi6YDaEY&callback=initMap" type="text/javascript"></script>
     <script type="text/javascript">
         var mapcode;
         var diag;
         var marker;
+        var latt = @lat;
+        var lngg = @lng;
+        var list = [[1, 1]];
+            @for(int i=0; i<cplist.Count; i++){
 
-        function initMap(lat, lng) {
+                <text>
+                    list.push([@cplist[i][0], @cplist[i][1]]);
+                </text>
+
+            }
+        function change() {
+            var radio = Array.from(document.querySelectorAll('#radio input'));
+            var value = radio.length && radio.find(r => r.checked).id;
+
+            latt = list[value][0];
+            lngg = list[value][1];
+
+            initMap();
+        }
+
+        function initMap() {
             mapcode = new google.maps.Geocoder();
-            var lnt = new google.maps.LatLng(lat, lng);
+            var lnt = new google.maps.LatLng(latt, lngg);
             var diagChoice = {
                 zoom: 13,
                 center: lnt,
