@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierModel>
 
 @{
-    ViewBag.Title = "ShowActiveSupplierlist";
+    ViewBag.Title = "ShowDeActiveSupplierlist";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -12,8 +12,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Active Suppler List</h1>
-             
+                <h1>Old Suppler List</h1>
             </div>
         </div>
     </div>
@@ -21,8 +20,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">Old Suppliers</li>
+                    <li><a href="@Url.Action("DeActive", "Clerk")"  >Dashboard</a></li>
+                    <li><a href="@Url.Action("ShowActiveSupplierlist", "Clerk")">Active Suppliers</li>
                 </ol>
             </div>
         </div>
@@ -54,8 +53,8 @@
                             <div class="col-md-4"><b>Email:</b> </div>
                             <div class="col-md-5">@Html.DisplayFor(modelItem => item.SupEmail) </div>
                         </div><br />
-                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-link pull-right ">Details</a>
-                        <a href="@Url.Action("DeActive", "Clerk" ,  new { id = item.SupId })" style="color: #ff0000;" class="btn btn-link pull-right ">Deactivate</a>
+                        <a href="@Url.Action("CreateDelegationList", "HOD"  )" class="btn btn-link pull-right ">Details</a>
+                        <a href="@Url.Action("Active", "Clerk" ,  new { id = item.SupId })" style="color: #228B22;" class="btn btn-link pull-right ">Activate</a>
                     </form>
                 </div>
             </div>

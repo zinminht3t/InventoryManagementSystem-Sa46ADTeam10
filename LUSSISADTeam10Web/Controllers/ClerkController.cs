@@ -32,7 +32,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.INACTIVE, token, out string error);
+                sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error);
 
                 return View(sm);
              
@@ -43,10 +43,76 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
+        public ActionResult ShowDeActiveSupplierlist()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<SupplierModel> sm = new List<SupplierModel>();
 
 
 
+            try
+            {
+                sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.INACTIVE, token, out string error);
 
+                return View(sm);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+
+
+        
+        public ActionResult DeActive( int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+            
+                  APISupplier.DeactivateSupplier(sm, token , out string error);
+
+                
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowDeActiveSupplierlist");
+        }
+
+       
+        public ActionResult Active(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.ActivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
 
 
 
