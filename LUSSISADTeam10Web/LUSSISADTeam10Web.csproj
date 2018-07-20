@@ -231,6 +231,7 @@
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
+    <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1307,6 +1308,7 @@
     <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
     <Content Include="Views\Clerk\Adjustment.cshtml" />
+    <Content Include="Views\HOD\AssignDepRep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
