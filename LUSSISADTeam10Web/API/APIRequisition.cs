@@ -114,7 +114,7 @@ namespace LUSSISADTeam10Web.API
         }
         public static RequisitionModel UpdateRequisitionStatus(RequisitionModel reqm, string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/requisition/preparing/";
+            string url = APIHelper.Baseurl + "/requisition/requestpending/";
             string objectstring = JsonConvert.SerializeObject(reqm);
             RequisitionModel rdm = APIHelper.Execute<RequisitionModel>(token, objectstring, url, out error);
             return rdm;

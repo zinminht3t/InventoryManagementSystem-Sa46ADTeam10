@@ -271,6 +271,9 @@ namespace LUSSISADTeam10Web.Controllers
                 }
             }
 
+            reqm = APIRequisition.UpdateRequisitionStatus(reqm, token, out error);
+            
+
             return View();
         }
         // End ZMH
