@@ -1164,7 +1164,7 @@
     <Content Include="Views\Supervisor\Index.cshtml" />
     <Content Include="Views\HOD\Index.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\DepartmentRep\Index.cshtml" />
+    <Content Include="Views\Employee\DepartmentRep\Index.cshtml" />
     <Content Include="Styles\css\bootstrap.css.map" />
     <Content Include="Styles\css\bootstrap.min.css.map" />
     <Content Include="Styles\css\style.css.map" />
@@ -1281,7 +1281,7 @@
     <Content Include="Styles\scss\_switches.scss" />
     <Content Include="Styles\scss\_widgets.scss" />
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
-    <Content Include="Views\DepartmentRep\DeptRepDashboard.cshtml" />
+    <Content Include="Views\Employee\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
