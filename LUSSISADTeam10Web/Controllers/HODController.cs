@@ -322,6 +322,35 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewModel);
 
         }
+        public ActionResult AssignDepRep(){
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<UserModel> newum = new List<UserModel>();
+          
+            AssignDepRepViewModel viewModel = new AssignDepRepViewModel();
+            try
+            {
+                newum = APIUser.GetUserByRoleAndDeptID ( 5 ,um.Deptid, token, out string error);
+                ViewBag.userlist = newum;
+                List < UserModel > um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
+                foreach (UserModel um1 in um23)
+                {
+                    ViewBag.assignedrep = um1.Fullname;
+                }
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(viewModel);
+
+
+        }
 
         #endregion
 
@@ -380,15 +409,15 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewDelegation(CreateDelegationViewModel viewmodel)
+        public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel, int userid)
         {
-            
+             
             string token = GetToken();
             UserModel um = GetUser();
             viewmodel.assignedby = um.Userid;
             DelegationModel dm = new DelegationModel();
 
-            dm.Userid = viewmodel.Userid;
+            dm.Userid = userid;
             dm.Enddate = viewmodel.EndDate;
             dm.Startdate = viewmodel.StartDate;
             dm.AssignedbyId = viewmodel.assignedby;
@@ -397,7 +426,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (viewmodel != null)
                 {
-                    APIDelegation.CancelDelegation(token, dm , out string error);
+                    APIDelegation.CreateDelegation(token, dm , out string error);
 
                 }
             }
@@ -407,11 +436,34 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("SearchPreviousDelegation");
         }
-   
-    #endregion
+        [HttpPost]
+        public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid)
+        {
 
-    #region Utilities
-    public string GetToken()
+            string token = GetToken();
+            UserModel um = GetUser();
+          
+                UserModel upum = APIUser.GetUserByUserID(userid, token, out string error);
+                try
+                {
+                    if (viewmodel != null)
+                    {
+                       
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Index", "Error", new { error = ex.Message });
+                }
+                return RedirectToAction("SearchPreviousDelegation");
+            
+        }
+
+        #endregion
+
+        #region Utilities
+        public string GetToken()
     {
         string token = "";
         token = (string)Session["token"];

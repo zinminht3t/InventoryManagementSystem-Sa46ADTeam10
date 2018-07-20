@@ -161,6 +161,20 @@ namespace LUSSISADTeam10API.Repositories
 
         // End TAZ
 
+        public static UserModel AssignDepRep(int id )
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            user um = entities.users.Where(p => p.userid == id ).First<user>();
+            user um1 = entities.users.Where(p => p.deptid == um.deptid && p.role == ConUser.Role.DEPARTMENTREP).First<user>();
+            um1.role = ConUser.Role.EMPLOYEEREP;
+            um.role = ConUser.Role.DEPARTMENTREP;
+            entities.SaveChanges();
+           UserModel umm = CovertDBUsertoAPIUser(um);
+
+
+            return umm;
+        }
 
     }
 }

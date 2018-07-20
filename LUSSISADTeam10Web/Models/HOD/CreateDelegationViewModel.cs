@@ -7,6 +7,7 @@ namespace LUSSISADTeam10Web.Models.HOD
 {
     public class CreateDelegationViewModel
     {
+        
         public int Userid { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

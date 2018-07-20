@@ -22,10 +22,10 @@ namespace LUSSISADTeam10Web.API
             return um;
         }
 
-        public static UserModel GetUserByRoleAndDeptID(int role, int deptid, string token, out string error)
+        public static List<UserModel> GetUserByRoleAndDeptID(int role, int deptid, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/user/role/" + role + "/" + deptid;
-            UserModel um = APIHelper.Execute<UserModel>(token, url, out error);
+            List<UserModel> um = APIHelper.Execute<List<UserModel>>(token, url, out error);
             return um;
         }
 
