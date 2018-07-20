@@ -18,7 +18,13 @@ namespace LUSSISADTeam10API.Repositories
             List<RequisitionDetailsModel> reqdm = new List<RequisitionDetailsModel>();
             foreach (requisitiondetail rqdm in req.requisitiondetails)
             {
-                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
+                try { 
+                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, rqdm.item.inventories.First().stock));
+                }
+                catch(Exception)
+                {
+                    reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, 0));
+                }
             }
             RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.fullname
                                     , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
