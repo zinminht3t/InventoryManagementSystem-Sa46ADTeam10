@@ -171,7 +171,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 po.purchasedby = pom.Purchasedby;
                 po.supid = pom.Supid;
-                po.podate = pom.Podate;
+                po.podate = DateTime.Now;
                 po.status = pom.Status;
                 po = entities.purchaseorders.Add(po);
                 entities.SaveChanges();
@@ -215,7 +215,6 @@ namespace LUSSISADTeam10API.Repositories
 
                 po.purchasedby = pom.Purchasedby;
                 po.supid = pom.Supid;
-                po.podate = pom.Podate;
                 po.status = pom.Status;
                 entities.SaveChanges();
 

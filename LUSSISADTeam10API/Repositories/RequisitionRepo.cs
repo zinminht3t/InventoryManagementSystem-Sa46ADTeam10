@@ -18,7 +18,13 @@ namespace LUSSISADTeam10API.Repositories
             List<RequisitionDetailsModel> reqdm = new List<RequisitionDetailsModel>();
             foreach (requisitiondetail rqdm in req.requisitiondetails)
             {
-                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid ,rqdm.item.description ,rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
+                try { 
+                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, rqdm.item.inventories.First().stock));
+                }
+                catch(Exception)
+                {
+                    reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, 0));
+                }
             }
             RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.fullname
                                     , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
@@ -30,14 +36,14 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Requisition
         private static RequisitionModel CovertDBRequisitiontoAPIRequisition(requisition req)
         {
-            RequisitionModel reqm = new RequisitionModel(req.reqid , req.raisedby ,req.user.fullname 
-                                    , req.approvedby , req.user1.fullname , req.cpid, req.collectionpoint.cpname
-                                     , req.deptid , req.department.deptname ,req.status,req.reqdate, new List<RequisitionDetailsModel>() );
+            RequisitionModel reqm = new RequisitionModel(req.reqid, req.raisedby, req.user.fullname
+                                    , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
+                                     , req.deptid, req.department.deptname, req.status, req.reqdate, new List<RequisitionDetailsModel>());
             return reqm;
         }
 
 
-      
+
 
         // Get the list of all requisition 
         public static List<RequisitionModel> GetAllRequisition(out string error)
@@ -336,10 +342,10 @@ namespace LUSSISADTeam10API.Repositories
                 reqn.deptid = req.Depid;
                 reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
-                reqn.reqdate = req.Reqdate;
+                reqn.reqdate = DateTime.Now;
                 reqn = entities.requisitions.Add(reqn);
                 entities.SaveChanges();
-                req = GetRequisitionByRequisitionId(reqn.reqid , out error);
+                req = GetRequisitionByRequisitionId(reqn.reqid, out error);
             }
             catch (NullReferenceException)
             {
@@ -354,7 +360,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
         // update the Requisition
- public static RequisitionModel UpdateRequisition(RequisitionModel reqm, out string error)
+        public static RequisitionModel UpdateRequisition(RequisitionModel reqm, out string error)
         {
             error = "";
             // declare and initialize new LUSSISEntities to perform update
@@ -371,7 +377,6 @@ namespace LUSSISADTeam10API.Repositories
                 req.approvedby = reqm.Approvedby;
                 req.deptid = reqm.Depid;
                 req.status = reqm.Status;
-                req.reqdate = reqm.Reqdate;
                 // saving the update
                 entities.SaveChanges();
 
@@ -403,7 +408,7 @@ namespace LUSSISADTeam10API.Repositories
                 req.deptid = reqm.Depid;
                 req.cpid = reqm.Cpid;
                 req.status = ConRequisition.Status.PENDING;
-                req.reqdate = reqm.Reqdate;
+                req.reqdate = DateTime.Now;
 
                 req = entities.requisitions.Add(req);
                 entities.SaveChanges();

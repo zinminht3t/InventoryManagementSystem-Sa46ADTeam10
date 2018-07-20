@@ -124,6 +124,17 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult RequisitionDetail(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            RequisitionModel reqm = new RequisitionModel();
+            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            ViewBag.Requisition = reqm;
+            return View();
+        }
+
         // End ZMH
 
         // Start Phyo2
