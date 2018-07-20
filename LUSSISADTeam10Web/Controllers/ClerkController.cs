@@ -109,6 +109,21 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start ZMH
 
+        public ActionResult Requisition()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+
+            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+
+            ViewBag.Requisitions = reqms;
+
+            return View();
+        }
+
         // End ZMH
 
         // Start Phyo2

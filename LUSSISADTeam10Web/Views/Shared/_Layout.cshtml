@@ -41,6 +41,13 @@
                 <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width="70px" height="70px"></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
+            @if (Session["Role"] == null)
+            {
+                <script>
+                    location.href = '@Url.Action("Logoff", "Account")';
+                </script>
+            }
+
             @if (Session["Role"].ToString() == "4")
             {
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
@@ -108,7 +115,7 @@
                             <a href="widgets.html"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
                         </li>
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
+                            <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
                         </li>
                         <li>
                             <a href="widgets.html"> <i class="menu-icon ti-notepad"></i>Outstanding Request </a>

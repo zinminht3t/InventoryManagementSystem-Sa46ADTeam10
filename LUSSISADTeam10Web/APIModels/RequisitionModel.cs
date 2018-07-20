@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -34,6 +35,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public int Reqid { get; set; }
 
         public int? Raisedby { get; set; }
+
         public String Rasiedbyname { get; set; }
 
         public int? Approvedby { get; set; }
@@ -46,8 +48,9 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public String Cpname { get; set; }
 
         public int Status { get; set; }
-        
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Reqdate { get; set; }
 
         public List<RequisitionDetailsModel> Requisitiondetails { get; set; }

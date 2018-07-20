@@ -1303,6 +1303,7 @@
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
     <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
+    <Content Include="Views\Clerk\Requisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
