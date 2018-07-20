@@ -202,23 +202,25 @@ namespace LUSSISADTeam10API.Repositories
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-            List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
+           // List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
             List<OrderHistoryModel> orhm = new List<OrderHistoryModel>();
             try
             {
 
 
-                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).ToList();
+                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
+              //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).Distinct().ToList();
+
 
                 foreach (var order in reqdetail)
                 {
                     OrderHistoryModel o = new OrderHistoryModel();
 
-                   // user raisename = entities.users.Where(p => p.userid == order.requisition.raisedby).First();
-                  //  user approvename = entities.users.Where(p => p.userid == order.requisition.approvedby).First();
-                    o.reqdate = order.requisition.reqdate;
-                  //  o.raisename = raisename.username;
-                  //  o.approvename = approvename.username;
+                   user raisename = entities.users.Where(p => p.userid == order.requisition.raisedby).First();
+                   user approvename = entities.users.Where(p => p.userid == order.requisition.approvedby).First();
+                   o.reqdate = order.requisition.reqdate;
+                   o.raisename = raisename.username;
+                   o.approvename = approvename.username;
                     orhm.Add(o);
                 }
 
