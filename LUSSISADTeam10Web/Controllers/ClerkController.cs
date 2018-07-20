@@ -194,6 +194,10 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
         // End ZMH
 
         // Start Phyo2

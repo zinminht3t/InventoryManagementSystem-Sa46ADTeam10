@@ -80,7 +80,7 @@
                                             }
                                             <td class="@style">@item.Qty</td>
                                             <td class="@style">@item.Stock</td>
-                                            <td>@Html.EditorFor(model => model.ReqItems, new {   })</td>
+                                            <td><input type="number" value="@item.Stock" name="approveqty" class="form-control form-control-sm"/></td>
                                             <td>@item.UOM</td>
                                         </tr>
                                         }
