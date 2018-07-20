@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace LUSSISADTeam10Web.API
 {
@@ -40,6 +42,14 @@ namespace LUSSISADTeam10Web.API
         {
             string url = APIHelper.Baseurl + "/user/hod/" + deptid;
             List<UserModel> um = APIHelper.Execute<List<UserModel>>(token, url, out error);
+            return um;
+        }
+        public static UserModel AssignDepRep(string token, int id, out string error)
+        {
+            error = ""; 
+            string url = APIHelper.Baseurl + "/user/assign/" + id;
+            string objectstring = JsonConvert.SerializeObject(id);
+            UserModel um = APIHelper.Execute<UserModel>(token, objectstring, url, out error);
             return um;
         }
     }

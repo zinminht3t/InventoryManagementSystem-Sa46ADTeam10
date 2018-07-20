@@ -449,20 +449,20 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
           
-                UserModel upum = APIUser.GetUserByUserID(userid, token, out string error);
+              
                 try
                 {
                     if (viewmodel != null)
                     {
-                       
 
-                    }
+                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
+                }
                 }
                 catch (Exception ex)
                 {
                     return RedirectToAction("Index", "Error", new { error = ex.Message });
                 }
-                return RedirectToAction("SearchPreviousDelegation");
+                return RedirectToAction("AssignDepRep");
             
         }
 
