@@ -1,0 +1,70 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierModel>
+
+@{
+    ViewBag.Title = "ShowActiveSupplierlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShowActiveSupplierlist</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SupId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GstRegNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GstRegNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

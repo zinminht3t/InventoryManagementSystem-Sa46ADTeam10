@@ -22,7 +22,31 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start AM
 
-      
+        public ActionResult ShowActiveSupplierlist()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+           List< SupplierModel> sm = new List<SupplierModel>();
+
+            
+
+            try
+            {
+                sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.INACTIVE, token, out string error);
+
+                return View(sm);
+             
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+
+
+
+
 
 
 
