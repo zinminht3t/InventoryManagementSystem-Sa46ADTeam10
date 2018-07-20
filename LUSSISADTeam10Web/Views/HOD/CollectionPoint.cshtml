@@ -48,6 +48,9 @@
 
                     foreach (var item in ViewBag.PendingCollectionPoints)
                     {
+                        lat = ViewBag.Latitude;
+                        lng = ViewBag.Longitude;
+
                         <h5>Location Name : @item.CpName</h5><br />
                         <h5>Location : @item.CpLocation</h5>
                         <br />
@@ -131,7 +134,7 @@
             mapcode = new google.maps.Geocoder();
             var lnt = new google.maps.LatLng(latt, lngg);
             var diagChoice = {
-                zoom: 12,
+                zoom: 13,
                 center: lnt,
                 diagId: google.maps.MapTypeId.ROADMAP
             }

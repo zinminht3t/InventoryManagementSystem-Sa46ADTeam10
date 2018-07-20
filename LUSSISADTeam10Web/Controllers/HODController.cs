@@ -166,6 +166,12 @@ namespace LUSSISADTeam10Web.Controllers
                 dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
                 ViewBag.ActiveCollectionPoint = dcpm.CpName;
 
+                CollectionPointModel current = 
+                    APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
+
+                ViewBag.Latitude = current.Latitude;
+                ViewBag.Longitude = current.Longitude;
+
                 // to show pending list if exists
                 dcpms = dcpms.Where(p => p.DeptID == um.Deptid).ToList();
                 ViewBag.PendingCollectionPoints = dcpms;
