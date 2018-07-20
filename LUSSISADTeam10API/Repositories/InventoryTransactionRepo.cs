@@ -220,7 +220,8 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
 
                 // return the updated model 
-                invtm = ConvertDBModeltoAPIModel(d);
+                invtm = GetInventoryTransactionByTransID(d.tranid, out error);
+
             }
             catch (NullReferenceException)
             {
@@ -247,7 +248,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.remark = invtm.Remark;
                 d = entities.inventorytransactions.Add(d);
                 entities.SaveChanges();
-                invtm = ConvertDBModeltoAPIModel(d);
+                invtm = GetInventoryTransactionByTransID(d.tranid, out error);
             }
             catch (NullReferenceException)
             {

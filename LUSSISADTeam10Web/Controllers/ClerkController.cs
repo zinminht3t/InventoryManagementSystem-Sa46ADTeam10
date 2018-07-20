@@ -355,7 +355,6 @@ namespace LUSSISADTeam10Web.Controllers
             return View(inendetail);
         }
 
-
         public ActionResult StationaryRetrievalForm()
         {
             string token = GetToken();
@@ -370,30 +369,19 @@ namespace LUSSISADTeam10Web.Controllers
                 inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
 
                 bkm = APIDisbursement.GetBreakDown(token, out string errors);
-
-                foreach(BreakdownByDepartmentModel bd in bkm)
-                {
-                    ShowBD s = new ShowBD();
-
-                    s.ItemID = bd.ItemID;
-                    s.ItemDescription = bd.ItemDescription;
-                    s.Qty = inendetail.Where(x => x.ItemId == bd.ItemID).FirstOrDefault().Total;
-                    s.BDList = bd.BDList;
-
-                    bkmd.Add(s);
-                }
+                
                 
             }
 
 
 
 
-            catch
+            catch(Exception ex)
             {
-
+                var mes = ex.Message;
             }
 
-            return View(bkmd);
+            return View(bkm);
         }
 
 
