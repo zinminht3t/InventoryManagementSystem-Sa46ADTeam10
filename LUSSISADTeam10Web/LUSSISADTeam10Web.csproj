@@ -195,6 +195,7 @@
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APINotification.cs" />
     <Compile Include="API\APIOutstanding.cs" />
+    <Compile Include="API\APIOutstandingReq.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
@@ -1314,7 +1315,7 @@
     <Content Include="Views\Clerk\Adjustment.cshtml" />
     <Content Include="Views\HOD\AssignDepRep.cshtml" />
     <Content Include="Views\Clerk\Create.cshtml" />
-    <Content Include="Views\Clerk\ShowActiveSupplierlist.cshtml" />
+    <Content Include="Views\Clerk\Outstanding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
