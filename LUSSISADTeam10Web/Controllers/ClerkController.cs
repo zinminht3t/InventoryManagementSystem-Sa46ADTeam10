@@ -22,7 +22,31 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start AM
 
-      
+        public ActionResult ShowActiveSupplierlist()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+           List< SupplierModel> sm = new List<SupplierModel>();
+
+            
+
+            try
+            {
+                sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.INACTIVE, token, out string error);
+
+                return View(sm);
+             
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+
+
+
+
 
 
 
@@ -251,11 +275,6 @@ namespace LUSSISADTeam10Web.Controllers
             return View(vm);
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel, List<int> itemids, List<int> ApproveQtys)
         {
@@ -263,12 +282,15 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
+            bool IsNeededOutstanding = false;
+            OutstandingReqModel outr = new OutstandingReqModel();
+
 
             RequisitionModel reqm = new RequisitionModel();
 
             reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out error);
             List<RequisitionDetailsModel> reqdms = reqm.Requisitiondetails;
-
+            viewmodel.ReqItems = new List<ReqItem>();
             foreach (int itemid in itemids)
             {
                 ReqItem ri = new ReqItem();
@@ -280,6 +302,10 @@ namespace LUSSISADTeam10Web.Controllers
                 ri.UOM = reqdm.UOM;
                 ri.ItemName = reqdm.Itemname;
                 ri.CategoryName = reqdm.CategoryName;
+                if((ri.Qty - ri.ApproveQty) > 0)
+                {
+                    IsNeededOutstanding = true;
+                }
                 viewmodel.ReqItems.Add(ri);
                 count++;
             }
@@ -289,6 +315,14 @@ namespace LUSSISADTeam10Web.Controllers
             dis.Ackby = um.Userid;
             dis = APIDisbursement.Createdisbursement(dis, token, out error);
 
+            if (IsNeededOutstanding)
+            {
+                outr.ReqId = viewmodel.ReqID;
+                outr.Reason = "Not Enough Stock";
+                outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
+            }
+
             foreach(ReqItem ri in viewmodel.ReqItems)
             {
                     DisbursementDetailsModel disdm = new DisbursementDetailsModel();
@@ -296,20 +330,37 @@ namespace LUSSISADTeam10Web.Controllers
                     disdm.Itemid = ri.ItemID;
                     disdm.Qty = ri.ApproveQty;
                     disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
-                if (ri.Stock > ri.ApproveQty)
+                if (ri.Qty > ri.ApproveQty)
                 {
-                    OutstandingReqModel outr = new OutstandingReqModel();
-                    outr.ReqId = viewmodel.ReqID;
-                    outr.Reason = "Not Enough Stock";
-                    outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                    OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
+                    outreq.OutReqId = outr.OutReqId;
+                    outreq.ItemId = ri.ItemID;
+                    outreq.Qty = ri.ApproveQty - ri.Qty;
+                    outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
                 }
             }
-
             reqm = APIRequisition.UpdateRequisitionStatus(reqm, token, out error);
             
+            return View("Requisition");
+        }
+
+        public ActionResult Outstanding()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<OutstandingReqModel> outrm = new List<OutstandingReqModel>();
+
+            outrm = APIOutstandingReq.GetAllOutReqs(token, out error);
+            outrm.Where(p => p.Status == ConOutstandingsRequisition.Status.PENDING).ToList();
+
+            ViewBag.Outstandings = outrm;
 
             return View();
         }
+
+
         // End ZMH
 
         // Start Phyo2

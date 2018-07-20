@@ -94,7 +94,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 sups = entities.suppliers
-                    .Where(x => x.supid == status)
+                    .Where(x => x.active == status)
                     .ToList();
                 foreach(supplier s in sups)
                 {

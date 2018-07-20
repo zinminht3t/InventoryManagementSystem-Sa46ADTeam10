@@ -77,16 +77,17 @@
                                                 <td>@item.ItemName</td>
                                                 <td>@item.CategoryName</td>
 
-                                                @{ var style = "text-danger"; }
+                                                @{ var style = "text-danger"; var approveqty = item.Stock; }
                                                 @if (item.Qty < item.Stock)
                                                 {
                                                     style = "text-info";
+                                                    approveqty = item.Qty;
                                                 }
                                                 <td class="@style">@item.Qty</td>
                                                 <td class="@style">@item.Stock</td>
                                                 <td>
                                                     <input type="hidden" value="@item.ItemID" name="ItemIDs" />
-                                                    <input type="number" value="@item.Stock" name="ApproveQtys" class="form-control form-control-sm" />
+                                                    <input type="number" value="@approveqty" name="ApproveQtys" class="form-control form-control-sm" />
                                                 </td>
                                                 <td>@item.UOM</td>
                                             </tr>
