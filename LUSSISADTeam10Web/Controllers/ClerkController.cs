@@ -148,7 +148,22 @@ namespace LUSSISADTeam10Web.Controllers
 
             return invcvm;
         }
-            //Display All Inventories
+        public List<Inventory> GetSelectedInventory(List<int> i)
+        {
+            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
+            List<Inventory> ivm = ivcvm.Invs;
+            List<Inventory> dis = new List<Inventory>();
+            foreach (Inventory iv in ivm)
+            {
+                foreach (int a in i)
+                {
+                    if (iv.InventoryId == a)
+                        dis.Add(iv);
+                }
+            }
+            return dis;
+        }
+        //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
@@ -169,26 +184,45 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult Inventory(List<int> InvID)
             {
-            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
-            List<Inventory> ivm = ivcvm.Invs;
-            List < Inventory > dis = new List<Inventory>();
-            foreach (Inventory iv in ivm)
-            {
-                foreach(int i in InvID)
-                {
-                    if (iv.InventoryId == i)
-                        dis.Add(iv);
-                }               
-            }
+            List<Inventory> dis = GetSelectedInventory(InvID);
             TempData["discrepancy"] = dis; 
             return RedirectToAction("Adjustment");
         }
         public ActionResult Adjustment()
         {
-            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;           
-            return View(dis);
-
-            //to do View
+            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
+            InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
+            ivcvm.Invs = dis;
+            ivcvm.InvIDs = new List<int>();
+            
+            return View(ivcvm);
+        }
+        [HttpPost]
+        public ActionResult Adjustment(List<int> InvID, List<int> Current, List<string>Reason)
+        {
+            string token = GetToken();
+            UserModel user = GetUser();
+            List<Inventory> invent = GetSelectedInventory(InvID);
+            AdjustmentModel adjust = new AdjustmentModel();
+           
+            for (int i =0; i < InvID.Count; i++)
+            {
+                foreach(Inventory inv in invent)
+                {
+                    if(InvID[i]== inv.InventoryId)
+                    {
+                        inv.Current = Current[i];
+                        AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current-(int)inv.Stock),Reason[i]);
+                        adjust.Adjds.Add(adjd);
+                    }
+                }
+            }
+            adjust.Issueddate = DateTime.Now.Date;
+            adjust.Raisedby = user.Userid;
+            
+            adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
+           
+            return RedirectToAction("Inventory");
         }
 
 

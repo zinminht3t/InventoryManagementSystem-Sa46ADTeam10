@@ -1,28 +1,101 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.InventoryCheckViewModel>
+﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryCheckViewModel
 
 @{
     ViewBag.Title = "Adjustment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Adjustment</h2>
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Adjustment Form</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Discrepancy Stock List</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+<div class="content mt-3">
+    <div class="animated fadeIn">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Inventories </strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <form asp-action="Adjustment" asp-controller="Clerk" method="post">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <tr>
+                                <th style="text-align:center">Category</th>
+                                <th style="text-align:center">Items</th>
+                                <th style="text-align:center">Stock</th>
+                                <th style="text-align:center">Current Qty</th>
+                                <th style="text-align:center">UOM</th>
+                                <th style="text-align:center">Location</th>
+                                <th style="text-align:center">Reason</th>
+
+                            </tr>
+                        <tr>
+                        <td></td>
+                        </tr>
+
+                        @foreach (var item in Model.Invs)
+    {
+                    <tr>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.ItemDescription)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td style="column-width:inherit">                   
+                    <input type="number" name="Current" asp-for="Current" value="@item.Current" />
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Shelf)
+                    @Html.DisplayFor(modelItem => item.Level)
+                    </td>
+                    <td>
+                        <textarea name="Reason" id="textarea-input" rows="2" placeholder="Reason for Discrepancy..." class="form-control"></textarea>
+                        
+                    </td>
+                    </tr>
+                    <input type="hidden" name="InvID" asp-for="@Model.InvIDs" value="@item.InventoryId" />
 }
+                        <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
+                        <td colspan="100%">
+                        <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
+                        </td>
+                        </tr>
+                        </form>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</table>
