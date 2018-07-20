@@ -1,4 +1,9 @@
-﻿using System;
+﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Constants;
+using LUSSISADTeam10Web.Models;
+using LUSSISADTeam10Web.Models.APIModels;
+using LUSSISADTeam10Web.Models.Clerk;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +11,7 @@ using System.Web.Mvc;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles ="DepartmentRep")]
+    [Authorize(Roles = "DepartmentRep")]
     public class DepartmentRepController : Controller
     {
         // GET: DepartmentRep
@@ -14,5 +19,49 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View("DeptRepDashboard");
         }
+
+        public ActionResult OrderHistory(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<OrderHistoryModel> inendetail = new List<OrderHistoryModel>();
+
+            try
+            {
+                inendetail = APIRequisition.GetOrderHistory(id, token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(inendetail);
+        }
+
+        #region Utilities
+        private UserModel GetUser()
+        {
+            UserModel um = new UserModel();
+            um = (UserModel)Session["user"];
+            return um;
+        }
+
+        private string GetToken()
+        {
+            string token = "";
+            token = (string)Session["token"];
+            return token;
+        }
+        #endregion 
+
+
     }
+
+
 }
