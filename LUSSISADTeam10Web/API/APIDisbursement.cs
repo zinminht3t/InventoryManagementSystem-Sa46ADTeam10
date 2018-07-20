@@ -1,5 +1,4 @@
-﻿using LUSSISADTeam10API.Models.APIModels;
-using LUSSISADTeam10Web.Models.APIModels;
+﻿using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
