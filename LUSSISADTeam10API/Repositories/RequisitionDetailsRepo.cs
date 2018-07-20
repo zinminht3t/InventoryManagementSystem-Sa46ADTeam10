@@ -14,7 +14,15 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Requisitiondetail
         private static RequisitionDetailsModel CovertDBRequisitionDetailstoAPIRequisitionDetails(requisitiondetail reqd)
         {
-            RequisitionDetailsModel reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, reqd.item.inventories.First().stock);
+            RequisitionDetailsModel reqdm;
+            try
+            {
+                reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, reqd.item.inventories.First().stock);
+            }
+            catch (Exception)
+            {
+                reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, 0);
+            }
             return reqdm;
         }
 
