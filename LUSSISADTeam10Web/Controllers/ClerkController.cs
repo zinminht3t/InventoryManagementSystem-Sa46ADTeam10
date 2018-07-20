@@ -91,11 +91,105 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
-        // END TAZ
+        //Manage Items
+        public ActionResult Manage()
+        {
+            string token = GetToken();
+            List<InventoryModel> invm = new List<InventoryModel>();
+            try
+            {
+                
+                invm=APIInventory.GetAllInventories(token, out string error);
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
-        // Start Mahsu
+            return View(invm);
+        }
 
-         //Get All InventoryCheckViewModel
+        //Edit Item
+        public ActionResult EditItem(int id = 0)
+        {
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel itm = new ItemModel();
+            ViewBag.InventoryModel = invm;
+            InventoryViewModel viewmodel = new InventoryViewModel();
+            invm=APIInventory.GetInventoryByInvid(id, token, out string error);
+
+            try {
+
+                ViewBag.InventoryModel = invm;
+
+                viewmodel.CatId=itm.Catid;
+                viewmodel.ItemDescription = invm.ItemDescription;
+                viewmodel.Stock = invm.Stock;
+                viewmodel.ReorderLevel = invm.ReorderLevel;
+                viewmodel.ReorderQty = invm.ReorderQty;
+                viewmodel.CategoryName = invm.CategoryName;
+                viewmodel.Itemid = invm.Itemid;
+                viewmodel.Invid = invm.Invid;
+                viewmodel.UOM = invm.UOM;
+                
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message
+    });
+            }
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult EditItem(InventoryViewModel viewmodel)
+        {
+            
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel it = new ItemModel();
+            CategoryModel c = new CategoryModel();
+            
+           
+            invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
+            it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
+            c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
+
+            c.Name = viewmodel.CategoryName;
+            invm.Invid = viewmodel.Invid;
+            invm.Itemid = viewmodel.Itemid;
+            invm.Stock = viewmodel.Stock;
+            invm.ReorderLevel = viewmodel.ReorderLevel;
+            invm.ReorderQty = viewmodel.ReorderQty;
+            //it.Itemid = viewmodel.Itemid;
+            it.Description = viewmodel.ItemDescription;
+            it.Uom = viewmodel.UOM;
+            
+                   
+            try
+            {
+                invm = APIInventory.UpdateInventory(token, invm, out error);
+                it = APIItem.UpdateItem(token, it, out error);
+                c = APICategory.UpdateCategory(token, c, out error);
+                return RedirectToAction("Manage");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+
+        //END TAZ
+
+        //Start Mahsu
+
+        //Get All InventoryCheckViewModel
         public InventoryCheckViewModel GetInvtCheckVM()
         {
             string token = GetToken();

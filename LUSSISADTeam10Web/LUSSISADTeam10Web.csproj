@@ -227,6 +227,7 @@
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\InventoryViewModel.cs" />
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
@@ -1299,6 +1300,8 @@
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
     <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
+    <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
