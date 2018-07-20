@@ -244,6 +244,72 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return ois;
         }
+
+
+
+
+
+
+        public static List<BreakdownByDepartmentModel> GetBreakdownByDepartment(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<BreakdownByDepartmentModel> ois = new List<BreakdownByDepartmentModel>();
+            try
+            {
+
+
+                List<int> itemids = entities.disbursementdetails.Where(p => p.disbursement.requisition.status == ConRequisition.Status.PREPARING).Select(x => x.itemid).Distinct().ToList();
+
+                foreach (int itemid in itemids) {
+
+                    var data = entities.disbursementdetails.Where(p => p.itemid == itemid
+                    && p.disbursement.requisition.status == ConRequisition.Status.PREPARING)
+                        .GroupBy(x => x.disbursement.requisition.department)
+                        .Select(y => new
+                        {
+                            Department = y.Key,
+                            Quantity = y.Sum(x => x.qty)
+                        });
+
+                    List<BreakDown> bds = new List<BreakDown>();
+
+                    foreach (var item in data)
+                    {
+                        BreakDown bd = new BreakDown();
+                        bd.DeptID  = item.Department.deptid;
+                        bd.DeptName  = item.Department.deptname;
+                        bd.Qty = item.Quantity;
+                        bds.Add(bd);
+                    }
+
+                    BreakdownByDepartmentModel bddm = new BreakdownByDepartmentModel();
+                    bddm.ItemID = itemid;
+                    bddm.ItemDescription = ItemRepo.GetItemByItemid(itemid, out error).Description;
+                    bddm.BDList = bds;
+
+                    ois.Add(bddm);
+                }
+
+            }
+
+            // if department not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return ois;
+        }
     }
 
 

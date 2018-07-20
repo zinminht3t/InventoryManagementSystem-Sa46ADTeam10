@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Clerk;
@@ -44,37 +45,37 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewmodel);
         }
 
-        //[HttpPost]
-        //public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
-        //{
-        //    string token = GetToken();
-        //    UserModel um = GetUser();
-        //    DepartmentCollectionPointModel cpm = new DepartmentCollectionPointModel();
-        //    cpm.Status = ConDepartmentCollectionPoint.Status.ACTIVE;
+        [HttpPost]
+        public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+           
 
-        //    cpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, viewmodel.CpID , out string error);
+            dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, viewmodel.CpID, out string error);
 
-        //    try
-        //    {
-        //        if (!viewmodel.Approve)
-        //        {
-        //            cpm.Status = ConDepartmentCollectionPoint.Status.REJECTED;
-        //        }
+            try
+            {
+                
+                if (!viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+                }
 
-        //        cpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, cpm, out error);
+                else if (viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, dcpm, out error);
+                }
+                
+                return RedirectToAction("ApproveCollectionPoint");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
-        //        if (viewmodel.Approve)
-        //        {
-        //            return RedirectToAction("TrackRequisition", new { id = cpm.CpID });
-        //        }
-        //        return RedirectToAction("CollectionPointList");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return RedirectToAction("Index", "Error", new { error = ex.Message });
-        //    }
-
-        //}
+        }
         // END TAZ
 
         // Start Mahsu
@@ -152,9 +153,101 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start ZMH
 
+        public ActionResult Requisition()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+
+            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+
+            ViewBag.Requisitions = reqms;
+
+            return View();
+        }
+
+        public ActionResult RequisitionDetail(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            RequisitionModel reqm = new RequisitionModel();
+            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            ViewBag.Requisition = reqm;
+            return View();
+        }
+
         // End ZMH
 
         // Start Phyo2
+
+        public ActionResult GetOrderRecommndation()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<InventoryDetailModel> inendetail = new List<InventoryDetailModel>();
+
+            try
+            {
+                inendetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(inendetail);
+        }
+
+
+        public ActionResult StationaryRetrievalForm()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<OutstandingItemModel> inendetail = new List<OutstandingItemModel>();
+            List<BreakdownByDepartmentModel> bkm = new List<BreakdownByDepartmentModel>();
+
+            List<ShowBD> bkmd = new List<ShowBD>();
+            try
+            {
+                inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
+
+                bkm = APIDisbursement.GetBreakDown(token, out string errors);
+
+                foreach(BreakdownByDepartmentModel bd in bkm)
+                {
+                    ShowBD s = new ShowBD();
+
+                    s.ItemID = bd.ItemID;
+                    s.ItemDescription = bd.ItemDescription;
+                    s.Qty = inendetail.Where(x => x.ItemId == bd.ItemID).FirstOrDefault().Total;
+                    s.BDList = bd.BDList;
+
+                    bkmd.Add(s);
+                }
+                
+            }
+
+
+
+
+            catch
+            {
+
+            }
+
+            return View(bkmd);
+        }
+
 
         // End Phyo2
 

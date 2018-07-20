@@ -49,7 +49,7 @@ namespace LUSSISADTeam10API.Repositories
                     }
                 }
             }
-            InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty);
+            InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty, inv.item.category.shelflocation, inv.item.category.shelflevel);
             return invdm;
         }
         // Get the list of all invs and will return with error if there is one.

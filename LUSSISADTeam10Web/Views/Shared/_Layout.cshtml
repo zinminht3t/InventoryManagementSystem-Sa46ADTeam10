@@ -41,6 +41,13 @@
                 <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width="70px" height="70px"></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
+            @if (Session["Role"] == null)
+            {
+                <script>
+                    location.href = '@Url.Action("Logoff", "Account")';
+                </script>
+            }
+
             @if (Session["Role"].ToString() == "4")
             {
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
@@ -50,7 +57,7 @@
                         </li>
                         <h3 class="menu-title">Head of Department</h3><!-- /.menu-title -->
                         <li>
-                            <a href="@Url.Action("Delegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
+                            <a href="@Url.Action("SearchPreviousDelegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
                         </li>
                         <li>
                             <a href="@Url.Action("AssignDepartmentRep", "HOD")"> <i class="menu-icon ti-video-camera"></i>Assign Department Rep </a>
@@ -62,7 +69,7 @@
                             <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisition Tracking </a>
+                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
                         </li>
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -108,7 +115,7 @@
                             <a href="widgets.html"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
                         </li>
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
+                            <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
                         </li>
                         <li>
                             <a href="widgets.html"> <i class="menu-icon ti-notepad"></i>Outstanding Request </a>
@@ -287,8 +294,6 @@
         </div>
 
     </div>
-
-
     <script src="~/styles/js/jquery.min.js"></script>
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>

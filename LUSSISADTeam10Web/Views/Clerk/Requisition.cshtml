@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "Order History";
+    ViewBag.Title = "Requisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -14,7 +14,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Order History</h1>
+                <h1>Requisitions</h1>
             </div>
         </div>
     </div>
@@ -22,8 +22,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Order History</li>
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Requisitions</li>
                 </ol>
             </div>
         </div>
@@ -37,16 +37,18 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Order History </strong>
+                <strong class="card-title"> Requisitions </strong>
             </div>
             <div class="card-body">
 
                 <table id="myTable" class="table table-striped table-bordered">
-                    <thead>
+                    <thead class="table-info">
                         <tr>
-
                             <th>
                                 Date
+                            </th>
+                            <th>
+                                Department
                             </th>
                             <th>
                                 Raised By
@@ -64,26 +66,28 @@
                     </thead>
                     <tbody>
 
-                        @foreach (var item in Model)
+                        @foreach (var item in ViewBag.Requisitions)
                         {
-                            <tr>
-
-                                <td>
-                                    @item.Reqdate.Value.ToString("d")
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Rasiedbyname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Approvedbyname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Cpname)
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("RequisitionDetail", "HOD",  new {id = item.Reqid }, null)"> <i class="text-info fa fa-align-justify"></i></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.Depname
+                            </td>
+                            <td>
+                                @item.Rasiedbyname
+                            </td>
+                            <td>
+                                @item.Approvedbyname
+                            </td>
+                            <td>
+                                @item.Cpname
+                            </td>
+                            <td>
+                                <a href="@Url.Action("RequisitionDetail", "Clerk",  new {id = item.Reqid }, null)" class="btn btn-outline-info"> <i class="fa fa-user"></i>  Process</a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
 

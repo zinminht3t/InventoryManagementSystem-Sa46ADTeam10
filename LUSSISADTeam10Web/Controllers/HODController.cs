@@ -18,6 +18,10 @@ namespace LUSSISADTeam10Web.Controllers
     public class HODController : Controller
     {
         #region Get Methods
+        public ActionResult Chart()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
@@ -31,7 +35,8 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                reqms = APIRequisition.GetAllRequisition(token, out string error);
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+                reqms = reqms.Where(p => p.Status >= ConRequisition.Status.APPROVED && p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
 
                 if (error != "")
                 {
@@ -72,15 +77,74 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel um = GetUser();
-
+            string error = "";
             RequisitionModel reqm = new RequisitionModel();
+
+            ViewBag.Pending = "btn-danger";
+            ViewBag.Preparing = "btn-danger";
+            ViewBag.Ready = "btn-danger";
+            ViewBag.Collected = "btn-danger";
+            ViewBag.Track = "";
+
             try
             {
-                reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+                if (reqm.Depid != um.Deptid)
+                {
+                    error = "You don't have authority to view this requisition";
+                }
+                switch (reqm.Status)
+                {
+                    case ConRequisition.Status.REQUESTPENDING:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
+                    case ConRequisition.Status.PREPARING:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-warning";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Preparing Items";
+
+                        break;
+                    case ConRequisition.Status.DELIVERED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-warning";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Ready to Collect";
+
+                        break;
+                    case ConRequisition.Status.OUTSTANDINGREQUISITION:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-warning";
+                        ViewBag.Track = "Completed";
+
+                        break;
+                    case ConRequisition.Status.COMPLETED:
+                        ViewBag.Pending = "btn-success";
+                        ViewBag.Preparing = "btn-success";
+                        ViewBag.Ready = "btn-success";
+                        ViewBag.Collected = "btn-success";
+                        ViewBag.Track = "Completed";
+                        break;
+                    default:
+                        break;
+                }
+
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            if (error != "")
+            {
+                return RedirectToAction("Index", "Error", new { error });
             }
             return View(reqm);
         }
@@ -102,6 +166,12 @@ namespace LUSSISADTeam10Web.Controllers
                 dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
                 ViewBag.ActiveCollectionPoint = dcpm.CpName;
 
+                CollectionPointModel current = 
+                    APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
+
+                ViewBag.Latitude = current.Latitude;
+                ViewBag.Longitude = current.Longitude;
+
                 // to show pending list if exists
                 dcpms = dcpms.Where(p => p.DeptID == um.Deptid).ToList();
                 ViewBag.PendingCollectionPoints = dcpms;
@@ -111,11 +181,11 @@ namespace LUSSISADTeam10Web.Controllers
 
                 // for radio button 
                 cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
-                foreach (CollectionPointModel cpm in cpms)
-                {
-                    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
-                }
-                ViewBag.CollectionPointsList = CollectionPointsList;
+                //foreach (CollectionPointModel cpm in cpms)
+                //{
+                //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
+                //}
+                ViewBag.CollectionPointsList = cpms;                
 
             }
             catch (Exception ex)
@@ -125,6 +195,23 @@ namespace LUSSISADTeam10Web.Controllers
 
 
             return View(cpms);
+        }
+        public ActionResult CancelCollectionPoint(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            try
+            {
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+                dcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
+                dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("CollectionPoint");
         }
         public ActionResult RequisitionDetail(int id)
         {
@@ -166,17 +253,16 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = new UserModel();
             return View();
         }
-
         public ActionResult SearchPreviousDelegation()
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            DelegationModel reqms = new DelegationModel();
             try
             {
-                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).ToList();
+                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
+
 
                 if (error != "")
                 {
@@ -190,26 +276,58 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(reqms);
         }
+        public ActionResult CancelDelegation(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
 
+            if (id != 0)
+            {
+                try
+                {
 
+                    DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
+                    DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
 
+                    if (error != "")
+                    {
+                        return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                }
+            }
 
+            return RedirectToAction("SearchPreviousDelegation");
+        }
 
+        public ActionResult CreateDelegationList()
+        {
 
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<UserModel> newum = new List<UserModel>();
+            CreateDelegationViewModel viewModel = new CreateDelegationViewModel();
+            try
+            {
+                newum = APIUser.GetUsersForHOD(um.Deptid, token, out string error);
+                ViewBag.userlist = newum;
 
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
+            return View(viewModel);
 
-
-
-
-
-
-
-
-
-
-
-
+        }
 
         #endregion
 
@@ -241,12 +359,13 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
-            reqm.Status = ConRequisition.Status.APPROVED;
 
             reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
 
             try
             {
+                reqm.Status = ConRequisition.Status.APPROVED;
+
                 if (!viewmodel.Approve)
                 {
                     reqm.Status = ConRequisition.Status.REJECTED;
@@ -264,8 +383,37 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-
         }
+
+        [HttpPost]
+        public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            viewmodel.assignedby = um.Userid;
+            DelegationModel dm = new DelegationModel();
+
+            dm.Userid = viewmodel.Userid;
+            dm.Enddate = viewmodel.EndDate;
+            dm.Startdate = viewmodel.StartDate;
+            dm.AssignedbyId = viewmodel.assignedby;
+
+            try
+            {
+                if (viewmodel != null)
+                {
+                    APIDelegation.CancelDelegation(token, dm, out string error);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("SearchPreviousDelegation");
+        }
+
         #endregion
 
         #region Utilities
@@ -282,7 +430,6 @@ namespace LUSSISADTeam10Web.Controllers
             return um;
         }
         #endregion
-
 
     }
 }

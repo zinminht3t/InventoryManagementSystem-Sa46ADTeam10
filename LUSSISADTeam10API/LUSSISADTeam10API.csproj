@@ -187,6 +187,7 @@
     </Compile>
     <Compile Include="Models\APIModels\AdjustmentModel.cs" />
     <Compile Include="Models\APIModels\AdjustmentDetailModel.cs" />
+    <Compile Include="Models\APIModels\BreakdownByDepartmentModel.cs" />
     <Compile Include="Models\APIModels\CategoryModel.cs" />
     <Compile Include="Models\APIModels\CollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DelegationModel.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
+    <Compile Include="Models\APIModels\OrderHistoryModel.cs" />
     <Compile Include="Models\APIModels\OutstandingItemModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqModel.cs" />

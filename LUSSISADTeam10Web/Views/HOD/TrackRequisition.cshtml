@@ -65,9 +65,9 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Icons</a></li>
-                    <li class="active">FontAwesome</li>
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li><a href="@Url.Action("RequisitionsList", "HOD")">Requisitions List</a></li>
+                    <li class="active">Track Requisiton</li>
                 </ol>
             </div>
         </div>
@@ -81,7 +81,7 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title">Track Requisition : @Model.reqid</strong>
+                <strong class="card-title">Track Requisition : @Model.Reqid</strong>
             </div>
             <div class="card-body">
 
@@ -89,113 +89,77 @@
                 <div class="stepwizard">
                     <div class="stepwizard-row">
                         <div class="stepwizard-step">
-                            <button type="button" class="btn btn-success btn-circle">1</button>
-                            <p>Pending</p>
+                            <button type="button" class="btn @ViewBag.Pending btn-circle">1</button>
+                            <p>Request Pending</p>
                         </div>
                         <div class="stepwizard-step">
-                            <button type="button" class="btn btn-success btn-circle" disabled="disabled">2</button>
+                            <button type="button" class="btn @ViewBag.Preparing btn-circle" disabled="disabled">2</button>
                             <p>Preparing</p>
                         </div>
                         <div class="stepwizard-step">
-                            <button type="button" class="btn btn-warning btn-circle" disabled="disabled">3</button>
+                            <button type="button" class="btn @ViewBag.Ready btn-circle" disabled="disabled">3</button>
                             <p>Ready to Collect</p>
                         </div>
                         <div class="stepwizard-step">
-                            <button type="button" class="btn btn-danger btn-circle" disabled="disabled">4</button>
+                            <button type="button" class="btn @ViewBag.Collected btn-circle" disabled="disabled">4</button>
                             <p>Completed</p>
                         </div>
                     </div>
                 </div>
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.reqid)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.reqid)
-                    </dd>
+                <div class="row">
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.raisedby)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.raisedby)
-                    </dd>
+                    <div class="col-md-12">
+                        <div class="card">
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.rasiedbyname)
-                    </dt>
+                            <div class="card-body">
+                                <div class="mx-auto d-block">
+                                    <h5 class="text-sm-center text-info"> <i class="fa fa-location-arrow fa-3x"></i><br /> @ViewBag.Track </h5><br />
+                                    <h6>Raised By :  @Model.Rasiedbyname </h6><br />
+                                    <h6>Collection Point : @Model.Cpname</h6><br />
+                                    <h6>Requested Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
+                                    <div class="text-sm-center">
 
-                    <dd>
-                        @Html.DisplayFor(model => model.rasiedbyname)
-                    </dd>
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="table-info">
+                                                <tr>
+                                                    <th>Item Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>UOM</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(var item in Model.Requisitiondetails)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Itemname</td>
+                                                        <td>@item.CategoryName</td>
+                                                        <td>@item.Qty</td>
+                                                        <td>@item.UOM</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.approvedby)
-                    </dt>
+                                    </div>
+                                </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.approvedby)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.approvedbyname)
-                    </dt>
+                                <hr>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.approvedbyname)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.depid)
-                    </dt>
+                                <div class="card-text text-sm-right">
+                                    Approved By : <strong>@Model.Approvedbyname</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.depid)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.depname)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.depname)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.cpid)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.cpid)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.cpname)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.cpname)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.status)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.status)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.reqdate)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.reqdate)
-                    </dd>
-
-                </dl>
 
 
             </div>
