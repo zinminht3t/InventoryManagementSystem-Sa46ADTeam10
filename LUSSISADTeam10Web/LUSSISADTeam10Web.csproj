@@ -226,6 +226,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Clerk\ActiveSupplierViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
