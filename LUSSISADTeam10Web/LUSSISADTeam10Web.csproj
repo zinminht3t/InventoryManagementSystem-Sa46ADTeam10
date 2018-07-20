@@ -1299,9 +1299,17 @@
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
     <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
+    <Content Include="Views\Clerk\Adjustment.cshtml" />
+    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
+    <Content Include="Views\Clerk\Requisition.cshtml" />
+    <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
+    <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
+    <Content Include="Views\HOD\CreateDelegationList.cshtml" />
+    <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="fonts\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Employee\" />
     <Folder Include="Models\Home\" />
