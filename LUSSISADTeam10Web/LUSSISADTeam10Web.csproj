@@ -170,6 +170,7 @@
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="APIModels\NotificationModel.cs" />
+    <Compile Include="APIModels\OrderHistoryModel.cs" />
     <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />
@@ -193,6 +194,8 @@
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APINotification.cs" />
+    <Compile Include="API\APIOutstanding.cs" />
+    <Compile Include="API\APIOutstandingReq.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
@@ -224,13 +227,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Clerk\ActiveSupplierViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\ProcessRequisitionViewModel.cs" />
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
+    <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
+    <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1164,7 +1171,7 @@
     <Content Include="Views\Supervisor\Index.cshtml" />
     <Content Include="Views\HOD\Index.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\DepartmentRep\Index.cshtml" />
+    <Content Include="Views\Employee\DepartmentRep\Index.cshtml" />
     <Content Include="Styles\css\bootstrap.css.map" />
     <Content Include="Styles\css\bootstrap.min.css.map" />
     <Content Include="Styles\css\style.css.map" />
@@ -1281,7 +1288,7 @@
     <Content Include="Styles\scss\_switches.scss" />
     <Content Include="Styles\scss\_widgets.scss" />
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
-    <Content Include="Views\DepartmentRep\DeptRepDashboard.cshtml" />
+    <Content Include="Views\Employee\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
@@ -1299,13 +1306,15 @@
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
     <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
-    <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
+    <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
     <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
-    <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
-    <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
+    <Content Include="Views\Clerk\Requisition.cshtml" />
+    <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
     <Content Include="Views\Clerk\Adjustment.cshtml" />
+    <Content Include="Views\HOD\AssignDepRep.cshtml" />
+    <Content Include="Views\Clerk\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1314,7 +1323,6 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
-    <Folder Include="Views\HeadofDepartment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />

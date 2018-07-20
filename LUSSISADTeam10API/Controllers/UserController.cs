@@ -114,6 +114,22 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(usm);
         }
+        [HttpPost]
+        [Route("api/user/assign/{userid}")]
+        public IHttpActionResult AssignDepartmentRep(int userid)
+        {
+            string error = "";
+            UserModel usm = UserRepo.AssignDepRep( userid);
+            if (error != "" || usm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "User Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(usm);
+        }
 
 
     }

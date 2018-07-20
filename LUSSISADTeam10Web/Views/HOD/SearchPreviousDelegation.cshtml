@@ -1,4 +1,4 @@
-﻿@model LUSSISADTeam10Web.Models.APIModels.DelegationModel
+﻿@model LUSSISADTeam10Web.Models.HOD.EditDelegationViewModel
 
 @{
     ViewBag.Title = "SearchPreviousDelegation";
@@ -32,57 +32,78 @@
 <div class="content mt-3">
     <div class="animated fadeIn">
 
+        @using (Html.BeginForm("SearchPreviousDelegation", "HOD", new { id = @ViewBag.Deleid }))
+        {
 
-        <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Previous Delegation </strong>
-            </div>
-            <div class="card-body">
-                    @if (Model.Startdate != null)
-                    {
-                    <table class="table">
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Username)
-                            </th>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.Username)
-                            </td>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Startdate)
-                            </th>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.Startdate)
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Enddate)
-                            </th>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.Enddate)
-                            </td>
-                        </tr>
-                    </table>
-                    }
-                    else
+            <div class="card">
+                <div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title"> Previous Delegation </strong>
+                    <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.name == "")
                     {
                         <p>There is no previous delegation.</p>
 
                     }
-                    
-                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = Model.Delid})" class="btn btn-outline-danger">Delete</a>
-                    <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Create</a>
+                    else
+                    {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    <p>Name</p>
+                                </th>
+                                <td>
+                                    @ViewBag.name
+                                </td>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <p>Start Date</p>
+                                </th>
+                                <td>
+                                    @ViewBag.StartDate
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <p>End Date</p>
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker" })
+                                </td>
+                            </tr>
+                        </table>
+                        @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate });
+                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid});
+                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid});
+
+                    }
+
+                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = @ViewBag.Deleid })" class="btn btn-outline-danger">Delete</a>
+                    <input type="Submit" class="btn btn-outline-success" value="Update">
+                </div>
             </div>
+        }
         </div>
-    </div>
 </div>
 
 @section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
 
-    <script type="text/javascript"></script>
+            $("#datepicker").datepicker('option', "showAnim", 'slide');
+            $("#datepicker").datepicker('option', { minDate: +0 });
+            $("#datepicker").datepicker('setDate', '@ViewBag.Enddate')
+
+
+        });
+    </script>
 }

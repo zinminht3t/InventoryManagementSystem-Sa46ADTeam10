@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LUSSISADTeam10API.Models.APIModels
+namespace LUSSISADTeam10Web.Models.APIModels
 {
     public class OrderHistoryModel
     {
@@ -16,6 +16,6 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         public int deptid { get; set; }
 
-        public string status { get; set; }
+        public string Status { get; set; }
     }
 }

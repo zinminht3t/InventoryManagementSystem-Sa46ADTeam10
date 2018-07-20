@@ -22,6 +22,10 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start AM
 
+      
+
+
+
         // End AM
 
         // Start TAZ
@@ -31,12 +35,25 @@ namespace LUSSISADTeam10Web.Controllers
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
             ViewBag.DepartmentCollectionPointModel = dcpm;
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
-
+            List<DepartmentCollectionPointModel> st = new List<DepartmentCollectionPointModel>();
+          
+           
             try
             {
-                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id ,out string error);
+                st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
                 ViewBag.DepartmentCollectionModel = dcpm;
-                viewmodel.CpID = dcpm.DeptCpID;
+                ViewBag.DepartmentCollectionModel = st;
+                viewmodel.CpID =dcpm.DeptCpID;
+                viewmodel.DepName = dcpm.DeptName;
+                viewmodel.CpName = dcpm.CpName;
+                foreach (DepartmentCollectionPointModel p in st) {
+                    viewmodel.OldCpName = p.CpName;
+                }
+                
+                
+
+
             }
             catch (Exception ex)
             {
@@ -61,14 +78,16 @@ namespace LUSSISADTeam10Web.Controllers
                 if (!viewmodel.Approve)
                 {
                     dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+
                 }
 
                 else if (viewmodel.Approve)
                 {
                     dcpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, dcpm, out error);
+
                 }
                 
-                return RedirectToAction("ApproveCollectionPoint");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -183,9 +202,87 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel reqm = new RequisitionModel();
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             ViewBag.Requisition = reqm;
+            ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
+            {
+                ReqID = reqm.Reqid
+            };
+            vm.ReqItems = new List<ReqItem>();
+
+            foreach (RequisitionDetailsModel rd in reqm.Requisitiondetails)
+            {
+                ReqItem ri = new ReqItem
+                {
+                    ItemID = rd.Itemid,
+                    ItemName = rd.Itemname,
+                    CategoryName = rd.CategoryName,
+                    Qty = rd.Qty,
+                    Stock = rd.Stock,
+                    UOM = rd.UOM
+                };
+                vm.ReqItems.Add(ri);
+            }
+            return View(vm);
+        }
+
+        public ActionResult Create()
+        {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel, List<int> itemids, List<int> ApproveQtys)
+        {
+            int count = 0;
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            RequisitionModel reqm = new RequisitionModel();
+
+            reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out error);
+            List<RequisitionDetailsModel> reqdms = reqm.Requisitiondetails;
+
+            foreach (int itemid in itemids)
+            {
+                ReqItem ri = new ReqItem();
+                RequisitionDetailsModel reqdm = reqdms.Where(p => p.Itemid == itemid).FirstOrDefault();
+                ri.ItemID = itemid;
+                ri.ApproveQty = ApproveQtys[count];
+                ri.Qty = reqdm.Qty;
+                ri.Stock = reqdm.Stock;
+                ri.UOM = reqdm.UOM;
+                ri.ItemName = reqdm.Itemname;
+                ri.CategoryName = reqdm.CategoryName;
+                viewmodel.ReqItems.Add(ri);
+                count++;
+            }
+
+            DisbursementModel dis = new DisbursementModel();
+            dis.Reqid = viewmodel.ReqID;
+            dis.Ackby = um.Userid;
+            dis = APIDisbursement.Createdisbursement(dis, token, out error);
+
+            foreach(ReqItem ri in viewmodel.ReqItems)
+            {
+                    DisbursementDetailsModel disdm = new DisbursementDetailsModel();
+                    disdm.Disid = dis.Disid;
+                    disdm.Itemid = ri.ItemID;
+                    disdm.Qty = ri.ApproveQty;
+                    disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+                if (ri.Stock > ri.ApproveQty)
+                {
+                    OutstandingReqModel outr = new OutstandingReqModel();
+                    outr.ReqId = viewmodel.ReqID;
+                    outr.Reason = "Not Enough Stock";
+                    outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                }
+            }
+
+            reqm = APIRequisition.UpdateRequisitionStatus(reqm, token, out error);
+            
+
+            return View();
+        }
         // End ZMH
 
         // Start Phyo2
