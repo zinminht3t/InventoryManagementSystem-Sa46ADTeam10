@@ -195,7 +195,26 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel reqm = new RequisitionModel();
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             ViewBag.Requisition = reqm;
-            return View();
+            ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
+            {
+                ReqID = reqm.Reqid
+            };
+            vm.ReqItems = new List<ReqItem>();
+
+            foreach (RequisitionDetailsModel rd in reqm.Requisitiondetails)
+            {
+                ReqItem ri = new ReqItem
+                {
+                    ItemID = rd.Itemid,
+                    ItemName = rd.Itemname,
+                    CategoryName = rd.CategoryName,
+                    Qty = rd.Qty,
+                    Stock = rd.Stock,
+                    UOM = rd.UOM
+                };
+                vm.ReqItems.Add(ri);
+            }
+            return View(vm);
         }
 
         public ActionResult Create()
@@ -204,8 +223,54 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel)
+        public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel, List<int> itemids, List<int> ApproveQtys)
         {
+            int count = 0;
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            RequisitionModel reqm = new RequisitionModel();
+
+            reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out error);
+            List<RequisitionDetailsModel> reqdms = reqm.Requisitiondetails;
+
+            foreach (int itemid in itemids)
+            {
+                ReqItem ri = new ReqItem();
+                RequisitionDetailsModel reqdm = reqdms.Where(p => p.Itemid == itemid).FirstOrDefault();
+                ri.ItemID = itemid;
+                ri.ApproveQty = ApproveQtys[count];
+                ri.Qty = reqdm.Qty;
+                ri.Stock = reqdm.Stock;
+                ri.UOM = reqdm.UOM;
+                ri.ItemName = reqdm.Itemname;
+                ri.CategoryName = reqdm.CategoryName;
+                viewmodel.ReqItems.Add(ri);
+                count++;
+            }
+
+            DisbursementModel dis = new DisbursementModel();
+            dis.Reqid = viewmodel.ReqID;
+            dis.Ackby = um.Userid;
+            dis = APIDisbursement.Createdisbursement(dis, token, out error);
+
+            foreach(ReqItem ri in viewmodel.ReqItems)
+            {
+                    DisbursementDetailsModel disdm = new DisbursementDetailsModel();
+                    disdm.Disid = dis.Disid;
+                    disdm.Itemid = ri.ItemID;
+                    disdm.Qty = ri.ApproveQty;
+                    disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+                if (ri.Stock > ri.ApproveQty)
+                {
+                    OutstandingReqModel outr = new OutstandingReqModel();
+                    outr.ReqId = viewmodel.ReqID;
+                    outr.Reason = "Not Enough Stock";
+                    outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                }
+            }
+
             return View();
         }
         // End ZMH
