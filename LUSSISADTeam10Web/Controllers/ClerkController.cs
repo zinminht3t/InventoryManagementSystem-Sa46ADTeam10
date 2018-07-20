@@ -124,6 +124,17 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult RequisitionDetail(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            RequisitionModel reqm = new RequisitionModel();
+            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            ViewBag.Requisition = reqm;
+            return View();
+        }
+
         // End ZMH
 
         // Start Phyo2
@@ -159,22 +170,38 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             List<OutstandingItemModel> inendetail = new List<OutstandingItemModel>();
+            List<BreakdownByDepartmentModel> bkm = new List<BreakdownByDepartmentModel>();
 
+            List<ShowBD> bkmd = new List<ShowBD>();
             try
             {
                 inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
 
-                if (error != "")
+                bkm = APIDisbursement.GetBreakDown(token, out string errors);
+
+                foreach(BreakdownByDepartmentModel bd in bkm)
                 {
-                    return RedirectToAction("Index", "Error", new { error });
+                    ShowBD s = new ShowBD();
+
+                    s.ItemID = bd.ItemID;
+                    s.ItemDescription = bd.ItemDescription;
+                    s.Qty = inendetail.Where(x => x.ItemId == bd.ItemID).FirstOrDefault().Total;
+                    s.BDList = bd.BDList;
+
+                    bkmd.Add(s);
                 }
-            }
-            catch (Exception ex)
-            {
-                RedirectToAction("Index", "Error", new { error = ex.Message });
+                
             }
 
-            return View(inendetail);
+
+
+
+            catch
+            {
+
+            }
+
+            return View(bkmd);
         }
 
 

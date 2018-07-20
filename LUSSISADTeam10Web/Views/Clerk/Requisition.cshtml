@@ -48,6 +48,9 @@
                                 Date
                             </th>
                             <th>
+                                Department
+                            </th>
+                            <th>
                                 Raised By
                             </th>
                             <th>
@@ -65,24 +68,26 @@
 
                         @foreach (var item in ViewBag.Requisitions)
                         {
-                            <tr>
-
-                                <td>
-                                    @item.Reqdate
-                                </td>
-                                <td>
-                                    @item.Rasiedbyname
-                                </td>
-                                <td>
-                                    @item.Approvedbyname
-                                </td>
-                                <td>
-                                    @item.Cpname
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("RequisitionDetail", "HOD",  new {id = item.Reqid }, null)"> <i class="text-info fa fa-align-justify"></i></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.Depname
+                            </td>
+                            <td>
+                                @item.Rasiedbyname
+                            </td>
+                            <td>
+                                @item.Approvedbyname
+                            </td>
+                            <td>
+                                @item.Cpname
+                            </td>
+                            <td>
+                                <a href="@Url.Action("RequisitionDetail", "Clerk",  new {id = item.Reqid }, null)" class="btn btn-outline-info"> <i class="fa fa-user"></i>  Process</a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
 

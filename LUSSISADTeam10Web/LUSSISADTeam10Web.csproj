@@ -225,7 +225,9 @@
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
+    <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
@@ -1157,8 +1159,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Clerk\Index.cshtml" />
     <Content Include="Views\Supervisor\Index.cshtml" />
@@ -1304,6 +1304,7 @@
     <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
     <Content Include="Views\Clerk\Requisition.cshtml" />
+    <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
