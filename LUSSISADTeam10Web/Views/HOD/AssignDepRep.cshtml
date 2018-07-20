@@ -1,0 +1,143 @@
+﻿@model LUSSISADTeam10Web.Models.HOD.AssignDepRepViewModel
+
+
+@{
+    ViewBag.Title = "AssignDepRep";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Employeelist</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Employeelist</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        @using (Html.BeginForm("AssignDepRep", "HOD"))
+        {
+
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title"> Employeelist </strong>
+                </div>
+                <div class="card-body">   
+                    <p>Previous Deparment Rep is @ViewBag.assignedrep </p>
+
+                    <table class="table">
+                        <tr>
+                            <th>
+                                <p>Name</p>
+                            </th>
+                            <th>
+                                <p>Role</p>
+                            </th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in ViewBag.userlist)
+                        {
+                            <tr>
+                                <td>
+                                    <p>@item.Username</p>
+                                </td>
+                                <td>
+                                    @{
+                                        switch (item.Role)
+                                        {
+
+                                            case 1:
+                                                <p>Clerk</p>
+                                                break;
+                                            case 2:
+                                                <p>Superviosr</p>
+                                                break;
+                                            case 3:
+                                                <p>Manager</p>
+                                                break;
+                                            case 4:
+                                                <p>HOD</p>
+                                                break;
+                                            case 5:
+                                                <p>Employee</p>
+                                                break;
+                                            case 6:
+                                                <p>Department Rep</p>
+                                                break;
+
+
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <label class="switch switch-3d switch-primary mr-3">
+                                                <input type="checkbox" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input">
+
+                                                <span class="switch-label"></span> <span class="switch-handle"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                    <div class="card-body">
+
+                        <div class="pull-right">
+                          
+                            <input type="Submit" class="btn btn-outline-success" value="Create">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+
+            $("#datepicker").datepicker('option', "showAnim", 'slide');
+            $("#datepicker").datepicker('option', { minDate: +0 });
+            $("#datepicker").datepicker('setDate', 'today')
+            $("#datepicker1").datepicker();
+            $("#datepicker1").datepicker('option', "showAnim", 'slide');
+            $("#datepicker1").datepicker('option', { minDate: +1 });
+            $("#datepicker1").datepicker('setDate', 'today + 1')
+
+        });
+    </script>
+
+
+
+    }}

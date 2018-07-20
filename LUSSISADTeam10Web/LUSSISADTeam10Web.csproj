@@ -194,7 +194,7 @@
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APINotification.cs" />
-    <Compile Include="API\APIOutstandingReq.cs" />
+    <Compile Include="API\APIOutstanding.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
@@ -226,6 +226,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Clerk\ActiveSupplierViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
+    <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

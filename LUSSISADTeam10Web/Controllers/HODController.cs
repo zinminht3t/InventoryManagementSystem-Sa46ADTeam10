@@ -218,6 +218,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
+          
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
@@ -259,10 +260,17 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             DelegationModel reqms = new DelegationModel();
+            EditDelegationViewModel viewmodel = new EditDelegationViewModel();
             try
             {
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
 
+                ViewBag.Userid = reqms.Userid;
+                    ViewBag.name = reqms.Username;
+                    ViewBag.StartDate = reqms.Startdate;
+                    ViewBag.Enddate = reqms.Enddate;
+                    ViewBag.Deleid = reqms.Delid;
+             
 
                 if (error != "")
                 {
@@ -274,7 +282,7 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return View(reqms);
+            return View(viewmodel);
         }
         public ActionResult CancelDelegation(int id)
         {
@@ -466,6 +474,36 @@ namespace LUSSISADTeam10Web.Controllers
             
         }
 
+        [HttpPost]
+        public ActionResult SearchPreviousDelegation(EditDelegationViewModel viewmodel , int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            viewmodel.assignedby = um.Userid;
+            DelegationModel um1 = new DelegationModel();
+            um1.Delid = id;
+            DelegationModel um2 = APIDelegation.GetDelegationByDeleid(token, id, out string delerror);
+            um1.Startdate = um2.Startdate;
+            um1.Enddate = viewmodel.EndDate;
+            um1.Userid = um2.Userid;
+                um1.AssignedbyId = um.Userid;
+                um1.Active = ConDelegation.Active.ACTIVE;
+
+            try
+            {
+                if (viewmodel != null)
+                {
+                    APIDelegation.UpdateDelegation(token, um1, out string error);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("SearchPreviousDelegation");
+        }
         #endregion
 
         #region Utilities

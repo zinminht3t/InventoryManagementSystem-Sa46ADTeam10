@@ -45,17 +45,19 @@
 
                 <div class="card">
 
-                    <div class="card-body">
-                        <div class="mx-auto d-block">
-                            <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Process Requisition </h5><br />
-                            <h6>Raised By :  @ViewBag.Requisition.Rasiedbyname </h6><br />
-                            <h6>Collection Point : @ViewBag.Requisition.Cpname</h6><br />
-                            <h6>Requested Date :  @Convert.ToDateTime(ViewBag.Requisition.Reqdate).ToShortDateString()</h6><br />
-                            <h6>Approved By : <strong>@ViewBag.Requisition.Approvedbyname</strong></h6><br />
 
-                            <div class="text-sm-center">
-                                <form action="ClerkController/RequisitionDetail" method="post">
-                                    <input type="hidden" name="ReqID" value="@Model.ReqID" />
+                    <div class="card-body">
+                        <form method="post">
+
+                            <div class="mx-auto d-block">
+                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Process Requisition </h5><br />
+                                <h6>Raised By :  @ViewBag.Requisition.Rasiedbyname </h6><br />
+                                <h6>Collection Point : @ViewBag.Requisition.Cpname</h6><br />
+                                <h6>Requested Date :  @Convert.ToDateTime(ViewBag.Requisition.Reqdate).ToShortDateString()</h6><br />
+                                <h6>Approved By : <strong>@ViewBag.Requisition.Approvedbyname</strong></h6><br />
+
+                                <div class="text-sm-center">
+                                    <input type="hidden" name="ReqID" value="11" />
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-info">
                                             <tr>
@@ -67,44 +69,44 @@
                                                 <th>UOM</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
-
-                                            @foreach (var item in ViewBag.Requisition.Requisitiondetails)
+                                            @foreach (var item in Model.ReqItems)
                                             {
-                                                <tr>
-                                                    <td>@item.Itemname</td>
-                                                    <td>@item.CategoryName</td>
+                                            <tr>
 
-                                                    @{ var style = "text-danger"; }
-                                                    @if (item.Qty < item.Stock)
-                                                    {
-                                                        style = "text-info";
-                                                    }
-                                                    <td class="@style">@item.Qty</td>
-                                                    <td class="@style">@item.Stock</td>
-                                                    <td></td>
+                                                <td>@item.ItemName</td>
+                                                <td>@item.CategoryName</td>
 
-                                                    <td><input type="number" value="@item.Stock" name="ReqItems" class="form-control form-control-sm" /></td>
-                                                    <td>@item.UOM</td>
-                                                </tr>
+                                                @{ var style = "text-danger"; }
+                                                @if (item.Qty < item.Stock)
+                                                {
+                                                    style = "text-info";
+                                                }
+                                                <td class="@style">@item.Qty</td>
+                                                <td class="@style">@item.Stock</td>
+                                                <td>
+                                                    <input type="hidden" value="@item.ItemID" name="ItemIDs" />
+                                                    <input type="number" value="@item.Stock" name="ApproveQtys" class="form-control form-control-sm" />
+                                                </td>
+                                                <td>@item.UOM</td>
+                                            </tr>
                                             }
                                         </tbody>
-
                                     </table>
-                                </form>
 
 
+                                </div>
                             </div>
-                        </div>
 
 
-                        <hr>
+                            <hr>
 
 
-                        <div class="card-text text-sm-right">
-                            <input type="submit" class="btn btn-outline-info" value="Approve" />
-                        </div>
+                            <div class="card-text text-sm-right">
+                                <input type="submit" class="btn btn-outline-info" value="Approve" />
+                            </div>
+                        </form>
+
                     </div>
                 </div>
 

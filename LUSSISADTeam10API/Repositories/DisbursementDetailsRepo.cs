@@ -205,7 +205,7 @@ namespace LUSSISADTeam10API.Repositories
                 List<disbursementdetail> outreqdetails =
                     entities.disbursementdetails
                     .Where(x => x.disbursement.requisition.status ==
-                    ConRequisition.Status.PREPARING).ToList();
+                    ConRequisition.Status.REQUESTPENDING).ToList();
 
                 var groupedBy =
                     outreqdetails.GroupBy(x => x.item)
