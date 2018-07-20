@@ -14,7 +14,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Requisitiondetail
         private static RequisitionDetailsModel CovertDBRequisitionDetailstoAPIRequisitionDetails(requisitiondetail reqd)
         {
-            RequisitionDetailsModel reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom);
+            RequisitionDetailsModel reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, reqd.item.inventories.First().stock);
             return reqdm;
         }
 
@@ -143,7 +143,7 @@ namespace LUSSISADTeam10API.Repositories
 
                 reqdn = entities.requisitiondetails.Add(reqdn);
                 entities.SaveChanges();
-          
+
             }
             catch (NullReferenceException)
             {
@@ -153,7 +153,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return GetRequisitionDetailsByRequisitionId(reqdn.reqid, out error); 
+            return GetRequisitionDetailsByRequisitionId(reqdn.reqid, out error);
         }
         // update the Requisition Details
         public static RequisitionDetailsModel UpdateRequisitionDetail(RequisitionDetailsModel reqdm, out string error)
@@ -171,7 +171,7 @@ namespace LUSSISADTeam10API.Repositories
                 reqd.reqid = reqdm.Reqid;
                 reqd.itemid = reqdm.Itemid;
                 reqd.qty = reqdm.Qty;
-          
+
                 // saving the update
                 entities.SaveChanges();
 
@@ -189,5 +189,45 @@ namespace LUSSISADTeam10API.Repositories
             return reqdm;
         }
 
+        public static List<OrderHistoryModel> GerOrderHistory(int deptid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
+            List<OrderHistoryModel> orhm = new List<OrderHistoryModel>();
+            try
+            {
+
+
+                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).ToList();
+
+                foreach (var order in reqdetail)
+                {
+                    OrderHistoryModel o = new OrderHistoryModel();
+
+                   // user raisename = entities.users.Where(p => p.userid == order.requisition.raisedby).First();
+                  //  user approvename = entities.users.Where(p => p.userid == order.requisition.approvedby).First();
+                    o.reqdate = order.requisition.reqdate;
+                  //  o.raisename = raisename.username;
+                  //  o.approvename = approvename.username;
+                    orhm.Add(o);
+                }
+
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            return orhm;
+
+        }
     }
 }
+
+
