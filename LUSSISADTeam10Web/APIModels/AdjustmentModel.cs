@@ -24,7 +24,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public int Adjid { get; set; }
         public int? Raisedby { get; set; }
         public string Raisedbyname { get; set; }
-        public int? Raisedto { get; set; }
+        public int? Raisedto { get; set; } = 0;
         public string Raisedtoname { get; set; }
         public DateTime? Issueddate { get; set; }
         public int Status { get; set; } = 0;

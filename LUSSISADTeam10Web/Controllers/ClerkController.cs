@@ -185,11 +185,105 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
-        // END TAZ
+        //Manage Items
+        public ActionResult Manage()
+        {
+            string token = GetToken();
+            List<InventoryModel> invm = new List<InventoryModel>();
+            try
+            {
+                
+                invm=APIInventory.GetAllInventories(token, out string error);
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
-        // Start Mahsu
+            return View(invm);
+        }
 
-         //Get All InventoryCheckViewModel
+        //Edit Item
+        public ActionResult EditItem(int id = 0)
+        {
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel itm = new ItemModel();
+            ViewBag.InventoryModel = invm;
+            InventoryViewModel viewmodel = new InventoryViewModel();
+            invm=APIInventory.GetInventoryByInvid(id, token, out string error);
+
+            try {
+
+                ViewBag.InventoryModel = invm;
+
+                viewmodel.CatId=itm.Catid;
+                viewmodel.ItemDescription = invm.ItemDescription;
+                viewmodel.Stock = invm.Stock;
+                viewmodel.ReorderLevel = invm.ReorderLevel;
+                viewmodel.ReorderQty = invm.ReorderQty;
+                viewmodel.CategoryName = invm.CategoryName;
+                viewmodel.Itemid = invm.Itemid;
+                viewmodel.Invid = invm.Invid;
+                viewmodel.UOM = invm.UOM;
+                
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message
+    });
+            }
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult EditItem(InventoryViewModel viewmodel)
+        {
+            
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel it = new ItemModel();
+            CategoryModel c = new CategoryModel();
+            
+           
+            invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
+            it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
+            c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
+
+            c.Name = viewmodel.CategoryName;
+            invm.Invid = viewmodel.Invid;
+            invm.Itemid = viewmodel.Itemid;
+            invm.Stock = viewmodel.Stock;
+            invm.ReorderLevel = viewmodel.ReorderLevel;
+            invm.ReorderQty = viewmodel.ReorderQty;
+            //it.Itemid = viewmodel.Itemid;
+            it.Description = viewmodel.ItemDescription;
+            it.Uom = viewmodel.UOM;
+            
+                   
+            try
+            {
+                invm = APIInventory.UpdateInventory(token, invm, out error);
+                it = APIItem.UpdateItem(token, it, out error);
+                c = APICategory.UpdateCategory(token, c, out error);
+                return RedirectToAction("Manage");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+
+        //END TAZ
+
+        //Start Mahsu
+
+        //Get All InventoryCheckViewModel
         public InventoryCheckViewModel GetInvtCheckVM()
         {
             string token = GetToken();
@@ -214,7 +308,22 @@ namespace LUSSISADTeam10Web.Controllers
 
             return invcvm;
         }
-            //Display All Inventories
+        public List<Inventory> GetSelectedInventory(List<int> i)
+        {
+            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
+            List<Inventory> ivm = ivcvm.Invs;
+            List<Inventory> dis = new List<Inventory>();
+            foreach (Inventory iv in ivm)
+            {
+                foreach (int a in i)
+                {
+                    if (iv.InventoryId == a)
+                        dis.Add(iv);
+                }
+            }
+            return dis;
+        }
+        //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
@@ -235,26 +344,45 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult Inventory(List<int> InvID)
             {
-            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
-            List<Inventory> ivm = ivcvm.Invs;
-            List < Inventory > dis = new List<Inventory>();
-            foreach (Inventory iv in ivm)
-            {
-                foreach(int i in InvID)
-                {
-                    if (iv.InventoryId == i)
-                        dis.Add(iv);
-                }               
-            }
+            List<Inventory> dis = GetSelectedInventory(InvID);
             TempData["discrepancy"] = dis; 
             return RedirectToAction("Adjustment");
         }
         public ActionResult Adjustment()
         {
-            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;           
-            return View(dis);
-
-            //to do View
+            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
+            InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
+            ivcvm.Invs = dis;
+            ivcvm.InvIDs = new List<int>();
+            
+            return View(ivcvm);
+        }
+        [HttpPost]
+        public ActionResult Adjustment(List<int> InvID, List<int> Current, List<string>Reason)
+        {
+            string token = GetToken();
+            UserModel user = GetUser();
+            List<Inventory> invent = GetSelectedInventory(InvID);
+            AdjustmentModel adjust = new AdjustmentModel();
+           
+            for (int i =0; i < InvID.Count; i++)
+            {
+                foreach(Inventory inv in invent)
+                {
+                    if(InvID[i]== inv.InventoryId)
+                    {
+                        inv.Current = Current[i];
+                        AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current-(int)inv.Stock),Reason[i]);
+                        adjust.Adjds.Add(adjd);
+                    }
+                }
+            }
+            adjust.Issueddate = DateTime.Now.Date;
+            adjust.Raisedby = user.Userid;
+            
+            adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
+           
+            return RedirectToAction("Inventory");
         }
 
 
@@ -421,7 +549,6 @@ namespace LUSSISADTeam10Web.Controllers
             return View(inendetail);
         }
 
-
         public ActionResult StationaryRetrievalForm()
         {
             string token = GetToken();
@@ -436,30 +563,19 @@ namespace LUSSISADTeam10Web.Controllers
                 inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
 
                 bkm = APIDisbursement.GetBreakDown(token, out string errors);
-
-                foreach(BreakdownByDepartmentModel bd in bkm)
-                {
-                    ShowBD s = new ShowBD();
-
-                    s.ItemID = bd.ItemID;
-                    s.ItemDescription = bd.ItemDescription;
-                    s.Qty = inendetail.Where(x => x.ItemId == bd.ItemID).FirstOrDefault().Total;
-                    s.BDList = bd.BDList;
-
-                    bkmd.Add(s);
-                }
+                
                 
             }
 
 
 
 
-            catch
+            catch(Exception ex)
             {
-
+                var mes = ex.Message;
             }
 
-            return View(bkmd);
+            return View(bkm);
         }
 
 

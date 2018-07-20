@@ -115,13 +115,16 @@
                             <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
                         </li>
                         <li>
+                            <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Items </a>
+                        </li>
+                        <li>
                             <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
                         </li>
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-notepad"></i>Outstanding Request </a>
+                            <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-notepad"></i> Item Retrieval Form </a>
                         </li>
                         <li>
-                            <a href="widgets.html" style="font-size:13px"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
+                            <a href="@Url.Action("GetOrderRecommndation", "Clerk")"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-pencil"></i>Inventory </a>
