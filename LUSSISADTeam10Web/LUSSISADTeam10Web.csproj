@@ -170,6 +170,7 @@
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="APIModels\NotificationModel.cs" />
+    <Compile Include="APIModels\OrderHistoryModel.cs" />
     <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />

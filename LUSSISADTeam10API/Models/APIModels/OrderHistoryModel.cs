@@ -15,5 +15,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public String approvename { get; set; }
 
         public int deptid { get; set; }
+
+        public string status { get; set; }
     }
 }
