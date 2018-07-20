@@ -231,6 +231,7 @@
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
+    <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
