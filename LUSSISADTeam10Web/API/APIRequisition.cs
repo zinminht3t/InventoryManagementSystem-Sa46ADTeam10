@@ -119,5 +119,14 @@ namespace LUSSISADTeam10Web.API
             RequisitionModel rdm = APIHelper.Execute<RequisitionModel>(token, objectstring, url, out error);
             return rdm;
         }
+
+
+        public static List<OrderHistoryModel> GetOrderHistory(int id,string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/orderhistory/" + id;
+            List<OrderHistoryModel> orlist = APIHelper.Execute<List<OrderHistoryModel>>(token, url, out error);
+            return orlist;
+
+        }
     }
 }
