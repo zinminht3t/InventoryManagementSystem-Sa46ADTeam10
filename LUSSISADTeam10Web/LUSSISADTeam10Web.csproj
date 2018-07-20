@@ -170,7 +170,6 @@
     <Compile Include="APIModels\ItemModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="APIModels\NotificationModel.cs" />
-    <Compile Include="APIModels\OrderHistoryModel.cs" />
     <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />
@@ -228,9 +227,11 @@
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\ProcessRequisitionViewModel.cs" />
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
+    <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1306,7 +1307,8 @@
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
     <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
-    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
+    <Content Include="Views\Clerk\Adjustment.cshtml" />
+    <Content Include="Views\HOD\AssignDepRep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

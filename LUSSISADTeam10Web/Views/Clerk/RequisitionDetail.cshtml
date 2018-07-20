@@ -1,4 +1,4 @@
-﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
+﻿@model LUSSISADTeam10Web.Models.Clerk.ProcessRequisitionViewModel
 
 @{
     ViewBag.Title = "Requisition Detail";
@@ -61,18 +61,28 @@
                                             <th>Item Name</th>
                                             <th>Category Name</th>
                                             <th>Quantity</th>
+                                            <th>Stock</th>
+                                            <th>Approve Qty</th>
                                             <th>UOM</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in ViewBag.Requisition.Requisitiondetails)
                                         {
-                                            <tr>
-                                                <td>@item.Itemname</td>
-                                                <td>@item.CategoryName</td>
-                                                <td>@item.Qty</td>
-                                                <td>@item.UOM</td>
-                                            </tr>
+                                        <tr>
+                                            <td>@item.Itemname</td>
+                                            <td>@item.CategoryName</td>
+
+                                            @{ var style = "text-danger"; }
+                                            @if (item.Qty < item.Stock)
+                                            {
+                                                style = "text-info";
+                                            }
+                                            <td class="@style">@item.Qty</td>
+                                            <td class="@style">@item.Stock</td>
+                                            <td>@Html.EditorFor(model => model.ReqItems, new {   })</td>
+                                            <td>@item.UOM</td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

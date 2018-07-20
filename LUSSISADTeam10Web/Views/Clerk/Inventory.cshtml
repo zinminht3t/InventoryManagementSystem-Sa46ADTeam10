@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.InventoryCheckViewModel>
+﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryCheckViewModel
 
 @{
     ViewBag.Title = "Inventory";
@@ -23,7 +23,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Title Here</li>
+                    <li class="active">Inventory List</li>
                 </ol>
             </div>
         </div>
@@ -41,51 +41,44 @@
             </div>
 
             <div class="card-body">
-                <div class="row">
-                    
-                    <div class="dataTables_length" id="bootstrap-data-table_length">
-                        <div class="col-sm-12 col-md-2">
-                            <label>Show</label>
+                @*<div class="row">
+
+                        <div class="dataTables_length" id="bootstrap-data-table_length">
+                            <div class="col-sm-12 col-md-3">
+                                <label>Show</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4" style="width:500px">
+
+                                @Html.DropDownList("suppliers", "All")
+
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <label>Suppliers</label>
+                            </div>
                         </div>
-                        <div class="col-sm-12 col-md-4" style="width:500px">
-                           
-                            <select name="bootstrap-data-table_length" aria-controls="bootstrap-data-table" class="form-control form-control-sm">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="-1">All</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <label>Suppliers</label>
-                        </div>
-                    </div>
-                </div>
-                
+                    </div>*@
+
                 <div class="row">
                     <div class="col-sm-12">
 
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                            <tr>                               
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Category)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ItemDescription)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Stock)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UOM)
-                                </th>
-                                <th></th>
-                            </tr>
-
-                            @foreach (var item in Model)
-                            {
                             <tr>
-                                
+                                <th style="text-align:center">Category</th>
+                                <th style="text-align:center">Items</th>
+                                <th style="text-align:center">Stock</th>
+                                <th style="text-align:center">UOM</th>
+                                <th style="text-align:center">Location</th>
+                                <th style="text-align:center">Discrepancy</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <form asp-action="Inventory" asp-controller="Clerk" method="post">
+
+                                @foreach (var item in Model.Invs)
+                                {
+                            <tr>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Category)
                                 </td>
@@ -99,29 +92,27 @@
                                     @Html.DisplayFor(modelItem => item.UOM)
                                 </td>
                                 <td>
-
-                                    <label class="switch switch-text switch-success switch-pill" >
-                                        <input type="checkbox" class="switch-input" checked="true" style="border:solid; border-color:black">
-                                        <span data-on="Yes" data-off="No" class="switch-label"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
+                                    @Html.DisplayFor(modelItem => item.Shelf)
+                                    @Html.DisplayFor(modelItem => item.Level)
+                                </td>
+                                <td style="text-align:center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="InvID" type="checkbox" asp-for="@Model.InvIDs" value="@item.InventoryId" id="checkbox">
+                                    </div>
                                 </td>
                             </tr>
-                            }
+                                }
+                            <tr style="align-self:flex-end">
+                                <td colspan="100%">
+                                    <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
+                                </td>
+                            </tr>                            
+                            </form>
 
                         </table>
                     </div>
-
                 </div>
 
-            </div>
-        </div>
-
-
-
-    </div>
-</div>
-
-@section Scripts {
-    <script type="text/javascript"></script>
-}
+            @section Scripts {
+                <script type="text/javascript"></script>
+            }

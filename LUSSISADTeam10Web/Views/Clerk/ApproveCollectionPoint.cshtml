@@ -7,13 +7,12 @@
     <style>
     </style>
 }
-<h3>Approve CollectionPoint</h3>
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Title Here</h1>
+                <h4>ApproveCollectionPoint</h4>
             </div>
         </div>
     </div>
@@ -21,8 +20,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Title Here</li>
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Approve CollectionPoint</li>
                 </ol>
             </div>
         </div>
@@ -36,44 +35,55 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Title Here </strong>
+                <strong class="card-title"> Approve CollectionPoint </strong>
             </div>
             <div class="card-body">
 
-                <dl class="dl-horizontal">
-                    <dt>
-                        Department Collection Point:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.CpID)
-                    </dd>
-
-
-                </dl>
-            </div>
-
-            <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
-                <div class="form-check-inline form-check">
-                    <label for="inline-radio1" class="form-check-label ">
-                        <input type="hidden" name="CpID" asp-for="@Model.CpID" value="@Model.CpID" />
-                        <input type="radio" id="inline-radio1" name="approve" asp-for="@Model.Approve" value="true" class="form-check-input"> Approve
-                    </label>
-                    <label for="inline-radio2" class="form-check-label ">
-                        <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
-                    </label>
+                <dl class="dl-horizontal"></dl>
+                <div class="row">
+                    <div class="col-md-4"><b>Department Name:</b> </div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.DepName)</div>
+                </div><br />
+                <div class="row">
+                    <div class="col-md-4"><b>Previous CollectionPoint:</b> </div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.OldCpName)</div>
+                </div><br />
+                <div class="row">
+                    <div class="col-md-4"><b>Change CollectionPoint:</b> </div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.CpName)</div>
                 </div>
 
+            </div>
+            <div class="card-text text-sm-center">
+                <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
+                    <div class="col-md-6">
+                        <br />
+                        <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
+                        <br />
+                        <div class="form-check-inline form-check pull-left">
+                            <label for="inline-radio1" class="form-check-label ">
+                                <input type="hidden" name="CpID" asp-for="@Model.CpID" value="@Model.CpID" />
+                                <input type="radio" id="inline-radio1" name="approve" asp-for="@Model.Approve" value="true" checked class="form-check-input"> Approve &nbsp;&nbsp;&nbsp;
+                            </label>
+                            <label for="inline-radio2" class="form-check-label ">
+                                <input type="radio" id="inline-radio2" name="approve" asp-for="@Model.Approve" value="false" class="form-check-input"> Reject
+                            </label>
+                        </div>
 
-                <input type="Submit" class="btn btn-outline-success btn-flat m-b-30 m-t-30" value="Submit">
-            </form>
 
 
+                        <br /><br />
+                        <div>
+                            <input type="Submit" class="btn btn-outline-success pull-left btn-flat m-b-30 m-t-30" value="Approve">
+
+                        </div>
+                        <br /><br /> <br />
+                    </div>
+
+                </form>
+            </div>
+            </div>
         </div>
-    </div>
-
-
-
 </div>
 </div>
 

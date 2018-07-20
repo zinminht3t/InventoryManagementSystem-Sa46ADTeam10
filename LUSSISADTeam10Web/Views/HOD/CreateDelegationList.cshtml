@@ -31,100 +31,104 @@
 
 <div class="content mt-3">
     <div class="animated fadeIn">
+        @using (Html.BeginForm("CreateDelegationList", "HOD"))
+        {
+            
 
-        <form asp-action="CreateNewDelegation" asp-controller="HOD" method="post">
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="mr-2 fa fa-align-justify"></i>
-                    <strong class="card-title"> Employeelist </strong>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-
-                        <div class="col-sm-4">
-                            Start Date: <input type="text" id="datepicker" asp-for="@Model.StartDate" value="datepicker.value" />
-
-                        </div>
-                        <div class="col-sm-5">
-                            End Date: <input type="text" id="datepicker1"  asp-for="@Model.EndDate" value="datepicker1.value" />
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="mr-2 fa fa-align-justify"></i>
+                        <strong class="card-title"> Employeelist </strong>
                     </div>
-
-                    <br />
-
-                    <table class="table">
-                        <tr>
-                            <th>
-                                <p>Name</p>
-                            </th>
-                            <th>
-                                <p>Role</p>
-                            </th>
-                            <th></th>
-                        </tr>
-                        @foreach (var item in ViewBag.userlist)
-                        {
-                            <tr>
-                                <td>
-                                    <p>@item.Username</p>
-                                </td>
-                                <td>
-                                    @{
-                                        switch (item.Role)
-                                        {
-
-                                            case 1:
-                                                <p>Clerk</p>
-                                                break;
-                                            case 2:
-                                                <p>Superviosr</p>
-                                                break;
-                                            case 3:
-                                                <p>Manager</p>
-                                                break;
-                                            case 4:
-                                                <p>HOD</p>
-                                                break;
-                                            case 5:
-                                                <p>Employee</p>
-                                                break;
-                                            case 6:
-                                                <p>Department Rep</p>
-                                                break;
-
-
-                                        }
-                                    }
-                                </td>
-                                <td>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="checkbox" asp-for="@Model.Userid" value="@item.Userid"  class="switch-input">
-                                                <span class="switch-label"></span> <span class="switch-handle"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-
-                    </table>
-
                     <div class="card-body">
+                        <div class="row">
 
-                        <div class="pull-right">
-                            <a href="@Url.Action("CreateDelegation", "HOD") " class="btn btn-outline-danger">Cancel</a>
-                            <input type="Submit" class="btn btn-outline-success" value="Create">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(Model => Model.StartDate)
+                                @Html.TextBoxFor(Model => Model.StartDate, new { id = "datepicker" })
+
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.LabelFor(Model => Model.EndDate)
+                                @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker1" })
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    <p>Name</p>
+                                </th>
+                                <th>
+                                    <p>Role</p>
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in ViewBag.userlist)
+                            {
+                                <tr>
+                                    <td>
+                                        <p>@item.Username</p>
+                                    </td>
+                                    <td>
+                                        @{
+                                            switch (item.Role)
+                                            {
+
+                                                case 1:
+                                                    <p>Clerk</p>
+                                                    break;
+                                                case 2:
+                                                    <p>Superviosr</p>
+                                                    break;
+                                                case 3:
+                                                    <p>Manager</p>
+                                                    break;
+                                                case 4:
+                                                    <p>HOD</p>
+                                                    break;
+                                                case 5:
+                                                    <p>Employee</p>
+                                                    break;
+                                                case 6:
+                                                    <p>Department Rep</p>
+                                                    break;
+
+
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <label class="switch switch-3d switch-primary mr-3">
+                                                    <input type="checkbox" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input">
+                                                  
+                                                    <span class="switch-label"></span> <span class="switch-handle"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                            }
+
+                        </table>
+
+                        <div class="card-body">
+
+                            <div class="pull-right">
+                                <a href="@Url.Action("CreateDelegation", "HOD") " class="btn btn-outline-danger">Cancel</a>
+                                <input type="Submit" class="btn btn-outline-success" value="Create">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </form>
-
-    </div>
+        
+                                            }
+        </div>
 </div>
 
 @section Scripts {

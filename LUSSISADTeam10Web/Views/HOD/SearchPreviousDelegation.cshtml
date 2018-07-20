@@ -37,6 +37,7 @@
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
                 <strong class="card-title"> Previous Delegation </strong>
+                <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Create</a>
             </div>
             <div class="card-body">
                     @if (Model.Startdate != null)
@@ -76,7 +77,7 @@
                     }
                     
                     <a href="@Url.Action("CancelDelegation", "HOD", new { id = Model.Delid})" class="btn btn-outline-danger">Delete</a>
-                    <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Create</a>
+                    <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success">Update</a>
             </div>
         </div>
     </div>
