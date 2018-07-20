@@ -179,8 +179,7 @@ namespace LUSSISADTeam10Web.Controllers
                 //{
                 //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
                 //}
-                ViewBag.CollectionPointsList = cpms;
-                
+                ViewBag.CollectionPointsList = cpms;                
 
             }
             catch (Exception ex)
