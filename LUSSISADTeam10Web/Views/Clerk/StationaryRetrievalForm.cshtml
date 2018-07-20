@@ -1,123 +1,99 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.OutstandingItemModel>
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.ShowBD>
 
 @{
-    ViewBag.Title = "StationaryRetrievalForm";
+    ViewBag.Title = "Track Requisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Styles {
+    <style>
+    </style>
+}
 
-<h2>StationaryRetrievalForm</h2>
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Stationary Retrieval Form</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Stationary Retrieval Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Uom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CatId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CatName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CatId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CatName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
-
-    </table>*@
-
-<table class="table">
-
-    <tr>
-        <th>
-            <label>Bin</label>
-        </th>
-        <th>
-            <label>Stationary Description</label>
-        </th>
-        <th>
-            <label>Total Quantity</label>
-        </th>
-        <th colspan="2">
-            <label>Breakdown By Department</label>
-        </th>
-    </tr>
-    <tr>
-        <th></th>
-        <th></th>
-
-        <th>Retrieved</th>
-        <th>Department Name</th>
-
-        <th>Actual</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemId)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.CatName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.CatName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-    }
+<div class="content mt-3">
+    <div class="animated fadeIn">
 
 
-</table>
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Stationary Retrieval Form </strong>
+            </div>
+            <div class="card-body">
 
+                <table>
+
+                    <tr>
+                        <td>Item ID</td>
+                        <td>Item Description</td>
+                        <td>Total Quantity</td>
+                        <td>Breakdown By Department</td>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+
+                        <td>@item.ItemID</td>
+                        <td>@item.ItemDescription</td>
+                        <td>@item.Qty</td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Department</td>
+                                        <td>Qty</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var i in item.BDList)
+                                    {
+                                    <tr>
+                                        <td>@i.DeptName</td>
+                                        <td>@i.Qty</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </td>
+
+                    </tr>
+                    }
+
+
+                </table>
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}

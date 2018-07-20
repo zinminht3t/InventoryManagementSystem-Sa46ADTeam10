@@ -225,7 +225,9 @@
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
+    <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
