@@ -198,6 +198,12 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel)
+        {
+            return View();
+        }
         // End ZMH
 
         // Start Phyo2

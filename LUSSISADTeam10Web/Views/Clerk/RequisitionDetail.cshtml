@@ -52,40 +52,48 @@
                             <h6>Collection Point : @ViewBag.Requisition.Cpname</h6><br />
                             <h6>Requested Date :  @Convert.ToDateTime(ViewBag.Requisition.Reqdate).ToShortDateString()</h6><br />
                             <h6>Approved By : <strong>@ViewBag.Requisition.Approvedbyname</strong></h6><br />
-                            
+
                             <div class="text-sm-center">
+                                <form action="ClerkController/RequisitionDetail" method="post">
+                                    <input type="hidden" name="ReqID" value="@Model.ReqID" />
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-info">
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th>Category Name</th>
+                                                <th>Quantity</th>
+                                                <th>Stock</th>
+                                                <th>Approve Qty</th>
+                                                <th>UOM</th>
+                                            </tr>
+                                        </thead>
 
-                                <table class="table table-bordered table-hover">
-                                    <thead class="table-info">
-                                        <tr>
-                                            <th>Item Name</th>
-                                            <th>Category Name</th>
-                                            <th>Quantity</th>
-                                            <th>Stock</th>
-                                            <th>Approve Qty</th>
-                                            <th>UOM</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.Requisition.Requisitiondetails)
-                                        {
-                                        <tr>
-                                            <td>@item.Itemname</td>
-                                            <td>@item.CategoryName</td>
+                                        <tbody>
 
-                                            @{ var style = "text-danger"; }
-                                            @if (item.Qty < item.Stock)
+                                            @foreach (var item in ViewBag.Requisition.Requisitiondetails)
                                             {
-                                                style = "text-info";
+                                                <tr>
+                                                    <td>@item.Itemname</td>
+                                                    <td>@item.CategoryName</td>
+
+                                                    @{ var style = "text-danger"; }
+                                                    @if (item.Qty < item.Stock)
+                                                    {
+                                                        style = "text-info";
+                                                    }
+                                                    <td class="@style">@item.Qty</td>
+                                                    <td class="@style">@item.Stock</td>
+                                                    <td></td>
+
+                                                    <td><input type="number" value="@item.Stock" name="ReqItems" class="form-control form-control-sm" /></td>
+                                                    <td>@item.UOM</td>
+                                                </tr>
                                             }
-                                            <td class="@style">@item.Qty</td>
-                                            <td class="@style">@item.Stock</td>
-                                            <td><input type="number" value="@item.Stock" name="approveqty" class="form-control form-control-sm"/></td>
-                                            <td>@item.UOM</td>
-                                        </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </tbody>
+
+                                    </table>
+                                </form>
+
 
                             </div>
                         </div>
@@ -95,7 +103,7 @@
 
 
                         <div class="card-text text-sm-right">
-                            <input type="submit"  class="btn btn-outline-info" value="Approve"/>
+                            <input type="submit" class="btn btn-outline-info" value="Approve" />
                         </div>
                     </div>
                 </div>
