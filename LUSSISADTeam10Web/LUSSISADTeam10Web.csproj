@@ -233,6 +233,7 @@
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
+    <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
