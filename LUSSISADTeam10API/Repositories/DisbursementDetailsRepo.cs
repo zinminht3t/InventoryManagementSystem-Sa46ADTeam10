@@ -205,7 +205,7 @@ namespace LUSSISADTeam10API.Repositories
                 List<disbursementdetail> outreqdetails =
                     entities.disbursementdetails
                     .Where(x => x.disbursement.requisition.status ==
-                    ConRequisition.Status.PREPARING).ToList();
+                    ConRequisition.Status.REQUESTPENDING).ToList();
 
                 var groupedBy =
                     outreqdetails.GroupBy(x => x.item)
@@ -260,18 +260,22 @@ namespace LUSSISADTeam10API.Repositories
             {
 
 
-                List<int> itemids = entities.disbursementdetails.Where(p => p.disbursement.requisition.status == ConRequisition.Status.PREPARING).Select(x => x.itemid).Distinct().ToList();
+                List<int> itemids = entities.disbursementdetails.Where(p => p.disbursement.requisition.status == ConRequisition.Status.REQUESTPENDING).Select(x => x.itemid).Distinct().ToList();
 
                 foreach (int itemid in itemids) {
 
                     var data = entities.disbursementdetails.Where(p => p.itemid == itemid
-                    && p.disbursement.requisition.status == ConRequisition.Status.PREPARING)
+                    && p.disbursement.requisition.status == ConRequisition.Status.REQUESTPENDING)
                         .GroupBy(x => x.disbursement.requisition.department)
                         .Select(y => new
                         {
                             Department = y.Key,
                             Quantity = y.Sum(x => x.qty)
                         });
+
+                    int totalqty = entities.disbursementdetails.Where(p => p.itemid == itemid
+                    && p.disbursement.requisition.status == ConRequisition.Status.REQUESTPENDING)
+                    .Sum(x => x.qty);
 
                     List<BreakDown> bds = new List<BreakDown>();
 
@@ -285,10 +289,10 @@ namespace LUSSISADTeam10API.Repositories
                     }
 
                     BreakdownByDepartmentModel bddm = new BreakdownByDepartmentModel();
+                    bddm.TotalQty = totalqty;
                     bddm.ItemID = itemid;
                     bddm.ItemDescription = ItemRepo.GetItemByItemid(itemid, out error).Description;
                     bddm.BDList = bds;
-
                     ois.Add(bddm);
                 }
 

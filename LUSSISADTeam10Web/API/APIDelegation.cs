@@ -38,7 +38,7 @@ namespace LUSSISADTeam10Web.API
             return delelist;
         }
 
-        public static DelegationModel CreateDepartment(string token, DelegationModel dm, out string error)
+        public static DelegationModel CreateDelegation(string token, DelegationModel dm, out string error)
         {
             error = "";
             string url = APIHelper.Baseurl + "/delegation/create/";

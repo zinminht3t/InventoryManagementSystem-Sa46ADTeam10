@@ -14,7 +14,15 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel for Requisitiondetail
         private static RequisitionDetailsModel CovertDBRequisitionDetailstoAPIRequisitionDetails(requisitiondetail reqd)
         {
-            RequisitionDetailsModel reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, reqd.item.inventories.First().stock);
+            RequisitionDetailsModel reqdm;
+            try
+            {
+                reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, reqd.item.inventories.First().stock);
+            }
+            catch (Exception)
+            {
+                reqdm = new RequisitionDetailsModel(reqd.reqid, reqd.itemid, reqd.item.description, reqd.qty, reqd.item.category.name, reqd.item.uom, 0);
+            }
             return reqdm;
         }
 
@@ -194,24 +202,33 @@ namespace LUSSISADTeam10API.Repositories
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-            List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
+           // List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
             List<OrderHistoryModel> orhm = new List<OrderHistoryModel>();
             try
             {
 
 
-                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).ToList();
+                //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
+              List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid && p.requisition.raisedby == p.requisition.user.userid).Distinct().ToList();
+                
 
                 foreach (var order in reqdetail)
                 {
                     OrderHistoryModel o = new OrderHistoryModel();
 
-                   // user raisename = entities.users.Where(p => p.userid == order.requisition.raisedby).First();
-                  //  user approvename = entities.users.Where(p => p.userid == order.requisition.approvedby).First();
-                    o.reqdate = order.requisition.reqdate;
-                  //  o.raisename = raisename.username;
-                  //  o.approvename = approvename.username;
+                 
+                   
+                   o.reqdate = order.requisition.reqdate;
+                  o.raisename = order.requisition.user.username;
+                    o.deptname = order.requisition.department.deptname;
+
+                    if(order.requisition.status  == ConRequisition.Status.COMPLETED)
+                    {
+                        o.status = "Completed Order";
+                    }
+                   
                     orhm.Add(o);
+                    
                 }
 
             }
@@ -227,6 +244,12 @@ namespace LUSSISADTeam10API.Repositories
             return orhm;
 
         }
+
+
+
+
+
+       
     }
 }
 

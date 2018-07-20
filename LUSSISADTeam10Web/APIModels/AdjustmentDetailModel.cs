@@ -17,6 +17,8 @@ namespace LUSSISADTeam10Web.Models.APIModels
             this.CategoryName = categoryname;
             this.UOM = uom;
         }
+        public AdjustmentDetailModel(int itemid, int adjustedqty, string reason): this (0, itemid,"",adjustedqty, reason,"","")
+        { }
         public AdjustmentDetailModel() : this(0, 0, "", 0, "", "", "")
         {
         }

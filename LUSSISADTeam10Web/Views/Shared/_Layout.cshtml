@@ -7,7 +7,7 @@
     <meta name="description" content="Logic University - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="~/styles/images/logo.png">
     <link rel="stylesheet" href="~/styles/css/normalize.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
@@ -60,7 +60,7 @@
                             <a href="@Url.Action("SearchPreviousDelegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("AssignDepartmentRep", "HOD")"> <i class="menu-icon ti-video-camera"></i>Assign Department Rep </a>
+                            <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-video-camera"></i>Assign Department Rep </a>
                         </li>
                         <li>
                             <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
@@ -112,7 +112,7 @@
                         </li>
                         <h3 class="menu-title">Store Clerk</h3><!-- /.menu-title -->
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
+                            <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Items </a>
@@ -121,10 +121,10 @@
                             <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
                         </li>
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-notepad"></i>Outstanding Request </a>
+                            <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-notepad"></i> Item Retrieval Form </a>
                         </li>
                         <li>
-                            <a href="widgets.html" style="font-size:13px"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
+                            <a href="@Url.Action("GetOrderRecommndation", "Clerk")"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-pencil"></i>Inventory </a>
