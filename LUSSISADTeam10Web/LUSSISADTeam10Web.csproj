@@ -1299,6 +1299,13 @@
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
     <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
+    <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
+    <Content Include="Views\HOD\CreateDelegationList.cshtml" />
+    <Content Include="Views\Clerk\Adjustment.cshtml" />
+    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
+    <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
+    <Content Include="Views\Clerk\Requisition.cshtml" />
+    <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1307,6 +1314,7 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
+    <Folder Include="Views\HeadofDepartment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
