@@ -142,10 +142,17 @@ namespace LUSSISADTeam10Web.Controllers
         }
         public ActionResult Adjustment()
         {
-            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;           
-            return View(dis);
-
-            //to do View
+            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
+            InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
+            ivcvm.Invs = dis;
+            ivcvm.InvIDs = new List<int>();
+            
+            return View(ivcvm);
+        }
+        [HttpPost]
+        public ActionResult Adjustment(List<int> InvID, List<int> Current)
+        {            
+            return View();
         }
 
 

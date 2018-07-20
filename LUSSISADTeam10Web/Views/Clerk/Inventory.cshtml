@@ -78,7 +78,6 @@
                                 @foreach (var item in Model.Invs)
                                 {
                             <tr>
-
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Category)
                                 </td>
@@ -102,7 +101,7 @@
                                 </td>
                             </tr>
                                 }
-                            <tr style="align-self:flex-end">
+                            <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
                                 <td colspan="100%">
                                     <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
                                 </td>
@@ -112,6 +111,10 @@
                         </table>
                     </div>
                 </div>
+                </div>
+                </div>
+            </div>
+            </div>
 
             @section Scripts {
                 <script type="text/javascript"></script>
