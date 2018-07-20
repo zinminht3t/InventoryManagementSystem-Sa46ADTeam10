@@ -263,9 +263,9 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(rdm);
         }
 
-        // to update inventory in preparing state
+        // to update inventory in pending state
         [HttpPost]
-        [Route("api/requisition/preparing")]
+        [Route("api/requisition/requestpending")]
         public IHttpActionResult UpdateRequisitionStatus(RequisitionModel po)
         {
             string error = "";
@@ -273,11 +273,11 @@ namespace LUSSISADTeam10API.Controllers
             po = RequisitionRepo.GetRequisitionByRequisitionId(po.Reqid, out error);
 
             // if the staff has already updated the status to "preparing"
-            if (po.Status == ConRequisition.Status.PREPARING)
+            if (po.Status == ConRequisition.Status.REQUESTPENDING)
             {
                 return Ok(po);
             }
-            po.Status = ConRequisition.Status.PREPARING;
+            po.Status = ConRequisition.Status.REQUESTPENDING;
 
             List<RequisitionDetailsModel> podms = RequisitionDetailsRepo.GetRequisitionDetailsByRequisitionId(po.Reqid, out error);
 
