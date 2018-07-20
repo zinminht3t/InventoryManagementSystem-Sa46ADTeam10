@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Clerk;
@@ -44,37 +45,37 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewmodel);
         }
 
-        //[HttpPost]
-        //public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
-        //{
-        //    string token = GetToken();
-        //    UserModel um = GetUser();
-        //    DepartmentCollectionPointModel cpm = new DepartmentCollectionPointModel();
-        //    cpm.Status = ConDepartmentCollectionPoint.Status.ACTIVE;
+        [HttpPost]
+        public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+           
 
-        //    cpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, viewmodel.CpID , out string error);
+            dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, viewmodel.CpID, out string error);
 
-        //    try
-        //    {
-        //        if (!viewmodel.Approve)
-        //        {
-        //            cpm.Status = ConDepartmentCollectionPoint.Status.REJECTED;
-        //        }
+            try
+            {
+                
+                if (!viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+                }
 
-        //        cpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, cpm, out error);
+                else if (viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, dcpm, out error);
+                }
+                
+                return RedirectToAction("ApproveCollectionPoint");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
 
-        //        if (viewmodel.Approve)
-        //        {
-        //            return RedirectToAction("TrackRequisition", new { id = cpm.CpID });
-        //        }
-        //        return RedirectToAction("CollectionPointList");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return RedirectToAction("Index", "Error", new { error = ex.Message });
-        //    }
-
-        //}
+        }
         // END TAZ
 
         // Start Mahsu
@@ -107,6 +108,21 @@ namespace LUSSISADTeam10Web.Controllers
         // End MaHus
 
         // Start ZMH
+
+        public ActionResult Requisition()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+
+            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+
+            ViewBag.Requisitions = reqms;
+
+            return View();
+        }
 
         // End ZMH
 
