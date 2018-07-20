@@ -33,9 +33,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id ,out string error);
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
                 ViewBag.DepartmentCollectionModel = dcpm;
-                viewmodel.CpID =dcpm.DeptCpID;
+                viewmodel.CpID = dcpm.DeptCpID;
             }
             catch (Exception ex)
             {
@@ -78,31 +78,75 @@ namespace LUSSISADTeam10Web.Controllers
         // END TAZ
 
         // Start Mahsu
+
+         //Get All InventoryCheckViewModel
+        public InventoryCheckViewModel GetInvtCheckVM()
+        {
+            string token = GetToken();
+            UserModel user = GetUser();
+            List<InventoryModel> ivmlist = new List<InventoryModel>();
+            List<Inventory> ivclist = new List<Inventory>();
+
+            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
+
+            ivmlist = APIInventory.GetAllInventories(token, out string error);
+
+            foreach (InventoryModel invent in ivmlist)
+            {
+                CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
+                ItemModel item = APIItem.GetItemByItemID(invent.Itemid, token, out error);
+                Inventory ivc = new Inventory(invent.Invid, cat.Name, invent.Itemid, invent.ItemDescription, invent.Stock, item.Uom, cat.Shelflocation, cat.Shelflevel);
+                ivclist.Add(ivc);
+            }
+
+            invcvm.Invs = ivclist;
+            invcvm.InvIDs = new List<int>();
+
+            return invcvm;
+        }
+            //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
             UserModel user = GetUser();
-           
-            List<InventoryModel> ivmlist = new List<InventoryModel>();
-            List<InventoryCheckViewModel> ivclist = new List<InventoryCheckViewModel>();
+            
+            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
             try
             {
-                ivmlist = APIInventory.GetAllInventories(token, out string error);
-                
-                foreach (InventoryModel invent in ivmlist)
-                { 
-                    CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
-                    ItemModel item = APIItem.GetItemByItemID(invent.Itemid,token,out error);
-                    InventoryCheckViewModel ivc = new InventoryCheckViewModel(invent.Invid, cat.Name, invent.ItemDescription, invent.Stock, item.Uom);
-                    ivclist.Add(ivc);
-                }
+                invcvm = GetInvtCheckVM();              
             }
             catch (Exception e)
             {
-
+                return RedirectToAction("Index", "Error", new { error = e.Message });
             }
-            return View(ivclist);
+            return View(invcvm);
         }
+       //Get All checked Inventories
+        [HttpPost]
+        public ActionResult Inventory(List<int> InvID)
+            {
+            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
+            List<Inventory> ivm = ivcvm.Invs;
+            List < Inventory > dis = new List<Inventory>();
+            foreach (Inventory iv in ivm)
+            {
+                foreach(int i in InvID)
+                {
+                    if (iv.InventoryId == i)
+                        dis.Add(iv);
+                }               
+            }
+            TempData["discrepancy"] = dis; 
+            return RedirectToAction("Adjustment");
+        }
+        public ActionResult Adjustment()
+        {
+            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;           
+            return View(dis);
+
+            //to do View
+        }
+
 
         // End MaHus
 

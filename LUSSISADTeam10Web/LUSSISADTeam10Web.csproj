@@ -1464,6 +1464,7 @@
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
     <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
+    <Content Include="Views\Clerk\Adjustment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

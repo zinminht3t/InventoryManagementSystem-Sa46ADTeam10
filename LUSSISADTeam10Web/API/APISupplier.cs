@@ -65,6 +65,12 @@ namespace LUSSISADTeam10Web.API
             List<SupplierModel> smlist = APIHelper.Execute<List<SupplierModel>>(token, url, out error);
             return smlist;
         }
+        public static List<SupplierModel> GetSupplierByStatus (int status, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/supplier/status/" + status;
+            List<SupplierModel> smlist = APIHelper.Execute<List<SupplierModel>>(token, url, out error);
+            return smlist;
+        }
         public static List<SupplierItemModel> GetAllSupplierItems(string token, out string error)
         {
             string url = APIHelper.Baseurl + "/supplieritems/";
