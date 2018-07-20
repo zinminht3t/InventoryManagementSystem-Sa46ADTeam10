@@ -322,22 +322,7 @@ namespace LUSSISADTeam10API.Controllers
 
 
 
-        //[HttpGet]
-        //[Route("api/requsitiondetail/orderhistory/{deptid}")]
-        //public IHttpActionResult GetOrderHistory(int deptid, out string error)
-        //{
-        //     error = "";
-        //    List<OrderHistoryModel> ord = RequisitionDetailsRepo.GerOrderHistory(deptid,out error);
-        //    if (error != "" || ord == null)
-        //    {
-        //        if (error == ConError.Status.NOTFOUND)
-        //        {
-        //            return Content(HttpStatusCode.NotFound, "Order Not Found");
-        //        }
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    return Ok(ord);
-        //}
+        
 
 
 

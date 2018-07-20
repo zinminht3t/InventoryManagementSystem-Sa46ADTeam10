@@ -15,14 +15,12 @@
         <th>
             @Html.DisplayNameFor(model => model.reqdate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.deptname)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.raisename)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.approvename)
+            <label>Status</label>
         </th>
         
         <th></th>
@@ -34,16 +32,16 @@
             @Html.DisplayFor(modelItem => item.reqdate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.deptname)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.raisename)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.approvename)
+            @Html.DisplayFor(modelItem => item.Status)
+
         </td>
-       
-      
+        
+
+
+
     </tr>
 }
 
