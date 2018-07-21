@@ -66,7 +66,79 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        public ActionResult SupllierDetails(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
 
+            SupplierModel sm = new SupplierModel();
+            List<SupplierItemModel> smlist = new List<SupplierItemModel>();
+
+
+            try
+            {
+                sm = APISupplier.GetSupplierById(id, token, out string supperror);
+                ViewBag.suppliername = sm.SupName;
+                smlist = APISupplier.GetItemsBySupplierId(id, token, out string error);
+
+                return View(smlist);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+
+
+
+        }
+        public ActionResult DeActive(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.DeactivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowDeActiveSupplierlist");
+        }
+
+
+        public ActionResult Active(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.ActivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
 
 
 

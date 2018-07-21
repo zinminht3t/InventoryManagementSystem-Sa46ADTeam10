@@ -9,12 +9,11 @@
     <style>
     </style>
 }
-
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Requisitions</h1>
+                <h1>Item List</h1>
             </div>
         </div>
     </div>
@@ -22,85 +21,78 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Requisitions</li>
+                    <li><a href="#">Dashboard</a></li>
+
                 </ol>
             </div>
         </div>
     </div>
 </div>
-
 <div class="content mt-3">
     <div class="animated fadeIn">
-
-
-        <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Requisitions </strong>
-            </div>
-            <div class="card-body">
-
-                <table id="myTable" class="table table-striped table-bordered">
-                    <thead class="table-info">
-                        <tr>
-                            <th>
-                                Date
-                            </th>
-                            <th>
-                                Department
-                            </th>
-                            <th>
-                                Raised By
-                            </th>
-                            <th>
-                                Approved By
-                            </th>
-                            <th>
-                                Collection Point
-                            </th>
-                            <th>
-                                Detail
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (var item in ViewBag.Requisitions)
-                        {
-                        <tr>
-                            <td>
-                                @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
-                            </td>
-                            <td>
-                                @item.Depname
-                            </td>
-                            <td>
-                                @item.Rasiedbyname
-                            </td>
-                            <td>
-                                @item.Approvedbyname
-                            </td>
-                            <td>
-                                @item.Cpname
-                            </td>
-                            <td>
-                                <a href="@Url.Action("RequisitionDetail", "Clerk",  new {id = item.Reqid }, null)" class="btn btn-outline-info"> <i class="fa fa-user"></i>  Process</a>
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-
-                </table>
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="mr-2 fa fa-align-justify"></i>
+                        <strong class="card-title">@ViewBag.suppliername</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Department
+                                    </th>
+                                    <th>
+                                        Raised By
+                                    </th>
+                                    <th>
+                                        Approved By
+                                    </th>
+                                    <th>
+                                        Collection Point
+                                    </th>
+                                    <th>
+                                        Detail
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Requisitions)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            @item.Depname
+                                        </td>
+                                        <td>
+                                            @item.Rasiedbyname
+                                        </td>
+                                        <td>
+                                            @item.Approvedbyname
+                                        </td>
+                                        <td>
+                                            @item.Cpname
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("RequisitionDetail", "Clerk",  new {id = item.Reqid }, null)" class="btn btn-outline-info"> <i class="fa fa-user"></i>  Process</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk" )" class="btn btn-outline-success pull-right btn-flat m-b-50 m-t-50">Ok</a>
+                    </div>
+                </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
 
-@section Scripts {
-    <script type="text/javascript"></script>
-}
+
