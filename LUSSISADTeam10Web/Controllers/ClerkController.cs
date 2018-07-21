@@ -44,12 +44,6 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
 
-
-
-
-
-
-
         // End AM
 
         // Start TAZ
@@ -148,6 +142,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             return invcvm;
         }
+        //Get Inventory by inventoryID
         public List<Inventory> GetSelectedInventory(List<int> i)
         {
             InventoryCheckViewModel ivcvm = GetInvtCheckVM();
@@ -163,16 +158,45 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return dis;
         }
-        //Display All Inventories
+        //Display Awaiting Approval Adjustments     //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
             UserModel user = GetUser();
-            
+
+            List<AdjustmentModel> adj = new List<AdjustmentModel>();
+            List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
+
             InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
+            List<Inventory> inv = new List<Inventory>();
             try
             {
-                invcvm = GetInvtCheckVM();              
+                invcvm = GetInvtCheckVM();
+               
+                adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
+                
+                foreach(AdjustmentModel ad in adj)
+                {
+                    //adjdetail = ad.Adjds;
+                    
+                    foreach(AdjustmentDetailModel adjd in ad.Adjds)
+                    {
+                        foreach(Inventory i in invcvm.Invs)
+                        {
+                            if (adjd.Itemid == i.ItemID)
+                            {
+                                adjd.Stock = i.Stock;
+                                adjd.Adjustedqty = adjd.Adjustedqty + (int)adjd.Stock;
+                            }
+
+                            adjd.IssueDate = ((DateTime)ad.Issueddate);                           
+                            
+                        }
+                        adjdetail.Add(adjd);
+                    }
+                }
+                ViewBag.AdjustmentDetailModel = adjdetail;
+                
             }
             catch (Exception e)
             {
@@ -192,9 +216,16 @@ namespace LUSSISADTeam10Web.Controllers
         {
             List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
             InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
-            ivcvm.Invs = dis;
-            ivcvm.InvIDs = new List<int>();
-            
+            try
+            {
+                ivcvm.Invs = dis;
+                ivcvm.InvIDs = new List<int>();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Error", new { error = e.Message });
+            }
+
             return View(ivcvm);
         }
         [HttpPost]
@@ -204,24 +235,30 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel user = GetUser();
             List<Inventory> invent = GetSelectedInventory(InvID);
             AdjustmentModel adjust = new AdjustmentModel();
-           
-            for (int i =0; i < InvID.Count; i++)
+            try
             {
-                foreach(Inventory inv in invent)
+                for (int i = 0; i < InvID.Count; i++)
                 {
-                    if(InvID[i]== inv.InventoryId)
+                    foreach (Inventory inv in invent)
                     {
-                        inv.Current = Current[i];
-                        AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current-(int)inv.Stock),Reason[i]);
-                        adjust.Adjds.Add(adjd);
+                        if (InvID[i] == inv.InventoryId)
+                        {
+                            inv.Current = Current[i];
+                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current - (int)inv.Stock), Reason[i]);
+                            adjust.Adjds.Add(adjd);
+                        }
                     }
                 }
+                adjust.Issueddate = DateTime.Now.Date;
+                adjust.Raisedby = user.Userid;
+
+                adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
             }
-            adjust.Issueddate = DateTime.Now.Date;
-            adjust.Raisedby = user.Userid;
-            
-            adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
-           
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Error", new { error = e.Message });
+            }
+
             return RedirectToAction("Inventory");
         }
 
