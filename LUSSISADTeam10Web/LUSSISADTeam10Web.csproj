@@ -1318,6 +1318,8 @@
     <Content Include="Views\Clerk\Outstanding.cshtml" />
     <Content Include="Views\Clerk\ShowActiveSupplierlist.cshtml" />
     <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
+    <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
