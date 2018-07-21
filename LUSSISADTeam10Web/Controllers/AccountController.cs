@@ -44,7 +44,6 @@ namespace LUSSISADTeam10Web.Controllers
                     UserModel um = APIAccount.GetUserProfile(token, out error);
                     Session["user"] = um;
                     Session["role"] = um.Role;
-                    ViewBag.Role = um.Role;
 
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

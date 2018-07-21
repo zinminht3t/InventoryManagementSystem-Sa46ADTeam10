@@ -52,18 +52,24 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
+
+                                            @{
+                                                var modelreqs = Model.Where(x => x.Cpname == cpname).ToList();
+                                                var ReqCount = modelreqs.Count;
+                                            }
                                             <a class="accordion-toggle text-info" data-toggle="collapse" data-parent="#accordion" href="#@cpname.Replace(" ", "")">
                                                 <i class="fa fa-map"></i> @cpname
+
+                                                <em>(@ReqCount Requisitons..)</em>
                                             </a>
+                                            
                                         </h4>
                                     </div>
                                     <hr />
                                     <div id="@cpname.Replace(" ", "")" class="panel-collapse collapse in">
                                         <div class="panel-body">
 
-                                            @{
-                                                var modelreqs = Model.Where(x => x.Cpname == cpname).ToList();
-                                            }
+
 
                                             <div class="container">
                                                 <div class="panel-group" id="accordionforreq">
