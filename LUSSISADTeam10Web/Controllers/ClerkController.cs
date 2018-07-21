@@ -170,13 +170,14 @@ namespace LUSSISADTeam10Web.Controllers
             ItemModel itm = new ItemModel();
             ViewBag.InventoryModel = invm;
             InventoryViewModel viewmodel = new InventoryViewModel();
-            invm=APIInventory.GetInventoryByInvid(id, token, out string error);
+            invm = APIInventory.GetInventoryByInvid(id, token, out string error);
 
-            try {
+            try
+            {
 
                 ViewBag.InventoryModel = invm;
 
-                viewmodel.CatId=itm.Catid;
+                viewmodel.CatId = itm.Catid;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
@@ -185,12 +186,14 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                
+
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message
-    });
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
             return View(viewmodel);
         }
@@ -198,13 +201,13 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult EditItem(InventoryViewModel viewmodel)
         {
-            
+
             string token = GetToken();
             InventoryModel invm = new InventoryModel();
             ItemModel it = new ItemModel();
             CategoryModel c = new CategoryModel();
-            
-           
+
+
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
             c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
@@ -218,8 +221,8 @@ namespace LUSSISADTeam10Web.Controllers
             //it.Itemid = viewmodel.Itemid;
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
-            
-                   
+
+
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
