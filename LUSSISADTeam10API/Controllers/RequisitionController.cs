@@ -24,6 +24,16 @@ namespace LUSSISADTeam10API.Controllers
             List<RequisitionModel> reqs = RequisitionRepo.GetAllRequisition(out string error);
             return Ok(reqs);
         }
+
+
+        [HttpGet]
+        [Route("api/requisitions/preparing")]
+        public IHttpActionResult GetRequisitionsWithPreparingStatus()
+        {
+            // retrive all requisition list
+            List<RequisitionWithDisbursementModel> reqs = RequisitionRepo.GetRequisitionsWithPreparingStatus(out string error);
+            return Ok(reqs);
+        }
         // to get the requisition with its requisiton details
         [HttpGet]
         [Route("api/reqDetails")]
@@ -319,10 +329,25 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(pom);
         }
 
+        // to update requisition
+        [HttpPost]
+        [Route("api/requisition/preparing")]
+        public IHttpActionResult UpdateAllRequestStatusToPreparing()
+        {
+            string error = "";
+            List<RequisitionWithDisbursementModel> rm = RequisitionRepo.UpdateAllRequestStatusToPreparing(out error);
+            if (error != "" || rm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Disbursement Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rm);
+        }
 
 
-
-        
 
 
 
