@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.SessionState;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult Login()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return PartialView(new UserViewModel());
         }
 
@@ -42,7 +44,6 @@ namespace LUSSISADTeam10Web.Controllers
                     UserModel um = APIAccount.GetUserProfile(token, out error);
                     Session["user"] = um;
                     Session["role"] = um.Role;
-                    ViewBag.Role = um.Role;
 
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

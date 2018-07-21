@@ -1,0 +1,156 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.RequisitionWithDisbursementModel>
+
+
+@{
+    ViewBag.Title = "Disbursements List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Disbursements List</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Disbursements List</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Disbursements List </strong>
+            </div>
+            <div class="card-body">
+
+                @if (ViewBag.ShowItems)
+                {
+                    <div class="container">
+
+                        <div class="panel-group" id="accordion">
+
+                            @foreach (string cpname in ViewBag.CollectionPointNames)
+                            {
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+
+                                            @{
+                                                var modelreqs = Model.Where(x => x.Cpname == cpname).ToList();
+                                                var ReqCount = modelreqs.Count;
+                                            }
+                                            <a class="accordion-toggle text-info" data-toggle="collapse" data-parent="#accordion" href="#@cpname.Replace(" ", "")">
+                                                <i class="fa fa-map"></i> @cpname
+
+                                                <em>(@ReqCount Requisitons..)</em>
+                                            </a>
+                                            
+                                        </h4>
+                                    </div>
+                                    <hr />
+                                    <div id="@cpname.Replace(" ", "")" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+
+
+
+                                            <div class="container">
+                                                <div class="panel-group" id="accordionforreq">
+                                                    @foreach (var itemreq in modelreqs)
+                                                    {
+                                                        <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionforreq" href="#@itemreq.Reqid">
+
+                                                                        Department : @itemreq.Depname
+                                                                        -
+                                                                        Requistion ID : @itemreq.Reqid
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="@itemreq.Reqid" class="panel-collapse collapse in">
+                                                                <div class="panel-body">
+                                                                    <hr />
+                                                                    <h6>Raised By :  @itemreq.Rasiedbyname </h6><br />
+                                                                    <h6>Approved By :  @itemreq.Approvedbyname </h6><br />
+                                                                    <h6>Collection Point : @itemreq.Cpname</h6><br />
+                                                                    <h6>Requested Date :  @itemreq.Reqdate.Value.ToString("d")</h6><br />
+                                                                    <div class="text-sm-center">
+
+                                                                        <table class="table table-bordered table-hover">
+                                                                            <thead class="table-info">
+                                                                                <tr>
+                                                                                    <th>Item Name</th>
+                                                                                    <th>Category Name</th>
+                                                                                    <th>Quantity</th>
+                                                                                    <th>UOM</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var item in itemreq.Requisitiondetails)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>@item.Itemname</td>
+                                                                                        <td>@item.CategoryName</td>
+                                                                                        <td>@item.ApprovedQty</td>
+                                                                                        <td>@item.UOM</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+
+                }
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
+            e.stopPropagation();
+        });
+    </script>
+}

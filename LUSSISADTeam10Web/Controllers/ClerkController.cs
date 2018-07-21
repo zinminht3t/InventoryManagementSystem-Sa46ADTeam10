@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -66,7 +67,79 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        public ActionResult SupllierDetails(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
 
+            SupplierModel sm = new SupplierModel();
+            List<SupplierItemModel> smlist = new List<SupplierItemModel>();
+
+
+            try
+            {
+                sm = APISupplier.GetSupplierById(id, token, out string supperror);
+                ViewBag.suppliername = sm.SupName;
+                smlist = APISupplier.GetItemsBySupplierId(id, token, out string error);
+
+                return View(smlist);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+
+
+
+        }
+        public ActionResult DeActive(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.DeactivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowDeActiveSupplierlist");
+        }
+
+
+        public ActionResult Active(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.ActivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
 
 
 
@@ -519,6 +592,40 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult UpdateToPreparing()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+
+            reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
+
+            return RedirectToAction("DisbursementLists");
+        }
+
+        public ActionResult DisbursementLists()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            ViewBag.ShowItems = false;
+
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+            reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
+
+            List<string> CollectionPointNames = new List<string>();
+            CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
+            ViewBag.CollectionPointNames = CollectionPointNames;
+            if (CollectionPointNames.Count > 0)
+            {
+                ViewBag.ShowItems = true;
+            }
+
+            return View(reqdisms);
+        }
 
         // End ZMH
 
@@ -585,12 +692,24 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = "";
             token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+            }
             return token;
         }
         public UserModel GetUser()
         {
-            UserModel um = new UserModel();
-            um = (UserModel)Session["user"];
+            UserModel um = (UserModel)Session["user"];
+            if(um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
             return um;
         }
         #endregion

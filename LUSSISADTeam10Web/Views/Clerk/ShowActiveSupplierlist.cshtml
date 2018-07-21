@@ -22,7 +22,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">Old Suppliers</li>
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")"/>Old Suppliers</li>
                 </ol>
             </div>
         </div>
@@ -54,7 +54,7 @@
                             <div class="col-md-4"><b>Email:</b> </div>
                             <div class="col-md-5">@Html.DisplayFor(modelItem => item.SupEmail) </div>
                         </div><br />
-                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-link pull-right ">Details</a>
+                        <a href="@Url.Action("SupllierDetails","Clerk" , new { id = item.SupId })" class="btn btn-link pull-right ">Details</a>
                         <a href="@Url.Action("DeActive", "Clerk" ,  new { id = item.SupId })" style="color: #ff0000;" class="btn btn-link pull-right ">Deactivate</a>
                     </form>
                 </div>

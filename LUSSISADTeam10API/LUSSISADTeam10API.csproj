@@ -214,7 +214,9 @@
     <Compile Include="Models\APIModels\OutstandingReqModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="Models\APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionWithDisbursementModel.cs" />
     <Compile Include="Models\APIModels\RequisitionModel.cs" />
     <Compile Include="Models\APIModels\SupplierItemModel.cs" />
     <Compile Include="Models\APIModels\SupplierModel.cs" />
