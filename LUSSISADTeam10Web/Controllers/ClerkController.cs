@@ -521,6 +521,40 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult UpdateToPreparing()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+
+            reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
+
+            return RedirectToAction("DisbursementLists");
+        }
+
+        public ActionResult DisbursementLists()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            ViewBag.ShowItems = false;
+
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+            reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
+
+            List<string> CollectionPointNames = new List<string>();
+            CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
+            ViewBag.CollectionPointNames = CollectionPointNames;
+            if (CollectionPointNames.Count > 0)
+            {
+                ViewBag.ShowItems = true;
+            }
+
+            return View(reqdisms);
+        }
 
         // End ZMH
 

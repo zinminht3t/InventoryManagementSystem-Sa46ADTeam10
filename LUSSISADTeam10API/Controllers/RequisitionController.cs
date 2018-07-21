@@ -330,8 +330,8 @@ namespace LUSSISADTeam10API.Controllers
         }
 
         // to update requisition
-        [HttpPost]
-        [Route("api/requisition/preparing")]
+        [HttpGet]
+        [Route("api/requisition/updatetopreparing")]
         public IHttpActionResult UpdateAllRequestStatusToPreparing()
         {
             string error = "";

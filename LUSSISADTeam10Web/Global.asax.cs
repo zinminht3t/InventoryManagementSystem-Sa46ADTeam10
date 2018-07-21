@@ -41,8 +41,8 @@ namespace LUSSISADTeam10Web
                     }
                     catch (Exception ex)
                     {
-                       var blah =  ex.Message;
-
+                        var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                        Response.Redirect(urlHelper.Action("Login", "Account"));
                     }
                 }
             }

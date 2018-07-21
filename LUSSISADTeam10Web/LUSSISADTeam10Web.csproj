@@ -177,7 +177,9 @@
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
+    <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
     <Compile Include="APIModels\SupplierItemModel.cs" />
     <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
@@ -1321,6 +1323,7 @@
     <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
     <Content Include="Views\Clerk\Manage.cshtml" />
     <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\DisbursementLists.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
