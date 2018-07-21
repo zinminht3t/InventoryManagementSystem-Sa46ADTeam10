@@ -66,53 +66,8 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        
-        public ActionResult DeActive( int id)
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-
-            SupplierModel sm = new SupplierModel();
-            sm = APISupplier.GetSupplierById(id, token, out string superror);
-
-            try
-            {
-            
-                  APISupplier.DeactivateSupplier(sm, token , out string error);
-
-                
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            return RedirectToAction("ShowDeActiveSupplierlist");
-        }
-
-       
-        public ActionResult Active(int id)
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-
-            SupplierModel sm = new SupplierModel();
-            sm = APISupplier.GetSupplierById(id, token, out string superror);
-
-            try
-            {
-
-                APISupplier.ActivateSupplier(sm, token, out string error);
 
 
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            return RedirectToAction("ShowActiveSupplierlist");
-        }
 
 
 
@@ -215,13 +170,14 @@ namespace LUSSISADTeam10Web.Controllers
             ItemModel itm = new ItemModel();
             ViewBag.InventoryModel = invm;
             InventoryViewModel viewmodel = new InventoryViewModel();
-            invm=APIInventory.GetInventoryByInvid(id, token, out string error);
+            invm = APIInventory.GetInventoryByInvid(id, token, out string error);
 
-            try {
+            try
+            {
 
                 ViewBag.InventoryModel = invm;
 
-                viewmodel.CatId=itm.Catid;
+                viewmodel.CatId = itm.Catid;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
@@ -230,12 +186,14 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                
+
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message
-    });
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
             return View(viewmodel);
         }
@@ -243,13 +201,13 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult EditItem(InventoryViewModel viewmodel)
         {
-            
+
             string token = GetToken();
             InventoryModel invm = new InventoryModel();
             ItemModel it = new ItemModel();
             CategoryModel c = new CategoryModel();
-            
-           
+
+
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
             c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
@@ -263,8 +221,8 @@ namespace LUSSISADTeam10Web.Controllers
             //it.Itemid = viewmodel.Itemid;
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
-            
-                   
+
+
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
@@ -308,6 +266,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             return invcvm;
         }
+        //Get Inventory by inventoryID
         public List<Inventory> GetSelectedInventory(List<int> i)
         {
             InventoryCheckViewModel ivcvm = GetInvtCheckVM();
@@ -323,16 +282,45 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return dis;
         }
-        //Display All Inventories
+        //Display Awaiting Approval Adjustments     //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
             UserModel user = GetUser();
-            
+
+            List<AdjustmentModel> adj = new List<AdjustmentModel>();
+            List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
+
             InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
+            List<Inventory> inv = new List<Inventory>();
             try
             {
-                invcvm = GetInvtCheckVM();              
+                invcvm = GetInvtCheckVM();
+               
+                adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
+                
+                foreach(AdjustmentModel ad in adj)
+                {
+                    //adjdetail = ad.Adjds;
+                    
+                    foreach(AdjustmentDetailModel adjd in ad.Adjds)
+                    {
+                        foreach(Inventory i in invcvm.Invs)
+                        {
+                            if (adjd.Itemid == i.ItemID)
+                            {
+                                adjd.Stock = i.Stock;
+                                adjd.Adjustedqty = adjd.Adjustedqty + (int)adjd.Stock;
+                            }
+
+                            adjd.IssueDate = ((DateTime)ad.Issueddate);                           
+                            
+                        }
+                        adjdetail.Add(adjd);
+                    }
+                }
+                ViewBag.AdjustmentDetailModel = adjdetail;
+                
             }
             catch (Exception e)
             {
@@ -352,9 +340,16 @@ namespace LUSSISADTeam10Web.Controllers
         {
             List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
             InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
-            ivcvm.Invs = dis;
-            ivcvm.InvIDs = new List<int>();
-            
+            try
+            {
+                ivcvm.Invs = dis;
+                ivcvm.InvIDs = new List<int>();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Error", new { error = e.Message });
+            }
+
             return View(ivcvm);
         }
         [HttpPost]
@@ -364,24 +359,30 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel user = GetUser();
             List<Inventory> invent = GetSelectedInventory(InvID);
             AdjustmentModel adjust = new AdjustmentModel();
-           
-            for (int i =0; i < InvID.Count; i++)
+            try
             {
-                foreach(Inventory inv in invent)
+                for (int i = 0; i < InvID.Count; i++)
                 {
-                    if(InvID[i]== inv.InventoryId)
+                    foreach (Inventory inv in invent)
                     {
-                        inv.Current = Current[i];
-                        AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current-(int)inv.Stock),Reason[i]);
-                        adjust.Adjds.Add(adjd);
+                        if (InvID[i] == inv.InventoryId)
+                        {
+                            inv.Current = Current[i];
+                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current - (int)inv.Stock), Reason[i]);
+                            adjust.Adjds.Add(adjd);
+                        }
                     }
                 }
+                adjust.Issueddate = DateTime.Now.Date;
+                adjust.Raisedby = user.Userid;
+
+                adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
             }
-            adjust.Issueddate = DateTime.Now.Date;
-            adjust.Raisedby = user.Userid;
-            
-            adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
-           
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Error", new { error = e.Message });
+            }
+
             return RedirectToAction("Inventory");
         }
 

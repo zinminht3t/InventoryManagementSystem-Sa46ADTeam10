@@ -32,7 +32,66 @@
 
 <div class="content mt-3">
     <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Reported Adjustments </strong>
+            </div>
 
+            <div class="card card-body" style="background-color:aliceblue">
+                <table style="border:hidden">
+                    <tr style="background-color:cadetblue;font-weight:600;color:white;height:50px;">
+                        <th style="text-align:center">
+                            IssueDate
+                        </th>
+                        <th style="text-align:center">
+                            Category
+                        </th>
+                        <th style="text-align:center">
+                            Item
+                        </th>
+                        <th style="text-align:center">
+                            Stock
+                        </th>
+                        <th style="text-align:center">
+                            Checked Qty
+                        </th>
+                        <th style="text-align:center">
+                            UOM
+                        </th>
+                        <th style="text-align:center">
+                            Reason
+                        </th>
+                    </tr>
+                    @foreach (var ad in @Html.ViewBag.AdjustmentDetailModel)
+                {
+                    <tr style="height:30px">
+                        <td style="text-align:center">
+                            @Convert.ToDateTime(@ad.IssueDate).ToString("dd/MM/yyyy")
+                        </td>
+                        <td style="text-align:center">
+                            @ad.CategoryName
+                        </td>
+                        <td style="text-align:center">
+                            @ad.Itemdescription
+                        </td>
+                        <td style="text-align:center">
+                            @ad.Stock
+                        </td>
+                        <td style="text-align:center">
+                            @ad.Adjustedqty
+                        </td>
+                        <td style="text-align:center">
+                            @ad.UOM
+                        </td>
+                        <td style="text-align:center">
+                            @ad.Reason
+                        </td>
+                    </tr>
+            }
+                </table>
+            </div>
+        </div>
 
         <div class="card">
             <div class="card-header">
@@ -41,22 +100,6 @@
             </div>
 
             <div class="card-body">
-                @*<div class="row">
-
-                        <div class="dataTables_length" id="bootstrap-data-table_length">
-                            <div class="col-sm-12 col-md-3">
-                                <label>Show</label>
-                            </div>
-                            <div class="col-sm-12 col-md-4" style="width:500px">
-
-                                @Html.DropDownList("suppliers", "All")
-
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <label>Suppliers</label>
-                            </div>
-                        </div>
-                    </div>*@
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -76,44 +119,44 @@
                             <form asp-action="Inventory" asp-controller="Clerk" method="post">
 
                                 @foreach (var item in Model.Invs)
-                                {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Category)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ItemDescription)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Stock)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UOM)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Shelf)
-                                    @Html.DisplayFor(modelItem => item.Level)
-                                </td>
-                                <td style="text-align:center">
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="InvID" type="checkbox" asp-for="@Model.InvIDs" value="@item.InventoryId" id="checkbox">
-                                    </div>
-                                </td>
-                            </tr>
-                                }
-                            <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
-                                <td colspan="100%">
-                                    <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
-                                </td>
-                            </tr>                            
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Category)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Stock)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UOM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Shelf)
+                                        @Html.DisplayFor(modelItem => item.Level)
+                                    </td>
+                                    <td style="text-align:center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="InvID" type="checkbox" asp-for="@Model.InvIDs" value="@item.InventoryId" id="checkbox">
+                                        </div>
+                                    </td>
+                                </tr>
+                        }
+                                <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
+                                    <td colspan="100%">
+                                        <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
+                                    </td>
+                                </tr>
                             </form>
 
                         </table>
                     </div>
                 </div>
-                </div>
-                </div>
             </div>
+        </div>
+    </div>
             </div>
 
             @section Scripts {
