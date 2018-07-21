@@ -300,9 +300,7 @@ namespace LUSSISADTeam10Web.Controllers
                 adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
                 
                 foreach(AdjustmentModel ad in adj)
-                {
-                    //adjdetail = ad.Adjds;
-                    
+                {                  
                     foreach(AdjustmentDetailModel adjd in ad.Adjds)
                     {
                         foreach(Inventory i in invcvm.Invs)

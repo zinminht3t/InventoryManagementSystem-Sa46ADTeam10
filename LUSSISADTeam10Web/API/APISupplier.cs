@@ -105,5 +105,11 @@ namespace LUSSISADTeam10Web.API
             List<SupplierItemModel> simlist = APIHelper.Execute<List<SupplierItemModel>>(token, url, out error);
             return simlist;
         }
+        public static SupplierItemModel GetOneSupplierItemByItemId(int itemid, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/supplieritem/getitem/"+itemid;
+            SupplierItemModel sim = APIHelper.Execute<SupplierItemModel>(token, url, out error);
+            return sim;
+        }
     }
 }
