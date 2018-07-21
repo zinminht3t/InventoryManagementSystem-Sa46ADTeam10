@@ -107,7 +107,6 @@ namespace LUSSISADTeam10Web.API
             return dbdlist;
 
         }
-
         public static List<BreakdownByDepartmentModel> GetBreakDown (string token,out string error)
         {
             string url = APIHelper.Baseurl + "/disbursement/BreakDown/";

@@ -1316,6 +1316,8 @@
     <Content Include="Views\HOD\AssignDepRep.cshtml" />
     <Content Include="Views\Clerk\Create.cshtml" />
     <Content Include="Views\Clerk\Outstanding.cshtml" />
+    <Content Include="Views\Clerk\ShowActiveSupplierlist.cshtml" />
+    <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

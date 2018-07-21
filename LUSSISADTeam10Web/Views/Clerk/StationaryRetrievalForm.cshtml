@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.ShowBD>
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.BreakdownByDepartmentModel>
 
 @{
     ViewBag.Title = "Track Requisition";
@@ -40,50 +40,61 @@
             </div>
             <div class="card-body">
 
-                <table>
+                @if(Model.Count() > 0)
+                { 
+                <table class="table table-bordered">
+                    <thead class="thead-dark text-primary text-center">
+                        <tr>
+                            <td rowspan="2">Item ID</td>
+                            <td rowspan="2">Item Description</td>
+                            <td rowspan="2">Total Quantity</td>
+                            <td colspan="2">
+                                Breakdown By Department
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Department</td>
+                            <td>Qty</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            bool AlreadyShown = false;
 
-                    <tr>
-                        <td>Item ID</td>
-                        <td>Item Description</td>
-                        <td>Total Quantity</td>
-                        <td>Breakdown By Department</td>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-
-                        <td>@item.ItemID</td>
-                        <td>@item.ItemDescription</td>
-                        <td>@item.Qty</td>
-                        <td>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>Department</td>
-                                        <td>Qty</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var i in item.BDList)
+                            foreach (var i in item.BDList)
+                            {
+                                <tr>
+                                    @if (!AlreadyShown)
                                     {
-                                    <tr>
-                                        <td>@i.DeptName</td>
-                                        <td>@i.Qty</td>
-                                    </tr>
+                                        <td>@item.ItemID</td>
+                                        <td>@item.ItemDescription</td>
+                                        <td>@item.TotalQty</td>
+
+                                        AlreadyShown = true; 
                                     }
-                                </tbody>
-                            </table>
+                                    else
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                    <td>@i.DeptName</td>
+                                    <td>@i.Qty</td>
+                                </tr>
 
-
-                        </td>
-
-                    </tr>
-                    }
+                            }
+                        }
+                    </tbody>
 
 
                 </table>
+                }
 
+                else
+                {
+                    <span class="text-center text-danger">There is no items to retrieve yet!!!</span>
+                }
 
 
             </div>
