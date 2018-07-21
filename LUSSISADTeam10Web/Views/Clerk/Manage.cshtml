@@ -38,15 +38,14 @@
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead class="table-info">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Invid)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Itemid)</th>
-                                    <th>@Html.DisplayNameFor(model => model.ItemDescription)</th>
-                                    <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
-                                    <th>@Html.DisplayNameFor(model => model.UOM)</th>
-                                    <th> @Html.DisplayNameFor(model => model.Stock)</th>
-                                    <th> @Html.DisplayNameFor(model => model.ReorderLevel)</th>
-                                    <th> @Html.DisplayNameFor(model => model.ReorderQty)</th>
-                                    <th><p>  </p></th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>UOM</th>
+                                    <th>Stock</th>
+                                    <th>Reorder Level</th>
+                                    <th>Reorder Qty</th>
+                                    <th>Edit</th>
 
                                 </tr>
                             </thead>
@@ -55,9 +54,6 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Invid)
-                                        </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Itemid)
                                         </td>
@@ -80,7 +76,7 @@
                                             @Html.DisplayFor(modelItem => item.ReorderQty)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "EditItem", new { id = item.Invid })
+                                            <a href="@Url.Action("EditItem", new { id = item.Itemid })"> <i class="fa fa-edit fa-2x text-info"></i></a>
                                         </td>
                                     </tr>
                                 }

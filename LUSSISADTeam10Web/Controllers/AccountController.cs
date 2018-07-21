@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.SessionState;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult Login()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return PartialView(new UserViewModel());
         }
 

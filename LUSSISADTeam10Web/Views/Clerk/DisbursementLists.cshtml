@@ -65,54 +65,64 @@
                                                 var modelreqs = Model.Where(x => x.Cpname == cpname).ToList();
                                             }
 
-                                            @foreach (var itemreq in modelreqs)
-                                            {
+                                            <div class="container">
+                                                <div class="panel-group" id="accordionforreq">
+                                                    @foreach (var itemreq in modelreqs)
+                                                    {
+                                                        <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionforreq" href="#@itemreq.Reqid">
 
-                                            <div style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                                                <h5>Requistion ID : @itemreq.Reqid</h5>
-                                                <hr />
-                                                <h6>Raised By :  @itemreq.Rasiedbyname </h6><br />
-                                                <h6>Approved By :  @itemreq.Approvedbyname </h6><br />
-                                                <h6>Collection Point : @itemreq.Cpname</h6><br />
-                                                <h6>Requested Date :  @itemreq.Reqdate.Value.ToString("d")</h6><br />
-                                                <div class="text-sm-center">
+                                                                        Department : @itemreq.Depname
+                                                                        -
+                                                                        Requistion ID : @itemreq.Reqid
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="@itemreq.Reqid" class="panel-collapse collapse in">
+                                                                <div class="panel-body">
+                                                                    <hr />
+                                                                    <h6>Raised By :  @itemreq.Rasiedbyname </h6><br />
+                                                                    <h6>Approved By :  @itemreq.Approvedbyname </h6><br />
+                                                                    <h6>Collection Point : @itemreq.Cpname</h6><br />
+                                                                    <h6>Requested Date :  @itemreq.Reqdate.Value.ToString("d")</h6><br />
+                                                                    <div class="text-sm-center">
 
-                                                    <table class="table table-bordered table-hover">
-                                                        <thead class="table-info">
-                                                            <tr>
-                                                                <th>Item Name</th>
-                                                                <th>Category Name</th>
-                                                                <th>Quantity</th>
-                                                                <th>UOM</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var item in itemreq.Requisitiondetails)
-                                                            {
-                                                                <tr>
-                                                                    <td>@item.Itemname</td>
-                                                                    <td>@item.CategoryName</td>
-                                                                    <td>@item.ApprovedQty</td>
-                                                                    <td>@item.UOM</td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
+                                                                        <table class="table table-bordered table-hover">
+                                                                            <thead class="table-info">
+                                                                                <tr>
+                                                                                    <th>Item Name</th>
+                                                                                    <th>Category Name</th>
+                                                                                    <th>Quantity</th>
+                                                                                    <th>UOM</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var item in itemreq.Requisitiondetails)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>@item.Itemname</td>
+                                                                                        <td>@item.CategoryName</td>
+                                                                                        <td>@item.ApprovedQty</td>
+                                                                                        <td>@item.UOM</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
-                                            }
-
-
-
                                         </div>
                                     </div>
                                 </div>
-
-                                                }
-
+                            }
                         </div>
                     </div>
-
                 }
                 else
                 {
@@ -131,5 +141,10 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
+            e.stopPropagation();
+        });
+    </script>
 }
