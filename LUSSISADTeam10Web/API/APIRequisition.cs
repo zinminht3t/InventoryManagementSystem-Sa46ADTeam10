@@ -139,10 +139,17 @@ namespace LUSSISADTeam10Web.API
             return rdm;
         }
 
+        public static RequisitionWithDisbursementModel GetRequisitionWithDisbursementByReqID(int reqid, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/requisitionwithdisbursement/" + reqid;
+            RequisitionWithDisbursementModel rdm = APIHelper.Execute<RequisitionWithDisbursementModel>(token, url, out error);
+            return rdm;
+        }
         public static RequisitionModel UpdateCompleteRequisitionStatus(RequisitionModel req, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/requisition/status/completed";
-            List<RequisitionWithDisbursementModel> rdm = APIHelper.Execute<List<RequisitionWithDisbursementModel>>(token, url, out error);
+            string objectstring = JsonConvert.SerializeObject(req);
+            RequisitionModel rdm = APIHelper.Execute<RequisitionModel>(token, objectstring, url, out error);
             return rdm;
         }
     }

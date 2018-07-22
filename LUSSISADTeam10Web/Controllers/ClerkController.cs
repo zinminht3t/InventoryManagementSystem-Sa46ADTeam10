@@ -633,15 +633,40 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
 
-            RequisitionModel req = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            RequisitionModel req = new RequisitionModel();
+            req = APIRequisition.GetRequisitionByReqid(id, token, out error);
+
+            if(req.Status != ConRequisition.Status.PREPARING)
+            {
+                RedirectToAction("DisbursementLists");
+            }
+
             req.Status = ConRequisition.Status.DELIVERED;
             req = APIRequisition.UpdateRequisition(req, token, out error);
             
             // add notification here
 
+            return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
+        }
+
+        public ActionResult DisbursementDetail(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
 
 
-            return View();
+            RequisitionWithDisbursementModel req = new RequisitionWithDisbursementModel();
+
+            req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
+
+            if (req.Status != ConRequisition.Status.DELIVERED)
+            {
+                RedirectToAction("DisbursementLists");
+            }
+
+            return View(req);
+
         }
 
         // End ZMH
