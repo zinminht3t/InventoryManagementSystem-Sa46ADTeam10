@@ -201,6 +201,7 @@
     <Compile Include="Models\APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DepartmentModel.cs" />
     <Compile Include="Models\APIModels\DisbursementDetailsModel.cs" />
+    <Compile Include="Models\APIModels\DisbursementLockerModel.cs" />
     <Compile Include="Models\APIModels\DisbursementModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
@@ -248,6 +249,12 @@
     <Compile Include="Models\DBModels\disbursementdetail.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\disbursementlocker.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\FrequentlyTop5ItemsDashboard.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\inventory.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -255,6 +262,9 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\item.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\ItemTrendAnalysi.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\lockercollectionpoint.cs">
@@ -275,7 +285,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LUSSISEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\MonthItemUsage.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\MonthlyItemUsageByHOD.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\notification.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\OrderByDepartmentDarshboard.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\outstandingrequisition.cs">
@@ -294,6 +313,9 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\requisitiondetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\RequistionList.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\supplier.cs">
