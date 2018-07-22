@@ -120,13 +120,23 @@ namespace LUSSISADTeam10Web.API
             return rdm;
         }
 
-
         public static List<OrderHistoryModel> GetOrderHistory(int id,string token, out string error)
         {
             string url = APIHelper.Baseurl + "/orderhistory/" + id;
             List<OrderHistoryModel> orlist = APIHelper.Execute<List<OrderHistoryModel>>(token, url, out error);
             return orlist;
-
+        }
+        public static List<RequisitionWithDisbursementModel> UpdateAllRequistionRequestStatusToPreparing(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/requisition/updatetopreparing/";
+            List<RequisitionWithDisbursementModel> rdm = APIHelper.Execute<List<RequisitionWithDisbursementModel>>(token, url, out error);
+            return rdm;
+        }
+        public static List<RequisitionWithDisbursementModel> GetRequisitionWithPreparingStatus(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/requisitions/preparing/";
+            List<RequisitionWithDisbursementModel> rdm = APIHelper.Execute<List<RequisitionWithDisbursementModel>>(token, url, out error);
+            return rdm;
         }
     }
 }

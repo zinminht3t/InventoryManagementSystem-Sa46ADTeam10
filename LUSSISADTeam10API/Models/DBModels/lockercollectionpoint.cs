@@ -14,6 +14,12 @@ namespace LUSSISADTeam10API.Models.DBModels
     
     public partial class lockercollectionpoint
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public lockercollectionpoint()
+        {
+            this.disbursementlockers = new HashSet<disbursementlocker>();
+        }
+    
         public int lockerid { get; set; }
         public string lockername { get; set; }
         public string lockersize { get; set; }
@@ -21,5 +27,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public int status { get; set; }
     
         public virtual collectionpoint collectionpoint { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<disbursementlocker> disbursementlockers { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -372,9 +373,7 @@ namespace LUSSISADTeam10Web.Controllers
                 adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
                 
                 foreach(AdjustmentModel ad in adj)
-                {
-                    //adjdetail = ad.Adjds;
-                    
+                {                  
                     foreach(AdjustmentDetailModel adjd in ad.Adjds)
                     {
                         foreach(Inventory i in invcvm.Invs)
@@ -593,6 +592,40 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult UpdateToPreparing()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+
+            reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
+
+            return RedirectToAction("DisbursementLists");
+        }
+
+        public ActionResult DisbursementLists()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            ViewBag.ShowItems = false;
+
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+            reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
+
+            List<string> CollectionPointNames = new List<string>();
+            CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
+            ViewBag.CollectionPointNames = CollectionPointNames;
+            if (CollectionPointNames.Count > 0)
+            {
+                ViewBag.ShowItems = true;
+            }
+
+            return View(reqdisms);
+        }
 
         // End ZMH
 
@@ -659,12 +692,24 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = "";
             token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+            }
             return token;
         }
         public UserModel GetUser()
         {
-            UserModel um = new UserModel();
-            um = (UserModel)Session["user"];
+            UserModel um = (UserModel)Session["user"];
+            if(um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
             return um;
         }
         #endregion

@@ -44,10 +44,10 @@ namespace LUSSISADTeam10Web.API
             return adm;
         }
 
-        public static AdjustmentModel GetAdjustmentRaisedTo(string token, int raisedto, out string error)
+        public static List<AdjustmentModel> GetAdjustmentRaisedTo(string token, int raisedto, out string error)
         {
             string url = APIHelper.Baseurl + "/adjustment/raisedto" + raisedto;
-            AdjustmentModel adm = APIHelper.Execute<AdjustmentModel>(token, url, out error);
+            List<AdjustmentModel> adm = APIHelper.Execute<List<AdjustmentModel>>(token, url, out error);
             return adm;
         }
 

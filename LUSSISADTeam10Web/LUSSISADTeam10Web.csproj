@@ -177,7 +177,9 @@
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
+    <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
     <Compile Include="APIModels\SupplierItemModel.cs" />
     <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1321,7 +1324,9 @@
     <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
     <Content Include="Views\Clerk\Manage.cshtml" />
     <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
+    <Content Include="Views\Supervisor\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1329,7 +1334,6 @@
     <Folder Include="Models\Employee\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
-    <Folder Include="Models\Supervisor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
