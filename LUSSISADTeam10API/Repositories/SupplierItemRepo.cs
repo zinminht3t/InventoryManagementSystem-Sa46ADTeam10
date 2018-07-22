@@ -176,5 +176,39 @@ namespace LUSSISADTeam10API.Repositories
             entities.SaveChanges();
             return sim;
         }
+
+        //import with csv format file
+
+        public static List<SupplierItemModel> csvsupplier(List<SupplierItemModel> csp, out string error) {
+            bool test = false;
+            int supid = 0;
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            foreach (SupplierItemModel sm in csp) {
+                 supid = sm.SupId;
+                List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
+                foreach (SupplierItemModel sm1 in csp1) {
+
+                    if (sm.Description == sm1.Description) {
+                         test = true ;
+                        UpdateSupplierItem(sm, out string error2);
+                    }
+                }
+                if (test == false) {
+                    AddItemOfSupplier(sm, out string error3);
+                }
+                else
+                    {
+                    test = false;
+                }
+                    }
+            List<SupplierItemModel> smretrun = GetItemsBySupplier(supid, out string error4);
+            return smretrun;
+
+        }
+
+
+
+
     }
 }
