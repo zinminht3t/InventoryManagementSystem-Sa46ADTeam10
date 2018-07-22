@@ -303,32 +303,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             po.Status = ConRequisition.Status.REQUESTPENDING;
 
-            List<RequisitionDetailsModel> podms = RequisitionDetailsRepo.GetRequisitionDetailsByRequisitionId(po.Reqid, out error);
 
-            // if the requisiton preparing is completed, the stock must be updated according to  qty.
-            foreach (RequisitionDetailsModel podm in podms)
-            {
-                // get the inventory using the item id from Requisition details
-                InventoryModel invm = InventoryRepo.GetInventoryByItemid(podm.Itemid, out error);
-
-                // subtract  the stock accoring to  qty
-                invm.Stock -= podm.Qty;
-
-                // update the inventory
-                invm = InventoryRepo.UpdateInventory(invm, out error);
-
-
-                InventoryTransactionModel invtm = new InventoryTransactionModel
-                {
-                    InvID = invm.Invid,
-                    ItemID = invm.Itemid,
-                    Qty = podm.Qty * -1,
-                    TransType = ConInventoryTransaction.TransType.DISBURSEMENT,
-                    TransDate = DateTime.Now,
-                    Remark = podm.Reqid.ToString()
-                };
-                invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
-            }
 
             // updating the status
             RequisitionModel pom = RequisitionRepo.UpdateRequisition(po, out error);
