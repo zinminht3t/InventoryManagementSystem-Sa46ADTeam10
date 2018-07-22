@@ -470,7 +470,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             List<RequisitionModel> reqms = new List<RequisitionModel>();
 
-            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
 
             ViewBag.Requisitions = reqms;
 
@@ -571,7 +571,7 @@ namespace LUSSISADTeam10Web.Controllers
                     outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
                 }
             }
-            reqm = APIRequisition.UpdateRequisitionStatus(reqm, token, out error);
+            reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
             
             return View("Requisition");
         }
@@ -625,6 +625,23 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
             return View(reqdisms);
+        }
+
+        public ActionResult ItemDelivered(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            RequisitionModel req = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            req.Status = ConRequisition.Status.DELIVERED;
+            req = APIRequisition.UpdateRequisition(req, token, out error);
+            
+            // add notification here
+
+
+
+            return View();
         }
 
         // End ZMH

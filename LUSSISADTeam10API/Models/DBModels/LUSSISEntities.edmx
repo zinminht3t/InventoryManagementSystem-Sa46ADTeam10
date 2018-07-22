@@ -103,6 +103,7 @@
           <Property Name="delivereddate" Type="datetime" Nullable="false" />
           <Property Name="collecteddate" Type="datetime" />
           <Property Name="status" Type="tinyint" Nullable="false" />
+          <Property Name="deptid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="inventory">
           <Key>
@@ -465,6 +466,18 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
             </Principal>
             <Dependent Role="disbursementdetail">
               <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="deptid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -887,6 +900,10 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
             <End Role="item" EntitySet="item" />
             <End Role="disbursementdetail" EntitySet="disbursementdetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_department" Association="Self.FK_disbursementlocker_department">
+            <End Role="department" EntitySet="department" />
+            <End Role="disbursementlocker" EntitySet="disbursementlocker" />
+          </AssociationSet>
           <AssociationSet Name="FK_disbursementlocker_disbursement" Association="Self.FK_disbursementlocker_disbursement">
             <End Role="disbursement" EntitySet="disbursement" />
             <End Role="disbursementlocker" EntitySet="disbursementlocker" />
@@ -1064,6 +1081,7 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
           <Property Name="deptphone" Type="Int32" />
           <Property Name="deptemail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_department1" FromRole="department" ToRole="departmentcollectionpoint" />
+          <NavigationProperty Name="disbursementlockers" Relationship="Self.FK_disbursementlocker_department" FromRole="department" ToRole="disbursementlocker" />
           <NavigationProperty Name="notifications" Relationship="Self.FK_notification_department" FromRole="department" ToRole="notification" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_department" FromRole="department" ToRole="requisition" />
           <NavigationProperty Name="users" Relationship="Self.FK_user_department" FromRole="department" ToRole="user" />
@@ -1114,6 +1132,8 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
           <Property Name="delivereddate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="collecteddate" Type="DateTime" Precision="3" />
           <Property Name="status" Type="Byte" Nullable="false" />
+          <Property Name="deptid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="department" Relationship="Self.FK_disbursementlocker_department" FromRole="disbursementlocker" ToRole="department" />
           <NavigationProperty Name="disbursement" Relationship="Self.FK_disbursementlocker_disbursement" FromRole="disbursementlocker" ToRole="disbursement" />
           <NavigationProperty Name="lockercollectionpoint" Relationship="Self.FK_disbursementlocker_lockercollectionpoint" FromRole="disbursementlocker" ToRole="lockercollectionpoint" />
           <NavigationProperty Name="requisition" Relationship="Self.FK_disbursementlocker_requisition" FromRole="disbursementlocker" ToRole="requisition" />
@@ -1506,6 +1526,18 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_disbursementlocker_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_notification_department">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="notification" Type="Self.notification" Multiplicity="*" />
@@ -1894,6 +1926,10 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
             <End Role="department" EntitySet="departments" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoints" />
           </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_department" Association="Self.FK_disbursementlocker_department">
+            <End Role="department" EntitySet="departments" />
+            <End Role="disbursementlocker" EntitySet="disbursementlockers" />
+          </AssociationSet>
           <AssociationSet Name="FK_notification_department" Association="Self.FK_notification_department">
             <End Role="department" EntitySet="departments" />
             <End Role="notification" EntitySet="notifications" />
@@ -2107,6 +2143,7 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a p
                 <ScalarProperty Name="delivereddate" ColumnName="delivereddate" />
                 <ScalarProperty Name="collecteddate" ColumnName="collecteddate" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

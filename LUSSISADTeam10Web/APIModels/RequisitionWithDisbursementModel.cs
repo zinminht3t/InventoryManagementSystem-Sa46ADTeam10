@@ -10,7 +10,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
     {
         public RequisitionWithDisbursementModel(int reqid, int? rasiedby, String rasiedbyname,
             int? approvedby, String approvedbyname, int cpid, string cpname,
-            int depid, string depname, int status, DateTime? reqdate, List<RequisitionDetailsWithDisbursementModel> rdms)
+            int depid, string depname, int status, DateTime? reqdate, int lockerid, string lockername, List<RequisitionDetailsWithDisbursementModel> rdms)
         {
 
             this.Reqid = reqid;
@@ -25,10 +25,12 @@ namespace LUSSISADTeam10Web.Models.APIModels
             this.Status = status;
             this.Reqdate = reqdate;
             this.Requisitiondetails = rdms;
+            this.LockerID = lockerid;
+            this.LockerName = lockername;
 
 
         }
-        public RequisitionWithDisbursementModel() : this(0, 0, "", 0, "", 0, "", 0, "", 0, null, null)
+        public RequisitionWithDisbursementModel() : this(0, 0, "", 0, "", 0, "", 0, "", 0, null, 0, "", null)
         {
         }
 
@@ -45,7 +47,8 @@ namespace LUSSISADTeam10Web.Models.APIModels
 
         public int Cpid { get; set; }
         public String Cpname { get; set; }
-
+        public int LockerID { get; set; }
+        public String LockerName { get; set; }
         public int Status { get; set; }
 
 

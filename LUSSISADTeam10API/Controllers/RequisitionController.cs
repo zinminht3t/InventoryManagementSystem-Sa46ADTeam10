@@ -33,6 +33,24 @@ namespace LUSSISADTeam10API.Controllers
             List<RequisitionWithDisbursementModel> reqs = RequisitionRepo.GetRequisitionsWithPreparingStatus(out string error);
             return Ok(reqs);
         }
+
+        [HttpGet]
+        [Route("api/requisitions/delivered")]
+        public IHttpActionResult GetRequisitionsWithDeliveredStatus()
+        {
+            // retrive all requisition list
+            List<RequisitionWithDisbursementModel> reqs = RequisitionRepo.GetRequisitionsWithDeliveredStatus(out string error);
+            return Ok(reqs);
+        }
+
+        [HttpGet]
+        [Route("api/requisitionwithdisbursement/{reqid}")]
+        public IHttpActionResult GetRequisitionWithDisbursement(int reqid)
+        {
+            // retrive all requisition list
+            RequisitionWithDisbursementModel reqs = RequisitionRepo.GetRequisitionWithDisbursementByReqID(reqid, out string error);
+            return Ok(reqs);
+        }
         // to get the requisition with its requisiton details
         [HttpGet]
         [Route("api/reqDetails")]

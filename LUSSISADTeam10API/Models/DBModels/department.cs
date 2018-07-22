@@ -18,6 +18,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public department()
         {
             this.departmentcollectionpoints = new HashSet<departmentcollectionpoint>();
+            this.disbursementlockers = new HashSet<disbursementlocker>();
             this.notifications = new HashSet<notification>();
             this.requisitions = new HashSet<requisition>();
             this.users = new HashSet<user>();
@@ -31,6 +32,8 @@ namespace LUSSISADTeam10API.Models.DBModels
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<departmentcollectionpoint> departmentcollectionpoints { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<disbursementlocker> disbursementlockers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification> notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

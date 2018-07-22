@@ -275,7 +275,7 @@ namespace LUSSISADTeam10API.Repositories
 
         private static DisbursementLockerModel CovertDisLockertoModel(disbursementlocker disl)
         {
-            DisbursementLockerModel dislm = new DisbursementLockerModel(disl.disid, disl.reqid, disl.lockerid, disl.delivereddate, disl.collecteddate, disl.status);
+            DisbursementLockerModel dislm = new DisbursementLockerModel(disl.disid, disl.reqid, disl.lockerid, disl.delivereddate, disl.collecteddate, disl.status, disl.requisition.deptid);
             return dislm;
         }
         public static DisbursementLockerModel GetDisbursementLockerByDisID(int DisID, out string error)
@@ -381,6 +381,34 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dislms;
         }
+        public static List<DisbursementLockerModel> GetDisbursementLockersByDeptIDAndStatus(int DeptID, int status, out string error)
+        {
+            error = "";
+
+            LUSSISEntities entities = new LUSSISEntities();
+            List<disbursementlocker> disls = new List<disbursementlocker>();
+            List<DisbursementLockerModel> dislms = new List<DisbursementLockerModel>();
+            try
+            {
+                disls = entities.disbursementlockers.Where(p => p.reqid == DeptID && p.status == status).ToList();
+
+                foreach (disbursementlocker disl in disls)
+                {
+                    dislms.Add(CovertDisLockertoModel(disl));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            return dislms;
+        }
         public static DisbursementLockerModel CreateDisbursementLocker(DisbursementLockerModel lislm, out string error)
         {
             error = "";
@@ -393,6 +421,7 @@ namespace LUSSISADTeam10API.Repositories
                 disl.disid = lislm.DisID;
                 disl.reqid = lislm.ReqID;
                 disl.lockerid = lislm.LockerID;
+                disl.deptid = lislm.DeptID;
                 disl.delivereddate = DateTime.Now.AddDays(2);
                 disl.collecteddate = DateTime.Now.AddDays(9);
                 disl.status = 1;
