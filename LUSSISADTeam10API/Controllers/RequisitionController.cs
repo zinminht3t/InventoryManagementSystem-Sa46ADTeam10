@@ -322,7 +322,7 @@ namespace LUSSISADTeam10API.Controllers
                 {
                     InvID = invm.Invid,
                     ItemID = invm.Itemid,
-                    Qty = invm.Stock,
+                    Qty = podm.Qty * -1,
                     TransType = ConInventoryTransaction.TransType.DISBURSEMENT,
                     TransDate = DateTime.Now,
                     Remark = podm.Reqid.ToString()

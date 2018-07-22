@@ -169,7 +169,7 @@ namespace LUSSISADTeam10API.Controllers
 
                 invtm.InvID = invm.Invid;
                 invtm.ItemID = invm.Itemid;
-                invtm.Qty = invm.Stock;
+                invtm.Qty = podm.DelivQty;
                 invtm.TransType = ConInventoryTransaction.TransType.PURCHASEORDER_RECEIEVED;
                 invtm.TransDate = DateTime.Now;
                 invtm.Remark = podm.PoId.ToString();
