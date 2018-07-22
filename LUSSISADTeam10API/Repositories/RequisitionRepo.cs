@@ -471,7 +471,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqn.raisedby = req.Raisedby;
-                reqn.approvedby = req.Approvedby;
+                reqn.approvedby = req.Raisedby;
                 reqn.deptid = req.Depid;
                 reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
