@@ -11,7 +11,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         {
             this.Reqid = reqid;
             this.Itemid = itemid;
-            this.Qty = qty;
+            this.RequestQty = qty;
             this.Itemname = itemname;
             this.CategoryName = categoryname;
             this.UOM = uom;
@@ -25,7 +25,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
 
         public int Reqid { get; set; }
         public int Itemid { get; set; }
-        public int Qty { get; set; }
+        public int RequestQty { get; set; }
         public int ApprovedQty { get; set; }
         public String Itemname { get; set; }
         public String CategoryName { get; set; }
