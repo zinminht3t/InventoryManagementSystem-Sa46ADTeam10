@@ -25,7 +25,6 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(reqs);
         }
 
-
         [HttpGet]
         [Route("api/requisitions/preparing")]
         public IHttpActionResult GetRequisitionsWithPreparingStatus()
@@ -46,7 +45,7 @@ namespace LUSSISADTeam10API.Controllers
         // to get the requisiton with its requisiton id
         [HttpGet]
         [Route("api/requisition/reqid/{reqid}")]
-        public IHttpActionResult GetRequisitionByReqid(int reqid )
+        public IHttpActionResult GetRequisitionByReqid(int reqid)
         {
             string error = "";
             RequisitionModel reqm = RequisitionRepo.GetRequisitionByRequisitionId(reqid, out error);
@@ -199,7 +198,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateRequisitionDetails(RequisitionDetailsModel reqdm)
         {
             string error = "";
-           List< RequisitionDetailsModel> reqden = RequisitionDetailsRepo.CreateRequisitionDetails(reqdm, out error);
+            List<RequisitionDetailsModel> reqden = RequisitionDetailsRepo.CreateRequisitionDetails(reqdm, out error);
             if (error != "" || reqden == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
@@ -234,9 +233,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(req);
         }
-
-
-
 
         // to update requisition
         [HttpPost]
@@ -329,6 +325,48 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(pom);
         }
 
+        [HttpPost]
+        [Route("api/requisition/status/completed")]
+        public IHttpActionResult UpdateRequisitionCompleted(RequisitionModel po)
+        {
+            string error = "";
+
+            po = RequisitionRepo.GetRequisitionByRequisitionId(po.Reqid, out error);
+
+            // if the staff has already updated the status to "preparing"
+            if (po.Status == ConRequisition.Status.COMPLETED)
+            {
+                return Ok(po);
+            }
+            po.Status = ConRequisition.Status.COMPLETED;
+
+            OutstandingReqModel outreqm;
+            outreqm = OutstandingReqRepo.GetOutstandingReqByReqId(po.Reqid, out error);
+            if (outreqm != null)
+            {
+                po.Status = ConRequisition.Status.OUTSTANDINGREQUISITION;
+            }
+
+            // updating the status
+            RequisitionModel pom = RequisitionRepo.UpdateRequisition(po, out error);
+
+
+            // update the locker disburement to collected
+
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.GetDisbursementLockerByReqID(po.Reqid, out error);
+            dislm = LockerCollectionPointRepo.UpdateDisbursementLockerToCollected(dislm, out error);
+
+            if (error != "" || pom == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "PO Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(pom);
+        }
+
         // to update requisition
         [HttpGet]
         [Route("api/requisition/updatetopreparing")]
@@ -346,12 +384,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(rm);
         }
-
-
-
-
-
-
 
         [HttpGet]
         [Route("api/orderhistory/{deptid}")]

@@ -48,9 +48,20 @@ namespace LUSSISADTeam10API.Repositories
                     reqdm.Add(new RequisitionDetailsWithDisbursementModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, 0));
                 }
             }
-            RequisitionWithDisbursementModel reqm = new RequisitionWithDisbursementModel(req.reqid, req.raisedby, req.user.fullname
-                                    , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
-                                     , req.deptid, req.department.deptname, req.status, req.reqdate, reqdm);
+            RequisitionWithDisbursementModel reqm = new RequisitionWithDisbursementModel();
+            try
+            {
+                reqm = new RequisitionWithDisbursementModel(req.reqid, req.raisedby, req.user.fullname
+                                        , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
+                                         , req.deptid, req.department.deptname, req.status, req.reqdate, req.disbursementlockers.First().lockerid, req.disbursementlockers.First().lockercollectionpoint.lockername, reqdm);
+            }
+            catch (Exception)
+            {
+                reqm = new RequisitionWithDisbursementModel(req.reqid, req.raisedby, req.user.fullname
+                                                  , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
+                                                   , req.deptid, req.department.deptname, req.status, req.reqdate, 0, "", reqdm);
+
+            }
             return reqm;
         }
         // Convert From Auto Generated DB Model to APIModel for Requisition
@@ -461,11 +472,34 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqs = entities.requisitions.Where(p => p.status == ConRequisition.Status.REQUESTPENDING).ToList();
-
+                List<LockerCollectionPointModel> lcpms = LockerCollectionPointRepo.GetAllLockerCP(out error);
                 foreach (requisition req in reqs)
                 {
+
                     req.status = ConRequisition.Status.PREPARING;
                     entities.SaveChanges();
+
+                    DisbursementLockerModel dislm = new DisbursementLockerModel();
+
+
+                    dislm.DisID = req.disbursements.First().disid;
+                    dislm.ReqID = req.reqid;
+
+
+
+                    //dislm = LockerCollectionPointRepo.GetDisbursementLockerByReqID
+
+                    //LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
+                    
+
+                    dislm.LockerID = lcpm.Lockerid;
+
+
+
+                   // disbursementlocker disl = LockerCollectionPointRepo.CreateDisbursementLocker(dislm);
+
+
+
                     reqdisms.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
                 }
             }
