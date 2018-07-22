@@ -492,7 +492,7 @@ namespace LUSSISADTeam10API.Repositories
                     //LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
                     
 
-                    dislm.LockerID = lcpm.Lockerid;
+                    // dislm.LockerID = lcpm.Lockerid;
 
 
 
