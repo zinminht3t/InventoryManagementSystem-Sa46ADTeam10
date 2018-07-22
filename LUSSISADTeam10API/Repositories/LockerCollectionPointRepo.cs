@@ -10,17 +10,12 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class LockerCollectionPointRepo
     {
-       
-     
-
-
         // Convert From Auto Generated DB Model to APIModel
         private static LockerCollectionPointModel ConvertBDLockerCPToAPILockerCP(lockercollectionpoint lcp)
         {
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel(lcp.lockerid, lcp.lockername, lcp.lockersize, lcp.cpid, lcp.status,lcp.collectionpoint.cpname);
             return lcpm;
         }
-
         // Get the list of all LockerCollectionPoint and will return with error if there is one.
         public static List<LockerCollectionPointModel> GetAllLockerCP(out string error)
         {
@@ -55,7 +50,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return lockercpms;
         }
-
         public static LockerCollectionPointModel GetLockerCPByLockerid(int lockerid, out string error)
         {
             error = "";
@@ -80,8 +74,6 @@ namespace LUSSISADTeam10API.Repositories
             }
             return lcpm;
         }
-
-
         public static LockerCollectionPointModel GetLockerCPByLockername(string lockername, out string error)
         {
             error = "";
@@ -106,8 +98,6 @@ namespace LUSSISADTeam10API.Repositories
             }
             return lcpm;
         }
-
-
         public static List<LockerCollectionPointModel> GetLockerCPByLockersize(string lockersize, out string error)
         {
             error = "";
@@ -143,9 +133,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the Lockercollectionpoint List
             return lcplm;
         }
-
-
-
         public static List<LockerCollectionPointModel> GetLockerCPBycpid(int cpid, out string error)
         {
             error = "";
@@ -178,7 +165,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the locker collection point 
             return lcplm;
         }
-
         public static LockerCollectionPointModel UpdateLockerCP(LockerCollectionPointModel lcpm, out string error)
         {
             // Initializing the error variable to return only blank if there is no error
@@ -252,14 +238,6 @@ namespace LUSSISADTeam10API.Repositories
             //retuning the lockercollectionpoint object
             return lcpm;
         }
-
-
-
-
-
-
-
-
         public static List<LockerCollectionPointModel> GetLockerCPByCPName(string cpname, out string error)
         {
             error = "";
@@ -294,6 +272,227 @@ namespace LUSSISADTeam10API.Repositories
             return lcplm;
         }
 
+
+        private static DisbursementLockerModel CovertDisLockertoModel(disbursementlocker disl)
+        {
+            DisbursementLockerModel dislm = new DisbursementLockerModel(disl.disid, disl.reqid, disl.lockerid, disl.delivereddate, disl.collecteddate, disl.status);
+            return dislm;
+        }
+        public static DisbursementLockerModel GetDisbursementLockerByDisID(int DisID, out string error)
+        {
+            error = "";
+
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl = entities.disbursementlockers.Where(p => p.disid == DisID).FirstOrDefault();
+
+                dislm = CovertDisLockertoModel(disl);
+            }
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            return dislm;
+        }
+        public static DisbursementLockerModel GetDisbursementLockerByReqID(int ReqID, out string error)
+        {
+            error = "";
+
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl = entities.disbursementlockers.Where(p => p.reqid == ReqID).FirstOrDefault();
+
+                dislm = CovertDisLockertoModel(disl);
+            }
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            return dislm;
+        }
+        public static DisbursementLockerModel GetDisbursementLockerByReqIDAndLockerID(int ReqID, int LockerID, out string error)
+        {
+            error = "";
+
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl = entities.disbursementlockers.Where(p => p.reqid == ReqID && p.lockerid == LockerID).FirstOrDefault();
+
+                dislm = CovertDisLockertoModel(disl);
+            }
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            return dislm;
+        }
+        public static List<DisbursementLockerModel> GetDisbursementLockersByLockerID(int LockerID, out string error)
+        {
+            error = "";
+
+            LUSSISEntities entities = new LUSSISEntities();
+            List<disbursementlocker> disls = new List<disbursementlocker>();
+            List<DisbursementLockerModel> dislms = new List<DisbursementLockerModel>();
+            try
+            {
+                disls = entities.disbursementlockers.Where(p => p.reqid == LockerID).ToList();
+
+                foreach(disbursementlocker disl in disls)
+                {
+                    dislms.Add(CovertDisLockertoModel(disl));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            return dislms;
+        }
+        public static DisbursementLockerModel CreateDisbursementLocker(DisbursementLockerModel lislm, out string error)
+        {
+            error = "";
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl.disid = lislm.DisID;
+                disl.reqid = lislm.ReqID;
+                disl.lockerid = lislm.LockerID;
+                disl.delivereddate = DateTime.Now.AddDays(2);
+                disl.collecteddate = DateTime.Now.AddDays(9);
+                disl.status = 1;
+                entities.disbursementlockers.Add(disl);
+                entities.SaveChanges();
+
+                LockerCollectionPointModel lcpm = GetLockerCPByLockerid(disl.lockerid, out error);
+                lcpm.Status = ConLockerCollectionPoint.Active.NOTAVAILABLE;
+                lcpm = UpdateLockerCP(lcpm, out error);
+
+                dislm = GetDisbursementLockerByReqIDAndLockerID(disl.reqid, disl.lockerid, out error);
+
+            }
+
+            // if locker not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            //retuning the lockercollectionpoint object
+            return dislm;
+        }
+        public static DisbursementLockerModel UpdateDisbursementLocker(DisbursementLockerModel lislm, out string error)
+        {
+            error = "";
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl = entities.disbursementlockers.Where(p => p.reqid == lislm.ReqID && p.lockerid == lislm.LockerID).FirstOrDefault();
+
+                disl.collecteddate = DateTime.Now;
+                disl.status = lislm.Status;
+                entities.SaveChanges();
+
+                dislm = GetDisbursementLockerByReqIDAndLockerID(disl.reqid, disl.lockerid, out error);
+
+            }
+
+            // if locker not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            //retuning the lockercollectionpoint object
+            return dislm;
+        }
+        public static DisbursementLockerModel UpdateDisbursementLockerToCollected(DisbursementLockerModel lislm, out string error)
+        {
+            error = "";
+            // entites used only by Get Methods
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementlocker disl = new disbursementlocker();
+            DisbursementLockerModel dislm = new DisbursementLockerModel();
+            try
+            {
+                disl = entities.disbursementlockers.Where(p => p.reqid == lislm.ReqID && p.lockerid == lislm.LockerID).FirstOrDefault();
+
+                disl.collecteddate = DateTime.Now;
+                disl.status = 0;
+                entities.SaveChanges();
+
+                lockercollectionpoint lcp = entities.lockercollectionpoints.Where(p => p.lockerid == disl.lockerid).FirstOrDefault();
+                lcp.status = ConLockerCollectionPoint.Active.AVAILABLE;
+
+                entities.SaveChanges();
+
+
+                dislm = GetDisbursementLockerByReqIDAndLockerID(disl.reqid, disl.lockerid, out error);
+
+            }
+
+            // if locker not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+            //retuning the lockercollectionpoint object
+            return dislm;
+        }
 
     }
 

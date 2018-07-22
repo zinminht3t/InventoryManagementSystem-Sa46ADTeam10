@@ -50,6 +50,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FromHeaderAttribute, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FromHeaderAttribute.2.0.4\lib\net45\FromHeaderAttribute.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
@@ -67,8 +70,14 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Swagger.Net, Version=8.3.17.303, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swagger-Net.8.3.17.303\lib\net45\Swagger.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
@@ -116,9 +125,6 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -148,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\AuthorizationServiceProvider.cs" />
     <Compile Include="Authorization\AuthorizeAttribute.cs" />
@@ -194,6 +201,7 @@
     <Compile Include="Models\APIModels\DepartmentCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\DepartmentModel.cs" />
     <Compile Include="Models\APIModels\DisbursementDetailsModel.cs" />
+    <Compile Include="Models\APIModels\DisbursementLockerModel.cs" />
     <Compile Include="Models\APIModels\DisbursementModel.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
@@ -207,8 +215,9 @@
     <Compile Include="Models\APIModels\OutstandingReqModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderModel.cs" />
-    <Compile Include="Models\APIModels\ReportModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="Models\APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\APIModels\RequisitionWithDisbursementModel.cs" />
     <Compile Include="Models\APIModels\RequisitionModel.cs" />
     <Compile Include="Models\APIModels\SupplierItemModel.cs" />
     <Compile Include="Models\APIModels\SupplierModel.cs" />
@@ -240,6 +249,12 @@
     <Compile Include="Models\DBModels\disbursementdetail.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\disbursementlocker.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\FrequentlyTop5ItemsDashboard.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\inventory.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -247,6 +262,9 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\item.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\ItemTrendAnalysi.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\lockercollectionpoint.cs">
@@ -267,7 +285,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LUSSISEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\MonthItemUsage.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\MonthlyItemUsageByHOD.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\notification.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\OrderByDepartmentDarshboard.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\outstandingrequisition.cs">
@@ -286,6 +313,9 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\requisitiondetail.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\RequistionList.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\supplier.cs">
@@ -318,7 +348,6 @@
     <Compile Include="Repositories\OutstandingReqRepo.cs" />
     <Compile Include="Repositories\PurchaseOrderDetailRepo.cs" />
     <Compile Include="Repositories\PurchaseOrderRepo.cs" />
-    <Compile Include="Repositories\ReportRepo.cs" />
     <Compile Include="Repositories\RequisitionDetailsRepo.cs" />
     <Compile Include="Repositories\RequisitionRepo.cs" />
     <Compile Include="Repositories\SupplierItemRepo.cs" />

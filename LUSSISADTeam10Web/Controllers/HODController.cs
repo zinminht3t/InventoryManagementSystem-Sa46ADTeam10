@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -166,7 +167,7 @@ namespace LUSSISADTeam10Web.Controllers
                 dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
                 ViewBag.ActiveCollectionPoint = dcpm.CpName;
 
-                CollectionPointModel current = 
+                CollectionPointModel current =
                     APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
 
                 ViewBag.Latitude = current.Latitude;
@@ -185,7 +186,7 @@ namespace LUSSISADTeam10Web.Controllers
                 //{
                 //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
                 //}
-                ViewBag.CollectionPointsList = cpms;                
+                ViewBag.CollectionPointsList = cpms;
 
             }
             catch (Exception ex)
@@ -218,7 +219,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
-          
+
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
@@ -266,11 +267,11 @@ namespace LUSSISADTeam10Web.Controllers
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
 
                 ViewBag.Userid = reqms.Userid;
-                    ViewBag.name = reqms.Username;
-                    ViewBag.StartDate = reqms.Startdate;
-                    ViewBag.Enddate = reqms.Enddate;
-                    ViewBag.Deleid = reqms.Delid;
-             
+                ViewBag.name = reqms.Username;
+                ViewBag.StartDate = reqms.Startdate;
+                ViewBag.Enddate = reqms.Enddate;
+                ViewBag.Deleid = reqms.Delid;
+
 
                 if (error != "")
                 {
@@ -336,17 +337,18 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewModel);
 
         }
-        public ActionResult AssignDepRep(){
+        public ActionResult AssignDepRep()
+        {
             string token = GetToken();
             UserModel um = GetUser();
             List<UserModel> newum = new List<UserModel>();
-          
+
             AssignDepRepViewModel viewModel = new AssignDepRepViewModel();
             try
             {
-                newum = APIUser.GetUserByRoleAndDeptID ( 5 ,um.Deptid, token, out string error);
+                newum = APIUser.GetUserByRoleAndDeptID(5, um.Deptid, token, out string error);
                 ViewBag.userlist = newum;
-                List < UserModel > um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
+                List<UserModel> um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
                 foreach (UserModel um1 in um23)
                 {
                     ViewBag.assignedrep = um1.Fullname;
@@ -425,7 +427,7 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel, int userid)
         {
-             
+
             string token = GetToken();
             UserModel um = GetUser();
             viewmodel.assignedby = um.Userid;
@@ -440,7 +442,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (viewmodel != null)
                 {
-                    APIDelegation.CreateDelegation(token, dm , out string error);
+                    APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
             }
@@ -456,26 +458,26 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-          
-              
-                try
+
+
+            try
+            {
+                if (viewmodel != null)
                 {
-                    if (viewmodel != null)
-                    {
 
                     UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction("Index", "Error", new { error = ex.Message });
-                }
-                return RedirectToAction("AssignDepRep");
-            
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("AssignDepRep");
+
         }
 
         [HttpPost]
-        public ActionResult SearchPreviousDelegation(EditDelegationViewModel viewmodel , int id)
+        public ActionResult SearchPreviousDelegation(EditDelegationViewModel viewmodel, int id)
         {
 
             string token = GetToken();
@@ -487,8 +489,8 @@ namespace LUSSISADTeam10Web.Controllers
             um1.Startdate = um2.Startdate;
             um1.Enddate = viewmodel.EndDate;
             um1.Userid = um2.Userid;
-                um1.AssignedbyId = um.Userid;
-                um1.Active = ConDelegation.Active.ACTIVE;
+            um1.AssignedbyId = um.Userid;
+            um1.Active = ConDelegation.Active.ACTIVE;
 
             try
             {
@@ -508,18 +510,30 @@ namespace LUSSISADTeam10Web.Controllers
 
         #region Utilities
         public string GetToken()
-    {
-        string token = "";
-        token = (string)Session["token"];
-        return token;
-    }
-    public UserModel GetUser()
-    {
-        UserModel um = new UserModel();
-        um = (UserModel)Session["user"];
-        return um;
-    }
-    #endregion
+        {
+            string token = "";
+            token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+            }
+            return token;
+        }
+        public UserModel GetUser()
+        {
+            UserModel um = (UserModel)Session["user"];
+            if (um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
+            return um;
+        }
+        #endregion
 
     }
 }

@@ -302,10 +302,7 @@ namespace LUSSISADTeam10API.Repositories
                         invtm.Remark = adjustd.Reason;
 
                         invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
-                    }    
-                    
-
-
+                    }                        
                 }
                 
                 entities.SaveChanges();

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -45,18 +46,29 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         #region Utilities
-        private UserModel GetUser()
-        {
-            UserModel um = new UserModel();
-            um = (UserModel)Session["user"];
-            return um;
-        }
-
-        private string GetToken()
+        public string GetToken()
         {
             string token = "";
             token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+            }
             return token;
+        }
+        public UserModel GetUser()
+        {
+            UserModel um = (UserModel)Session["user"];
+            if (um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
+            return um;
         }
         #endregion 
 

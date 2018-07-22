@@ -59,10 +59,10 @@ namespace LUSSISADTeam10Web.API
             sm = APIHelper.Execute<SupplierModel>(token, objectstring, url, out error);
             return sm;
         }
-        public static List<SupplierModel> GetItemsBySupplierId(int supid, string token, out string error)
+        public static List<SupplierItemModel> GetItemsBySupplierId(int supid, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/supplier/"+supid+"/items";
-            List<SupplierModel> smlist = APIHelper.Execute<List<SupplierModel>>(token, url, out error);
+            List<SupplierItemModel> smlist = APIHelper.Execute<List<SupplierItemModel>>(token, url, out error);
             return smlist;
         }
         public static List<SupplierModel> GetSupplierByStatus (int status, string token, out string error)
@@ -104,6 +104,12 @@ namespace LUSSISADTeam10Web.API
             string url = APIHelper.Baseurl + "/supplieritem/item/" + itemid;
             List<SupplierItemModel> simlist = APIHelper.Execute<List<SupplierItemModel>>(token, url, out error);
             return simlist;
+        }
+        public static SupplierItemModel GetOneSupplierItemByItemId(int itemid, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/supplieritem/getitem/"+itemid;
+            SupplierItemModel sim = APIHelper.Execute<SupplierItemModel>(token, url, out error);
+            return sim;
         }
     }
 }
