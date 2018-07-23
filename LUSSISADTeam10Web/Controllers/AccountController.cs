@@ -67,7 +67,7 @@ namespace LUSSISADTeam10Web.Controllers
                         case ConUser.Role.HOD:
                             return RedirectToAction("Index", "HOD");
                         case ConUser.Role.MANAGER:
-                            return RedirectToAction("Index", "Supervisor");
+                            return RedirectToAction("Index", "Manager");
                     }
                     return RedirectToAction("Login", "Account");
                     //}

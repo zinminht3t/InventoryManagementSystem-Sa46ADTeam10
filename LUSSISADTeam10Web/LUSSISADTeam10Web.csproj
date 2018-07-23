@@ -167,23 +167,30 @@
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\DisbursementDetailsModel.cs" />
     <Compile Include="APIModels\DisbursementModel.cs" />
+    <Compile Include="APIModels\FrequentlyTop5ItemsModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
     <Compile Include="APIModels\InventoryTransactionModel.cs" />
     <Compile Include="APIModels\ItemModel.cs" />
+    <Compile Include="APIModels\ItemTrendAnalysisModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="APIModels\MonthlyItemUsageByClerkModel.cs" />
     <Compile Include="APIModels\NotificationModel.cs" />
+    <Compile Include="APIModels\OrderByDepartmentModel.cs" />
     <Compile Include="APIModels\OrderHistoryModel.cs" />
     <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
+    <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
     <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
+    <Compile Include="APIModels\RequsitionListReportModel.cs" />
     <Compile Include="APIModels\SupplierItemModel.cs" />
     <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
@@ -203,6 +210,7 @@
     <Compile Include="API\APIOutstanding.cs" />
     <Compile Include="API\APIOutstandingReq.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
+    <Compile Include="API\APIReport.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
     <Compile Include="API\APIUser.cs" />
@@ -1333,13 +1341,13 @@
     <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
     <Content Include="Views\Supervisor\Approve.cshtml" />
-    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
-    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
-    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
-    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
+    <Content Include="Views\Manager\Approve.cshtml" />
     <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\csvsupplier1.cshtml" />
-    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
+    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
+    <Content Include="Views\Clerk\ItemTran.cshtml" />
+    <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

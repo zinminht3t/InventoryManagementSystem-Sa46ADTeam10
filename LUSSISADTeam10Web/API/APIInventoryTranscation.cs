@@ -57,7 +57,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<InventoryTransactionModel> GetInventoryTransactionByTransDate(DateTime startdate,DateTime enddate, string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/inventorytransaction/transdaterange/" + startdate + enddate;
+            string url = APIHelper.Baseurl + "/inventorytransaction/transdaterange/" + startdate.ToString("yyyy-MM-dd") + "/" + enddate.ToString("yyyy-MM-dd");
             List<InventoryTransactionModel> invtrans = APIHelper.Execute<List<InventoryTransactionModel>>(token, url, out error);
             return invtrans;
         }

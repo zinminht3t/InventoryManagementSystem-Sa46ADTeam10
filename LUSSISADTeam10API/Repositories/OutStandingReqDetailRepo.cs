@@ -24,7 +24,7 @@ namespace LUSSISADTeam10API.Repositories
         // Covert From APIModel to DBModel
         public static outstandingrequisitiondetail ConvertAPIOutReqDetailToDBModel(OutstandingReqDetailModel outreqdetail)
         {
-            outstandingrequisitiondetail ord = 
+            outstandingrequisitiondetail ord =
                 new outstandingrequisitiondetail();
             ord.outreqid = outreqdetail.OutReqId;
             ord.itemid = outreqdetail.ItemId;
@@ -43,7 +43,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // get outstanding details list from database
-                List<outstandingrequisitiondetail> ouotreqdetails = 
+                List<outstandingrequisitiondetail> ouotreqdetails =
                     entities.outstandingrequisitiondetails.ToList();
 
                 // convert the DB Model list to API Model list
@@ -145,15 +145,15 @@ namespace LUSSISADTeam10API.Repositories
                 outreqdetail.itemid = ordm.ItemId;
                 outreqdetail.qty = ordm.Qty;
 
-               // adding into DB
+                // adding into DB
                 entities.outstandingrequisitiondetails.Add(outreqdetail);
                 entities.SaveChanges();
 
                 outreqdetailm = GetOutstandingReqDetailByIds
                     (outreqdetail.outreqid, outreqdetail.itemid, out error);
 
-               //  return the model 
-               // outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
+                //  return the model 
+                // outreqdetailm = ConvertDBOutReqDetailToAPIModel(outreqdetail);
             }
             catch (NullReferenceException)
             {
@@ -177,13 +177,16 @@ namespace LUSSISADTeam10API.Repositories
                 // get outstanding details list from database
                 List<outstandingrequisitiondetail> outreqdetails =
                     entities.outstandingrequisitiondetails
-                    .Where(x=> x.outstandingrequisition.status ==
+                    .Where(x => x.outstandingrequisition.status ==
                     ConOutstandingsRequisition.Status.PENDING).ToList();
 
                 var groupedBy =
                     outreqdetails.GroupBy(x => x.item)
-                    .Select(y => new { Item = y.Key,
-                        Quantity = y.Sum(x => x.qty) });
+                    .Select(y => new
+                    {
+                        Item = y.Key,
+                        Quantity = y.Sum(x => x.qty)
+                    });
 
                 // convert the DB Model list to API Model list
                 foreach (var item in groupedBy)
@@ -194,7 +197,9 @@ namespace LUSSISADTeam10API.Repositories
                             item.Item.uom,
                             item.Item.catid,
                             item.Item.category.name,
-                            item.Quantity
+                            item.Quantity,
+                            item.Item.category.shelflocation,
+                            item.Item.category.shelflevel
                         ));
                 }
             }

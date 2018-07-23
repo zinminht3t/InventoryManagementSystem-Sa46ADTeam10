@@ -24,8 +24,8 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();            
-                    
+            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
+                  
            SupplierItemModel supp = new SupplierItemModel();            
 
             adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
@@ -33,10 +33,13 @@ namespace LUSSISADTeam10Web.Controllers
             foreach(AdjustmentModel ad in adjlist)
             {
                 AdjustmentViewModel adv = new AdjustmentViewModel();
+                UserModel user = new UserModel();
+
+                user = APIUser.GetUserByUserID((int)ad.Raisedto, token, out error);
                 adv.Adjid = ad.Adjid;
                 adv.Issueddate = ad.Issueddate;
                 adv.Raisedbyname = ad.Raisedbyname;
-                adv.RaisedTo = (int)ad.Raisedto;
+                adv.RaisedToRole = user.Role;
                 adv.RaisedTobyname = ad.Raisedtoname;
                 adv.adjdvm = new List<AdjustmentDetailViewModel>();
                                 
@@ -52,8 +55,7 @@ namespace LUSSISADTeam10Web.Controllers
                     
                     try
                     {
-                        //API Supplier Error
-
+                        //Not all items price in database
                         supp = APISupplier.GetOneSupplierItemByItemId(adjdm.Itemid, token, out error);
                         advdetail.Price = supp.Price * Math.Abs(advdetail.Adjustedqty);
                     }catch (Exception e)
@@ -66,6 +68,15 @@ namespace LUSSISADTeam10Web.Controllers
             }
             ViewBag.manager = ConUser.Role.MANAGER;
                 return View(advlist);
+        }
+        [HttpPost]
+        public ActionResult Approve(int id)
+        {
+            string token = GetToken();
+            AdjustmentModel adj = APIAdjustment.GetAdjustmentbyAdjId(token, id, out string error);
+            adj.Status = ConAdjustment.Active.APPROVED;
+            APIAdjustment.UpdateAdjustment(token, adj, out error);
+            return RedirectToAction("Approve");
         }
         public string GetToken()
         {

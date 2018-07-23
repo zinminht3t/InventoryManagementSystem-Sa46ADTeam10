@@ -37,7 +37,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status >= ConRequisition.Status.APPROVED && p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+                reqms = reqms.Where(p => p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
 
                 if (error != "")
                 {

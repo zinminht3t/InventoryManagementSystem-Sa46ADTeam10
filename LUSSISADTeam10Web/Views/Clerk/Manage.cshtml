@@ -19,8 +19,11 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
-
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Manage Items</li>
+                    <li>
+                        <a href="@Url.Action("SearchByTransDate", "Clerk")"> SearchItembyTransactionDate </a>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -28,63 +31,86 @@
 </div>
 <div class="content mt-3">
     <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Manage Item</strong>
-                    </div>
-                    <div class="card-body">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                            <thead class="table-info">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>UOM</th>
-                                    <th>Stock</th>
-                                    <th>Reorder Level</th>
-                                    <th>Reorder Qty</th>
-                                    <th>Edit</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Itemid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ItemDescription)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CategoryName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UOM)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Stock)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ReorderLevel)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ReorderQty)
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("EditItem", new { id = item.Itemid })"> <i class="fa fa-edit fa-2x text-info"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                        <a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk" )" class="btn btn-outline-success pull-right btn-flat m-b-50 m-t-50">Ok</a>
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Manage Items </strong>
+            </div>
+
+            <div class="card-body">
+                <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Invid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Itemid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ItemDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UOM)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReorderLevel)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReorderQty)
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Invid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Itemid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UOM)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReorderLevel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReorderQty)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditItem", new { id = item.Invid })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Transaction", "ItemTran", new { id = item.Itemid })
+                        </td>
+                    </tr>
+                    }
+
+                </table>
+
+
+
+
             </div>
         </div>
     </div>
