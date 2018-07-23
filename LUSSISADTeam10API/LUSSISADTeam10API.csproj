@@ -243,6 +243,9 @@
     <Compile Include="Models\DBModels\collectionpoint.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\database_firewall_rules.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\delegation.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
