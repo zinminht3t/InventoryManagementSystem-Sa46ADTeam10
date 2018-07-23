@@ -12,13 +12,13 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Collections.Generic;
     
-    public partial class MonthlyItemUsageByHOD
+    public partial class database_firewall_rules
     {
-        public string Item { get; set; }
-        public string Category { get; set; }
-        public int Quantity { get; set; }
-        public string Unit_of_Measurement { get; set; }
-        public int deptid { get; set; }
-        public string deptname { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string start_ip_address { get; set; }
+        public string end_ip_address { get; set; }
+        public System.DateTime create_date { get; set; }
+        public System.DateTime modify_date { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class ReportsModel
     {
-        public ReportsModel (string name, string description, int qty , string uom)
+        public ReportsModel (string name, string description, int qty , string uom,int deptid,string deptname)
         {
             this.Description = description;
             this.Name = name;
@@ -15,7 +15,8 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Uom = uom;
             //this.Reqdate = reqdate;
             //this.Status = status;
-            //this.Deptid = deptid;
+            this.Deptid = deptid;
+            this.DeptName = deptname;
         }
 
 
@@ -23,8 +24,8 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         public string Name;
 
-
-    
+        public int Deptid { get; set; }
+        public string DeptName { get; set; }
 
         public int Qty { get; set; }
 

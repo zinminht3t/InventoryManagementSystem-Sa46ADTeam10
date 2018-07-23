@@ -56,5 +56,6 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<MonthlyItemUsageByHOD> MonthlyItemUsageByHODs { get; set; }
         public virtual DbSet<OrderByDepartmentDarshboard> OrderByDepartmentDarshboards { get; set; }
         public virtual DbSet<RequistionList> RequistionLists { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     }
 }

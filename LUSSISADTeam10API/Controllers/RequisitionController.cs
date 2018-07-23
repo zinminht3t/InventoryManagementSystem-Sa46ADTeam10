@@ -252,6 +252,35 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(req);
         }
 
+        // to deliver requisitions
+        [HttpGet]
+        [Route("api/requisition/deliver/bydept/{deptId}/{cpId}")]
+        public IHttpActionResult deliverReqsByDeptId(int deptId, int cpId)
+        {
+            string error = "";
+            List<RequisitionModel> returnList = new List<RequisitionModel>();
+            List<RequisitionModel> rms = RequisitionRepo.GetRequisitionByDepid(deptId, out error)
+                .Where(x => x.Cpid.Equals(cpId)).ToList();
+            foreach (RequisitionModel req in rms)
+            {
+                if (req.Status.Equals(ConRequisition.Status.PREPARING))
+                {
+                    req.Status = ConRequisition.Status.DELIVERED;
+                    returnList.Add(RequisitionRepo.UpdateRequisition(req, out error));
+                }
+            }
+
+            if (error != "" || returnList == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(returnList);
+        }
+
         // to update requisition
         [HttpPost]
         [Route("api/requisition/update")]

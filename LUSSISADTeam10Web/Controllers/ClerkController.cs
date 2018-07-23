@@ -191,10 +191,76 @@ namespace LUSSISADTeam10Web.Controllers
                         }
 
 
-                       List <SupplierItemModel> sm =  APISupplier.csvsupplier(token, SuppItem, out string error);
+                       List <SupplierItemModel> sm =  APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
                         int i = 0;
                         foreach (SupplierItemModel s in sm) {
+
+                            i = s.SupId;
+                        }
+                        List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
+
+                        return View(sm1);
+                    }
+                    else
+                    {
+
+
+                        ViewBag.Error = "File type is incorrect";
+                        return View("Index");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult importsupplier(HttpPostedFileBase excelfile)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            try
+            {
+                if (excelfile == null || excelfile.ContentLength == 0)
+                {
+
+                    ViewBag.Error = "Please select a excel file";
+                    return View("Index");
+                }
+
+                else
+                {
+
+                    if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                    {
+                        string path = Server.MapPath("~/Content/" + excelfile.FileName);
+                        if (System.IO.File.Exists(path))
+                            System.IO.File.Delete(path);
+                        excelfile.SaveAs(path);
+                        // read data from excel file
+                        Excel.Application application = new Excel.Application();
+                        Excel.Workbook workbook = application.Workbooks.Open(path);
+                        Excel.Worksheet worksheet = workbook.ActiveSheet;
+                        Excel.Range range = worksheet.UsedRange;
+                        List<SupplierItemModel> SuppItem = new List<SupplierItemModel>();
+                        for (int row = 2; row <= range.Rows.Count; row++)
+                        {
+
+
+                        
+                        }
+
+
+                        List<SupplierItemModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                        workbook.Close();
+                        int i = 0;
+                        foreach (SupplierItemModel s in sm)
+                        {
 
                             i = s.SupId;
                         }
@@ -243,10 +309,6 @@ namespace LUSSISADTeam10Web.Controllers
                 foreach (DepartmentCollectionPointModel p in st) {
                     viewmodel.OldCpName = p.CpName;
                 }
-                
-                
-
-
             }
             catch (Exception ex)
             {
@@ -835,6 +897,8 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 inendetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+                inendetail = inendetail.Where(p => p.RecommendedOrderQty > 0).ToList();
 
                 if (error != "")
                 {
