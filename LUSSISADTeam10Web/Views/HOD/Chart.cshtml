@@ -1,0 +1,140 @@
+﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
+
+@{
+    ViewBag.Title = "Chart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Title Here</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Title Here</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    var labels = new string[] { "pen", "pencil" };
+    var data = new int[,] { { 1, 2 }, { 2, 3 }, { 1, 2 } };
+}
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart"></canvas>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+    <script type="text/javascript">
+
+        var lbls = [];
+        var dt = [];
+
+        @for(int i=0; i<labels.Length; i++){
+            <text>
+                lbls.push( ' @labels[i] ' );
+            </text>
+        }
+
+
+        @for(int i=0; i< data.GetLength(0); i++){
+            <text>
+                dt.push([ @data[i,0], @data[i,1] ] );
+            </text>
+        }
+
+        window.onload = load();
+        function load() {
+            dataload();
+            pie();
+        }
+
+        function dataload() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lbls,
+                    datasets: [{
+                        label: "Chico",
+                        backgroundColor: 'rgba(75, 192, 192, 0.45)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: dt[0]
+                    },
+                    {
+                        label: "Groucho",
+                        backgroundColor: 'rgba(115, 102, 192, 0.45)',
+                        borderColor: 'rgba(115, 102, 192, 1)',
+                        borderWidth: 1,
+                        data: dt[1]
+                    },
+                    {
+                        label: "ABC",
+                        backgroundColor: 'rgba(25, 122, 192, 0.45)',
+                        borderColor: 'rgba(25, 122, 192, 1)',
+                        borderWidth: 1,
+                        data: dt[2]
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function pie() {
+            var pieCh = document.getElementById("pieChart");
+            var piedata = {
+                datasets: [{
+                    data: [10, 20, 30],
+                    backgroundColor: [
+                        'rgba(75, 192, 192)',
+                        'rgba(115, 102, 192)',
+                        'rgba(25, 122, 192)'
+                    ]
+                }],
+                labels: [
+                    'Red',
+                    'Yellow',
+                    'Blue'
+                ]
+            };
+            var myChart = new Chart(pieCh, {
+                type: 'doughnut',
+                data: piedata
+            })
+            pieCh.innerText = 'aaa';
+        }
+    </script>
+}
