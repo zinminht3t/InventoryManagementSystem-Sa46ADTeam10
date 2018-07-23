@@ -1348,6 +1348,9 @@
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
+    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
