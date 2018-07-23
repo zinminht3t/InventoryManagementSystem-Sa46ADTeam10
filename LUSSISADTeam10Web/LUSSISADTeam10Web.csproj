@@ -185,9 +185,8 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
-    <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
-    <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -1328,6 +1327,7 @@
     <Content Include="Views\Clerk\Inventory.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
+    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
     <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
@@ -1349,18 +1349,17 @@
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
-    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
-    <Content Include="Views\Employee\TrackRequisition.cshtml" />
-    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
-    <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
-    <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
-    <Content Include="Views\Clerk\PODetails.cshtml" />
+    <Content Include="Views\HOD\Chart.cshtml" />
+    <Content Include="Views\Manager\History.cshtml" />
+    <Content Include="Views\Supervisor\History.cshtml" />
+    <Content Include="Views\Clerk\importsupplier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
+    <Folder Include="Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
@@ -1372,6 +1371,9 @@
     </None>
     <Content Include="Styles\Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Styles\Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

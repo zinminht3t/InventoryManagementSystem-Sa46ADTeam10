@@ -220,6 +220,73 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult importsupplier(HttpPostedFileBase excelfile)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            try
+            {
+                if (excelfile == null || excelfile.ContentLength == 0)
+                {
+
+                    ViewBag.Error = "Please select a excel file";
+                    return View("Index");
+                }
+
+                else
+                {
+
+                    if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                    {
+                        string path = Server.MapPath("~/Content/" + excelfile.FileName);
+                        if (System.IO.File.Exists(path))
+                            System.IO.File.Delete(path);
+                        excelfile.SaveAs(path);
+                        // read data from excel file
+                        Excel.Application application = new Excel.Application();
+                        Excel.Workbook workbook = application.Workbooks.Open(path);
+                        Excel.Worksheet worksheet = workbook.ActiveSheet;
+                        Excel.Range range = worksheet.UsedRange;
+                        List<SupplierModel> SuppItem = new List<SupplierModel>();
+                        for (int row = 2; row <= range.Rows.Count; row++)
+                        {
+
+                            SupplierModel p = new SupplierModel();
+                            p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
+                            p.SupEmail = ((Excel.Range)range.Cells[row, 2]).Text;
+                            p.SupPhone = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
+                            p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
+                            p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
+                          
+                            SuppItem.Add(p);
+
+
+                        }
+
+                       
+                        List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                        workbook.Close();
+                      
+                        return View(sm);
+                    }
+                    else
+                    {
+
+
+                        ViewBag.Error = "File type is incorrect";
+                        return View("Index");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+        }
+
+
         // End AM
 
         // Start TAZ

@@ -84,6 +84,32 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sm;
         }
+
+
+        public static SupplierModel GetSupplierBySupname(String name, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplier sup = new supplier();
+            SupplierModel sm = new SupplierModel();
+            try
+            {
+                sup = entities.suppliers
+                    .Where(x => x.supname == name)
+                    .First();
+                sm = ConvertDBSupToAPISup(sup);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sm;
+        }
         public static List<SupplierModel> GetSupplierByStatus(int status, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -168,7 +194,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup.supphone = sm.SupPhone;
                 sup.contactname = sm.ContactName;
                 sup.gstregno = sm.GstRegNo;
-                sup.active = sm.Active;
+                sup.active = ConSupplier.Active.ACTIVE;
 
                 // saving the update
                 entities.SaveChanges();
@@ -198,7 +224,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup.supphone = sm.SupPhone;
                 sup.contactname = sm.ContactName;
                 sup.gstregno = sm.GstRegNo;
-                sup.active = sm.Active;
+                sup.active = ConSupplier.Active.ACTIVE;
 
                 entities.suppliers.Add(sup);
                 entities.SaveChanges();
@@ -264,5 +290,39 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sm;
         }
+        public static List<SupplierModel> importsupplier(List<SupplierModel> spm, out string error)
+        {
+           
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            try
+            {
+                foreach (SupplierModel nsm in spm)
+                {
+                    SupplierModel spm1 = GetSupplierById(nsm.SupId, out string error1);
+
+                    if (spm1.SupName ==  "")
+                    {
+
+                        CreateSupplier(nsm, out string error2);
+                        spm1 = null;
+
+                    }
+                    else
+                    {
+                        UpdateSupplier(nsm, out string error3);
+                    }
+
+                }
+               
+            }
+                      catch (Exception e)
+            {
+                error = e.Message;
+            }
+            List<SupplierModel> sm = GetSupplierByStatus(ConSupplier.Active.ACTIVE, out string error4);
+            return sm;
+        }
+
+        }
     }
-}

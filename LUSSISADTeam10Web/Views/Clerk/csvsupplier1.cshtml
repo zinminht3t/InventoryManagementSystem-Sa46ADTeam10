@@ -54,6 +54,18 @@
                 }
 
 
+                @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.Raw(ViewBag.Error)
+                    <span>Excel File</span>
+                    <input type="file" name="excelfile" />
+                    <br />
+                    <input type="submit" value="Import" />
+
+                }
+
+
             </div>
         </div>
 

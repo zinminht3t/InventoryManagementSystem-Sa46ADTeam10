@@ -97,6 +97,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sims);
         }
+        //get the lowest price for the item
         [HttpGet]
         [Route("api/supplieritem/getitem/{itemid}")]
         public IHttpActionResult GetOneSupplierItemByItemId(int itemid)
@@ -148,12 +149,30 @@ namespace LUSSISADTeam10API.Controllers
 
         // to import with excel file
         [HttpPost]
-        [Route("api/supplieritem/importsupplier")]
-        public IHttpActionResult importsupplier(List<SupplierItemModel> supitemlist)
+        [Route("api/supplieritem/importsupplieritem")]
+        public IHttpActionResult importsupplieritem(List<SupplierItemModel> supitemlist)
         {
             string error = "";
             List<SupplierItemModel> sim = SupplierItemRepo
-                .importsupplier(supitemlist, out error);
+                .importsupplieritem(supitemlist, out error);
+            if (error != "" || sim == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Supplier Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sim);
+        }
+        // to import with excel file
+        [HttpPost]
+        [Route("api/supplieritem/importsupitems")]
+        public IHttpActionResult ImportfromItemlistExcel(List<ImportSupplierItem> supitemlist)
+        {
+            string error = "";
+            List<SupplierItemModel> sim = SupplierItemRepo
+                .ImportfromItemlistExcel(supitemlist, out error);
             if (error != "" || sim == null)
             {
                 if (error == ConError.Status.NOTFOUND)

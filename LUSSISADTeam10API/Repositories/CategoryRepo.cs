@@ -64,6 +64,27 @@ namespace LUSSISADTeam10API.Repositories
             }
             return cat;
         }
+        public static CategoryModel GetCategoryByCatname(String name, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            CategoryModel cat = new CategoryModel();
+            category category = new category();
+            try
+            {
+                category = entities.categories.Where(c => c.name == name).FirstOrDefault<category>();
+                cat = ConvertDBCategorytoAPICategory(category);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return cat;
+        }
         //Get Category by Item ID
         public static CategoryModel GetCategoryByItemId(int itemid, out string error)
         {
