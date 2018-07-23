@@ -18,10 +18,11 @@ namespace LUSSISADTeam10API.Repositories
             List<RequisitionDetailsModel> reqdm = new List<RequisitionDetailsModel>();
             foreach (requisitiondetail rqdm in req.requisitiondetails)
             {
-                try { 
-                reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, rqdm.item.inventories.First().stock));
+                try
+                {
+                    reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, rqdm.item.inventories.First().stock));
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     reqdm.Add(new RequisitionDetailsModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, 0));
                 }
@@ -31,8 +32,38 @@ namespace LUSSISADTeam10API.Repositories
                                      , req.deptid, req.department.deptname, req.status, req.reqdate, reqdm);
             return reqm;
         }
+        private static RequisitionWithDisbursementModel CovertDBRequisitionDistoAPIRequisitionDiswithDetails(requisition req)
+        {
+            List<RequisitionDetailsWithDisbursementModel> reqdm = new List<RequisitionDetailsWithDisbursementModel>();
+            foreach (requisitiondetail rqdm in req.requisitiondetails)
+            {
+                try
+                {
+                    reqdm.Add(new RequisitionDetailsWithDisbursementModel(rqdm.reqid, rqdm.itemid, rqdm.item.description,
+                        rqdm.qty, rqdm.item.category.name, rqdm.item.uom,
+                        rqdm.requisition.disbursements.First().disbursementdetails.Where(x => x.itemid == rqdm.itemid).First().qty));
+                }
+                catch (Exception)
+                {
+                    reqdm.Add(new RequisitionDetailsWithDisbursementModel(rqdm.reqid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom, 0));
+                }
+            }
+            RequisitionWithDisbursementModel reqm = new RequisitionWithDisbursementModel();
+            try
+            {
+                reqm = new RequisitionWithDisbursementModel(req.reqid, req.raisedby, req.user.fullname
+                                        , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
+                                         , req.deptid, req.department.deptname, req.status, req.reqdate, req.disbursementlockers.First().lockerid, req.disbursementlockers.First().lockercollectionpoint.lockername, reqdm);
+            }
+            catch (Exception)
+            {
+                reqm = new RequisitionWithDisbursementModel(req.reqid, req.raisedby, req.user.fullname
+                                                  , req.approvedby, req.user1.fullname, req.cpid, req.collectionpoint.cpname
+                                                   , req.deptid, req.department.deptname, req.status, req.reqdate, 0, "", reqdm);
 
-
+            }
+            return reqm;
+        }
         // Convert From Auto Generated DB Model to APIModel for Requisition
         private static RequisitionModel CovertDBRequisitiontoAPIRequisition(requisition req)
         {
@@ -41,9 +72,6 @@ namespace LUSSISADTeam10API.Repositories
                                      , req.deptid, req.department.deptname, req.status, req.reqdate, new List<RequisitionDetailsModel>());
             return reqm;
         }
-
-
-
 
         // Get the list of all requisition 
         public static List<RequisitionModel> GetAllRequisition(out string error)
@@ -103,6 +131,111 @@ namespace LUSSISADTeam10API.Repositories
                 }
             }
 
+
+            // if inventory not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return reqm;
+        }
+
+        // Get the list of all requisition  with Details
+        public static List<RequisitionWithDisbursementModel> GetRequisitionsWithPreparingStatus(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<RequisitionWithDisbursementModel> reqm = new List<RequisitionWithDisbursementModel>();
+            List<requisition> reqs = new List<requisition>();
+            try
+            {
+                reqs = entities.requisitions.Where(p => p.status == ConRequisition.Status.PREPARING).ToList();
+
+                foreach (requisition req in reqs)
+                {
+                    reqm.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
+                }
+            }
+
+
+            // if inventory not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return reqm;
+        }
+
+        // Get the list of all requisition  with Details
+        public static List<RequisitionWithDisbursementModel> GetRequisitionsWithDeliveredStatus(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<RequisitionWithDisbursementModel> reqm = new List<RequisitionWithDisbursementModel>();
+            List<requisition> reqs = new List<requisition>();
+            try
+            {
+                reqs = entities.requisitions.Where(p => p.status == ConRequisition.Status.DELIVERED).ToList();
+
+                foreach (requisition req in reqs)
+                {
+                    reqm.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
+                }
+            }
+
+
+            // if inventory not found, will throw NOTFOUND exception
+            catch (NullReferenceException)
+            {
+                // if there is NULL Exception error, error will be 404
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return reqm;
+        }
+
+        public static RequisitionWithDisbursementModel GetRequisitionWithDisbursementByReqID(int reqid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            RequisitionWithDisbursementModel reqm = new RequisitionWithDisbursementModel();
+            requisition reqs = new requisition();
+            try
+            {
+                reqs = entities.requisitions.Where(p => p.reqid == reqid).FirstOrDefault();
+                reqm = CovertDBRequisitionDistoAPIRequisitionDiswithDetails(reqs);
+            }
 
             // if inventory not found, will throw NOTFOUND exception
             catch (NullReferenceException)
@@ -338,7 +471,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqn.raisedby = req.Raisedby;
-                reqn.approvedby = req.Approvedby;
+                reqn.approvedby = req.Raisedby;
                 reqn.deptid = req.Depid;
                 reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
@@ -392,6 +525,67 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return reqm;
+        }
+
+        // update the Requisition Pending to Preparing
+        public static List<RequisitionWithDisbursementModel> UpdateAllRequestStatusToPreparing(out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            List<requisition> reqs = new List<requisition>();
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+            try
+            {
+                reqs = entities.requisitions.Where(p => p.status == ConRequisition.Status.REQUESTPENDING).ToList();
+                List<LockerCollectionPointModel> lcpms = LockerCollectionPointRepo.GetAllLockerCP(out error);
+                foreach (requisition req in reqs)
+                {
+
+                    req.status = ConRequisition.Status.PREPARING;
+                    entities.SaveChanges();
+
+                    DisbursementLockerModel dislm = new DisbursementLockerModel();
+
+
+                    dislm.DisID = req.disbursements.First().disid;
+                    dislm.ReqID = req.reqid;
+
+
+                    List<DisbursementLockerModel> Currentdislms = new List<DisbursementLockerModel>();
+                    Currentdislms = LockerCollectionPointRepo.GetDisbursementLockersByDeptIDAndStatus(req.deptid, 1, out error);
+
+                    if (Currentdislms.Count > 0)
+                    {
+                        dislm = Currentdislms.First();
+                    }
+                    else
+                    {
+                        dislm.DeptID = req.deptid;
+                        dislm.ReqID = req.reqid;
+                        dislm.DisID = req.disbursements.First().disid;
+                        LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
+                        if (lcpm == null)
+                        {
+                            lcpm = new LockerCollectionPointModel();
+                            lcpm = lcpms.Where(p => p.Cpid == req.cpid).FirstOrDefault();
+                        }
+                        dislm.LockerID = lcpm.Lockerid;
+                        dislm = LockerCollectionPointRepo.CreateDisbursementLocker(dislm, out error);
+                    }
+
+                    reqdisms.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return reqdisms;
         }
         //Create new Requisition with Detials
         public static RequisitionModel CreateRequisitionwithDetails(RequisitionModel reqm, List<RequisitionDetailsModel> reqd, out string error)

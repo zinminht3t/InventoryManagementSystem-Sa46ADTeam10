@@ -53,6 +53,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="RestSharp, Version=106.3.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.3.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -164,20 +167,29 @@
     <Compile Include="APIModels\DepartmentModel.cs" />
     <Compile Include="APIModels\DisbursementDetailsModel.cs" />
     <Compile Include="APIModels\DisbursementModel.cs" />
+    <Compile Include="APIModels\FrequentlyTop5ItemsModel.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
     <Compile Include="APIModels\InventoryTransactionModel.cs" />
     <Compile Include="APIModels\ItemModel.cs" />
+    <Compile Include="APIModels\ItemTrendAnalysisModel.cs" />
     <Compile Include="APIModels\LockerCollectionPointModel.cs" />
+    <Compile Include="APIModels\MonthlyItemUsageByClerkModel.cs" />
     <Compile Include="APIModels\NotificationModel.cs" />
+    <Compile Include="APIModels\OrderByDepartmentModel.cs" />
     <Compile Include="APIModels\OrderHistoryModel.cs" />
     <Compile Include="APIModels\OutstandingItemModel.cs" />
     <Compile Include="APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="APIModels\OutstandingReqModel.cs" />
     <Compile Include="APIModels\PurchaseOrderDetailModel.cs" />
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
+    <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
+    <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
+    <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
+    <Compile Include="APIModels\RequsitionListReportModel.cs" />
     <Compile Include="APIModels\SupplierItemModel.cs" />
     <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
@@ -194,7 +206,10 @@
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APINotification.cs" />
+    <Compile Include="API\APIOutstanding.cs" />
+    <Compile Include="API\APIOutstandingReq.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
+    <Compile Include="API\APIReport.cs" />
     <Compile Include="API\APIRequisition.cs" />
     <Compile Include="API\APISupplier.cs" />
     <Compile Include="API\APIUser.cs" />
@@ -225,16 +240,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\UserViewModel.cs" />
+    <Compile Include="Models\Clerk\ActiveSupplierViewModel.cs" />
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\InventoryViewModel.cs" />
     <Compile Include="Models\Clerk\ProcessRequisitionViewModel.cs" />
     <Compile Include="Models\Clerk\ShowBD.cs" />
     <Compile Include="Models\Common\CodeValue.cs" />
     <Compile Include="Models\HOD\ApproveRequisitionViewModel.cs" />
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
+    <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\Employee\RequisitionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap-theme.css" />
@@ -1031,6 +1051,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Styles\images\.gitignore" />
+    <Content Include="Content\test1.xlsx" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - Web Deploy.pubxml" />
     <None Include="Styles\Scripts\jquery-3.3.1.intellisense.js" />
@@ -1311,15 +1332,26 @@
     <Content Include="Views\Clerk\Adjustment.cshtml" />
     <Content Include="Views\HOD\AssignDepRep.cshtml" />
     <Content Include="Views\Clerk\Create.cshtml" />
-    <Content Include="Views\HOD\Chart.cshtml" />
+    <Content Include="Views\Clerk\Outstanding.cshtml" />
+    <Content Include="Views\Clerk\ShowActiveSupplierlist.cshtml" />
+    <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
+    <Content Include="Views\Clerk\Manage.cshtml" />
+    <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\DisbursementLists.cshtml" />
+    <Content Include="Views\Clerk\SupllierDetails.cshtml" />
+    <Content Include="Views\Supervisor\Approve.cshtml" />
+    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
+    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
+    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\Clerk\csvsupplier.cshtml" />
+    <Content Include="Views\Clerk\csvsupplier1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\DepartmentRep\" />
-    <Folder Include="Models\Employee\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
-    <Folder Include="Models\Supervisor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />

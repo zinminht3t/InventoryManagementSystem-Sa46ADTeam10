@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.SessionState;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult Login()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return PartialView(new UserViewModel());
         }
 
@@ -42,34 +44,33 @@ namespace LUSSISADTeam10Web.Controllers
                     UserModel um = APIAccount.GetUserProfile(token, out error);
                     Session["user"] = um;
                     Session["role"] = um.Role;
-                    ViewBag.Role = um.Role;
 
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    //if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                    //    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    //{
+                    //    return Redirect(returnUrl);
+                    //}
+                    //else
+                    //{
+
+                    switch (um.Role)
                     {
-                        return Redirect(returnUrl);
+                        case ConUser.Role.CLERK:
+                            return RedirectToAction("Index", "Clerk");
+                        case ConUser.Role.SUPERVISOR:
+                            return RedirectToAction("Index", "Supervisor");
+                        case ConUser.Role.DEPARTMENTREP:
+                            return RedirectToAction("Index", "DepartmentRep");
+                        case ConUser.Role.EMPLOYEE:
+                            return RedirectToAction("Index", "Employee");
+                        case ConUser.Role.HOD:
+                            return RedirectToAction("Index", "HOD");
+                        case ConUser.Role.MANAGER:
+                            return RedirectToAction("Index", "Manager");
                     }
-                    else
-                    {
-
-                        switch (um.Role)
-                        {
-                            case ConUser.Role.CLERK:
-                                return RedirectToAction("Index", "Clerk");
-                            case ConUser.Role.SUPERVISOR:
-                                return RedirectToAction("Index", "Supervisor");
-                            case ConUser.Role.DEPARTMENTREP:
-                                return RedirectToAction("Index", "DepartmentRep");
-                            case ConUser.Role.EMPLOYEE:
-                                return RedirectToAction("Index", "Employee");
-                            case ConUser.Role.HOD:
-                                return RedirectToAction("Index", "HOD");
-                            case ConUser.Role.MANAGER:
-                                return RedirectToAction("Index", "Supervisor");
-                        }
-                        return RedirectToAction("Login", "Account");
-                    }
+                    return RedirectToAction("Login", "Account");
+                    //}
                 }
                 else
                 {

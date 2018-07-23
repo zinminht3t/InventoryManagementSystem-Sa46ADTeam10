@@ -1,0 +1,71 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierModel>
+
+@{
+    ViewBag.Title = "ShowActiveSupplierlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Active Suppler List</h1>
+             
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("csvsupplier1", "Clerk")">Create</a></li>
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")"/>Old Suppliers</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@foreach (var item in Model)
+{
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title"> @Html.DisplayFor(modelItem => item.SupName)</strong>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4"><b>Contact Person:</b> </div>
+                            <div class="col-md-5">@Html.DisplayFor(modelItem => item.ContactName)</div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-4"><b>Phone:</b> </div>
+                            <div class="col-md-5">@Html.DisplayFor(modelItem => item.SupPhone)</div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-4"><b>Email:</b> </div>
+                            <div class="col-md-5">@Html.DisplayFor(modelItem => item.SupEmail) </div>
+                        </div><br />
+                        <a href="@Url.Action("SupllierDetails","Clerk" , new { id = item.SupId })" class="btn btn-link pull-right ">Details</a>
+                        <a href="@Url.Action("DeActive", "Clerk" ,  new { id = item.SupId })" style="color: #ff0000;" class="btn btn-link pull-right ">Deactivate</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+
+
+
+}

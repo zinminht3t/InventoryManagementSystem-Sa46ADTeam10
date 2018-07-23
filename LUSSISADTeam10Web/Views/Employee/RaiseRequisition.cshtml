@@ -1,0 +1,133 @@
+﻿@model LUSSISADTeam10Web.Models.Employee.RequisitionViewModel
+
+@{
+    ViewBag.Title = "Rasied Requisition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Track Requisiton</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title">Raise Requisition</strong>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="mx-auto d-block">
+                        <h5 class="text-sm-center text-info"> <i class="fa fa-box fa-3x"></i><br /> Raised Requisition </h5><br />
+                        <h6>Raised By :  @User.Identity.Name </h6><br />
+                        <h6>Collection Point : @Model.Cpname</h6><br />
+                        <h6>Request Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
+
+
+                        <div>
+
+                            <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
+                            <br />
+                            <br />
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                @{
+                                    var on = "";
+
+                                    foreach (var item in ViewBag.ItemsList)
+                                    {
+
+                                        on += "<option value='" + item.Itemid + "'>" + item.Description + "</option>";
+                                    }
+
+                                }
+
+                                <tbody id="tbRequisitiondetails"></tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="card-text text-sm-right">
+                        <input type="submit" value="Create" class="btn btn-outline-info" />
+                    </div>
+
+                    <div id="optionvlaues" style="display: none">
+                        @on
+                    </div>
+                                    }
+                </div>
+        </div>
+    </div>
+
+
+
+</div><!-- .animated -->
+
+
+@section Scripts {
+
+    <script language="javascript" type="text/javascript">
+        function addRow() {
+
+            @{
+                Model.Requisitiondetails.Add(new LUSSISADTeam10Web.Models.Employee.RequisitionDetailsViewModel());
+            }
+
+            var index = $("#tbRequisitiondetails").children("tr").length;
+
+            var option = $("#optionvlaues").text();
+
+            var indexCell = "<td style='display:none'><input name='Requisitiondetails.Index' type='hidden' value='" + index + "' /></td>";
+            var titleCell = "<td><select class='form-control' id='Requisitiondetails_" + index + "__Title' name='Requisitiondetails[" + index + "].Itemid'>" + option  + "</select></td>";
+            var publishedCell = "<td><input  class='form-control' required='required' id='Requisitiondetails_" + index + "__Title' name='Requisitiondetails[" + index + "].Qty' type='number' value='' /></td>";
+            var removeCell = "<td><input id='btnAddReqD' type='button' class='btn btn-outline-danger' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+            var newRow = "<tr id='trReqD" + index + "'>" +  indexCell + titleCell + publishedCell + removeCell + "</tr>";
+            $("#tbRequisitiondetails").append(newRow);
+
+        }
+
+        
+
+
+        function removeRow(id) {
+            var controlToBeRemoved = "#trReqD" + id;
+            $(controlToBeRemoved).remove();
+        }
+    </script>
+
+}

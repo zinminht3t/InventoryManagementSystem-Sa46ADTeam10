@@ -26,6 +26,7 @@ namespace LUSSISADTeam10Web.Models.Clerk
             Level = level;
             Stock = qty;
             UOM = uom;
+            Current = 0;
         }
         public int InventoryId { get; set; }
         public string Category { get; set; }
@@ -35,5 +36,6 @@ namespace LUSSISADTeam10Web.Models.Clerk
         public string Level { get; set; }
         public int? Stock { get; set; }
         public string UOM { get; set; }
+        public int Current { get; set; }
     }
 }

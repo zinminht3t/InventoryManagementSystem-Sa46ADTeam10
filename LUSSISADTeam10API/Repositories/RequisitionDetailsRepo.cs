@@ -208,20 +208,27 @@ namespace LUSSISADTeam10API.Repositories
             {
 
 
-                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
-              //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).Distinct().ToList();
-
+                //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
+              List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid && p.requisition.raisedby == p.requisition.user.userid).Distinct().ToList();
+                
 
                 foreach (var order in reqdetail)
                 {
                     OrderHistoryModel o = new OrderHistoryModel();
 
-                   user raisename = entities.users.Where(p => p.userid == order.requisition.raisedby).First();
-                   user approvename = entities.users.Where(p => p.userid == order.requisition.approvedby).First();
+                 
+                   
                    o.reqdate = order.requisition.reqdate;
-                   o.raisename = raisename.username;
-                   o.approvename = approvename.username;
+                  o.raisename = order.requisition.user.username;
+                    o.deptname = order.requisition.department.deptname;
+
+                    if(order.requisition.status  == ConRequisition.Status.COMPLETED)
+                    {
+                        o.status = "Completed Order";
+                    }
+                   
                     orhm.Add(o);
+                    
                 }
 
             }
@@ -237,6 +244,12 @@ namespace LUSSISADTeam10API.Repositories
             return orhm;
 
         }
+
+
+
+
+
+       
     }
 }
 
