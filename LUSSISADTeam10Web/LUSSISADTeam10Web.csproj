@@ -1351,6 +1351,7 @@
     <Content Include="Views\Employee\RaiseRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisitions.cshtml" />
+    <Content Include="Views\HOD\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
