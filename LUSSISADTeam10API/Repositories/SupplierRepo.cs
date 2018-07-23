@@ -198,7 +198,7 @@ namespace LUSSISADTeam10API.Repositories
                 sup.supphone = sm.SupPhone;
                 sup.contactname = sm.ContactName;
                 sup.gstregno = sm.GstRegNo;
-                sup.active = sm.Active;
+                sup.active = ConSupplier.Active.ACTIVE;
 
                 entities.suppliers.Add(sup);
                 entities.SaveChanges();
@@ -264,27 +264,30 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sm;
         }
-        public static List<SupplierModel> importsupplier(SupplierModel spm, out string error)
+        public static List<SupplierModel> importsupplier(List<SupplierModel> spm, out string error)
         {
            
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
             try
             {
-                SupplierModel spm1 = GetSupplierById(spm.SupId, out string error1);
-
-                if (spm1 == null)
+                foreach (SupplierModel nsm in spm)
                 {
+                    SupplierModel spm1 = GetSupplierById(nsm.SupId, out string error1);
 
-                    CreateSupplier(spm, out string error2);
+                    if (spm1.SupName ==  "")
+                    {
+
+                        CreateSupplier(nsm, out string error2);
+                        spm1 = null;
+
+                    }
+                    else
+                    {
+                        UpdateSupplier(nsm, out string error3);
+                    }
 
                 }
-                else
-                {
-                    UpdateSupplier(spm, out string error3);
-                }
-
-                
                
             }
                       catch (Exception e)
