@@ -53,7 +53,7 @@ namespace LUSSISADTeam10API.Controllers
         // to Get all Disbursements with requisition id 
         [HttpGet]
         [Route("api/disbursement/reqid/{reqid}")]
-        public IHttpActionResult GetDisbursementByRequisitionid(int reqid )
+        public IHttpActionResult GetDisbursementByRequisitionid(int reqid)
         {
             string error = "";
             List<DisbursementModel> dism = DisbursementRepo.GetDisbursementByRequisitionId(reqid, out error);
@@ -147,7 +147,31 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateDisbursementDetails(DisbursementDetailsModel dism)
         {
             string error = "";
-           List< DisbursementDetailsModel> disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
+            List<DisbursementDetailsModel> disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
+
+            // get the inventory using the item id from Requisition details
+            InventoryModel invm = InventoryRepo.GetInventoryByItemid(dism.Itemid, out error);
+
+            // subtract  the stock accoring to  qty
+            invm.Stock -= dism.Qty;
+
+            // update the inventory
+            invm = InventoryRepo.UpdateInventory(invm, out error);
+
+
+            InventoryTransactionModel invtm = new InventoryTransactionModel
+            {
+                InvID = invm.Invid,
+                ItemID = invm.Itemid,
+                Qty = dism.Qty * -1,
+                TransType = ConInventoryTransaction.TransType.DISBURSEMENT,
+                TransDate = DateTime.Now,
+                Remark = dism.Disid.ToString()
+            };
+            invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
+
+
+
             if (error != "" || disbm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);

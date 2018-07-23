@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace LUSSISADTeam10API.Models.APIModels
+namespace LUSSISADTeam10Web.Models.Employee
 {
-    public class RequisitionWithDisbursementModel
+    public class RequisitionViewModel
 
     {
-        public RequisitionWithDisbursementModel(int reqid, int? rasiedby, String rasiedbyname,
+        public RequisitionViewModel(int reqid, int? rasiedby, String rasiedbyname, 
             int? approvedby, String approvedbyname, int cpid, string cpname,
-            int depid, string depname, int status, DateTime? reqdate, 
-            int lockerid,
-            string lockername,
-            List<RequisitionDetailsWithDisbursementModel> rdms)
-        {
-
+            int depid, string depname, int status, DateTime? reqdate , List<RequisitionDetailsViewModel> rdms) {
             this.Reqid = reqid;
             this.Raisedby = rasiedby;
             this.Rasiedbyname = rasiedbyname;
@@ -28,18 +24,15 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Status = status;
             this.Reqdate = reqdate;
             this.Requisitiondetails = rdms;
-            this.LockerID = lockerid;
-            this.LockerName = lockername;
-
-
         }
-        public RequisitionWithDisbursementModel() : this(0, 0, "", 0, "", 0, "", 0, "", 0, null, 0, "", null)
+        public RequisitionViewModel() : this(0, 0, "",0,"", 0, "", 0, "", 0, null , new List<RequisitionDetailsViewModel>())
         {
         }
 
         public int Reqid { get; set; }
 
         public int? Raisedby { get; set; }
+
         public String Rasiedbyname { get; set; }
 
         public int? Approvedby { get; set; }
@@ -51,14 +44,12 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int Cpid { get; set; }
         public String Cpname { get; set; }
 
-        public int LockerID { get; set; }
-        public string LockerName { get; set; }
-
         public int Status { get; set; }
 
-
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Reqdate { get; set; }
 
-        public List<RequisitionDetailsWithDisbursementModel> Requisitiondetails { get; set; }
+        public List<RequisitionDetailsViewModel> Requisitiondetails { get; set; }
     }
 }

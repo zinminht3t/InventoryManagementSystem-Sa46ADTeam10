@@ -53,6 +53,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="RestSharp, Version=106.3.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.3.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -182,6 +185,7 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
     <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
@@ -250,6 +254,7 @@
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\Employee\RequisitionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap-theme.css" />
@@ -1046,6 +1051,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Styles\images\.gitignore" />
+    <Content Include="Content\test1.xlsx" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - Web Deploy.pubxml" />
     <None Include="Styles\Scripts\jquery-3.3.1.intellisense.js" />
@@ -1334,11 +1340,16 @@
     <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
     <Content Include="Views\Supervisor\Approve.cshtml" />
+    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
+    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
+    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\Clerk\csvsupplier.cshtml" />
+    <Content Include="Views\Clerk\csvsupplier1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\DepartmentRep\" />
-    <Folder Include="Models\Employee\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
   </ItemGroup>
