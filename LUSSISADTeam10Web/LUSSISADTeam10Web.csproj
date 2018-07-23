@@ -1346,6 +1346,8 @@
     <Content Include="Views\Employee\TrackRequisition.cshtml" />
     <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\csvsupplier1.cshtml" />
+    <Content Include="Views\HOD\Chart.cshtml" />
+    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
