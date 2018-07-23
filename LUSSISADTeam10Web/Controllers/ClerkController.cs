@@ -191,7 +191,7 @@ namespace LUSSISADTeam10Web.Controllers
                         }
 
 
-                       List <SupplierItemModel> sm =  APISupplier.importsupplier(token, SuppItem, out string error);
+                       List <SupplierItemModel> sm =  APISupplier.importsupplieritem(token, SuppItem, out string error);
                         workbook.Close();
                         int i = 0;
                         foreach (SupplierItemModel s in sm) {
@@ -247,26 +247,27 @@ namespace LUSSISADTeam10Web.Controllers
                         Excel.Workbook workbook = application.Workbooks.Open(path);
                         Excel.Worksheet worksheet = workbook.ActiveSheet;
                         Excel.Range range = worksheet.UsedRange;
-                        List<SupplierItemModel> SuppItem = new List<SupplierItemModel>();
+                        List<SupplierModel> SuppItem = new List<SupplierModel>();
                         for (int row = 2; row <= range.Rows.Count; row++)
                         {
 
+                            SupplierModel p = new SupplierModel();
+                            p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
+                            p.SupEmail = ((Excel.Range)range.Cells[row, 2]).Text;
+                            p.SupPhone = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
+                            p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
+                            p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
+                          
+                            SuppItem.Add(p);
 
-                        
+
                         }
 
-
-                        List<SupplierItemModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                       
+                        List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
-                        int i = 0;
-                        foreach (SupplierItemModel s in sm)
-                        {
-
-                            i = s.SupId;
-                        }
-                        List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
-
-                        return View(sm1);
+                      
+                        return View(sm);
                     }
                     else
                     {

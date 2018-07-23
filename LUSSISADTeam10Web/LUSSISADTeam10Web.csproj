@@ -1351,6 +1351,7 @@
     <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
+    <Content Include="Views\Clerk\importsupplier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

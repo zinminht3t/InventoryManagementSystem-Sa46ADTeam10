@@ -205,6 +205,7 @@
     <Compile Include="Models\APIModels\DisbursementLockerModel.cs" />
     <Compile Include="Models\APIModels\DisbursementModel.cs" />
     <Compile Include="Models\APIModels\FrequentlyTop5ItemsModel.cs" />
+    <Compile Include="Models\APIModels\ImportSupplierItem.cs" />
     <Compile Include="Models\APIModels\InventoryDetailModel.cs" />
     <Compile Include="Models\APIModels\InventoryModel.cs" />
     <Compile Include="Models\APIModels\InventoryTransactionModel.cs" />
