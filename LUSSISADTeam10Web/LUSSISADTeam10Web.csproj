@@ -185,6 +185,7 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
