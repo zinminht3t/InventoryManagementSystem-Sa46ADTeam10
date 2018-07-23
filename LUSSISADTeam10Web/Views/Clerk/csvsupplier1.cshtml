@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "csvsupplier1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>csvsupplier</h2>
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Title Here</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Title Here</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
+            </div>
+            <div class="card-body">
+
+
+                @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.Raw(ViewBag.Error)
+                    <span>Excel File</span>
+                    <input type="file" name="excelfile" />
+                    <br />
+                    <input type="submit" value="Import" />
+
+                }
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}
+

@@ -34,6 +34,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<departmentcollectionpoint> departmentcollectionpoints { get; set; }
         public virtual DbSet<disbursement> disbursements { get; set; }
         public virtual DbSet<disbursementdetail> disbursementdetails { get; set; }
+        public virtual DbSet<disbursementlocker> disbursementlockers { get; set; }
         public virtual DbSet<inventory> inventories { get; set; }
         public virtual DbSet<inventorytransaction> inventorytransactions { get; set; }
         public virtual DbSet<item> items { get; set; }
@@ -49,5 +50,11 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<supplieritem> supplieritems { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<FrequentlyTop5ItemsDashboard> FrequentlyTop5ItemsDashboard { get; set; }
+        public virtual DbSet<ItemTrendAnalysi> ItemTrendAnalysis { get; set; }
+        public virtual DbSet<MonthItemUsage> MonthItemUsages { get; set; }
+        public virtual DbSet<MonthlyItemUsageByHOD> MonthlyItemUsageByHODs { get; set; }
+        public virtual DbSet<OrderByDepartmentDarshboard> OrderByDepartmentDarshboards { get; set; }
+        public virtual DbSet<RequistionList> RequistionLists { get; set; }
     }
 }

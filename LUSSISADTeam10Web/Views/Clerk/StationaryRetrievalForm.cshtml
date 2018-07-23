@@ -40,55 +40,62 @@
             </div>
             <div class="card-body">
 
-                @if(Model.Count() > 0)
-                { 
-                <table class="table table-bordered">
-                    <thead class="thead-dark text-primary text-center">
-                        <tr>
-                            <td rowspan="2">Item ID</td>
-                            <td rowspan="2">Item Description</td>
-                            <td rowspan="2">Total Quantity</td>
-                            <td colspan="2">
-                                Breakdown By Department
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Department</td>
-                            <td>Qty</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            bool AlreadyShown = false;
+                @if (Model.Count() > 0)
+                {
+                    <div>
+                        <a href="@Url.Action("UpdateToPreparing", "Clerk")" class="btn btn-outline-info pull-right">Item Collected <i class="fa fa-arrow-right"></i></a>
+                    </div>
 
-                            foreach (var i in item.BDList)
-                            {
+                    <div>
+                        <table class="table table-bordered">
+                            <thead class="thead-dark text-primary text-center">
                                 <tr>
-                                    @if (!AlreadyShown)
-                                    {
-                                        <td>@item.ItemID</td>
-                                        <td>@item.ItemDescription</td>
-                                        <td>@item.TotalQty</td>
-
-                                        AlreadyShown = true; 
-                                    }
-                                    else
-                                    {
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    }
-                                    <td>@i.DeptName</td>
-                                    <td>@i.Qty</td>
+                                    <td rowspan="2">Item ID</td>
+                                    <td rowspan="2">Item Description</td>
+                                    <td rowspan="2">Total Quantity</td>
+                                    <td colspan="2">
+                                        Breakdown By Department
+                                    </td>
                                 </tr>
+                                <tr>
+                                    <td>Department</td>
+                                    <td>Qty</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    bool AlreadyShown = false;
 
-                            }
-                        }
-                    </tbody>
+                                    foreach (var i in item.BDList)
+                                    {
+                                        <tr>
+                                            @if (!AlreadyShown)
+                                            {
+                                                <td>@item.ItemID</td>
+                                                <td>@item.ItemDescription</td>
+                                                <td>@item.TotalQty</td>
+
+                                                AlreadyShown = true;
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            }
+                                            <td>@i.DeptName</td>
+                                            <td>@i.Qty</td>
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
 
 
-                </table>
+                        </table>
+
+                    </div>
                 }
 
                 else

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -63,6 +65,157 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
+        }
+
+
+        public ActionResult SupllierDetails(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            List<SupplierItemModel> smlist = new List<SupplierItemModel>();
+
+
+            try
+            {
+                sm = APISupplier.GetSupplierById(id, token, out string supperror);
+                ViewBag.suppliername = sm.SupName;
+                smlist = APISupplier.GetItemsBySupplierId(id, token, out string error);
+
+                return View(smlist);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+
+
+
+        }
+        public ActionResult DeActive(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.DeactivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowDeActiveSupplierlist");
+        }
+
+
+        public ActionResult Active(int id)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+            sm = APISupplier.GetSupplierById(id, token, out string superror);
+
+            try
+            {
+
+                APISupplier.ActivateSupplier(sm, token, out string error);
+
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
+        public ActionResult csvsupplier1()
+        {
+            return View("csvsupplier1");
+        }
+
+        [HttpPost]
+        public ActionResult csvsupplier(HttpPostedFileBase excelfile)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            try
+            {
+                if (excelfile == null || excelfile.ContentLength == 0)
+                {
+
+                    ViewBag.Error = "Please select a excel file";
+                    return View("Index");
+                }
+
+                else
+                {
+
+                    if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                    {
+                        string path = Server.MapPath("~/Content/" + excelfile.FileName);
+                        if (System.IO.File.Exists(path))
+                            System.IO.File.Delete(path);
+                        excelfile.SaveAs(path);
+                        // read data from excel file
+                        Excel.Application application = new Excel.Application();
+                        Excel.Workbook workbook = application.Workbooks.Open(path);
+                        Excel.Worksheet worksheet = workbook.ActiveSheet;
+                        Excel.Range range = worksheet.UsedRange;
+                        List<SupplierItemModel> SuppItem = new List<SupplierItemModel>();
+                        for (int row = 2; row <= range.Rows.Count; row++)
+                        {
+
+
+                            SupplierItemModel p = new SupplierItemModel();
+                            p.SupId = int.Parse(((Excel.Range)range.Cells[row, 1]).Text);
+                            p.SupName = ((Excel.Range)range.Cells[row, 2]).Text;
+                            p.ItemId = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
+                            p.Description = ((Excel.Range)range.Cells[row, 4]).Text;
+                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 5]).Text);
+                            p.Uom = ((Excel.Range)range.Cells[row, 6]).Text;
+                            p.CategoryName = ((Excel.Range)range.Cells[row, 7]).Text;
+                            SuppItem.Add(p);
+                        }
+
+
+                       List <SupplierItemModel> sm =  APISupplier.csvsupplier(token, SuppItem, out string error);
+                        workbook.Close();
+                        int i = 0;
+                        foreach (SupplierItemModel s in sm) {
+
+                            i = s.SupId;
+                        }
+                        List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
+
+                        return View(sm1);
+                    }
+                    else
+                    {
+
+
+                        ViewBag.Error = "File type is incorrect";
+                        return View("Index");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
 
 
@@ -372,9 +525,7 @@ namespace LUSSISADTeam10Web.Controllers
                 adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
                 
                 foreach(AdjustmentModel ad in adj)
-                {
-                    //adjdetail = ad.Adjds;
-                    
+                {                  
                     foreach(AdjustmentDetailModel adjd in ad.Adjds)
                     {
                         foreach(Inventory i in invcvm.Invs)
@@ -471,7 +622,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             List<RequisitionModel> reqms = new List<RequisitionModel>();
 
-            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
 
             ViewBag.Requisitions = reqms;
 
@@ -572,7 +723,7 @@ namespace LUSSISADTeam10Web.Controllers
                     outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
                 }
             }
-            reqm = APIRequisition.UpdateRequisitionStatus(reqm, token, out error);
+            reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
             
             return View("Requisition");
         }
@@ -593,6 +744,82 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        public ActionResult UpdateToPreparing()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+
+            reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
+
+            return RedirectToAction("DisbursementLists");
+        }
+
+        public ActionResult DisbursementLists()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            ViewBag.ShowItems = false;
+
+
+            List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
+            reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
+
+            List<string> CollectionPointNames = new List<string>();
+            CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
+            ViewBag.CollectionPointNames = CollectionPointNames;
+            if (CollectionPointNames.Count > 0)
+            {
+                ViewBag.ShowItems = true;
+            }
+
+            return View(reqdisms);
+        }
+
+        public ActionResult ItemDelivered(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            RequisitionModel req = new RequisitionModel();
+            req = APIRequisition.GetRequisitionByReqid(id, token, out error);
+
+            if(req.Status != ConRequisition.Status.PREPARING)
+            {
+                RedirectToAction("DisbursementLists");
+            }
+
+            req.Status = ConRequisition.Status.DELIVERED;
+            req = APIRequisition.UpdateRequisition(req, token, out error);
+            
+            // add notification here
+
+            return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
+        }
+
+        public ActionResult DisbursementDetail(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+
+            RequisitionWithDisbursementModel req = new RequisitionWithDisbursementModel();
+
+            req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
+
+            if (req.Status != ConRequisition.Status.DELIVERED)
+            {
+                RedirectToAction("DisbursementLists");
+            }
+
+            return View(req);
+
+        }
 
         // End ZMH
 
@@ -659,12 +886,24 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = "";
             token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+            }
             return token;
         }
         public UserModel GetUser()
         {
-            UserModel um = new UserModel();
-            um = (UserModel)Session["user"];
+            UserModel um = (UserModel)Session["user"];
+            if(um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
             return um;
         }
         #endregion

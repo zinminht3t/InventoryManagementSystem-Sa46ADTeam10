@@ -18,6 +18,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public disbursement()
         {
             this.disbursementdetails = new HashSet<disbursementdetail>();
+            this.disbursementlockers = new HashSet<disbursementlocker>();
         }
     
         public int disid { get; set; }
@@ -28,5 +29,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<disbursementdetail> disbursementdetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<disbursementlocker> disbursementlockers { get; set; }
     }
 }

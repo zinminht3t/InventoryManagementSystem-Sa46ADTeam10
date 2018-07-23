@@ -14,8 +14,6 @@ namespace LUSSISADTeam10API.Controllers
     [Authorize]
     public class LockerCollectionPointController : ApiController
     {
-
-
         // to show locker list
         [HttpGet]
         [Route("api/lockercollectionpoints")]
@@ -40,8 +38,6 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(lcpms);
 
         }
-
-
         // to get lockerdetail by locker id
         [HttpGet]
         [Route("api/lockercollectionpoint/lockerid/{lockerid}")]
@@ -59,8 +55,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
-
         // to get lockerdetail by lockername
         [HttpGet]
         [Route("api/lockercollectionpoint/lockername/{lockername}")]
@@ -78,10 +72,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
-
-
-
         // to get lockerdetail by lockersize
         [HttpGet]
         [Route("api/lockercollectionpoint/lockersize/{lockersize}")]
@@ -99,8 +89,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
-
         // to get lockerdetail by collection point 
         [HttpGet]
         [Route("api/lockercollectionpoint/cp/{cpid}")]
@@ -118,7 +106,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
         // to update lockerdetail
         [HttpPost]
         [Route("api/lockercollectionpoint/update")]
@@ -136,8 +123,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
-
         // to create new lockerdetail
         [HttpPost]
         [Route("api/lockercollectionpoint/create")]
@@ -151,10 +136,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(lcpm);
         }
-
-
-
-
         [HttpGet]
         [Route("api/lockercollectionpoint/cpname/{cpname}")]
         public IHttpActionResult GetLockerCPByCPName(string cpname)
@@ -172,6 +153,119 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(lcpm);
         }
 
+        [HttpGet]
+        [Route("api/disbursementlocker/reqid/{reqid}")]
+        public IHttpActionResult GetDisbursementLockerByReqID(int reqid)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.GetDisbursementLockerByReqID(reqid, out error);
+            if (error != "" || dislm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Locker Disbursement Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislm);
+        }
 
+        [HttpGet]
+        [Route("api/disbursementlocker/disid/{disid}")]
+        public IHttpActionResult GetDisbursementLockerByDisID(int disid)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.GetDisbursementLockerByDisID(disid, out error);
+            if (error != "" || dislm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Locker Disbursement Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislm);
+        }
+
+        [HttpGet]
+        [Route("api/disbursementlocker/lockerreq/{lockerid}/{reqid}")]
+        public IHttpActionResult GetDisbursementLockerByLockerIDAndReqID(int lockerid, int reqid)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.GetDisbursementLockerByReqIDAndLockerID(reqid, lockerid, out error);
+            if (error != "" || dislm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Locker Disbursement Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislm);
+        }
+
+        [HttpGet]
+        [Route("api/disbursementlockers/lockerid/{lockerid}")]
+        public IHttpActionResult GetDisbursementsLockerByLockerID(int lockerid)
+        {
+            string error = "";
+            List<DisbursementLockerModel> dislms = LockerCollectionPointRepo.GetDisbursementLockersByLockerID(lockerid, out error);
+            if (error != "" || dislms == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Locker Disbursement Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislms);
+        }
+
+        [HttpPost]
+        [Route("api/disbursementlockers/create")]
+        public IHttpActionResult CreateDisbursementLocker(DisbursementLockerModel disl)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.CreateDisbursementLocker(disl, out error);
+            if (error != "" || dislm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislm);
+        }
+
+
+        [HttpPost]
+        [Route("api/disbursementlockers/update")]
+        public IHttpActionResult UpdateDisbursementLocker(DisbursementLockerModel disl)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.UpdateDisbursementLocker(disl, out error);
+            if (error != "" || dislm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dislm);
+        }
+
+        [HttpPost]
+        [Route("api/disbursementlockers/collected")]
+        public IHttpActionResult UpdateDisbursementLockerToCollected(DisbursementLockerModel disl)
+        {
+            string error = "";
+            DisbursementLockerModel dislm = LockerCollectionPointRepo.UpdateDisbursementLocker(disl, out error);
+
+            LockerCollectionPointModel lcpm = LockerCollectionPointRepo.GetLockerCPByLockerid(dislm.LockerID, out error);
+            lcpm.Status = ConLockerCollectionPoint.Active.AVAILABLE;
+            lcpm = LockerCollectionPointRepo.UpdateLockerCP(lcpm, out error);
+
+            if (error != "" || dislm == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+
+
+            return Ok(dislm);
+        }
     }
 }

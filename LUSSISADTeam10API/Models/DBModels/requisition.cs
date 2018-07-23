@@ -18,6 +18,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public requisition()
         {
             this.disbursements = new HashSet<disbursement>();
+            this.disbursementlockers = new HashSet<disbursementlocker>();
             this.outstandingrequisitions = new HashSet<outstandingrequisition>();
             this.requisitiondetails = new HashSet<requisitiondetail>();
         }
@@ -34,6 +35,8 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual department department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<disbursement> disbursements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<disbursementlocker> disbursementlockers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<outstandingrequisition> outstandingrequisitions { get; set; }
         public virtual user user { get; set; }

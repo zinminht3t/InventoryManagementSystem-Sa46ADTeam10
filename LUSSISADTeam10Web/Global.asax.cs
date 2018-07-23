@@ -25,6 +25,7 @@ namespace LUSSISADTeam10Web
         protected void FormsAuthentication_OnAuthenticate(Object sender, FormsAuthenticationEventArgs e)
         {
             if (FormsAuthentication.CookiesSupported == true)
+
             {
                 if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
                 {
@@ -36,13 +37,19 @@ namespace LUSSISADTeam10Web
                         // token = (string) Session["token"];
                         UserModel user = APIAccount.GetUserProfile(token, out string error);
                         roles = ConUser.CovertRoletoRoleString(user.Role);
+
+                        if(user != null && token != null)
+                        {
+
+                        }
+
                         e.User = new System.Security.Principal.GenericPrincipal(
-                          new System.Security.Principal.GenericIdentity(user.Username, "Forms"), roles.Split(';'));
+                          new System.Security.Principal.GenericIdentity(user.Fullname, "Forms"), roles.Split(';'));
                     }
                     catch (Exception ex)
                     {
-                       var blah =  ex.Message;
-
+                        var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                        Response.Redirect(urlHelper.Action("Login", "Account"));
                     }
                 }
             }
