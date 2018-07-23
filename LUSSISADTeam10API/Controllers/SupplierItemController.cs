@@ -144,5 +144,25 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sim);
         }
+
+
+        // to import with excel file
+        [HttpPost]
+        [Route("api/supplieritem/importsupplier")]
+        public IHttpActionResult importsupplier(List<SupplierItemModel> supitemlist)
+        {
+            string error = "";
+            List<SupplierItemModel> sim = SupplierItemRepo
+                .importsupplier(supitemlist, out error);
+            if (error != "" || sim == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Supplier Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(sim);
+        }
     }
 }
