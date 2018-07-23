@@ -185,6 +185,7 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -1340,12 +1341,16 @@
     <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
     <Content Include="Views\Supervisor\Approve.cshtml" />
-    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
-    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
-    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
-    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
+    <Content Include="Views\Manager\Approve.cshtml" />
     <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\csvsupplier1.cshtml" />
+    <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
+    <Content Include="Views\Clerk\ItemTran.cshtml" />
+    <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
+    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

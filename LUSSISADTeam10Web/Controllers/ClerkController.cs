@@ -366,7 +366,6 @@ namespace LUSSISADTeam10Web.Controllers
             invm.Stock = viewmodel.Stock;
             invm.ReorderLevel = viewmodel.ReorderLevel;
             invm.ReorderQty = viewmodel.ReorderQty;
-            //it.Itemid = viewmodel.Itemid;
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
 
@@ -384,7 +383,85 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
+        /////////
 
+        public ActionResult SearchByTransDate(DateTime? startdate,DateTime? enddate)
+
+        {
+            string token = GetToken();
+            InventoryTransactionViewModel viewmodel = new InventoryTransactionViewModel();
+            List<InventoryTransactionModel> intlm = new List<InventoryTransactionModel>();
+            ItemModel item = new ItemModel();
+            try
+            {
+                if (startdate == null)
+                    startdate = new DateTime(1900, 01, 01);
+                if (enddate == null)
+                    enddate = new DateTime(2900, 01, 01);
+                intlm =APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out string error);
+                viewmodel.InvTrans = new List<InventoryTransactionResultViewModel>();
+                
+                foreach (InventoryTransactionModel i in intlm)
+                {
+                    
+                   item= APIItem.GetItemByItemID(i.ItemID, token, out error);
+                    var result = new InventoryTransactionResultViewModel();         
+                    result.ItemID = i.ItemID;
+                    result.Description = i.Description;
+                    result.UOM = i.UOM;
+                    result.Qty = i.Qty;
+                    result.Date=i.TransDate;
+                    viewmodel.InvTrans.Add(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return View(viewmodel);
+        }
+        public ActionResult ItemTran(DateTime? startdate, DateTime? enddate, int id = 0)
+        {
+            string token = GetToken();
+            InventoryTransactionModel invm = new InventoryTransactionModel();
+            ViewBag.InventoryModel = invm;
+            InventoryTransactionViewModel viewmodel = new InventoryTransactionViewModel();
+           
+            List<InventoryTransactionModel> intlm = new List<InventoryTransactionModel>();
+
+            try
+            {
+                if (startdate == null || enddate == null)
+                {
+                    intlm = APIInventoryTranscation.GetInventoryTransactionByItemID(id, token, out string error);
+                }
+                else
+                {
+                    intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out string error);
+                    intlm = intlm.Where(p => p.ItemID == id).ToList();
+                }
+                viewmodel.InvTrans = new List<InventoryTransactionResultViewModel>();
+
+                foreach (InventoryTransactionModel i in intlm)
+                {
+
+                    var result = new InventoryTransactionResultViewModel();
+                    result.ItemID = i.ItemID;
+                    result.Description = i.Description;
+                    result.UOM = i.UOM;
+                    result.Qty = i.Qty;
+                    result.Date = i.TransDate;
+                    result.Remark= i.Remark;
+                    result.Transtype = i.TransType;
+                    viewmodel.InvTrans.Add(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return View(viewmodel);
+        }
         //END TAZ
 
         //Start Mahsu
