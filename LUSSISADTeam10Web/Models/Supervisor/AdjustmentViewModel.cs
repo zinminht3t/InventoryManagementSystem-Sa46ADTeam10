@@ -16,6 +16,7 @@ namespace LUSSISADTeam10Web.Models.Supervisor
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? Issueddate { get; set; }
         public List<AdjustmentDetailViewModel> adjdvm { get; set; }
+        public double TotalPrice { get; set; }
     }
     public class AdjustmentDetailViewModel
     {

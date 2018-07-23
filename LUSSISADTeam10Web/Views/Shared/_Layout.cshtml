@@ -68,7 +68,7 @@
                             <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
+                            <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Change Collection Points </a>
                         </li>
                         <li>
                             <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
@@ -99,7 +99,7 @@
                             <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
                         </li>
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>History </a>
+                            <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>Order History </a>
                         </li>
 
                     </ul>
@@ -158,15 +158,21 @@
                     <li>
                         <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
                     </li>
+                    <li>
+                        <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                    </li>
 }
 else if (Session["Role"].ToString() == "3")
 {
                     <li class="active">
-                        <a href="@Url.Action("Approve","Supervisor")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
+                        <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
                     </li>
                     <h3 class="menu-title">Manager</h3>
                     <li>
                         <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
                     </li>
 }
 
@@ -176,7 +182,6 @@ else
                         <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                     </li>
 }
-
 
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>

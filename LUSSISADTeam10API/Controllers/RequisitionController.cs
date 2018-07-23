@@ -254,12 +254,13 @@ namespace LUSSISADTeam10API.Controllers
 
         // to deliver requisitions
         [HttpGet]
-        [Route("api/requisition/deliver/bydept/{deptId}")]
-        public IHttpActionResult deliverReqsByDeptId(int deptId)
+        [Route("api/requisition/deliver/bydept/{deptId}/{cpId}")]
+        public IHttpActionResult deliverReqsByDeptId(int deptId, int cpId)
         {
             string error = "";
             List<RequisitionModel> returnList = new List<RequisitionModel>();
-            List<RequisitionModel> rms = RequisitionRepo.GetRequisitionByDepid(deptId, out error);
+            List<RequisitionModel> rms = RequisitionRepo.GetRequisitionByDepid(deptId, out error)
+                .Where(x => x.Cpid.Equals(cpId)).ToList();
             foreach (RequisitionModel req in rms)
             {
                 if (req.Status.Equals(ConRequisition.Status.PREPARING))

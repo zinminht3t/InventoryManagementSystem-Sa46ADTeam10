@@ -2,7 +2,7 @@
 @using LUSSISADTeam10Web.Constants;
 
 @{
-    ViewBag.Title = "Approve";
+    ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Supervisor")">Dashboard</a></li>
-                    <li class="active">Pending Approval</li>
+                    <li class="active">History</li>
                 </ol>
             </div>
         </div>
@@ -33,14 +33,13 @@
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Awaiting Approval List </strong>
+                <strong class="card-title"> History Adjustment List </strong>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
                     <div class="col-sm-12">
-
                         <table class="table">
                             <tr>
                                 <th>
@@ -52,7 +51,9 @@
                                 <th>
                                     Reported To
                                 </th>
-                                <th></th>
+                                <th>
+                                    Total Price
+                                </th>
                             </tr>
 
                             @foreach (var item in Model)
@@ -68,19 +69,7 @@
                                         @Html.DisplayFor(modelItem => item.RaisedTobyname)
                                     </td>
                                     <td>
-                                        @{
-                                            string Disabled = "";
-                                            string color = "";
-                                            if (item.RaisedToRole == ConUser.Role.SUPERVISOR)
-                                            {
-                                                Disabled = "disabled";
-                                                color = "grey";
-                                            }
-                                        }
-                                        @using (Html.BeginForm("Approve", "Manager", new { id = item.Adjid }))
-                                        {
-                                            <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
-                                        }
+                                        $@Html.DisplayFor(modelItem=> item.TotalPrice)
                                     </td>
                                 </tr>
                                 <tr>
