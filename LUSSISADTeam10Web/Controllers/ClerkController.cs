@@ -252,15 +252,7 @@ namespace LUSSISADTeam10Web.Controllers
                         {
 
 
-                            SupplierModel p = new SupplierModel();
-                            p.SupId = int.Parse(((Excel.Range)range.Cells[row, 1]).Text);
-                            p.SupName = ((Excel.Range)range.Cells[row, 2]).Text;
-                            p.ItemId = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
-                            p.Description = ((Excel.Range)range.Cells[row, 4]).Text;
-                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 5]).Text);
-                            p.Uom = ((Excel.Range)range.Cells[row, 6]).Text;
-                            p.CategoryName = ((Excel.Range)range.Cells[row, 7]).Text;
-                            SuppItem.Add(p);
+                        
                         }
 
 
