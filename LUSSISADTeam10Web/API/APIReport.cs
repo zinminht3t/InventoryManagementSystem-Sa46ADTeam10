@@ -35,11 +35,28 @@ namespace LUSSISADTeam10Web.API
             return micl;
         }
 
+        public static List<MonthlyItemUsageByClerkModel> GetItemUsageByClerk(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/pi/ItemUsageByClerk/";
+            List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
+            return micl;
+        }
+
+
+
 
 
         public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, string fristdepartname, string seconddepartname, string thirddepartname, string description)
         {
             string url = APIHelper.Baseurl + "/api/ItemTrendAnalysis/" + fristdepartname + seconddepartname + thirddepartname + description;
+            List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
+            return itam;
+        }
+
+
+        public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/api/ItemTrendAnalysis/";
             List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
             return itam;
         }
