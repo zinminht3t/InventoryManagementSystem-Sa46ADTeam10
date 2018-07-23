@@ -41,10 +41,10 @@
                     if (item.RaisedToRole == ConUser.Role.SUPERVISOR)
                     {
                         Disabled = "disabled";
-                        color = "lightgrey";
+                        color = "grey";
                     }
                 }
-                @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
+                @using (Html.BeginForm("Approve", "Manager", new { id = item.Adjid }))
                 {
                     <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
                 }
@@ -58,31 +58,34 @@
             <th>Price</th>
             <th>Reason</th>
         </tr>
-        foreach (var i in item.adjdvm)
-        {
+                 foreach (var i in item.adjdvm)
+                        {
 
-            <tr style="border:hidden;width:inherit">
-                <td>
-                    @Html.DisplayFor(modelItem => i.CategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.Itemdescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.Adjustedqty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.UOM)
-                </td>
-                <td>
-                    $@Html.DisplayFor(modelItem => i.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.Reason)
-                </td>
-            </tr>
-        }
+        <tr style="border:hidden;width:inherit">
+            <td>
+                @Html.DisplayFor(modelItem => i.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.Itemdescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.Adjustedqty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.UOM)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => i.Price)
+            </td>
+            <td>
+                @if (i.Reason == "" || i.Reason == null)
+                {
+                    i.Reason = "_";
+                }
+            @Html.DisplayFor(modelItem => i.Reason)
+            </td>
+        </tr>
+                            }
 
-
-    }
+                        }
 </table>

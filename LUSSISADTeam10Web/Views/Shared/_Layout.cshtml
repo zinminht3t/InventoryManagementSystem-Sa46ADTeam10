@@ -150,22 +150,34 @@
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-                        {
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        }
-                        else
-                        {
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        }
+    {
+                    <li class="active">
+                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                    </li>
+                    <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
+                    <li>
+                        <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                    </li>
+}
+else if (Session["Role"].ToString() == "3")
+{
+                    <li class="active">
+                        <a href="@Url.Action("Approve","Supervisor")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
+                    </li>
+                    <h3 class="menu-title">Manager</h3>
+                    <li>
+                        <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                    </li>
+}
 
-                        <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment </a>
-                        </li>
+else
+{
+                    <li class="active">
+                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                    </li>
+}
+
+
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                             <ul class="sub-menu children dropdown-menu">

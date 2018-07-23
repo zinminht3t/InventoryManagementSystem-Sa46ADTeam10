@@ -77,6 +77,10 @@
                         $@Html.DisplayFor(modelItem => i.Price)
                     </td>
                     <td>
+                        @if (i.Reason == "" || i.Reason == null)
+    {
+        i.Reason = "_";
+    }
                         @Html.DisplayFor(modelItem => i.Reason)
                     </td>
                 </tr>
