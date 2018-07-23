@@ -759,6 +759,8 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 inendetail = APIInventory.GetAllInventoryDetails(token, out string error);
 
+                inendetail = inendetail.Where(p => p.RecommendedOrderQty > 0).ToList();
+
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
