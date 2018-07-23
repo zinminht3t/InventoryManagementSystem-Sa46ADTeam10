@@ -1,0 +1,126 @@
+﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryTransactionViewModel
+
+    @section Styles {
+        <style>
+        </style>
+    }
+
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>SearchItembyTransDate</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title"> SearchItembyTransactionDate</strong>
+                </div>
+                <div class="card-body">
+                    <form asp-action="SearchByTransDate" asp-controller="Clerk" method="get">
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.StartDate)
+                                @Html.TextBoxFor(model => model.StartDate, new { id = "datepicker" })
+                            </div>
+                            <div class="col-sm-4">
+
+                                @Html.LabelFor(model => model.EndDate)
+                                @Html.TextBoxFor(model => model.EndDate, new { id = "datepicker1" })
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="Submit" class="btn btn-outline-success pull-left btn-flat m-b-30 m-t-30" value="Search">
+                            </div>
+
+
+                        </div>
+                        </form>
+
+                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].ItemID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].UOM)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Qty)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Date)
+                                    </th>
+                                </tr>
+
+                                @foreach (var item in Model.InvTrans)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UOM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Qty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                </tr>
+                                }
+
+                            </table>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+        @section Scripts {
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="/resources/demos/style.css">
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+                $(function () {
+                    $("#datepicker").datepicker();
+                    $("#datepicker").datepicker('option', "showAnim", 'slide');
+
+                    $("#datepicker1").datepicker();
+                    $("#datepicker1").datepicker('option', "showAnim", 'slide');
+
+
+                });
+            </script>
+        }
+

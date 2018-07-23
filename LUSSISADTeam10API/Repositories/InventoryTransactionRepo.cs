@@ -181,7 +181,7 @@ namespace LUSSISADTeam10API.Repositories
             List<InventoryTransactionModel> invtms = new List<InventoryTransactionModel>();
             try
             {
-                invts = entities.inventorytransactions.Where(p => p.datetime.Date >= startdate.Date && p.datetime.Date <= enddate.Date).ToList<inventorytransaction>();
+                invts = entities.inventorytransactions.Where(p => p.datetime >= startdate && p.datetime <= enddate).ToList<inventorytransaction>();
                 foreach (inventorytransaction invt in invts)
                 {
                     invtms.Add(ConvertDBModeltoAPIModel(invt));

@@ -13,7 +13,7 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee, DepartmentRep")]
     public class EmployeeController : Controller
     {
         // GET: Employee

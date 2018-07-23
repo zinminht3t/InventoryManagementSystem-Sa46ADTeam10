@@ -130,7 +130,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetInventoryTransactionByTransDate(DateTime startdate, DateTime enddate)
         {
             string error = "";
-            List<InventoryTransactionModel> invtms = InventoryTransactionRepo.GetInventoryTransactionsByTransDateRange(startdate, enddate, out error);
+            List<InventoryTransactionModel> invtms = InventoryTransactionRepo.GetInventoryTransactionsByTransDateRange(startdate, enddate.AddDays(1), out error);
             if (error != "" || invtms == null)
             {
                 if (error == ConError.Status.NOTFOUND)

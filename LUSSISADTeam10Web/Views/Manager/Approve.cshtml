@@ -1,0 +1,91 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.Supervisor.AdjustmentViewModel>
+@using LUSSISADTeam10Web.Constants;
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            Issued Date
+        </th>
+        <th>
+            Reported By
+        </th>
+        <th>
+            Reported To
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="background-color:lightblue">
+            <td>
+                @Html.DisplayFor(modelItem => item.Issueddate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Raisedbyname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RaisedTobyname)
+            </td>
+            <td></td>
+            <td>
+                @{
+                    string Disabled = "";
+                    string color = "";
+                    if (item.RaisedToRole == ConUser.Role.SUPERVISOR)
+                    {
+                        Disabled = "disabled";
+                        color = "grey";
+                    }
+                }
+                @using (Html.BeginForm("Approve", "Manager", new { id = item.Adjid }))
+                {
+                    <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <th>Item</th>
+            <th>Adjusted Qty</th>
+            <th>UOM</th>
+            <th>Price</th>
+            <th>Reason</th>
+        </tr>
+                 foreach (var i in item.adjdvm)
+                        {
+
+        <tr style="border:hidden;width:inherit">
+            <td>
+                @Html.DisplayFor(modelItem => i.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.Itemdescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.Adjustedqty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => i.UOM)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => i.Price)
+            </td>
+            <td>
+                @if (i.Reason == "" || i.Reason == null)
+                {
+                    i.Reason = "_";
+                }
+            @Html.DisplayFor(modelItem => i.Reason)
+            </td>
+        </tr>
+                            }
+
+                        }
+</table>
