@@ -91,6 +91,20 @@
           <Property Name="itemid" Type="int" Nullable="false" />
           <Property Name="qty" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="disbursementlocker">
+          <Key>
+            <PropertyRef Name="disid" />
+            <PropertyRef Name="reqid" />
+            <PropertyRef Name="lockerid" />
+          </Key>
+          <Property Name="disid" Type="int" Nullable="false" />
+          <Property Name="reqid" Type="int" Nullable="false" />
+          <Property Name="lockerid" Type="int" Nullable="false" />
+          <Property Name="delivereddate" Type="datetime" Nullable="false" />
+          <Property Name="collecteddate" Type="datetime" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+          <Property Name="deptid" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="inventory">
           <Key>
             <PropertyRef Name="invid" />
@@ -192,7 +206,7 @@
           <Property Name="deptid" Type="int" Nullable="false" />
           <Property Name="cpid" Type="int" Nullable="false" />
           <Property Name="status" Type="int" Nullable="false" />
-          <Property Name="reqdate" Type="date" />
+          <Property Name="reqdate" Type="datetime" />
         </EntityType>
         <EntityType Name="requisitiondetail">
           <Key>
@@ -244,6 +258,71 @@
           <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="role" Type="int" Nullable="false" />
           <Property Name="fullname" Type="varchar" MaxLength="50" />
+          <Property Name="deptid" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.FrequentlyTop5ItemsDashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FrequentlyTop5ItemsDashboard">
+          <Key>
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Name="itemid" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="Total Order Qty" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.ItemTrendAnalysis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ItemTrendAnalysis">
+          <Key>
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="deptid" />
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Name="DepartmentName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item Name" Type="varchar" MaxLength="200" />
+          <Property Name="Item Usage" Type="int" />
+          <Property Name="deptid" Type="int" Nullable="false" />
+          <Property Name="itemid" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.MonthItemUsage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthItemUsage">
+          <Key>
+            <PropertyRef Name="supname" />
+          </Key>
+          <Property Name="Item " Type="varchar" MaxLength="200" />
+          <Property Name="Usage Item" Type="int" />
+          <Property Name="Month Name" Type="int" />
+          <Property Name="supname" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.MonthlyItemUsageByHOD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthlyItemUsageByHOD">
+          <Key>
+            <PropertyRef Name="Quantity" />
+          </Key>
+          <Property Name="Item" Type="varchar" MaxLength="200" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Unit of Measurement" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.OrderByDepartmentDarshboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OrderByDepartmentDarshboard">
+          <Key>
+            <PropertyRef Name="deptname" />
+          </Key>
+          <Property Name="Total Order Qty" Type="int" />
+          <Property Name="deptname" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.RequistionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequistionList">
+          <Key>
+            <PropertyRef Name="deptid" />
+          </Key>
+          <Property Name="reqdate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="29" />
           <Property Name="deptid" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_adjustment_user">
@@ -387,6 +466,54 @@
             </Principal>
             <Dependent Role="disbursementdetail">
               <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_disbursement">
+          <End Role="disbursement" Type="Self.disbursement" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="disbursement">
+              <PropertyRef Name="disid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="disid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_lockercollectionpoint">
+          <End Role="lockercollectionpoint" Type="Self.lockercollectionpoint" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lockercollectionpoint">
+              <PropertyRef Name="lockerid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="lockerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_requisition">
+          <End Role="requisition" Type="Self.requisition" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="requisition">
+              <PropertyRef Name="reqid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="reqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -664,6 +791,7 @@
           <EntitySet Name="departmentcollectionpoint" EntityType="Self.departmentcollectionpoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="disbursement" EntityType="Self.disbursement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="disbursementdetail" EntityType="Self.disbursementdetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="disbursementlocker" EntityType="Self.disbursementlocker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inventorytransaction" EntityType="Self.inventorytransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
@@ -679,6 +807,51 @@
           <EntitySet Name="supplieritem" EntityType="Self.supplieritem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FrequentlyTop5ItemsDashboard" EntityType="Self.FrequentlyTop5ItemsDashboard" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FrequentlyTop5ItemsDashboard].[itemid] AS [itemid], 
+    [FrequentlyTop5ItemsDashboard].[description] AS [description], 
+    [FrequentlyTop5ItemsDashboard].[Total Order Qty] AS [Total Order Qty]
+    FROM [dbo].[FrequentlyTop5ItemsDashboard] AS [FrequentlyTop5ItemsDashboard]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ItemTrendAnalysis" EntityType="Self.ItemTrendAnalysis" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ItemTrendAnalysis].[DepartmentName] AS [DepartmentName], 
+    [ItemTrendAnalysis].[Item Name] AS [Item Name], 
+    [ItemTrendAnalysis].[Item Usage] AS [Item Usage], 
+    [ItemTrendAnalysis].[deptid] AS [deptid], 
+    [ItemTrendAnalysis].[itemid] AS [itemid]
+    FROM [dbo].[ItemTrendAnalysis] AS [ItemTrendAnalysis]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MonthItemUsage" EntityType="Self.MonthItemUsage" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthItemUsage].[Item ] AS [Item ], 
+    [MonthItemUsage].[Usage Item] AS [Usage Item], 
+    [MonthItemUsage].[Month Name] AS [Month Name], 
+    [MonthItemUsage].[supname] AS [supname]
+    FROM [dbo].[MonthItemUsage] AS [MonthItemUsage]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MonthlyItemUsageByHOD" EntityType="Self.MonthlyItemUsageByHOD" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthlyItemUsageByHOD].[Item] AS [Item], 
+    [MonthlyItemUsageByHOD].[Category] AS [Category], 
+    [MonthlyItemUsageByHOD].[Quantity] AS [Quantity], 
+    [MonthlyItemUsageByHOD].[Unit of Measurement] AS [Unit of Measurement]
+    FROM [dbo].[MonthlyItemUsageByHOD] AS [MonthlyItemUsageByHOD]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="OrderByDepartmentDarshboard" EntityType="Self.OrderByDepartmentDarshboard" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OrderByDepartmentDarshboard].[Total Order Qty] AS [Total Order Qty], 
+    [OrderByDepartmentDarshboard].[deptname] AS [deptname]
+    FROM [dbo].[OrderByDepartmentDarshboard] AS [OrderByDepartmentDarshboard]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequistionList" EntityType="Self.RequistionList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequistionList].[reqdate] AS [reqdate], 
+    [RequistionList].[Status] AS [Status], 
+    [RequistionList].[deptid] AS [deptid]
+    FROM [dbo].[RequistionList] AS [RequistionList]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_adjustment_user" Association="Self.FK_adjustment_user">
             <End Role="user" EntitySet="user" />
             <End Role="adjustment" EntitySet="adjustment" />
@@ -726,6 +899,22 @@
           <AssociationSet Name="FK_disbursementdetail_item" Association="Self.FK_disbursementdetail_item">
             <End Role="item" EntitySet="item" />
             <End Role="disbursementdetail" EntitySet="disbursementdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_department" Association="Self.FK_disbursementlocker_department">
+            <End Role="department" EntitySet="department" />
+            <End Role="disbursementlocker" EntitySet="disbursementlocker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_disbursement" Association="Self.FK_disbursementlocker_disbursement">
+            <End Role="disbursement" EntitySet="disbursement" />
+            <End Role="disbursementlocker" EntitySet="disbursementlocker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_lockercollectionpoint" Association="Self.FK_disbursementlocker_lockercollectionpoint">
+            <End Role="lockercollectionpoint" EntitySet="lockercollectionpoint" />
+            <End Role="disbursementlocker" EntitySet="disbursementlocker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_requisition" Association="Self.FK_disbursementlocker_requisition">
+            <End Role="requisition" EntitySet="requisition" />
+            <End Role="disbursementlocker" EntitySet="disbursementlocker" />
           </AssociationSet>
           <AssociationSet Name="FK_inventory_item" Association="Self.FK_inventory_item">
             <End Role="item" EntitySet="item" />
@@ -892,6 +1081,7 @@
           <Property Name="deptphone" Type="Int32" />
           <Property Name="deptemail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="departmentcollectionpoints" Relationship="Self.FK_departmentcollectionpoint_department1" FromRole="department" ToRole="departmentcollectionpoint" />
+          <NavigationProperty Name="disbursementlockers" Relationship="Self.FK_disbursementlocker_department" FromRole="department" ToRole="disbursementlocker" />
           <NavigationProperty Name="notifications" Relationship="Self.FK_notification_department" FromRole="department" ToRole="notification" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_department" FromRole="department" ToRole="requisition" />
           <NavigationProperty Name="users" Relationship="Self.FK_user_department" FromRole="department" ToRole="user" />
@@ -917,6 +1107,7 @@
           <NavigationProperty Name="requisition" Relationship="Self.FK_disbursement_requisition1" FromRole="disbursement" ToRole="requisition" />
           <NavigationProperty Name="user" Relationship="Self.FK_disbursement_user1" FromRole="disbursement" ToRole="user" />
           <NavigationProperty Name="disbursementdetails" Relationship="Self.FK_disbursementdetail_disbursement" FromRole="disbursement" ToRole="disbursementdetail" />
+          <NavigationProperty Name="disbursementlockers" Relationship="Self.FK_disbursementlocker_disbursement" FromRole="disbursement" ToRole="disbursementlocker" />
         </EntityType>
         <EntityType Name="disbursementdetail">
           <Key>
@@ -928,6 +1119,24 @@
           <Property Name="qty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="disbursement" Relationship="Self.FK_disbursementdetail_disbursement" FromRole="disbursementdetail" ToRole="disbursement" />
           <NavigationProperty Name="item" Relationship="Self.FK_disbursementdetail_item" FromRole="disbursementdetail" ToRole="item" />
+        </EntityType>
+        <EntityType Name="disbursementlocker">
+          <Key>
+            <PropertyRef Name="disid" />
+            <PropertyRef Name="reqid" />
+            <PropertyRef Name="lockerid" />
+          </Key>
+          <Property Name="disid" Type="Int32" Nullable="false" />
+          <Property Name="reqid" Type="Int32" Nullable="false" />
+          <Property Name="lockerid" Type="Int32" Nullable="false" />
+          <Property Name="delivereddate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="collecteddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+          <Property Name="deptid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="department" Relationship="Self.FK_disbursementlocker_department" FromRole="disbursementlocker" ToRole="department" />
+          <NavigationProperty Name="disbursement" Relationship="Self.FK_disbursementlocker_disbursement" FromRole="disbursementlocker" ToRole="disbursement" />
+          <NavigationProperty Name="lockercollectionpoint" Relationship="Self.FK_disbursementlocker_lockercollectionpoint" FromRole="disbursementlocker" ToRole="lockercollectionpoint" />
+          <NavigationProperty Name="requisition" Relationship="Self.FK_disbursementlocker_requisition" FromRole="disbursementlocker" ToRole="requisition" />
         </EntityType>
         <EntityType Name="inventory">
           <Key>
@@ -983,6 +1192,7 @@
           <Property Name="cpid" Type="Int32" Nullable="false" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="collectionpoint" Relationship="Self.FK_lockercollectionpoint_collectionpoint" FromRole="lockercollectionpoint" ToRole="collectionpoint" />
+          <NavigationProperty Name="disbursementlockers" Relationship="Self.FK_disbursementlocker_lockercollectionpoint" FromRole="lockercollectionpoint" ToRole="disbursementlocker" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -1054,10 +1264,11 @@
           <Property Name="deptid" Type="Int32" Nullable="false" />
           <Property Name="cpid" Type="Int32" Nullable="false" />
           <Property Name="status" Type="Int32" Nullable="false" />
-          <Property Name="reqdate" Type="DateTime" Precision="0" />
+          <Property Name="reqdate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="collectionpoint" Relationship="Self.FK_requisition_collectionpoint" FromRole="requisition" ToRole="collectionpoint" />
           <NavigationProperty Name="department" Relationship="Self.FK_requisition_department" FromRole="requisition" ToRole="department" />
           <NavigationProperty Name="disbursements" Relationship="Self.FK_disbursement_requisition1" FromRole="requisition" ToRole="disbursement" />
+          <NavigationProperty Name="disbursementlockers" Relationship="Self.FK_disbursementlocker_requisition" FromRole="requisition" ToRole="disbursementlocker" />
           <NavigationProperty Name="outstandingrequisitions" Relationship="Self.FK_outstandingrequisition_requisition" FromRole="requisition" ToRole="outstandingrequisition" />
           <NavigationProperty Name="user" Relationship="Self.FK_requisition_user" FromRole="requisition" ToRole="user" />
           <NavigationProperty Name="user1" Relationship="Self.FK_requisition_user2" FromRole="requisition" ToRole="user" />
@@ -1129,6 +1340,59 @@
           <NavigationProperty Name="purchaseorders" Relationship="Self.FK_purchaseorder_user" FromRole="user" ToRole="purchaseorder" />
           <NavigationProperty Name="requisitions" Relationship="Self.FK_requisition_user" FromRole="user" ToRole="requisition" />
           <NavigationProperty Name="requisitions1" Relationship="Self.FK_requisition_user2" FromRole="user" ToRole="requisition" />
+        </EntityType>
+        <EntityType Name="FrequentlyTop5ItemsDashboard">
+          <Key>
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Name="itemid" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Total_Order_Qty" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ItemTrendAnalysi">
+          <Key>
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="deptid" />
+            <PropertyRef Name="itemid" />
+          </Key>
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Item_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Item_Usage" Type="Int32" />
+          <Property Name="deptid" Type="Int32" Nullable="false" />
+          <Property Name="itemid" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MonthItemUsage">
+          <Key>
+            <PropertyRef Name="supname" />
+          </Key>
+          <Property Name="Item_" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Usage_Item" Type="Int32" />
+          <Property Name="Month_Name" Type="Int32" />
+          <Property Name="supname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MonthlyItemUsageByHOD">
+          <Key>
+            <PropertyRef Name="Quantity" />
+          </Key>
+          <Property Name="Item" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Unit_of_Measurement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OrderByDepartmentDarshboard">
+          <Key>
+            <PropertyRef Name="deptname" />
+          </Key>
+          <Property Name="Total_Order_Qty" Type="Int32" />
+          <Property Name="deptname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequistionList">
+          <Key>
+            <PropertyRef Name="deptid" />
+          </Key>
+          <Property Name="reqdate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="29" FixedLength="false" Unicode="false" />
+          <Property Name="deptid" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_adjustment_user">
           <End Role="user" Type="Self.user" Multiplicity="0..1" />
@@ -1262,6 +1526,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_disbursementlocker_department">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="deptid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="deptid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_notification_department">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="notification" Type="Self.notification" Multiplicity="*" />
@@ -1334,6 +1610,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_disbursementlocker_disbursement">
+          <End Role="disbursement" Type="Self.disbursement" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="disbursement">
+              <PropertyRef Name="disid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="disid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_disbursementdetail_item">
           <End Role="item" Type="Self.item" Multiplicity="1" />
           <End Role="disbursementdetail" Type="Self.disbursementdetail" Multiplicity="*" />
@@ -1343,6 +1631,30 @@
             </Principal>
             <Dependent Role="disbursementdetail">
               <PropertyRef Name="itemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_lockercollectionpoint">
+          <End Role="lockercollectionpoint" Type="Self.lockercollectionpoint" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lockercollectionpoint">
+              <PropertyRef Name="lockerid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="lockerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disbursementlocker_requisition">
+          <End Role="requisition" Type="Self.requisition" Multiplicity="1" />
+          <End Role="disbursementlocker" Type="Self.disbursementlocker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="requisition">
+              <PropertyRef Name="reqid" />
+            </Principal>
+            <Dependent Role="disbursementlocker">
+              <PropertyRef Name="reqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1548,6 +1860,7 @@
           <EntitySet Name="departmentcollectionpoints" EntityType="Self.departmentcollectionpoint" />
           <EntitySet Name="disbursements" EntityType="Self.disbursement" />
           <EntitySet Name="disbursementdetails" EntityType="Self.disbursementdetail" />
+          <EntitySet Name="disbursementlockers" EntityType="Self.disbursementlocker" />
           <EntitySet Name="inventories" EntityType="Self.inventory" />
           <EntitySet Name="inventorytransactions" EntityType="Self.inventorytransaction" />
           <EntitySet Name="items" EntityType="Self.item" />
@@ -1563,6 +1876,12 @@
           <EntitySet Name="supplieritems" EntityType="Self.supplieritem" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="FrequentlyTop5ItemsDashboard" EntityType="Self.FrequentlyTop5ItemsDashboard" />
+          <EntitySet Name="ItemTrendAnalysis" EntityType="Self.ItemTrendAnalysi" />
+          <EntitySet Name="MonthItemUsages" EntityType="Self.MonthItemUsage" />
+          <EntitySet Name="MonthlyItemUsageByHODs" EntityType="Self.MonthlyItemUsageByHOD" />
+          <EntitySet Name="OrderByDepartmentDarshboards" EntityType="Self.OrderByDepartmentDarshboard" />
+          <EntitySet Name="RequistionLists" EntityType="Self.RequistionList" />
           <AssociationSet Name="FK_adjustment_user" Association="Self.FK_adjustment_user">
             <End Role="user" EntitySet="users" />
             <End Role="adjustment" EntitySet="adjustments" />
@@ -1607,6 +1926,10 @@
             <End Role="department" EntitySet="departments" />
             <End Role="departmentcollectionpoint" EntitySet="departmentcollectionpoints" />
           </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_department" Association="Self.FK_disbursementlocker_department">
+            <End Role="department" EntitySet="departments" />
+            <End Role="disbursementlocker" EntitySet="disbursementlockers" />
+          </AssociationSet>
           <AssociationSet Name="FK_notification_department" Association="Self.FK_notification_department">
             <End Role="department" EntitySet="departments" />
             <End Role="notification" EntitySet="notifications" />
@@ -1631,9 +1954,21 @@
             <End Role="disbursement" EntitySet="disbursements" />
             <End Role="disbursementdetail" EntitySet="disbursementdetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_disbursement" Association="Self.FK_disbursementlocker_disbursement">
+            <End Role="disbursement" EntitySet="disbursements" />
+            <End Role="disbursementlocker" EntitySet="disbursementlockers" />
+          </AssociationSet>
           <AssociationSet Name="FK_disbursementdetail_item" Association="Self.FK_disbursementdetail_item">
             <End Role="item" EntitySet="items" />
             <End Role="disbursementdetail" EntitySet="disbursementdetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_lockercollectionpoint" Association="Self.FK_disbursementlocker_lockercollectionpoint">
+            <End Role="lockercollectionpoint" EntitySet="lockercollectionpoints" />
+            <End Role="disbursementlocker" EntitySet="disbursementlockers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disbursementlocker_requisition" Association="Self.FK_disbursementlocker_requisition">
+            <End Role="requisition" EntitySet="requisitions" />
+            <End Role="disbursementlocker" EntitySet="disbursementlockers" />
           </AssociationSet>
           <AssociationSet Name="FK_inventory_item" Association="Self.FK_inventory_item">
             <End Role="item" EntitySet="items" />
@@ -1799,6 +2134,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="disbursementlockers">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.disbursementlocker">
+              <MappingFragment StoreEntitySet="disbursementlocker">
+                <ScalarProperty Name="disid" ColumnName="disid" />
+                <ScalarProperty Name="reqid" ColumnName="reqid" />
+                <ScalarProperty Name="lockerid" ColumnName="lockerid" />
+                <ScalarProperty Name="delivereddate" ColumnName="delivereddate" />
+                <ScalarProperty Name="collecteddate" ColumnName="collecteddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="inventories">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.inventory">
               <MappingFragment StoreEntitySet="inventory">
@@ -1961,6 +2309,63 @@
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FrequentlyTop5ItemsDashboard">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.FrequentlyTop5ItemsDashboard">
+              <MappingFragment StoreEntitySet="FrequentlyTop5ItemsDashboard">
+                <ScalarProperty Name="itemid" ColumnName="itemid" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Total_Order_Qty" ColumnName="Total Order Qty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemTrendAnalysis">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.ItemTrendAnalysi">
+              <MappingFragment StoreEntitySet="ItemTrendAnalysis">
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Item_Name" ColumnName="Item Name" />
+                <ScalarProperty Name="Item_Usage" ColumnName="Item Usage" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="itemid" ColumnName="itemid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthItemUsages">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.MonthItemUsage">
+              <MappingFragment StoreEntitySet="MonthItemUsage">
+                <ScalarProperty Name="Item_" ColumnName="Item " />
+                <ScalarProperty Name="Usage_Item" ColumnName="Usage Item" />
+                <ScalarProperty Name="Month_Name" ColumnName="Month Name" />
+                <ScalarProperty Name="supname" ColumnName="supname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthlyItemUsageByHODs">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.MonthlyItemUsageByHOD">
+              <MappingFragment StoreEntitySet="MonthlyItemUsageByHOD">
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Unit_of_Measurement" ColumnName="Unit of Measurement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderByDepartmentDarshboards">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.OrderByDepartmentDarshboard">
+              <MappingFragment StoreEntitySet="OrderByDepartmentDarshboard">
+                <ScalarProperty Name="Total_Order_Qty" ColumnName="Total Order Qty" />
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequistionLists">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.RequistionList">
+              <MappingFragment StoreEntitySet="RequistionList">
+                <ScalarProperty Name="reqdate" ColumnName="reqdate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="deptid" ColumnName="deptid" />
               </MappingFragment>
             </EntityTypeMapping>

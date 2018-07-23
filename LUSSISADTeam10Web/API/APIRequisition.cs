@@ -112,7 +112,7 @@ namespace LUSSISADTeam10Web.API
             RequisitionDetailsModel rdm = APIHelper.Execute<RequisitionDetailsModel>(token, objectstring, url, out error);
             return rdm;
         }
-        public static RequisitionModel UpdateRequisitionStatus(RequisitionModel reqm, string token, out string error)
+        public static RequisitionModel UpdateRequisitionStatusToPending(RequisitionModel reqm, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/requisition/requestpending/";
             string objectstring = JsonConvert.SerializeObject(reqm);
@@ -136,6 +136,20 @@ namespace LUSSISADTeam10Web.API
         {
             string url = APIHelper.Baseurl + "/requisitions/preparing/";
             List<RequisitionWithDisbursementModel> rdm = APIHelper.Execute<List<RequisitionWithDisbursementModel>>(token, url, out error);
+            return rdm;
+        }
+
+        public static RequisitionWithDisbursementModel GetRequisitionWithDisbursementByReqID(int reqid, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/requisitionwithdisbursement/" + reqid;
+            RequisitionWithDisbursementModel rdm = APIHelper.Execute<RequisitionWithDisbursementModel>(token, url, out error);
+            return rdm;
+        }
+        public static RequisitionModel UpdateCompleteRequisitionStatus(RequisitionModel req, string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/requisition/status/completed";
+            string objectstring = JsonConvert.SerializeObject(req);
+            RequisitionModel rdm = APIHelper.Execute<RequisitionModel>(token, objectstring, url, out error);
             return rdm;
         }
     }

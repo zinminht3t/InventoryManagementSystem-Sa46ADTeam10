@@ -93,7 +93,7 @@
                         </li>
                         <h3 class="menu-title">Representative</h3><!-- /.menu-title -->
                         <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
+                            <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
                         </li>
                         <li>
                             <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
@@ -126,6 +126,9 @@
                             <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-notepad"></i> Item Retrieval Form </a>
                         </li>
                         <li>
+                            <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursement List </a>
+                        </li>
+                        <li>
                             <a href="@Url.Action("GetOrderRecommndation", "Clerk")"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
                         </li>
                         <li>
@@ -147,17 +150,18 @@
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-    {
-                    <li class="active">
-                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                    </li>
-}
-else
-{
-                    <li class="active">
-                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                    </li>                   
-}
+                        {
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                        </li>
+                        }
+                        else
+                        {
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                        </li>
+                        }
+
                         <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
                         <li>
                             <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment </a>
@@ -252,7 +256,6 @@ else
     <script src="~/styles/js/lib/vector-map/jquery.vmap.min.js"></script>
     <script src="~/styles/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
     <script src="~/styles/js/lib/vector-map/country/jquery.vmap.world.js"></script>
-
 
     <script src="~/styles/js/lib/data-table/datatables.min.js"></script>
     <script src="~/styles/js/lib/data-table/dataTables.bootstrap.min.js"></script>

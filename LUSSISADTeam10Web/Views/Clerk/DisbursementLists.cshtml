@@ -84,6 +84,8 @@
                                                                         -
                                                                         Requistion ID : @itemreq.Reqid
                                                                     </a>
+
+                                                                    <a href="@Url.Action("ItemDelivered", "Clerk", new { id = itemreq.Reqid })" class="btn btn-sm btn-outline-info pull-right"> Item Delivered  <i class="fa fa-arrow-right"> </i> </a>
                                                                 </h4>
                                                             </div>
                                                             <div id="@itemreq.Reqid" class="panel-collapse collapse in">
@@ -92,6 +94,7 @@
                                                                     <h6>Raised By :  @itemreq.Rasiedbyname </h6><br />
                                                                     <h6>Approved By :  @itemreq.Approvedbyname </h6><br />
                                                                     <h6>Collection Point : @itemreq.Cpname</h6><br />
+                                                                    <h6>Locker Name : @itemreq.LockerName</h6><br />
                                                                     <h6>Requested Date :  @itemreq.Reqdate.Value.ToString("d")</h6><br />
                                                                     <div class="text-sm-center">
 
