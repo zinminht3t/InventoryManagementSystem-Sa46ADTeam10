@@ -259,5 +259,28 @@ namespace LUSSISADTeam10API.Repositories
             }
             return im;
         }
+        public static ItemModel GetItemByItemDescription(string name, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            error = "";
+
+            item item = new item();
+            ItemModel im = new ItemModel();
+            try
+            {
+                item = entities.items.Where(p => p.description == name).FirstOrDefault<item>();
+                im = CovertDBItemtoAPIItem(item);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return im;
+        }
     }
 }

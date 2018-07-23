@@ -8,30 +8,29 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class ImportSupplierItem
     {
         public ImportSupplierItem
-           (int SupId, string SupName, int ItemId,
-           string Description, double Price, string Uom, string category  )
+           ( string SupName, 
+           string Description, double Price, string Uom )
         {
-            this.SupId = SupId;
-            this.SupName = SupName;
-            this.ItemId = ItemId;
+         
+            this.SupName = SupName;           
             this.Description = Description;
             this.Price = Price;
             this.Uom = Uom;
-            this.CategoryName = category;
+          
 
         }
 
         public ImportSupplierItem() :
-            this(0, "", 0, "", 0.0, "", "")
+            this("", "", 0.0, "" )
         {
         }
 
-        public int SupId { get; set; }
+      
 
-        public int ItemId { get; set; }
+    
 
         public string SupName { get; set; }
-        public string CategoryName { get; set; }
+       
 
         public string Description { get; set; }
 
@@ -39,5 +38,4 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         public string Uom { get; set; }
     }
-}
 }
