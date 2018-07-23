@@ -223,7 +223,9 @@ namespace LUSSISADTeam10API.Repositories
                             item.Item.uom,
                             item.Item.catid,
                             item.Item.category.name,
-                            item.Quantity
+                            item.Quantity,
+                            item.Item.category.shelflocation,
+                            item.Item.category.shelflevel
                         ));
                 }
             }
