@@ -11,7 +11,7 @@ namespace LUSSISADTeam10Web.Models.Supervisor
     {
         public int Adjid { get; set; }
         public string Raisedbyname { get; set; }
-        public int RaisedTo { get; set; }
+        public int RaisedToRole { get; set; }
         public string RaisedTobyname { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? Issueddate { get; set; }

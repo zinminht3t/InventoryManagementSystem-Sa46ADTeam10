@@ -1327,6 +1327,7 @@
     <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
     <Content Include="Views\Supervisor\Approve.cshtml" />
+    <Content Include="Views\Manager\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

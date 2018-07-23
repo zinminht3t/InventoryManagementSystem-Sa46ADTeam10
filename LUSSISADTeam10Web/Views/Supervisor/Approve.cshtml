@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table" width="100%">
+<table class="table">
     <tr>
         <th>
             Issued Date
@@ -19,57 +19,68 @@
         </th>
         <th></th>
     </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr style="background-color:lightblue">
-            <td>
-                @Html.DisplayFor(modelItem => item.Issueddate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Raisedbyname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RaisedTobyname)
-            </td>
-            <td></td>
-            <td>
-                <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve"
-                       @*@if (item.RaisedTo == ConUser.Role.MANAGER) {@disabled = "disabled"}; />*@
-                       }
-            </td>
-        </tr>
-        <tr>
-            <th>Category</th>
-            <th>Item</th>
-            <th>Adjusted Qty</th>
-            <th>UOM</th>
-            <th>Price</th>
-            <th>Reason</th>
-        </tr>
-        foreach (var i in item.adjdvm)
+   
+        @foreach (var item in Model)
         {
-
-            <tr style="border:hidden;width:inherit">
+            <tr style="background-color:lightblue">
                 <td>
-                    @Html.DisplayFor(modelItem => i.CategoryName)
+                    @Html.DisplayFor(modelItem => item.Issueddate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => i.Itemdescription)
+                    @Html.DisplayFor(modelItem => item.Raisedbyname)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => i.Adjustedqty)
+                    @Html.DisplayFor(modelItem => item.RaisedTobyname)
                 </td>
+                <td></td>
                 <td>
-                    @Html.DisplayFor(modelItem => i.UOM)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => i.Reason)
+                    @{
+        string Disabled = "";
+        string color = "";
+        if (item.RaisedToRole == ConUser.Role.MANAGER)
+        {
+            Disabled = "disabled";
+            color = "grey";
+        }
+                    }
+                    @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
+                    {
+                <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
+                    }
                 </td>
             </tr>
+            <tr>
+                <th>Category</th>
+                <th>Item</th>
+                <th>Adjusted Qty</th>
+                <th>UOM</th>
+                <th>Price</th>
+                <th>Reason</th>
+            </tr>
+            foreach (var i in item.adjdvm)
+            {
+
+                <tr style="border:hidden;width:inherit">
+                    <td>
+                        @Html.DisplayFor(modelItem => i.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => i.Itemdescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => i.Adjustedqty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => i.UOM)
+                    </td>
+                    <td>
+                        $@Html.DisplayFor(modelItem => i.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => i.Reason)
+                    </td>
+                </tr>
+            }
+
         }
-    }
 </table>

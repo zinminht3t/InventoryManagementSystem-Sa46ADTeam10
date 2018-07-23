@@ -147,18 +147,17 @@
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-                        {
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        }
-                        else
-                        {
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        }
-
+    {
+                    <li class="active">
+                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                    </li>
+}
+else
+{
+                    <li class="active">
+                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                    </li>                   
+}
                         <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
                         <li>
                             <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment </a>
