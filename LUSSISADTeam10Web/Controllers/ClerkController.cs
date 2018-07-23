@@ -191,7 +191,7 @@ namespace LUSSISADTeam10Web.Controllers
                         }
 
 
-                       List <SupplierItemModel> sm =  APISupplier.csvsupplier(token, SuppItem, out string error);
+                       List <SupplierItemModel> sm =  APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
                         int i = 0;
                         foreach (SupplierItemModel s in sm) {

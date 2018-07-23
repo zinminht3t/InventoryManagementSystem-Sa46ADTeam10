@@ -209,7 +209,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
-        public static List<SupplierItemModel> importsupplier(List<SupplierItemModel> csp, out string error)
+        public static List<SupplierItemModel> importsupplieritem(List<SupplierItemModel> csp, out string error)
         {
             bool test = false;
             int supid = 0;

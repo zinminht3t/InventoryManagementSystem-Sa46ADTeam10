@@ -148,12 +148,12 @@ namespace LUSSISADTeam10API.Controllers
 
         // to import with excel file
         [HttpPost]
-        [Route("api/supplieritem/importsupplier")]
-        public IHttpActionResult importsupplier(List<SupplierItemModel> supitemlist)
+        [Route("api/supplieritem/importsupplieritem")]
+        public IHttpActionResult importsupplieritem(List<SupplierItemModel> supitemlist)
         {
             string error = "";
             List<SupplierItemModel> sim = SupplierItemRepo
-                .importsupplier(supitemlist, out error);
+                .importsupplieritem(supitemlist, out error);
             if (error != "" || sim == null)
             {
                 if (error == ConError.Status.NOTFOUND)
