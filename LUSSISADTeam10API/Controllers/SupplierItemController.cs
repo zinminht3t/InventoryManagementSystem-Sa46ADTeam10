@@ -97,6 +97,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sims);
         }
+        //get the lowest price for the item
         [HttpGet]
         [Route("api/supplieritem/getitem/{itemid}")]
         public IHttpActionResult GetOneSupplierItemByItemId(int itemid)

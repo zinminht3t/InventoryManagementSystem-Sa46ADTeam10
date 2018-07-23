@@ -243,10 +243,6 @@ namespace LUSSISADTeam10Web.Controllers
                 foreach (DepartmentCollectionPointModel p in st) {
                     viewmodel.OldCpName = p.CpName;
                 }
-                
-                
-
-
             }
             catch (Exception ex)
             {
