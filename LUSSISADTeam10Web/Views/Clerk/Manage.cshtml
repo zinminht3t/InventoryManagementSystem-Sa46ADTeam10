@@ -21,6 +21,9 @@
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
                     <li class="active">Manage Items</li>
+                    <li>
+                        <a href="@Url.Action("SearchByTransDate", "Clerk")"> SearchItembyTransactionDate </a>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -36,10 +39,11 @@
                 <i class="mr-2 fa fa-align-justify"></i>
                 <strong class="card-title"> Manage Items </strong>
             </div>
+
             <div class="card-body">
                 <table id="datatable-fixed-header" class="table table-striped table-bordered">
                     <tr>
-                        <th >
+                        <th>
                             @Html.DisplayNameFor(model => model.Invid)
                         </th>
                         <th>
@@ -64,40 +68,43 @@
                             @Html.DisplayNameFor(model => model.ReorderQty)
                         </th>
                         <th></th>
+                        <th></th>
                     </tr>
 
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Invid)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Itemid)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ItemDescription)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CategoryName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UOM)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Stock)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReorderLevel)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReorderQty)
-                            </td>
-                            <td>
-
-                                @Html.ActionLink("Edit", "EditItem", new { id = item.Invid })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Invid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Itemid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UOM)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReorderLevel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReorderQty)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditItem", new { id = item.Invid })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Transaction", "ItemTran", new { id = item.Itemid })
+                        </td>
+                    </tr>
                     }
 
                 </table>

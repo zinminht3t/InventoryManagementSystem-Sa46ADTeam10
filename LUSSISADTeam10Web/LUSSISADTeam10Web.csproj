@@ -231,6 +231,7 @@
     <Compile Include="Models\Clerk\ApproveCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\BreakdownView.cs" />
     <Compile Include="Models\Clerk\InventoryCheckViewModel.cs" />
+    <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Clerk\InventoryViewModel.cs" />
     <Compile Include="Models\Clerk\ProcessRequisitionViewModel.cs" />
     <Compile Include="Models\Clerk\ShowBD.cs" />
@@ -1321,6 +1322,8 @@
     <Content Include="Views\Clerk\ShowDeActiveSupplierlist.cshtml" />
     <Content Include="Views\Clerk\Manage.cshtml" />
     <Content Include="Views\Clerk\EditItem.cshtml" />
+    <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
+    <Content Include="Views\Clerk\ItemTran.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
