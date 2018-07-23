@@ -113,10 +113,19 @@ namespace LUSSISADTeam10Web.API
         }
         public static List<SupplierItemModel> csvsupplier(string token ,List<SupplierItemModel> csp, out string error)
         {
-            string url = APIHelper.Baseurl + "/supplieritem/csv/" ;
+            error = "";
+            string url = APIHelper.Baseurl + "/supplieritem/csv" ;
             string objectstring = JsonConvert.SerializeObject(csp);
-            List<SupplierItemModel> csp1 = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
-            return csp1;
+            csp = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
+            return csp;
+        }
+        public static List<SupplierItemModel> importsupplier(string token, List<SupplierItemModel> csp, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/supplieritem/importsupplier";
+            string objectstring = JsonConvert.SerializeObject(csp);
+            csp = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
+            return csp;
         }
     }
 }
