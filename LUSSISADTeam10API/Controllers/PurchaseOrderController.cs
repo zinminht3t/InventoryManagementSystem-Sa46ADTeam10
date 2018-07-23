@@ -196,7 +196,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreatePO(PurchaseOrderModel po)
         {
             string error = "";
-            PurchaseOrderModel orm = PurchaseOrderRepo.CreatePurchaseOrder(po, po.podms, out error);
+            PurchaseOrderModel orm = PurchaseOrderRepo.CreatePurchaseOrder(po, out error);
             if (error != "" || orm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
