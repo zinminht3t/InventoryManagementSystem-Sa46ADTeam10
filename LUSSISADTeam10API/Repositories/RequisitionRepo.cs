@@ -485,7 +485,7 @@ namespace LUSSISADTeam10API.Repositories
                 nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
                 nom.Role = ConUser.Role.HOD;
                 nom.Title = "Requisition Approval";
-                nom.NotiType = ConNotification.NotiType.ApproveRequisition;
+                nom.NotiType = ConNotification.NotiType.RequisitionApproval;
                 nom.ResID = reqn.reqid;
                 nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
