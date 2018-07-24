@@ -1,0 +1,129 @@
+﻿@model LUSSISADTeam10Web.Models.Clerk.PurchaseOrderViewModel
+
+
+@{
+    ViewBag.Title = "Purchase Order Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Purchase Orders</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li><a href="@Url.Action("PurchaseOrders", "Clerk")">Purchase Orders</a></li>
+                    <li class="active">Purchase Order Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Purchase Orders </strong>
+            </div>
+            <div class="card-body">
+
+                <div class="container">
+
+                    @using (Html.BeginForm())
+                    {
+                    <div class="panel-group" id="accordion">
+                        @{ var item = ViewBag.pom; }
+
+                        @{
+                            Model.PoId = item.PoId;
+                            Model.Supid = item.Supid;
+
+                        }
+                        <input type="hidden" name="PoId" value="@item.PoId" />
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> PO Detail </h5>
+                            </div>
+                            <hr />
+                            <h6>PO ID :  @item.PoId </h6><br />
+                            <h6>Supplier :  @item.SupName </h6><br />
+                            <h6>PO Date : @item.Podate</h6><br />
+                            <div class="text-sm-center">
+
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Description</th>
+                                            <th>Ordered Qty</th>
+                                            <th>Price</th>
+                                            <th>Received Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var count = 0;
+                                        }
+
+                                        @foreach (var items in item.podms)
+                                        {
+                                            Model.podms = new List<LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel>();
+
+                                            Model.podms.Add(new LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel());
+
+
+
+
+                                            <tr id="@items.Itemid">
+                                                <td>@items.Itemid</td>
+                                                <td>@items.ItemDescription</td>
+                                                <td>@items.Qty</td>
+                                                <td class="amount">S$ @items.Price</td>
+                                                <td>
+                                                    <input type="hidden" name="podms[@count].Itemid" value="@items.Itemid" />
+                                                    <input type="number" class="form-control" required name="podms[@count].DelivQty" value="@items.DelivQty" />
+                                                </td>
+                                            </tr>
+
+                                            count++;
+                                        }
+
+
+                                    </tbody>
+                                </table>
+
+                                <a href="@Url.Action("CancelPurchaseOrder", "Clerk", new { id = item.PoId })" onclick="confirm('Are you sure you want to cancel this purchase order?')" class="btn btn-outline-danger btn-sm pull-left"> Cancel PO</a>
+
+                                <input type="submit" value="Change to Received" class="btn btn-outline-info btn-sm pull-right" />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+    </script>
+}

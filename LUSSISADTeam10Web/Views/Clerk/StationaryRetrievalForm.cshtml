@@ -5,7 +5,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
+
     <style>
+        @@media print {
+            body *{
+                visibility: hidden;
+            }
+
+            #StationaryRetrivalForm, #StationaryRetrivalForm * {
+                visibility: visible;
+            }
+
+            #StationaryRetrivalForm {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
     </style>
 }
 
@@ -43,10 +59,18 @@
                 @if (Model.Count() > 0)
                 {
                     <div>
-                        <a href="@Url.Action("UpdateToPreparing", "Clerk")" class="btn btn-outline-info pull-right">Item Collected <i class="fa fa-arrow-right"></i></a>
-                    </div>
+                        <a href="@Url.Action("UpdateToPreparing", "Clerk")" class="btn btn-outline-success pull-right" onclick="return confirm('Are you sure you already collected all items in this list?')">Item Collected <i class="fa fa-arrow-right"></i></a>
+                        <a href="@Url.Action("Requisition", "Clerk")" class="btn btn-outline-success pull-left"> <i class="fa fa-arrow-left"></i> Add More Requisitons </a>
 
-                    <div>
+                        <br />
+                        <br />
+
+                    </div>
+                    <hr />
+
+                    <div id="StationaryRetrivalForm">
+                        <h5 class="text-info text-center"> Stationary Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
+                        <br />
                         <table class="table table-bordered">
                             <thead class="thead-dark text-primary text-center">
                                 <tr>
@@ -107,11 +131,18 @@
             </div>
         </div>
 
+        <div id="blah"></div>
+
 
 
     </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#print').click(function () {
+            window.print();
+        });
+
+    </script>
 }

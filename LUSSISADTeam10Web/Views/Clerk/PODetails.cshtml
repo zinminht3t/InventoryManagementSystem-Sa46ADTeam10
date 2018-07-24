@@ -48,19 +48,20 @@
                             <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionforreq" href="#@item.PoId">
+                                        <a href="#@item.PoId">
                                             Purchase Order ID : @item.PoId
                                             -
                                             Supplier : @item.SupName
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="@item.PoId" class="panel-collapse collapse in">
+                                <div id="@item.PoId" class="panel-collapse">
                                     <div class="panel-body">
                                         <hr />
                                         <h6>PO ID :  @item.PoId </h6><br />
                                         <h6>Supplier :  @item.SupName </h6><br />
                                         <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
+                                        <h6>Total Price : <span id="totalprice"></span></h6><br />
                                         <div class="text-sm-center">
 
                                             <table class="table table-bordered table-hover">
@@ -74,21 +75,31 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @{ double? total = 0.0; }
                                                     @foreach (var items in item.podms)
                                                     {
+                                                        total += (items.Qty * items.Price as double?);
+                                                        var amount = items.Qty * items.Price;
                                                         <tr>
                                                             <td>@items.Itemid</td>
                                                             <td>@items.ItemDescription</td>
                                                             <td>@items.Qty</td>
-                                                            <td>@items.</td>
+                                                            <td>S$ @items.Price</td>
+                                                            <td>S$ @amount</td>
                                                         </tr>
                                                     }
+
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <hr />
+                            <script>
+                                   document.getElementById('totalprice').innerHTML = @total;
+                            </script>
                         }
                     </div>
                 </div>

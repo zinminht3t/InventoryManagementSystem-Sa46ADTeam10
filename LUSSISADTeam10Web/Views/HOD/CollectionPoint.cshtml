@@ -127,14 +127,14 @@
             latt = list[value][0];
             lngg = list[value][1];
 
-            initMap();
+            initMap(16);
         }
 
-        function initMap() {
+        function initMap(z) {
             mapcode = new google.maps.Geocoder();
             var lnt = new google.maps.LatLng(latt, lngg);
             var diagChoice = {
-                zoom: 13,
+                zoom: z,
                 center: lnt,
                 diagId: google.maps.MapTypeId.ROADMAP
             }
@@ -150,6 +150,6 @@
                 });
             }
         }
-        window.onload = initMap;
+        window.onload = initMap(13);
     </script>
 }

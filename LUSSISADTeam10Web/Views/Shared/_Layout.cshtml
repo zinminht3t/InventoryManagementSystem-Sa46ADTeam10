@@ -158,7 +158,7 @@
                             <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursement List </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("GetOrderRecommndation", "Clerk")"> <i class="menu-icon ti-share"></i>Raised Purchase Order </a>
+                            <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-share"></i>Purchase Orders </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-pencil"></i>Inventory Check</a>
@@ -314,7 +314,7 @@
     <script src="~/styles/js/lib/data-table/buttons.print.min.js"></script>
     <script src="~/styles/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="~/styles/js/lib/data-table/datatables-init.js"></script>
-
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
     <!-- DataTable -->
     @RenderSection("scripts", required: false)
 
