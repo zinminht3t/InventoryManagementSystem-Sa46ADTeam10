@@ -76,7 +76,6 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
 
             try
             {
@@ -109,7 +108,6 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
 
             try
             {

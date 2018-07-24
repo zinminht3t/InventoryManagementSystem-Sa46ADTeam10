@@ -77,8 +77,7 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
-
+           
             try
             {
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
@@ -111,8 +110,7 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
-
+            
             try
             {
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.APPROVED, out string error);
