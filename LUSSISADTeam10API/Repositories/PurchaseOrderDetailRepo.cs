@@ -13,7 +13,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static PurchaseOrderDetailModel ConvertDBtoAPIPOModel(purchaseorderdetail pod)
         {
-            PurchaseOrderDetailModel pom = new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom);
+            PurchaseOrderDetailModel pom = new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom, pod.price);
             return pom;
         }
         //find Purchase Order by id
@@ -75,6 +75,7 @@ namespace LUSSISADTeam10API.Repositories
                 pod.itemid = podm.Itemid;
                 pod.qty = podm.Qty;
                 pod.delivqty = podm.DelivQty;
+                pod.price = podm.Price;
                 entities.purchaseorderdetails.Add(pod);
                 entities.SaveChanges();
                 podm = GetPurchaseOrderDetailByIDAndItemID(pod.poid, pod.itemid, out error);
@@ -100,9 +101,9 @@ namespace LUSSISADTeam10API.Repositories
                 pod = entities.purchaseorderdetails.Where(p => p.poid == podm.PoId && p.itemid == podm.Itemid).FirstOrDefault<purchaseorderdetail>();
                 pod.itemid = podm.Itemid;
                 pod.qty = podm.Qty;
+                pod.price = podm.Price;
                 pod.delivqty = podm.DelivQty;
                 entities.SaveChanges();
-
                 podm = GetPurchaseOrderDetailByIDAndItemID(pod.poid, pod.itemid, out error);
             }
             catch (NullReferenceException)

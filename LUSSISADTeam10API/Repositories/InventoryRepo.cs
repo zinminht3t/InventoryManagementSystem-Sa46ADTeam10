@@ -16,6 +16,9 @@ namespace LUSSISADTeam10API.Repositories
             InventoryModel invm = new InventoryModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.category.name, inv.item.uom);
             return invm;
         }
+
+        private static List<PurchaseOrderModel> staticpoms;
+        private static int staticcount = 0;
         // Convert From Auto Generated DB Model to APIModel for InventoryDetail
         private static InventoryDetailModel CovertDBInventorytoAPIInventoryDet(inventory inv)
         {
@@ -32,18 +35,55 @@ namespace LUSSISADTeam10API.Repositories
 
                 List<OutstandingItemModel> outs = OutstandingReqDetailRepo.GetAllPendingOutstandingItems(out error);
 
+                List<PurchaseOrderModel> poms = new List<PurchaseOrderModel>();
+
                 if (error == "" && outs != null)
                 {
                     try
                     {
-                        int itemlist = outs.Where(p => p.ItemId == inv.itemid).Count<OutstandingItemModel>();
-                        if(itemlist > 0)
+                        if (staticpoms == null)
                         {
-                            OutstandingItemModel outItem = outs.Where(p => p.ItemId == inv.itemid).FirstOrDefault<OutstandingItemModel>();
-                            recommededorderqty += outItem.Total;
+                            staticpoms = new List<PurchaseOrderModel>();
+                        }
+
+                        bool PendingPOExists = false;
+
+                        if (staticcount < 4)
+                        {
+                            poms = staticpoms;
+
+                            foreach (PurchaseOrderModel pom in poms)
+                            {
+                                int count = 0;
+                                count = pom.podms.Where(x => x.Itemid == inv.itemid).Count();
+                                if (count > 0)
+                                {
+                                    PendingPOExists = true;
+                                    staticcount++;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            PendingPOExists = true;
+                        }
+                        if (PendingPOExists)
+                        {
+                            recommededorderqty = 0;
+                        }
+                        else
+                        {
+                            int itemlist = outs.Where(p => p.ItemId == inv.itemid).Count<OutstandingItemModel>();
+                            if (itemlist > 0)
+                            {
+                                OutstandingItemModel outItem = outs.Where(p => p.ItemId == inv.itemid).FirstOrDefault<OutstandingItemModel>();
+                                recommededorderqty += outItem.Total;
+
+                            }
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         error = e.Message;
                     }
@@ -145,12 +185,14 @@ namespace LUSSISADTeam10API.Repositories
             {
                 // get inventory list from database
                 List<inventory> invs = entities.inventories.ToList<inventory>();
-
+                staticcount = 1;
+                staticpoms = PurchaseOrderRepo.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, out error);
                 // convert the DB Model list to API Model list for inv detail
                 foreach (inventory inv in invs)
                 {
                     invdms.Add(CovertDBInventorytoAPIInventoryDet(inv));
                 }
+
             }
 
             // if inventory not found, will throw NOTFOUND exception
@@ -177,6 +219,9 @@ namespace LUSSISADTeam10API.Repositories
             InventoryDetailModel invdm = new InventoryDetailModel();
             try
             {
+                staticpoms = PurchaseOrderRepo.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, out error);
+                staticcount = 1;
+
                 inventory = entities.inventories.Where(p => p.invid == inventoryid).FirstOrDefault<inventory>();
                 invdm = CovertDBInventorytoAPIInventoryDet(inventory);
             }
@@ -198,6 +243,9 @@ namespace LUSSISADTeam10API.Repositories
             InventoryDetailModel invdm = new InventoryDetailModel();
             try
             {
+                staticpoms = PurchaseOrderRepo.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, out error);
+                staticcount = 1;
+
                 inventory = entities.inventories.Where(p => p.itemid == itemid).FirstOrDefault<inventory>();
                 invdm = CovertDBInventorytoAPIInventoryDet(inventory);
             }

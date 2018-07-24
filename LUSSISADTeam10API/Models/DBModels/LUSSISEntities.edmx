@@ -195,6 +195,7 @@
           <Property Name="itemid" Type="int" Nullable="false" />
           <Property Name="qty" Type="int" Nullable="false" />
           <Property Name="delivqty" Type="int" Nullable="false" />
+          <Property Name="price" Type="float" />
         </EntityType>
         <EntityType Name="requisition">
           <Key>
@@ -293,6 +294,7 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.MonthItemUsage' does not have a p
           <Property Name="Item " Type="varchar" MaxLength="200" />
           <Property Name="Usage Item" Type="int" />
           <Property Name="Month Name" Type="int" />
+          <Property Name="year" Type="int" />
           <Property Name="supname" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -850,6 +852,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
     [MonthItemUsage].[Item ] AS [Item ], 
     [MonthItemUsage].[Usage Item] AS [Usage Item], 
     [MonthItemUsage].[Month Name] AS [Month Name], 
+    [MonthItemUsage].[year] AS [year], 
     [MonthItemUsage].[supname] AS [supname]
     FROM [dbo].[MonthItemUsage] AS [MonthItemUsage]</DefiningQuery>
           </EntitySet>
@@ -1286,6 +1289,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="delivqty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="item" Relationship="Self.FK_purchaseorderdetail_item1" FromRole="purchaseorderdetail" ToRole="item" />
           <NavigationProperty Name="purchaseorder" Relationship="Self.FK_purchaseorderdetail_purchaseorder" FromRole="purchaseorderdetail" ToRole="purchaseorder" />
+          <Property Name="price" Type="Double" />
         </EntityType>
         <EntityType Name="requisition">
           <Key>
@@ -1402,6 +1406,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="Usage_Item" Type="Int32" />
           <Property Name="Month_Name" Type="Int32" />
           <Property Name="supname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="year" Type="Int32" />
         </EntityType>
         <EntityType Name="MonthlyItemUsageByHOD">
           <Key>
@@ -2292,6 +2297,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="purchaseorderdetails">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.purchaseorderdetail">
               <MappingFragment StoreEntitySet="purchaseorderdetail">
+                <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="poid" ColumnName="poid" />
                 <ScalarProperty Name="itemid" ColumnName="itemid" />
                 <ScalarProperty Name="qty" ColumnName="qty" />
@@ -2390,6 +2396,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="MonthItemUsages">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.MonthItemUsage">
               <MappingFragment StoreEntitySet="MonthItemUsage">
+                <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="Item_" ColumnName="Item " />
                 <ScalarProperty Name="Usage_Item" ColumnName="Usage Item" />
                 <ScalarProperty Name="Month_Name" ColumnName="Month Name" />
