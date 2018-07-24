@@ -1018,6 +1018,38 @@ namespace LUSSISADTeam10Web.Controllers
             return View(povm);
         }
 
+        public ActionResult CancelPurchaseOrder(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            PurchaseOrderModel pom = new PurchaseOrderModel();
+
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+            if(pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "The Purchase Order has already been expired!";
+                return RedirectToAction("PurchaseOrders");
+            }
+
+            pom.Status = ConPurchaseOrder.Status.CANCELLED;
+
+            pom = APIPurchaseOrder.UpdatePO(pom, token, out error);
+
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Purchase Order";
+            Session["notimessage"] = "The Purchase Order has been cancelled successfully";
+            return RedirectToAction("PurchaseOrders");
+        }
+
+
         [HttpPost]
         public ActionResult ProcessPurchaseOrderDetail(PurchaseOrderViewModel povm)
         {
