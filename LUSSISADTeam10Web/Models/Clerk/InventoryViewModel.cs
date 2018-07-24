@@ -13,10 +13,13 @@ namespace LUSSISADTeam10Web.Models.Clerk
         public int Stock { get; set; }
         public int? ReorderLevel { get; set; }
         public int? ReorderQty { get; set; }
-        public string CategoryName { get; set; }
+       
         public string UOM { get; set; }
 
         public int CatId { get; set; }
+        public string CategoryName { get; set; }
 
     }
+
+
 }
