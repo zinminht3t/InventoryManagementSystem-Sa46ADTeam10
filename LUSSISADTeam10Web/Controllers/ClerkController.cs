@@ -28,16 +28,16 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel um = GetUser();
-           List< SupplierModel> sm = new List<SupplierModel>();
+            List<SupplierModel> sm = new List<SupplierModel>();
 
-            
+
 
             try
             {
                 sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error);
 
                 return View(sm);
-             
+
             }
             catch (Exception ex)
             {
@@ -191,16 +191,84 @@ namespace LUSSISADTeam10Web.Controllers
                         }
 
 
-                       List <SupplierItemModel> sm =  APISupplier.importsupplier(token, SuppItem, out string error);
+                        List<SupplierItemModel> sm = APISupplier.csvsupplier(token, SuppItem, out string error);
                         workbook.Close();
                         int i = 0;
-                        foreach (SupplierItemModel s in sm) {
+                        foreach (SupplierItemModel s in sm)
+                        {
 
                             i = s.SupId;
                         }
                         List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
 
                         return View(sm1);
+                    }
+                    else
+                    {
+
+
+                        ViewBag.Error = "File type is incorrect";
+                        return View("Index");
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult importsupplier(HttpPostedFileBase excelfile)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            try
+            {
+                if (excelfile == null || excelfile.ContentLength == 0)
+                {
+
+                    ViewBag.Error = "Please select a excel file";
+                    return View("Index");
+                }
+
+                else
+                {
+
+                    if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                    {
+                        string path = Server.MapPath("~/Content/" + excelfile.FileName);
+                        if (System.IO.File.Exists(path))
+                            System.IO.File.Delete(path);
+                        excelfile.SaveAs(path);
+                        // read data from excel file
+                        Excel.Application application = new Excel.Application();
+                        Excel.Workbook workbook = application.Workbooks.Open(path);
+                        Excel.Worksheet worksheet = workbook.ActiveSheet;
+                        Excel.Range range = worksheet.UsedRange;
+                        List<SupplierModel> SuppItem = new List<SupplierModel>();
+                        for (int row = 2; row <= range.Rows.Count; row++)
+                        {
+
+                            SupplierModel p = new SupplierModel();
+                            p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
+                            p.SupEmail = ((Excel.Range)range.Cells[row, 2]).Text;
+                            p.SupPhone = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
+                            p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
+                            p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
+                          
+                            SuppItem.Add(p);
+
+
+                        }
+
+                       
+                        List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                        workbook.Close();
+                      
+                        return View(sm);
                     }
                     else
                     {
@@ -229,20 +297,25 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.DepartmentCollectionPointModel = dcpm;
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
             List<DepartmentCollectionPointModel> st = new List<DepartmentCollectionPointModel>();
-          
-           
+
+
             try
             {
-                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id ,out string error);
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
                 ViewBag.DepartmentCollectionModel = dcpm;
                 ViewBag.DepartmentCollectionModel = st;
-                viewmodel.CpID =dcpm.DeptCpID;
+                viewmodel.CpID = dcpm.DeptCpID;
                 viewmodel.DepName = dcpm.DeptName;
                 viewmodel.CpName = dcpm.CpName;
-                foreach (DepartmentCollectionPointModel p in st) {
+                foreach (DepartmentCollectionPointModel p in st)
+                {
                     viewmodel.OldCpName = p.CpName;
                 }
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -257,13 +330,13 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
-           
+
 
             dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, viewmodel.CpID, out string error);
 
             try
             {
-                
+
                 if (!viewmodel.Approve)
                 {
                     dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
@@ -275,7 +348,7 @@ namespace LUSSISADTeam10Web.Controllers
                     dcpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, dcpm, out error);
 
                 }
-                
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -291,8 +364,8 @@ namespace LUSSISADTeam10Web.Controllers
             List<InventoryModel> invm = new List<InventoryModel>();
             try
             {
-                
-                invm=APIInventory.GetAllInventories(token, out string error);
+
+                invm = APIInventory.GetAllInventories(token, out string error);
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -381,7 +454,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
         /////////
 
-        public ActionResult SearchByTransDate(DateTime? startdate,DateTime? enddate)
+        public ActionResult SearchByTransDate(DateTime? startdate, DateTime? enddate)
 
         {
             string token = GetToken();
@@ -394,19 +467,19 @@ namespace LUSSISADTeam10Web.Controllers
                     startdate = new DateTime(1900, 01, 01);
                 if (enddate == null)
                     enddate = new DateTime(2900, 01, 01);
-                intlm =APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out string error);
+                intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out string error);
                 viewmodel.InvTrans = new List<InventoryTransactionResultViewModel>();
-                
+
                 foreach (InventoryTransactionModel i in intlm)
                 {
-                    
-                   item= APIItem.GetItemByItemID(i.ItemID, token, out error);
-                    var result = new InventoryTransactionResultViewModel();         
+
+                    item = APIItem.GetItemByItemID(i.ItemID, token, out error);
+                    var result = new InventoryTransactionResultViewModel();
                     result.ItemID = i.ItemID;
                     result.Description = i.Description;
                     result.UOM = i.UOM;
                     result.Qty = i.Qty;
-                    result.Date=i.TransDate;
+                    result.Date = i.TransDate;
                     viewmodel.InvTrans.Add(result);
                 }
             }
@@ -422,7 +495,7 @@ namespace LUSSISADTeam10Web.Controllers
             InventoryTransactionModel invm = new InventoryTransactionModel();
             ViewBag.InventoryModel = invm;
             InventoryTransactionViewModel viewmodel = new InventoryTransactionViewModel();
-           
+
             List<InventoryTransactionModel> intlm = new List<InventoryTransactionModel>();
 
             try
@@ -447,7 +520,7 @@ namespace LUSSISADTeam10Web.Controllers
                     result.UOM = i.UOM;
                     result.Qty = i.Qty;
                     result.Date = i.TransDate;
-                    result.Remark= i.Remark;
+                    result.Remark = i.Remark;
                     result.Transtype = i.TransType;
                     viewmodel.InvTrans.Add(result);
                 }
@@ -517,14 +590,14 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 invcvm = GetInvtCheckVM();
-               
+
                 adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-                
-                foreach(AdjustmentModel ad in adj)
-                {                  
-                    foreach(AdjustmentDetailModel adjd in ad.Adjds)
+
+                foreach (AdjustmentModel ad in adj)
+                {
+                    foreach (AdjustmentDetailModel adjd in ad.Adjds)
                     {
-                        foreach(Inventory i in invcvm.Invs)
+                        foreach (Inventory i in invcvm.Invs)
                         {
                             if (adjd.Itemid == i.ItemID)
                             {
@@ -532,14 +605,14 @@ namespace LUSSISADTeam10Web.Controllers
                                 adjd.Adjustedqty = adjd.Adjustedqty + (int)adjd.Stock;
                             }
 
-                            adjd.IssueDate = ((DateTime)ad.Issueddate);                           
-                            
+                            adjd.IssueDate = ((DateTime)ad.Issueddate);
+
                         }
                         adjdetail.Add(adjd);
                     }
                 }
                 ViewBag.AdjustmentDetailModel = adjdetail;
-                
+
             }
             catch (Exception e)
             {
@@ -547,12 +620,12 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(invcvm);
         }
-       //Get All checked Inventories
+        //Get All checked Inventories
         [HttpPost]
         public ActionResult Inventory(List<int> InvID)
-            {
+        {
             List<Inventory> dis = GetSelectedInventory(InvID);
-            TempData["discrepancy"] = dis; 
+            TempData["discrepancy"] = dis;
             return RedirectToAction("Adjustment");
         }
         public ActionResult Adjustment()
@@ -572,7 +645,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(ivcvm);
         }
         [HttpPost]
-        public ActionResult Adjustment(List<int> InvID, List<int> Current, List<string>Reason)
+        public ActionResult Adjustment(List<int> InvID, List<int> Current, List<string> Reason)
         {
             string token = GetToken();
             UserModel user = GetUser();
@@ -682,7 +755,7 @@ namespace LUSSISADTeam10Web.Controllers
                 ri.UOM = reqdm.UOM;
                 ri.ItemName = reqdm.Itemname;
                 ri.CategoryName = reqdm.CategoryName;
-                if((ri.Qty - ri.ApproveQty) > 0)
+                if ((ri.Qty - ri.ApproveQty) > 0)
                 {
                     IsNeededOutstanding = true;
                 }
@@ -703,13 +776,13 @@ namespace LUSSISADTeam10Web.Controllers
                 outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
             }
 
-            foreach(ReqItem ri in viewmodel.ReqItems)
+            foreach (ReqItem ri in viewmodel.ReqItems)
             {
-                    DisbursementDetailsModel disdm = new DisbursementDetailsModel();
-                    disdm.Disid = dis.Disid;
-                    disdm.Itemid = ri.ItemID;
-                    disdm.Qty = ri.ApproveQty;
-                    disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+                DisbursementDetailsModel disdm = new DisbursementDetailsModel();
+                disdm.Disid = dis.Disid;
+                disdm.Itemid = ri.ItemID;
+                disdm.Qty = ri.ApproveQty;
+                disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
                 if (ri.Qty > ri.ApproveQty)
                 {
                     OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
@@ -720,7 +793,7 @@ namespace LUSSISADTeam10Web.Controllers
                 }
             }
             reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
-            
+
             return View("Requisition");
         }
 
@@ -784,14 +857,14 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel req = new RequisitionModel();
             req = APIRequisition.GetRequisitionByReqid(id, token, out error);
 
-            if(req.Status != ConRequisition.Status.PREPARING)
+            if (req.Status != ConRequisition.Status.PREPARING)
             {
                 RedirectToAction("DisbursementLists");
             }
 
             req.Status = ConRequisition.Status.DELIVERED;
             req = APIRequisition.UpdateRequisition(req, token, out error);
-            
+
             // add notification here
 
             return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
@@ -821,16 +894,25 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start Phyo2
 
-        public ActionResult GetOrderRecommndation()
+        public ActionResult PurchaseOrder()
         {
+            string error = "";
             string token = GetToken();
             UserModel um = GetUser();
 
             List<InventoryDetailModel> inendetail = new List<InventoryDetailModel>();
+            PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
+            List<ItemModel> ItemsList = new List<ItemModel>();
+            List<SupplierModel> sups = new List<SupplierModel>();
+            List<SupplierItemModel> SupItems = new List<SupplierItemModel>();
+            povm.podms = new List<PurchaseOrderDetailViewModel>();
+            List<SupplierItemModel> Supitemprices = new List<SupplierItemModel>();
+            List<PurchaseOrderDetailViewModel> poview = new List<PurchaseOrderDetailViewModel>();
 
             try
             {
-                inendetail = APIInventory.GetAllInventoryDetails(token, out string error);
+                inendetail = APIInventory.GetAllInventoryDetails(token, out error);
+                SupItems = APISupplier.GetAllSupplierItems(token, out error);
 
                 inendetail = inendetail.Where(p => p.RecommendedOrderQty > 0).ToList();
 
@@ -838,13 +920,99 @@ namespace LUSSISADTeam10Web.Controllers
                 {
                     return RedirectToAction("Index", "Error", new { error });
                 }
+
+                povm.Purchasedby = um.Userid;
+                povm.Podate = DateTime.Now;
+                povm.Status = ConPurchaseOrder.Status.PENDING;
+
+                ItemsList = APIItem.GetAllItems(token, out error);
+                ViewBag.ItemsList = ItemsList;
+
+                foreach (InventoryDetailModel ivndm in inendetail)
+                {
+                    PurchaseOrderDetailViewModel podvm = new PurchaseOrderDetailViewModel
+                    {
+                        Itemid = ivndm.Itemid,
+                        ItemDescription = ivndm.ItemDescription,
+                        Qty = ivndm.RecommendedOrderQty ?? default(int),
+                        Prices = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).ToList(),
+                        SupplierIDs = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.SupId).ToList(),
+                        LowestPrice = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).Min()
+                    };
+                    poview.Add(podvm);
+                }
+                ViewBag.poview = poview;
+
             }
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return View(inendetail);
+            return View(povm);
+        }
+
+        public PartialViewResult GetSupplierLists(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<SupplierItemModel> supitems = new List<SupplierItemModel>();
+            supitems = APISupplier.GetAllSupplierItems(token, out error);
+
+
+            supitems = supitems.Where(x => x.ItemId == id).ToList();
+
+            ViewBag.minsup = supitems.Where(x => x.ItemId == id).Min(x => x.Price);
+
+            ViewBag.supitems = supitems;
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult PurchaseOrder(PurchaseOrderViewModel povm)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<PurchaseOrderDetailViewModel> podvm = new List<PurchaseOrderDetailViewModel>();
+            List<int> POIDs = new List<int>();
+            podvm = povm.podms;
+            List<int> sups = podvm.Select(x => x.SupplierID).Distinct().ToList();
+
+            foreach (int i in sups)
+            {
+                List<PurchaseOrderDetailViewModel> odvm = podvm.Where(x => x.SupplierID == i).ToList();
+                if (odvm.Count > 0)
+                {
+                    PurchaseOrderModel pom = new PurchaseOrderModel
+                    {
+                        Purchasedby = um.Userid,
+                        Supid = i,
+                        Podate = DateTime.Now,
+                        Status = ConPurchaseOrder.Status.PENDING
+                    };
+                    pom = APIPurchaseOrder.CreatePurchaseOrder(pom, token, out error);
+                    POIDs.Add(pom.PoId);
+                    foreach(PurchaseOrderDetailViewModel od in odvm)
+                    {
+                        PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
+                        podm.PoId = pom.PoId;
+                        podm.Itemid = od.Itemid;
+                        podm.Qty = od.Qty;
+                        podm.DelivQty = od.Qty;
+                        podm = APIPurchaseOrder.CreatePODetail(podm, token, out error);
+                    }
+                }
+            }
+
+            return RedirectToAction("PODetails" , new { ids = POIDs });
+        }
+
+        public ActionResult PODetails(List<int> ids)
+        {
+            return View();
         }
 
         public ActionResult StationaryRetrievalForm()
@@ -861,14 +1029,14 @@ namespace LUSSISADTeam10Web.Controllers
                 inendetail = APIDisbursement.GetRetriveItemListforClerk(token, out string error);
 
                 bkm = APIDisbursement.GetBreakDown(token, out string errors);
-                
-                
+
+
             }
 
 
 
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var mes = ex.Message;
             }
@@ -897,7 +1065,7 @@ namespace LUSSISADTeam10Web.Controllers
         public UserModel GetUser()
         {
             UserModel um = (UserModel)Session["user"];
-            if(um == null)
+            if (um == null)
             {
                 GetToken();
                 um = (UserModel)Session["user"];

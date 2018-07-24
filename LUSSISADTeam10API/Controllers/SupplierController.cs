@@ -174,7 +174,7 @@ namespace LUSSISADTeam10API.Controllers
 
         [HttpPost]
         [Route("api/supplier/importsupplier")]
-        public IHttpActionResult importsupplier(SupplierModel sup)
+        public IHttpActionResult importsupplier(List<SupplierModel> sup)
         {
             string error = "";
             List<SupplierModel> sim = SupplierRepo
@@ -189,5 +189,8 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sim);
         }
+
+
+
     }
 }

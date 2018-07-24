@@ -19,6 +19,7 @@
     <link href="~/styles/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <link href="~/styles/css/datatable.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.6/dist/sweetalert2.all.min.js"></script>
 
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
@@ -30,6 +31,34 @@
 
 </head>
 <body>
+
+    @if (Session["Noti"] == null)
+    {
+
+    }
+    else
+    {
+        var notitype = Session["notitype"];
+        var notititle = Session["notititle"];
+        var notimessage = Session["notimessage"];
+
+        if (notitype != null)
+        {
+
+            <script>
+                swal(
+                    '@notititle',
+                    '@notimessage',
+                    '@notitype'
+                )</script>
+        }
+
+        Session["noti"] = null;
+        Session["notitype"] = null;
+        Session["notititle"] = null;
+        Session["notimessage"] = null;
+    }
+
 
 
     <!-- Left Panel -->
@@ -150,38 +179,38 @@
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-    {
-                    <li class="active">
-                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                    </li>
-                    <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
-                    <li>
-                        <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
-                    </li>
-}
-else if (Session["Role"].ToString() == "3")
-{
-                    <li class="active">
-                        <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
-                    </li>
-                    <h3 class="menu-title">Manager</h3>
-                    <li>
-                        <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
-                    </li>
-}
+                        {
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                            </li>
+                            <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
+                            <li>
+                                <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                            </li>
+                        }
+                        else if (Session["Role"].ToString() == "3")
+                        {
+                            <li class="active">
+                                <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
+                            </li>
+                            <h3 class="menu-title">Manager</h3>
+                            <li>
+                                <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                            </li>
+                        }
 
-else
-{
-                    <li class="active">
-                        <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                    </li>
-}
+                        else
+                        {
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                            </li>
+                        }
 
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -216,7 +245,7 @@ else
                                     <i class="fa fa-check"></i>
                                     <p>Approved Requisition</p>
                                 </a>
-                                <a class="dropdown-item media bg-flat-color-5" href="@Url.Action("ApproveCollectionPoint", "Clerk", new { id = 3 })">
+                                <a class="dropdown-item media bg-flat-color-5" href="@Url.Action("ApproveCollectionPoint", "Clerk", new { id = 50 })">
                                     <i class="fa fa-info"></i>
                                     <p>Approved CollectionPoint</p>
                                 </a>
@@ -285,6 +314,7 @@ else
     <script src="~/styles/js/lib/data-table/buttons.print.min.js"></script>
     <script src="~/styles/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="~/styles/js/lib/data-table/datatables-init.js"></script>
+
     <!-- DataTable -->
     @RenderSection("scripts", required: false)
 

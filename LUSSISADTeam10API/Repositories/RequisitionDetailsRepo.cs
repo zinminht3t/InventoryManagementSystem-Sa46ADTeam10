@@ -216,15 +216,18 @@ namespace LUSSISADTeam10API.Repositories
                 {
                     OrderHistoryModel o = new OrderHistoryModel();
 
-                 
+
+
+                    o.Reqdate = order.requisition.reqdate;
+                    o.Deptid = order.requisition.deptid;
+                    o.Cpname = order.requisition.collectionpoint.cpname;
+                  o.Raisename = order.requisition.user.username;
+                    o.Deptname = order.requisition.department.deptname;
                    
-                   o.reqdate = order.requisition.reqdate;
-                  o.raisename = order.requisition.user.username;
-                    o.deptname = order.requisition.department.deptname;
 
                     if(order.requisition.status  == ConRequisition.Status.COMPLETED)
                     {
-                        o.status = "Completed Order";
+                        o.Status = "Completed Order";
                     }
                    
                     orhm.Add(o);

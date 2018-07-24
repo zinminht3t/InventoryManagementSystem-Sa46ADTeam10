@@ -12,7 +12,7 @@ namespace LUSSISADTeam10API.Repositories
     {
         private static ReportsModel ConvertDBReporttoAPIreport(MonthlyItemUsageByHOD monthlyhod)
         {
-            ReportsModel rm = new ReportsModel(monthlyhod.Item, monthlyhod.Category, monthlyhod.Quantity, monthlyhod.Unit_of_Measurement);
+            ReportsModel rm = new ReportsModel(monthlyhod.Item, monthlyhod.Category, monthlyhod.Quantity, monthlyhod.Unit_of_Measurement,monthlyhod.deptid,monthlyhod.deptname);
             return rm;
         }
 

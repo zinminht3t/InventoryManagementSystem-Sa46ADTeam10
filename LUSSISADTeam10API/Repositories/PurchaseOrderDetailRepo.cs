@@ -75,8 +75,8 @@ namespace LUSSISADTeam10API.Repositories
                 pod.itemid = podm.Itemid;
                 pod.qty = podm.Qty;
                 pod.delivqty = podm.DelivQty;
+                entities.purchaseorderdetails.Add(pod);
                 entities.SaveChanges();
-
                 podm = GetPurchaseOrderDetailByIDAndItemID(pod.poid, pod.itemid, out error);
             }
             catch (NullReferenceException)

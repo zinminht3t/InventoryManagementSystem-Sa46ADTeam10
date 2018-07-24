@@ -46,9 +46,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -188,7 +185,10 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
+    <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
+    <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -259,14 +259,6 @@
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
-    <Compile Include="Report\RptFrequentlyItemFive.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Report\RptFrequentlyItemFive1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptFrequentlyItemFive.rpt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap-theme.css" />
@@ -1362,6 +1354,10 @@
     <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
+    <Content Include="Views\Clerk\importsupplier.cshtml" />
+    <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
+    <Content Include="Views\Clerk\PODetails.cshtml" />
+    <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
     <Content Include="Views\Employee\RaiseRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisitions.cshtml" />
@@ -1371,6 +1367,7 @@
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
+    <Folder Include="Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
@@ -1385,12 +1382,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Report\RptFrequentlyItemFive.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFrequentlyItemFive1.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
