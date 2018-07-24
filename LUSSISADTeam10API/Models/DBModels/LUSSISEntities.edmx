@@ -157,6 +157,8 @@
           <Property Name="title" Type="nvarchar" MaxLength="255" />
           <Property Name="remark" Type="nvarchar" MaxLength="255" />
           <Property Name="isread" Type="bit" Nullable="false" />
+          <Property Name="notitype" Type="int" Nullable="false" />
+          <Property Name="resid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="outstandingrequisition">
           <Key>
@@ -1242,6 +1244,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="isread" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="department" Relationship="Self.FK_notification_department" FromRole="notification" ToRole="department" />
+          <Property Name="notitype" Type="Int32" Nullable="false" />
+          <Property Name="resid" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="outstandingrequisition">
           <Key>
@@ -2254,6 +2258,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="notifications">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.notification">
               <MappingFragment StoreEntitySet="notification">
+                <ScalarProperty Name="resid" ColumnName="resid" />
+                <ScalarProperty Name="notitype" ColumnName="notitype" />
                 <ScalarProperty Name="notiid" ColumnName="notiid" />
                 <ScalarProperty Name="datetime" ColumnName="datetime" />
                 <ScalarProperty Name="deptid" ColumnName="deptid" />

@@ -14,16 +14,16 @@ namespace LUSSISADTeam10API.Repositories
     public class DelegationRepo
     {
         private static LUSSISEntities entities = new LUSSISEntities();
-       private static DelegationModel CovertDBDelegationtoAPIUser(delegation delegation)
-       {
+        private static DelegationModel CovertDBDelegationtoAPIUser(delegation delegation)
+        {
             DelegationModel dgm = new DelegationModel(delegation.delid, delegation.startdate,
-                delegation.enddate, delegation.userid,delegation.user.username,delegation.user.role,
+                delegation.enddate, delegation.userid, delegation.user.username, delegation.user.role,
                 delegation.user.department.deptname,
-                delegation.active, delegation.assignedby,delegation.user1.username, delegation.user1.role,
+                delegation.active, delegation.assignedby, delegation.user1.username, delegation.user1.role,
                 delegation.user1.department.deptname);
-           return dgm;
-       }
-        public static DelegationModel GetDelegationByDelegationID(int delid , out string error )
+            return dgm;
+        }
+        public static DelegationModel GetDelegationByDelegationID(int delid, out string error)
         {
 
 
@@ -133,7 +133,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
         //update Delegation
-        public static DelegationModel UpdateDelegation(DelegationModel dm , out String error)
+        public static DelegationModel UpdateDelegation(DelegationModel dm, out String error)
         {
             error = "";
             // declare and initialize new LUSSISEntities to perform update
@@ -177,17 +177,19 @@ namespace LUSSISADTeam10API.Repositories
             DelegationModel ndel = new DelegationModel();
             try
             {
-              
-                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.Userid , out error);
+
+                DepartmentModel dep = DepartmentRepo.GetDepartmentByUserid(dele.Userid, out error);
                 List<UserModel> userlist = UserRepo.GetUserByDeptid(dep.Deptid, out error);
-                foreach (UserModel u in userlist) {
-                    List<DelegationModel> delelist =  GetDelegationByUserId(u.Userid, out error);
-                    foreach (DelegationModel deleg in delelist) {
+                foreach (UserModel u in userlist)
+                {
+                    List<DelegationModel> delelist = GetDelegationByUserId(u.Userid, out error);
+                    foreach (DelegationModel deleg in delelist)
+                    {
                         delegation del = entities.delegations.Where(p => p.delid == deleg.Delid).FirstOrDefault<delegation>();
-                        del.active = ConDelegation.Active.INACTIVE ;
+                        del.active = ConDelegation.Active.INACTIVE;
                         entities.SaveChanges();
                     }
-                    
+
 
                 }
                 d.startdate = dele.Startdate;
@@ -198,8 +200,17 @@ namespace LUSSISADTeam10API.Repositories
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
 
-                dele = GetDelegationByDelegationID(d.delid , out error);
-                
+                dele = GetDelegationByDelegationID(d.delid, out error);
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = dele.Delid;
+                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Title = "New Authority";
+                nom.NotiType = ConNotification.NotiType.DelegationAssigned;
+                nom.ResID = dele.Userid;
+                nom.Remark = "You has been assigned as a Temp Head of Department!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
+
 
             }
             catch (NullReferenceException)
@@ -210,7 +221,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return dele; 
+            return dele;
         }
 
 
@@ -227,14 +238,26 @@ namespace LUSSISADTeam10API.Repositories
                 // finding the delegation object using delegation API model
                 d = entities.delegations.Where(p => p.delid == dm.Delid).First<delegation>();
 
-             
+
                 d.active = ConDelegation.Active.INACTIVE;
 
                 // saving the update
                 entities.SaveChanges();
 
                 // return the updated model 
-                dm = GetDelegationByDelegationID(d.delid, out error); 
+                dm = GetDelegationByDelegationID(d.delid, out error);
+
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = dm.Delid;
+                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Title = "Authority Cancellation";
+                nom.NotiType = ConNotification.NotiType.DelegationCancelled;
+                nom.ResID = dm.Userid;
+                nom.Remark = "You has been removed as a Temp Head of Department!";
+
+
+                nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
             {
@@ -250,9 +273,9 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
- 
+
         //search the previous delegation with userlist
-        public static DelegationModel SearchPreviousDelegation(int deptid , out string error)
+        public static DelegationModel SearchPreviousDelegation(int deptid, out string error)
         {
 
             error = "";
@@ -284,12 +307,13 @@ namespace LUSSISADTeam10API.Repositories
             {
                 foreach (UserModel um in urm)
                 {
-                    List< DelegationModel> delee = GetDelegationByUserId(um.Userid , out error);
-                        
-                    foreach(DelegationModel dm in delee)
+                    List<DelegationModel> delee = GetDelegationByUserId(um.Userid, out error);
+
+                    foreach (DelegationModel dm in delee)
                     {
-                        if (dm.Active == ConDelegation.Active.ACTIVE) {
-                            ndel = dm ;
+                        if (dm.Active == ConDelegation.Active.ACTIVE)
+                        {
+                            ndel = dm;
                         }
 
 

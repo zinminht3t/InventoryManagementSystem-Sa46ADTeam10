@@ -305,6 +305,15 @@ namespace LUSSISADTeam10API.Repositories
 
                 // return the updated model 
                 dcpm = GetDepartmentCollectionPointByDcpID(dcp.deptcpid, out error);
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = 11;
+                nom.Role = ConUser.Role.CLERK;
+                nom.Title = "Collection Point Change Request Approval";
+                nom.NotiType = ConNotification.NotiType.CollectionPointChangeRequestApproval;
+                nom.ResID = dcpm.DeptCpID;
+                nom.Remark = "The new collection point change has been requested!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
             {
@@ -334,6 +343,31 @@ namespace LUSSISADTeam10API.Repositories
 
                 // return the updated model 
                 dcpm = GetDepartmentCollectionPointByDcpID(dcp.deptcpid, out error);
+
+                if(dcpm.Status == ConDepartmentCollectionPoint.Status.ACTIVE)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = dcpm.DeptID;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Approved Collection Point Change";
+                    nom.NotiType = ConNotification.NotiType.ClerkApprovedCollectionPointChange;
+                    nom.ResID = dcpm.DeptCpID;
+                    nom.Remark = "The new collection point change request has been approved by the store";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+
+                }
+                else if(dcpm.Status == ConDepartmentCollectionPoint.Status.REJECTED)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = dcpm.DeptID;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Rejected Collection Point Change";
+                    nom.NotiType = ConNotification.NotiType.ClerkRejectedCollectionPointChange;
+                    nom.ResID = dcpm.DeptCpID;
+                    nom.Remark = "The new collection point change request has been rejected by the store";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+
+                }
             }
             catch (NullReferenceException)
             {
