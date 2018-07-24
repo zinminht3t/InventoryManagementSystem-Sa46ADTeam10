@@ -1329,7 +1329,6 @@
     <Content Include="Views\Clerk\Inventory.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
-    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
     <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
@@ -1356,11 +1355,11 @@
     <Content Include="Views\Supervisor\History.cshtml" />
     <Content Include="Views\Clerk\importsupplier.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
-    <Content Include="Views\Clerk\PODetails.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
     <Content Include="Views\Employee\RaiseRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisition.cshtml" />
     <Content Include="Views\Employee\TrackRequisitions.cshtml" />
+    <Content Include="Views\Clerk\PODetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

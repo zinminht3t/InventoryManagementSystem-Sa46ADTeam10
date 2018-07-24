@@ -977,7 +977,12 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             List<PurchaseOrderDetailViewModel> podvm = new List<PurchaseOrderDetailViewModel>();
-            List<int> POIDs = new List<int>();
+            List<PurchaseOrderModel> POIDs = new List<PurchaseOrderModel>();
+            List<SupplierItemModel> SupItems = new List<SupplierItemModel>();
+
+
+            SupItems = APISupplier.GetAllSupplierItems(token, out error);
+
             podvm = povm.podms;
             List<int> sups = podvm.Select(x => x.SupplierID).Distinct().ToList();
 
@@ -994,7 +999,6 @@ namespace LUSSISADTeam10Web.Controllers
                         Status = ConPurchaseOrder.Status.PENDING
                     };
                     pom = APIPurchaseOrder.CreatePurchaseOrder(pom, token, out error);
-                    POIDs.Add(pom.PoId);
                     foreach(PurchaseOrderDetailViewModel od in odvm)
                     {
                         PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
@@ -1002,17 +1006,32 @@ namespace LUSSISADTeam10Web.Controllers
                         podm.Itemid = od.Itemid;
                         podm.Qty = od.Qty;
                         podm.DelivQty = od.Qty;
+                        podm.Price = SupItems.Where(x => x.ItemId == od.Itemid && x.SupId == od.SupplierID).First().Price;
                         podm = APIPurchaseOrder.CreatePODetail(podm, token, out error);
                     }
+
+                    pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
+
+                    POIDs.Add(pom);
                 }
             }
 
-            return RedirectToAction("PODetails" , new { ids = POIDs });
+            TempData["pos"] = POIDs;
+
+            return RedirectToAction("PODetails");
         }
 
-        public ActionResult PODetails(List<int> ids)
+        public ActionResult PODetails()
         {
-            return View();
+            List<PurchaseOrderModel> pos = new List<PurchaseOrderModel>();
+
+            pos = (List<PurchaseOrderModel>) TempData["pos"];
+
+            if(pos == null)
+            {
+                return View("PurchaseOrders");
+            }
+            return View(pos);
         }
 
         public ActionResult StationaryRetrievalForm()
