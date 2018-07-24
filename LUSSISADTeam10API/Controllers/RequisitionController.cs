@@ -333,16 +333,6 @@ namespace LUSSISADTeam10API.Controllers
             po.Status = ConRequisition.Status.REQUESTPENDING;
 
 
-            NotificationModel nom = new NotificationModel();
-            nom.Deptid = po.Depid;
-            nom.Role = ConUser.Role.HOD;
-            nom.Title = "Approved Requisition";
-            nom.NotiType = ConNotification.NotiType.ClerkApprovedRequisiton;
-            nom.ResID = po.Reqid;
-            nom.Remark = "The new requisition has been approved by the store";
-            nom = NotificationRepo.CreatNotification(nom, out error);
-
-
             // updating the status
             RequisitionModel pom = RequisitionRepo.UpdateRequisition(po, out error);
             if (error != "" || pom == null)

@@ -203,7 +203,7 @@ namespace LUSSISADTeam10API.Repositories
                 dele = GetDelegationByDelegationID(d.delid, out error);
 
                 NotificationModel nom = new NotificationModel();
-                nom.Deptid = dele.Delid;
+                nom.Deptid = d.user.deptid;
                 nom.Role = ConUser.Role.EMPLOYEEREP;
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
@@ -249,14 +249,12 @@ namespace LUSSISADTeam10API.Repositories
 
 
                 NotificationModel nom = new NotificationModel();
-                nom.Deptid = dm.Delid;
+                nom.Deptid = d.user.deptid;
                 nom.Role = ConUser.Role.EMPLOYEEREP;
                 nom.Title = "Authority Cancellation";
                 nom.NotiType = ConNotification.NotiType.DelegationCancelled;
                 nom.ResID = dm.Userid;
                 nom.Remark = "You has been removed as a Temp Head of Department!";
-
-
                 nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
