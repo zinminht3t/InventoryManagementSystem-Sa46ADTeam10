@@ -60,52 +60,52 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.ReorderQty)
                                     </th>
-                                    <th colspan="3"></th>
+                                    <th></th>
 
                                 </tr>
-                                
+
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
+                                    <tr>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ItemDescription)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CategoryName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UOM)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Stock)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ReorderLevel)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ReorderQty)
-                                    </td>
-                                  
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                            <a href="@Url.Action("EditItem", new { id = item.Invid })" >
-                                                <span class="ti-pencil-alt"></span>
-                                            </a>
-                                        </div>
-                                   
-                                        <div class="col-md-3">
-                                            <a href="@Url.Action("ItemTran", new { id = item.Itemid })">
-                                                <span class="ti-notepad "></span>
-                                            </a>
-                                        </div>
-                                        </div>
-                                    </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UOM)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReorderLevel)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReorderQty)
+                                        </td>
 
-                                </tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <a href="@Url.Action("EditItem", new { id = item.Invid })">
+                                                        <span class="ti-pencil-alt"></span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <a href="@Url.Action("ItemTran", new { id = item.Itemid })">
+                                                        <span class="ti-notepad "></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -115,5 +115,3 @@
         </div>
     </div>
 </div>
-
-
