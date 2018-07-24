@@ -25,7 +25,7 @@ namespace LUSSISADTeam10API.Repositories
 
         private static MonthlyItemUsageByClerkModel ConvertMonthlyItemUsageByClerktoAPI(MonthItemUsage miuc)
         {
-            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_, miuc.Usage_Item, miuc.Month_Name, miuc.supname);
+            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_, miuc.Usage_Item, miuc.Month_Name, miuc.year, miuc.supname);
             return iucm;
         }
 
