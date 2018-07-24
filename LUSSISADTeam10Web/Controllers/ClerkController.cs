@@ -174,33 +174,31 @@ namespace LUSSISADTeam10Web.Controllers
                         Excel.Workbook workbook = application.Workbooks.Open(path);
                         Excel.Worksheet worksheet = workbook.ActiveSheet;
                         Excel.Range range = worksheet.UsedRange;
-                        List<SupplierItemModel> SuppItem = new List<SupplierItemModel>();
+                        List<ImportSupplierItem> SuppItem = new List<ImportSupplierItem>();
                         for (int row = 2; row <= range.Rows.Count; row++)
                         {
 
 
-                            SupplierItemModel p = new SupplierItemModel();
-                            p.SupId = int.Parse(((Excel.Range)range.Cells[row, 1]).Text);
-                            p.SupName = ((Excel.Range)range.Cells[row, 2]).Text;
-                            p.ItemId = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
-                            p.Description = ((Excel.Range)range.Cells[row, 4]).Text;
-                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 5]).Text);
-                            p.Uom = ((Excel.Range)range.Cells[row, 6]).Text;
-                            p.CategoryName = ((Excel.Range)range.Cells[row, 7]).Text;
+                            ImportSupplierItem p = new ImportSupplierItem();
+
+                            p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
+                            p.Description = ((Excel.Range)range.Cells[row, 2]).Text;
+                            p.Uom = ((Excel.Range)range.Cells[row, 3]).Text;
+                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 4]).Text);                                                     
                             SuppItem.Add(p);
                         }
 
 
-                       List <SupplierItemModel> sm =  APISupplier.importsupplieritem(token, SuppItem, out string error);
+                       List <SupplierItemModel> sm =  APISupplier.newimportsuppliers(token, SuppItem, out string error);
                         workbook.Close();
-                        int i = 0;
-                        foreach (SupplierItemModel s in sm) {
+//int i = 0;
+                      //  foreach (SupplierItemModel s in sm) {
+//
+                     //       i = s.SupId;
+                     //   }
+                     //   List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
 
-                            i = s.SupId;
-                        }
-                        List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
-
-                        return View(sm1);
+                        return View(sm);
                     }
                     else
                     {
