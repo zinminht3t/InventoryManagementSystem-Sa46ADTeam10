@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.Models.APIModels;
+using LUSSISADTeam10Web.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -119,13 +120,29 @@ namespace LUSSISADTeam10Web.API
             csp = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
             return csp;
         }
-        public static List<SupplierItemModel> importsupplier(string token, List<SupplierItemModel> csp, out string error)
+        public static List<SupplierItemModel> importsupplieritem(string token, List<SupplierItemModel> csp, out string error)
         {
             error = "";
-            string url = APIHelper.Baseurl + "/supplieritem/importsupplier";
+            string url = APIHelper.Baseurl + "/supplieritem/importsupplieritem";
             string objectstring = JsonConvert.SerializeObject(csp);
             csp = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
             return csp;
+        }
+        public static List<SupplierModel> importsupplier(string token, List<SupplierModel> csp, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/supplier/importsupplier";
+            string objectstring = JsonConvert.SerializeObject(csp);
+            csp = APIHelper.Execute<List<SupplierModel>>(token, objectstring, url, out error);
+            return csp;
+        }
+        public static List<SupplierItemModel> newimportsuppliers(string token, List<ImportSupplierItem> csp, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/supplieritem/importsupitems";
+            string objectstring = JsonConvert.SerializeObject(csp);
+            List <SupplierItemModel > csp1 = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
+            return csp1;
         }
     }
 }

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.PurchaseOrderModel>
+
+@{
+    ViewBag.Title = "Purchase Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Purchase Orders</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li class="active">Purchase Orders</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Purchase Orders </strong>
+            </div>
+            <div class="card-body">
+
+                <div class="container">
+
+                    <div class="panel-group" id="accordion">
+                        @foreach (var item in Model)
+                        {
+                            <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionforreq" href="#@item.PoId">
+                                            Purchase Order ID : @item.PoId
+                                            -
+                                            Supplier : @item.SupName
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="@item.PoId" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <hr />
+                                        <h6>PO ID :  @item.PoId </h6><br />
+                                        <h6>Supplier :  @item.SupName </h6><br />
+                                        <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
+                                        <div class="text-sm-center">
+
+                                            <table class="table table-bordered table-hover">
+                                                <thead class="table-info">
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th>Description</th>
+                                                        <th>Quantity</th>
+                                                        <th>Price</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var items in item.podms)
+                                                    {
+                                                        <tr>
+                                                            <td>@items.Itemid</td>
+                                                            <td>@items.ItemDescription</td>
+                                                            <td>@items.Qty</td>
+                                                            <td>@items.</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
+            e.stopPropagation();
+        });
+    </script>
+}
+

@@ -84,6 +84,32 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sm;
         }
+
+
+        public static SupplierModel GetSupplierBySupname(String name, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplier sup = new supplier();
+            SupplierModel sm = new SupplierModel();
+            try
+            {
+                sup = entities.suppliers
+                    .Where(x => x.supname == name)
+                    .First();
+                sm = ConvertDBSupToAPISup(sup);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return sm;
+        }
         public static List<SupplierModel> GetSupplierByStatus(int status, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();

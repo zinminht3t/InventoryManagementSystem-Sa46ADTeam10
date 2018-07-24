@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+}
+
+
+@foreach (var item in ViewBag.supitems)
+
+{
+    var selected = "";
+
+    if (item.Price == ViewBag.minsup)
+    {
+        selected = "selected";
+    }
+
+    <option value="@item.SupId" @selected>
+        SUP @item.SupId - S$ @item.Price
+    </option>
+
+}

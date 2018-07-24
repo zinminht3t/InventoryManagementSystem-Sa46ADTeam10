@@ -126,7 +126,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 supitems = entities.supplieritems
                     .Where(x => x.itemid == itemid).ToList();
-                foreach(supplieritem si in supitems)
+                foreach (supplieritem si in supitems)
                 {
                     sims.Add(ConvertDBSupItemToAPISupItem(si));
                 }
@@ -145,6 +145,58 @@ namespace LUSSISADTeam10API.Repositories
             }
             return sims;
         }
+
+        public static SupplierItemModel GetSupplierItemListByItemIdandSupid(int itemid, int supid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            supplieritem supitems = new supplieritem();
+
+            SupplierItemModel supim = new SupplierItemModel();
+            try
+            {
+                supitems = entities.supplieritems
+                    .Where(x => x.itemid == itemid && x.supid == supid).First();
+
+                supim = ConvertDBSupItemToAPISupItem(supitems);
+
+
+
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (InvalidOperationException)
+            {
+                error = ConError.Status.BADREQUEST;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return supim;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Add item by specific supplier
         public static SupplierItemModel AddItemOfSupplier
@@ -179,29 +231,34 @@ namespace LUSSISADTeam10API.Repositories
 
         //import with csv format file
 
-        public static List<SupplierItemModel> csvsupplier(List<SupplierItemModel> csp, out string error) {
+        public static List<SupplierItemModel> csvsupplier(List<SupplierItemModel> csp, out string error)
+        {
             bool test = false;
             int supid = 0;
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            foreach (SupplierItemModel sm in csp) {
-                 supid = sm.SupId;
+            foreach (SupplierItemModel sm in csp)
+            {
+                supid = sm.SupId;
                 List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
-                foreach (SupplierItemModel sm1 in csp1) {
+                foreach (SupplierItemModel sm1 in csp1)
+                {
 
-                    if (sm.Description == sm1.Description) {
-                         test = true ;
+                    if (sm.Description == sm1.Description)
+                    {
+                        test = true;
                         UpdateSupplierItem(sm, out string error2);
                     }
                 }
-                if (test == false) {
+                if (test == false)
+                {
                     AddItemOfSupplier(sm, out string error3);
                 }
                 else
-                    {
+                {
                     test = false;
                 }
-                    }
+            }
             List<SupplierItemModel> smretrun = GetItemsBySupplier(supid, out string error4);
             return smretrun;
 
@@ -230,20 +287,23 @@ namespace LUSSISADTeam10API.Repositories
                 }
                 if (test == false)
                 {
-                 
-                        ItemModel im = ItemRepo.GetItemByItemid(sm.ItemId, out string error2);
-                        if (im != null)
-                        {
-                            AddItemOfSupplier(sm, out string error3);
-                            im = null;
-                            
-                        
+
+                    ItemModel im = ItemRepo.GetItemByItemid(sm.ItemId, out string error2);
+                    if (im != null)
+                    {
+                        AddItemOfSupplier(sm, out string error3);
+                        im = null;
+
+
                     }
+
+
+
                     test = false;
                 }
                 else
-                {                                          
-                            test = false;                    
+                {
+                    test = false;
                 }
             }
             List<SupplierItemModel> smretrun = GetItemsBySupplier(supid, out string error4);
@@ -251,6 +311,78 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
+        public static List<SupplierItemModel> ImportfromItemlistExcel(List<ImportSupplierItem> csp, out string error)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            List<SupplierItemModel> createdsupitemlist = new List<SupplierItemModel>();
+            error = "";
+            foreach (ImportSupplierItem sm in csp)
+            {
+
+                SupplierModel spm = SupplierRepo.GetSupplierBySupname(sm.SupName, out string error1);
+
+                if (spm.SupName != "")
+                {
+
+                    ItemModel im1 = ItemRepo.GetItemByItemDescription(sm.Description, out string error3);
+
+                    if (im1.Description != "")
+                    {
+
+                        SupplierItemModel sim = GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error5);
+                        if (sim.SupId != 0)
+                        {
+
+                            supplieritem supitem = entities.supplieritems
+                        .Where(x => x.supid == spm.SupId &&
+                        x.itemid == sim.ItemId).First();
+                            supitem.price = sm.Price;
+                            entities.SaveChanges();
+                            createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, sim.SupId, out string error7));
+                        }
+                        else
+                        {
+
+                            supplieritem supitem = new supplieritem();
+                            supitem.supid = spm.SupId;
+                            supitem.itemid = im1.Itemid;
+                            supitem.price = sm.Price;
+                            entities.supplieritems.Add(supitem);
+                            entities.SaveChanges();
+                            createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error8));
+                        }
+
+                    }
+
+                    else
+                    {
+                        item item = new item();
+
+
+                        item.catid = 21;
+                        item.description = sm.Description;
+                        item.uom = sm.Uom;
+                        item = entities.items.Add(item);
+                        entities.SaveChanges();
+
+                        ItemModel im = ItemRepo.GetItemByItemid(item.itemid, out error);
+
+
+                        supplieritem supitem = new supplieritem();
+                        supitem.supid = spm.SupId;
+                        supitem.itemid = im.Itemid;
+                        supitem.price = sm.Price;
+                        entities.supplieritems.Add(supitem);
+                        entities.SaveChanges();
+                        createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im.Itemid, spm.SupId, out string error5));
+
+                    }
+                }
+            }
+            return createdsupitemlist;
+
+        }
 
 
 

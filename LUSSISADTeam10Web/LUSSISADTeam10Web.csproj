@@ -168,6 +168,7 @@
     <Compile Include="APIModels\DisbursementDetailsModel.cs" />
     <Compile Include="APIModels\DisbursementModel.cs" />
     <Compile Include="APIModels\FrequentlyTop5ItemsModel.cs" />
+    <Compile Include="APIModels\ImportSupplierItem.cs" />
     <Compile Include="APIModels\InventoryDetailModel.cs" />
     <Compile Include="APIModels\InventoryModel.cs" />
     <Compile Include="APIModels\InventoryTransactionModel.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
     <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
+    <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
+    <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -1053,7 +1056,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Styles\images\.gitignore" />
-    <Content Include="Content\test1.xlsx" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - Web Deploy.pubxml" />
     <None Include="Styles\Scripts\jquery-3.3.1.intellisense.js" />
@@ -1327,7 +1329,6 @@
     <Content Include="Views\Clerk\Inventory.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
-    <Content Include="Views\Clerk\GetOrderRecommndation.cshtml" />
     <Content Include="Views\Clerk\StationaryRetrievalForm.cshtml" />
     <Content Include="Views\Clerk\Requisition.cshtml" />
     <Content Include="Views\Clerk\RequisitionDetail.cshtml" />
@@ -1352,9 +1353,17 @@
     <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
+    <Content Include="Views\Clerk\importsupplier.cshtml" />
+    <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
+    <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
+    <Content Include="Views\Employee\RaiseRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisition.cshtml" />
+    <Content Include="Views\Employee\TrackRequisitions.cshtml" />
+    <Content Include="Views\Clerk\PODetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />

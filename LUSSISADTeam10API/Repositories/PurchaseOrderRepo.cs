@@ -16,7 +16,7 @@ namespace LUSSISADTeam10API.Repositories
             List<PurchaseOrderDetailModel> podms = new List<PurchaseOrderDetailModel>();
             foreach (purchaseorderdetail pod in po.purchaseorderdetails)
             {
-                podms.Add(new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom));
+                podms.Add(new PurchaseOrderDetailModel(pod.poid, pod.itemid, pod.item.description, pod.qty, pod.delivqty, pod.item.category.name, pod.item.uom, pod.price as double?));
             }
             PurchaseOrderModel pom = new PurchaseOrderModel(po.poid, po.purchasedby, po.user.fullname, po.supid, po.supplier.supname, po.podate, po.status, podms);
             return pom;
@@ -161,7 +161,7 @@ namespace LUSSISADTeam10API.Repositories
         }
 
         //Create new PurchaseOrder
-        public static PurchaseOrderModel CreatePurchaseOrder(PurchaseOrderModel pom, List<PurchaseOrderDetailModel> podms, out string error)
+        public static PurchaseOrderModel CreatePurchaseOrder(PurchaseOrderModel pom, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
@@ -175,22 +175,7 @@ namespace LUSSISADTeam10API.Repositories
                 po.status = pom.Status;
                 po = entities.purchaseorders.Add(po);
                 entities.SaveChanges();
-
-                foreach (PurchaseOrderDetailModel podm in podms)
-                {
-                    purchaseorderdetail pod = new purchaseorderdetail
-                    {
-                        poid = po.poid,
-                        itemid = podm.Itemid,
-                        qty = podm.Qty,
-                        delivqty = podm.DelivQty
-                    };
-                    pod = entities.purchaseorderdetails.Add(pod);
-                    entities.SaveChanges();
-                    pods.Add(pod);
-                }
-
-                pom = GetPurchaseOrderByID(pom.PoId, out error);
+                pom = GetPurchaseOrderByID(po.poid, out error);
             }
             catch (NullReferenceException)
             {
