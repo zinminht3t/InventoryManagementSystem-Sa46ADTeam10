@@ -142,7 +142,36 @@ namespace LUSSISADTeam10API.Repositories
             return mucbc;
         }
 
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
 
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<MonthlyItemUsageByClerkModel> mucbc = new List<MonthlyItemUsageByClerkModel>();
+
+            try
+            {
+
+
+                List<MonthItemUsage> rms = entities.MonthItemUsages.ToList<MonthItemUsage>();
+
+                // convert the DB Model list to API Model list
+                foreach (MonthItemUsage repl in rms)
+                {
+                    mucbc.Add(ConvertMonthlyItemUsageByClerktoAPI(repl));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return mucbc;
+        }
 
         public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error,string fristdepartname,string seconddepartname, string thirddepartname,string description)
         {
@@ -176,7 +205,36 @@ namespace LUSSISADTeam10API.Repositories
             return mucbc;
         }
 
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
 
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<ItemTrendAnalysisModel> mucbc = new List<ItemTrendAnalysisModel>();
+
+            try
+            {
+
+
+                List<ItemTrendAnalysi> rms = entities.ItemTrendAnalysis.ToList<ItemTrendAnalysi>();
+
+                // convert the DB Model list to API Model list
+                foreach (ItemTrendAnalysi repl in rms)
+                {
+                    mucbc.Add(ConvertItemTrendAnalysis(repl));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return mucbc;
+        }
 
 
         public static List<FrequentlyTop5ItemsModel> FrequentlyTop5Items(out string error)

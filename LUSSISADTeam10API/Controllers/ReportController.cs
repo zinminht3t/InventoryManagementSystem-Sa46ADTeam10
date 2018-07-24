@@ -54,6 +54,25 @@ namespace LUSSISADTeam10API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/ItemUsageByClerk/")]
+        public IHttpActionResult ItemUsageByClerk()
+        {
+            string error = "";
+            List<MonthlyItemUsageByClerkModel> reqm = ReportRepo.ItemUsageByClerk(out error);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || reqm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(reqm);
+        }
+
 
         [HttpGet]
         [Route("api/ItemUsageByClerk/{suppliername}/{month}")]
@@ -101,6 +120,25 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error, fristdepartname, seconddepartname, thirddepartname, description);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || reqm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(reqm);
+        }
+
+        [HttpGet]
+        [Route("api/ItemTrendAnalysis/")]
+        public IHttpActionResult ItemTrendAnalysis()
+        {
+            string error = "";
+            List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error);
             // if the erorr is not blank or the category list is null
             if (error != "" || reqm == null)
             {
