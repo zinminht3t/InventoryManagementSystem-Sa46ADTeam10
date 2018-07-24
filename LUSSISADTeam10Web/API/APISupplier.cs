@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.Models.APIModels;
+using LUSSISADTeam10Web.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -134,6 +135,14 @@ namespace LUSSISADTeam10Web.API
             string objectstring = JsonConvert.SerializeObject(csp);
             csp = APIHelper.Execute<List<SupplierModel>>(token, objectstring, url, out error);
             return csp;
+        }
+        public static List<SupplierItemModel> newimportsuppliers(string token, List<ImportSupplierItem> csp, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/supplieritem/importsupitems";
+            string objectstring = JsonConvert.SerializeObject(csp);
+            List <SupplierItemModel > csp1 = APIHelper.Execute<List<SupplierItemModel>>(token, objectstring, url, out error);
+            return csp1;
         }
     }
 }
