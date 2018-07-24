@@ -44,75 +44,80 @@
                     <strong class="card-title"> Edit Item </strong>
                 </div>
                 <div class="card-body">
+                    
                     <form asp-action="EditItem" asp-controller="Clerk" method="post">
                         <div class="form-horizontal">
                             <hr />
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                             <div class="row">
                                 <div class="col-md-4"> @Html.LabelFor(model => model.ItemDescription) </div>
                                 <div class="col-md-6">
-                                    @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+                                    @Html.DisplayFor(model => model.ItemDescription)
+                                    @Html.HiddenFor(model => model.ItemDescription)
                                 </div>
                             </div><br />
                             <div class="row">
-
-                                <div class="col-md-4">@Html.LabelFor(model => model.CategoryName) </div>
+                                <div class="col-md-4"> @Html.LabelFor(model => model.CategoryName) </div>
                                 <div class="col-md-6">
-                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.HiddenFor(model => model.CatId)
-                                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+
+                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist))
+
                                 </div>
                             </div>
+
                             <br />
                             <div class="row">
                                 <div class="col-md-4">@Html.LabelFor(model => model.Stock) </div>
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+
                                 </div>
                             </div><br />
                             <div class="row">
                                 <div class="col-md-4">@Html.LabelFor(model => model.ReorderLevel)</div>
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.ReorderLevel, "", new { @class = "text-danger" })
+
                                 </div>
                             </div><br />
                             <div class="row">
                                 <div class="col-md-4"> @Html.LabelFor(model => model.ReorderQty)</div>
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.ReorderQty, "", new { @class = "text-danger" })
+
                                 </div>
-                            </div><br />
+                            </div>
 
 
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
+
                                     <input type="hidden" name="Invid" asp-for="@Model.Invid" value="@Model.Invid" />
                                     <input type="hidden" name="Itemid" asp-for="@Model.Itemid" value="@Model.Itemid" />
                                     <input type="hidden" name="UOM" asp-for="@Model.UOM" value="@Model.UOM" />
-                                   
-                                    <input type="Submit" class="btn btn-outline-success pull-left btn-flat m-b-30 m-t-30" value="Save">
+                                    <input type="hidden" name="CategoryName" asp-for="@Model.CategoryName" value="@Model.CategoryName" />
                                 </div>
+
                             </div>
                         </div>
                     </form>
-                    <div>
-                        @Html.ActionLink("Back to List", "Manage")
-                    </div>
-
-
-
                 </div>
+                <div><input type="Submit" class="btn btn-outline-success col-md-2 btn-flat m-b-30 m-t-30" value="Save"></div>
+                        <br />
+
+                      
+                            <div>
+                                @Html.ActionLink("Back to List", "Manage")
+                            </div><br />
+                       
+
+
+                        </div>
             </div>
 
 
 
         </div>
-    </div>
+   
 
 
 }

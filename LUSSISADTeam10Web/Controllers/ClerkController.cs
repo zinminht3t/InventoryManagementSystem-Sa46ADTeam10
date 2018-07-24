@@ -380,11 +380,14 @@ namespace LUSSISADTeam10Web.Controllers
             ItemModel itm = new ItemModel();
             ViewBag.InventoryModel = invm;
             InventoryViewModel viewmodel = new InventoryViewModel();
+            List<CategoryModel> cm = new List<CategoryModel>();
             invm = APIInventory.GetInventoryByInvid(id, token, out string error);
 
             try
             {
-
+                cm = APICategory.GetAllCategories(token, out error);
+            
+                
                 ViewBag.InventoryModel = invm;
 
                 viewmodel.CatId = itm.Catid;
@@ -392,10 +395,21 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
                 viewmodel.ReorderQty = invm.ReorderQty;
-                viewmodel.CategoryName = invm.CategoryName;
+                //viewmodel.CategoryName = invm.CategoryName;
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
+                List<String> catname = new List<string>();
+
+                ViewBag.cat = cm;
+
+                foreach (CategoryModel c in cm)
+                {
+                    catname.Add(c.Name);
+
+
+                }
+                ViewBag.catlist = catname;
 
             }
             catch (Exception ex)
@@ -416,13 +430,12 @@ namespace LUSSISADTeam10Web.Controllers
             InventoryModel invm = new InventoryModel();
             ItemModel it = new ItemModel();
             CategoryModel c = new CategoryModel();
-
-
+   
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
             c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
-
             c.Name = viewmodel.CategoryName;
+            
             invm.Invid = viewmodel.Invid;
             invm.Itemid = viewmodel.Itemid;
             invm.Stock = viewmodel.Stock;
@@ -445,7 +458,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
-        /////////
+       
 
         public ActionResult SearchByTransDate(DateTime? startdate,DateTime? enddate)
 
