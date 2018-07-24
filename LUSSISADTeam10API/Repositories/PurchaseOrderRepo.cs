@@ -161,7 +161,7 @@ namespace LUSSISADTeam10API.Repositories
         }
 
         //Create new PurchaseOrder
-        public static PurchaseOrderModel CreatePurchaseOrder(PurchaseOrderModel pom, List<PurchaseOrderDetailModel> podms, out string error)
+        public static PurchaseOrderModel CreatePurchaseOrder(PurchaseOrderModel pom, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
@@ -175,22 +175,7 @@ namespace LUSSISADTeam10API.Repositories
                 po.status = pom.Status;
                 po = entities.purchaseorders.Add(po);
                 entities.SaveChanges();
-
-                foreach (PurchaseOrderDetailModel podm in podms)
-                {
-                    purchaseorderdetail pod = new purchaseorderdetail
-                    {
-                        poid = po.poid,
-                        itemid = podm.Itemid,
-                        qty = podm.Qty,
-                        delivqty = podm.DelivQty
-                    };
-                    pod = entities.purchaseorderdetails.Add(pod);
-                    entities.SaveChanges();
-                    pods.Add(pod);
-                }
-
-                pom = GetPurchaseOrderByID(pom.PoId, out error);
+                pom = GetPurchaseOrderByID(po.poid, out error);
             }
             catch (NullReferenceException)
             {
