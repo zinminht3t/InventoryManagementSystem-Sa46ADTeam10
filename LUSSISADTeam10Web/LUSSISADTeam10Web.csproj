@@ -1377,6 +1377,7 @@
     <Content Include="Views\Clerk\PurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
+    <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
