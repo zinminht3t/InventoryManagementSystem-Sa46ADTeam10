@@ -310,9 +310,6 @@ namespace LUSSISADTeam10Web.Controllers
                     viewmodel.OldCpName = p.CpName;
                 }
 
-
-
-
             }
             catch (Exception ex)
             {
@@ -463,7 +460,6 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
        
-
         public ActionResult SearchByTransDate(DateTime? startdate, DateTime? enddate)
 
         {
@@ -541,6 +537,32 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
+        public ActionResult RequisitionsComplete()
+        {
+            string token = GetToken();
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+
+            try
+            {
+                int status = 6;
+                reqms=APIRequisition.GetRequisitionByStatus(status, token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(reqms);
+        }
+
+   
+
         //END TAZ
 
         //Start Mahsu

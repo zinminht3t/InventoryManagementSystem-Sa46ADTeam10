@@ -1,0 +1,108 @@
+﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionWithDisbursementModel
+
+
+@{
+    ViewBag.Title = "RequisitionDisbursement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RequisitionDisbursement</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reqid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Raisedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rasiedbyname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approvedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approvedbyname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Depid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Depname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cpid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cpname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reqdate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reqid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Raisedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rasiedbyname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approvedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approvedbyname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LockerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LockerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reqdate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
