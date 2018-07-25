@@ -141,9 +141,9 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("ShowActiveSupplierlist");
         }
-        public ActionResult csvsupplier1()
+        public ActionResult CreateSuppandItem()
         {
-            return View("csvsupplier1");
+            return View("CreateSuppandItem");
         }
 
         [HttpPost]
