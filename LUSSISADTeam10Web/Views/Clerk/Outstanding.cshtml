@@ -59,9 +59,6 @@
                             <th>
                                 Detail
                             </th>
-                            <th>
-                                Status
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,20 +79,21 @@
                                     @item.Reason
                                 </td>
                                 <td>
-                                    @if (item.CanFullFill)
+                                    @if (item.Status == 0)
                                     {
-                                        if (item.Status == 0)
+
+                                        if (item.CanFullFill)
                                         {
                                             <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-anchor"></i>  Process</a>
                                         }
                                         else
                                         {
-                                            <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-desktop"></i>  View</a>
+                                            <span class="text-warning"> No Stock Avaiable Yet!</span>
                                         }
                                     }
                                     else
                                     {
-                                        <span class="text-warning"> No Stock Avaiable Yet!</span>
+                                        <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-desktop"></i>  View</a>
                                     }
                                 </td>
                             </tr>
