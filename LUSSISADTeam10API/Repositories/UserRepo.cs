@@ -140,7 +140,7 @@ namespace LUSSISADTeam10API.Repositories
             List<UserModel> urm = new List<UserModel>();
             try
             {
-                ums = entities.users.Where(p => p.deptid == deptid && p.role != ConUser.Role.HOD).ToList<user>();
+                ums = entities.users.Where(p => p.deptid == deptid && p.role != ConUser.Role.HOD && p.role != ConUser.Role.DEPARTMENTREP).ToList<user>();
                 foreach (user u in ums)
                 {
                     urm.Add(CovertDBUsertoAPIUser(u));
