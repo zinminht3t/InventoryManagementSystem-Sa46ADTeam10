@@ -160,6 +160,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
+
         // End TAZ
 
         public static UserModel AssignDepRep(int id)
@@ -183,6 +184,28 @@ namespace LUSSISADTeam10API.Repositories
             nom = NotificationRepo.CreatNotification(nom, out string error);
             return umm;
         }
+
+        public static UserModel delegateuser(int userid)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            user u = entities.users.Where(p => p.userid == userid).First<user>();       
+            u.role = ConUser.Role.TEMPHOD;        
+            entities.SaveChanges();
+            return CovertDBUsertoAPIUser(u);
+        }
+
+
+        public static UserModel canceldelegateuser(int userid)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            user u = entities.users.Where(p => p.userid == userid).First<user>();
+            u.role = ConUser.Role.EMPLOYEEREP;
+            entities.SaveChanges();
+            return CovertDBUsertoAPIUser(u);
+        }
+
 
     }
 }

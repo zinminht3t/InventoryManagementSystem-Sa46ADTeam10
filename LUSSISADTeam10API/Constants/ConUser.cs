@@ -15,6 +15,7 @@ namespace LUSSISADTeam10API.Constants
             public const int HOD = 4;
             public const int EMPLOYEEREP = 5;
             public const int DEPARTMENTREP = 6;
+            public const int TEMPHOD = 7;
         }
     }
 }
