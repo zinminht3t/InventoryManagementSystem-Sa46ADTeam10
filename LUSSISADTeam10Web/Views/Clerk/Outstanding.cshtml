@@ -48,6 +48,12 @@
                                 Req ID
                             </th>
                             <th>
+                                Date
+                            </th>
+                            <th>
+                                Department
+                            </th>
+                            <th>
                                 Reason
                             </th>
                             <th>
@@ -64,10 +70,31 @@
                                     @item.ReqId
                                 </td>
                                 <td>
+                                    @item.ReqDate
+                                </td>
+                                <td>
+                                    @item.DeptName
+                                </td>
+                                <td>
                                     @item.Reason
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("OutstandingDetail", "Clerk",  new {id = item.OutReqId }, null)" class="btn btn-outline-info"> <i class="fa fa-user"></i>  Process</a>
+                                    @if (item.Status == 0)
+                                    {
+
+                                        if (item.CanFullFill)
+                                        {
+                                            <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-anchor"></i>  Process</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-warning"> No Stock Avaiable Yet!</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-desktop"></i>  View</a>
+                                    }
                                 </td>
                             </tr>
                         }

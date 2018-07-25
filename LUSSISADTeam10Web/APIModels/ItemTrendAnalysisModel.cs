@@ -7,14 +7,16 @@ namespace LUSSISADTeam10web.Models.APIModels
 {
     public class ItemTrendAnalysisModel
     {
-        public ItemTrendAnalysisModel(string deptname, string description, int? qty, int deptid, int itemid)
+        public ItemTrendAnalysisModel(string deptname, string description, int? qty, int deptid, int itemid, int? monofreq, int? yearofreq)
         {
             this.Deptname = deptname;
             this.Description = description;
             this.Qty = qty;
             this.Deptid = deptid;
             this.Itemid = itemid;
-    
+            this.Monthofreq = monofreq;
+            this.Yearofreq = yearofreq;
+
         }
 
         public string Deptname { get; set; }
@@ -24,6 +26,10 @@ namespace LUSSISADTeam10web.Models.APIModels
 
         public int Itemid { get; set; }
 
-        
+        public int? Monthofreq { get; set; }
+
+        public int? Yearofreq { get; set; }
+
+
     }
 }

@@ -38,7 +38,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // get outstanding req list from database
-                List<outstandingrequisition> outreqs = 
+                List<outstandingrequisition> outreqs =
                     entities.outstandingrequisitions.ToList();
 
                 // convert the DB Model list to API Model list
@@ -87,6 +87,47 @@ namespace LUSSISADTeam10API.Repositories
             }
             return orm;
         }
+        // Get Outstanding Req Model by Id number
+        public static bool CheckInventoryStock(int outreq, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            outstandingrequisition or = new outstandingrequisition();
+            OutstandingReqModel orm = new OutstandingReqModel();
+            List<inventory> invs = new List<inventory>();
+            inventory inv = new inventory();
+            bool result = false;
+
+            try
+            {
+
+                or = entities.outstandingrequisitions.Where(x => x.outreqid == outreq).FirstOrDefault();
+                invs = entities.inventories.ToList();
+                foreach (outstandingrequisitiondetail ord in or.outstandingrequisitiondetails)
+                {
+                    inv = invs.Where(x => x.itemid == ord.itemid).FirstOrDefault();
+                    if (ord.qty <= inv.stock)
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+                }
+                return result;
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return result;
+        }
         //Get Outstanding Req Model by Req Id
         public static OutstandingReqModel GetOutstandingReqByReqId(int reqid, out string error)
         {
@@ -100,6 +141,8 @@ namespace LUSSISADTeam10API.Repositories
                 or = entities.outstandingrequisitions
                     .Where(x => x.reqid == reqid)
                     .FirstOrDefault();
+
+                orm = GetOutstandingReqById(or.outreqid, out error);
             }
             catch (NullReferenceException)
             {
@@ -129,9 +172,35 @@ namespace LUSSISADTeam10API.Repositories
                 // transfering data from API model to DB Model
                 outreq.reqid = ordm.ReqId;
                 outreq.reason = ordm.Reason;
+                var TempStatus = outreq.status;
+
+
+                outreq.status = ordm.Status;
 
                 // saving the update
                 entities.SaveChanges();
+
+
+
+                if (TempStatus != ordm.Status && ordm.Status == ConOutstandingsRequisition.Status.DELIVERED)
+                {
+                    foreach (outstandingrequisitiondetail outrd in outreq.outstandingrequisitiondetails)
+                    {
+
+                        InventoryModel invm = InventoryRepo.GetInventoryByItemid(outrd.itemid, out error);
+                        invm.Stock -= outrd.qty;
+                        invm = InventoryRepo.UpdateInventory(invm, out error);
+                        InventoryTransactionModel invtm = new InventoryTransactionModel();
+                        invtm.ItemID = outrd.itemid;
+                        invtm.InvID = invm.Invid;
+                        invtm.Qty = (outrd.qty) * -1;
+                        invtm.TransDate = DateTime.Now;
+                        invtm.Remark = "Fulfill Outstanding" + outrd.outreqid;
+                        invtm.TransType = ConInventoryTransaction.TransType.OUTSTANDING;
+                        invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
+                    }
+                }
+
 
                 // return the updated model 
                 outreqm = ConvertDBOutReqToAPIOutReq(outreq);
@@ -159,7 +228,7 @@ namespace LUSSISADTeam10API.Repositories
                 // transfering data from API model to DB Model
                 List<outstandingrequisitiondetail> details =
                     new List<outstandingrequisitiondetail>();
-                foreach(OutstandingReqDetailModel ordModel in ordm.OutReqDetails)
+                foreach (OutstandingReqDetailModel ordModel in ordm.OutReqDetails)
                 {
                     details.Add(OutstandingReqDetailRepo
                     .ConvertAPIOutReqDetailToDBModel(ordModel));
@@ -168,7 +237,7 @@ namespace LUSSISADTeam10API.Repositories
                 outreq.reason = ordm.Reason;
                 outreq.status = ConOutstandingsRequisition.Status.PENDING;
                 outreq.outstandingrequisitiondetails = details;
-                    
+
                 // adding into DB
                 entities.outstandingrequisitions.Add(outreq);
                 entities.SaveChanges();

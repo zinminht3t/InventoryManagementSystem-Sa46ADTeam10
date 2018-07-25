@@ -75,11 +75,11 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/ItemUsageByClerk/{suppliername}/{month}")]
-        public IHttpActionResult ItemUsageByClerk(string suppliername,int month)
+        [Route("api/ItemUsageByClerk/{suppliername1}/{suppliername2}/{suppliername3}/{month}")]
+        public IHttpActionResult ItemUsageByClerk(int suppliername1, int suppliername2, int suppliername3,int month)
         {
             string error = "";
-            List<MonthlyItemUsageByClerkModel> reqm = ReportRepo.ItemUsageByClerk(out error,suppliername,month);
+            List<MonthlyItemUsageByClerkModel> reqm = ReportRepo.ItemUsageByClerk(out error,suppliername1,suppliername2,suppliername3,month);
             // if the erorr is not blank or the category list is null
             if (error != "" || reqm == null)
             {
@@ -115,11 +115,11 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/ItemTrendAnalysis/{fristdepartname}/{seconddepartname}/{thirddepartname}/{description}")]
-        public IHttpActionResult ItemTrendAnalysis(string fristdepartname,string seconddepartname,string thirddepartname, string description )
+        [Route("api/ItemTrendAnalysis/{fristdepartname}/{seconddepartname}/{thirddepartname}/{itemid}")]
+        public IHttpActionResult ItemTrendAnalysis(int fristdepartname,int seconddepartname,int thirddepartname, int itemid )
         {
             string error = "";
-            List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error, fristdepartname, seconddepartname, thirddepartname, description);
+            List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error, fristdepartname, seconddepartname, thirddepartname, itemid);
             // if the erorr is not blank or the category list is null
             if (error != "" || reqm == null)
             {

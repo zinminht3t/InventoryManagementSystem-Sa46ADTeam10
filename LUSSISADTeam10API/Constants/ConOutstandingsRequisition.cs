@@ -11,6 +11,7 @@ namespace LUSSISADTeam10API.Constants
         {
             public const int PENDING = 0;
             public const int COMPLETE = 1;
+            public const int DELIVERED = 1;
         }
     }
 }

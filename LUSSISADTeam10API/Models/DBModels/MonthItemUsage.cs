@@ -19,5 +19,6 @@ namespace LUSSISADTeam10API.Models.DBModels
         public Nullable<int> Month_Name { get; set; }
         public string supname { get; set; }
         public Nullable<int> year { get; set; }
+        public int supid { get; set; }
     }
 }

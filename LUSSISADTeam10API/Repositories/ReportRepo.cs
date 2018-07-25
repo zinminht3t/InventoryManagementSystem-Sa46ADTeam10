@@ -25,14 +25,14 @@ namespace LUSSISADTeam10API.Repositories
 
         private static MonthlyItemUsageByClerkModel ConvertMonthlyItemUsageByClerktoAPI(MonthItemUsage miuc)
         {
-            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_, miuc.Usage_Item, miuc.Month_Name, miuc.year, miuc.supname);
+            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_,miuc.Usage_Item,miuc.Month_Name,miuc.year, miuc.supname, miuc.supid);
             return iucm;
         }
 
 
         private static ItemTrendAnalysisModel ConvertItemTrendAnalysis(ItemTrendAnalysi ita)
         {
-            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName,ita.Item_Name,ita.Item_Usage,ita.deptid,ita.itemid);
+            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName,ita.Item_Name,ita.Item_Usage,ita.deptid,ita.itemid,ita.Monthofreq,ita.Yearofreq);
             return iucm;
         }
 
@@ -111,19 +111,18 @@ namespace LUSSISADTeam10API.Repositories
             return realism;
         }
 
-        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error,string suppliername,int month)
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error,int suppliername1,int suppliername2, int suppliername3, int month)
         {
             LUSSISEntities entities = new LUSSISEntities();
 
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<MonthlyItemUsageByClerkModel> mucbc = new List<MonthlyItemUsageByClerkModel>();
-
             try
             {
 
 
-                List<MonthItemUsage> rms = entities.MonthItemUsages.Where(p => p.supname == suppliername && p.Month_Name == month).ToList<MonthItemUsage>();
+                List<MonthItemUsage> rms = entities.MonthItemUsages.Where(p =>( p.supid == suppliername1 || p.supid == suppliername2 || p.supid == suppliername3 )&& p.Month_Name == month).ToList<MonthItemUsage>();
 
                 // convert the DB Model list to API Model list
                 foreach (MonthItemUsage repl in rms)
@@ -173,7 +172,7 @@ namespace LUSSISADTeam10API.Repositories
             return mucbc;
         }
 
-        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error,string fristdepartname,string seconddepartname, string thirddepartname,string description)
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error,int fristdepartname,int seconddepartname, int thirddepartname,int itemid)
         {
             LUSSISEntities entities = new LUSSISEntities();
 
@@ -185,8 +184,7 @@ namespace LUSSISADTeam10API.Repositories
             {
 
 
-                List<ItemTrendAnalysi> rms = entities.ItemTrendAnalysis.Where(p=>p.DepartmentName == fristdepartname || p.DepartmentName == seconddepartname || p.DepartmentName == thirddepartname && p.Item_Name 
-                 == description).ToList<ItemTrendAnalysi>();
+                List<ItemTrendAnalysi> rms = entities.ItemTrendAnalysis.Where(p=>(p.deptid == fristdepartname || p.deptid == seconddepartname || p.deptid == thirddepartname) && p.itemid == itemid).ToList<ItemTrendAnalysi>();
 
                 // convert the DB Model list to API Model list
                 foreach (ItemTrendAnalysi repl in rms)

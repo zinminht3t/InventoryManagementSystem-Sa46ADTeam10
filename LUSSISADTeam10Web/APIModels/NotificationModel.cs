@@ -36,6 +36,8 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public string Remark { get; set; }
 
         public bool Isread { get; set; }
+        public int NotiType { get; set; }
+        public int ResID { get; set; }
 
-}
+    }
 }
