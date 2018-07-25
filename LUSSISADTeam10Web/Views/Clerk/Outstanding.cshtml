@@ -84,7 +84,7 @@
                                 <td>
                                     @if (item.CanFullFill)
                                     {
-                                        @if (item.Status == 0)
+                                        if (item.Status == 0)
                                         {
                                             <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-anchor"></i>  Process</a>
                                         }
