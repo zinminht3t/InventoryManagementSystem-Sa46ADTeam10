@@ -184,12 +184,34 @@
                     </ul>
                 </div>
             }
+            else if (Session["Role"].ToString() == "7")
+            {
+                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                        </li>
+                        <h3 class="menu-title">Temporary HOD</h3>
+                        <li>
+                            <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            }
             else
             {
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-                        {
+                    {
                             <li class="active">
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
