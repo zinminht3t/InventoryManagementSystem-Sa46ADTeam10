@@ -1352,7 +1352,7 @@
     <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
     <Content Include="Views\Manager\Approve.cshtml" />
     <Content Include="Views\Clerk\csvsupplier.cshtml" />
-    <Content Include="Views\Clerk\csvsupplier1.cshtml" />
+    <Content Include="Views\Clerk\CreateSuppandItem.cshtml" />
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
