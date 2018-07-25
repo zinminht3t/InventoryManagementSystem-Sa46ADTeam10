@@ -19,5 +19,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public Nullable<int> Item_Usage { get; set; }
         public int deptid { get; set; }
         public int itemid { get; set; }
+        public Nullable<int> Monthofreq { get; set; }
+        public Nullable<int> Yearofreq { get; set; }
     }
 }
