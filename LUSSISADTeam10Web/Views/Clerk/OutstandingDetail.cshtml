@@ -94,10 +94,17 @@
                                 }
                                 else
                                 {
-                                    <button class="btn btn-outline-dark">Generate QR</button>
+                                    <div class="btn btn-outline-dark" onclick="generate()">Generate QR</div>
+
                                 }
 
                             </div>
+
+                            <div id="dialog" title="Basic dialog">
+                                <div id="qrgenerate" class="center-block"></div>
+                            </div>
+
+
                         </form>
 
                     </div>
@@ -107,13 +114,26 @@
             </div>
         </div>
 
-
-
     </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+
+
+
+    <script type="text/javascript">
+        var count = 0;
+        function generate() {
+            if (count == 0)
+                {
+                jQuery('#qrgenerate').qrcode('@Model.ReqId');
+                count++;
+            }
+        }
+
+
+    </script>
+
 }
 
 

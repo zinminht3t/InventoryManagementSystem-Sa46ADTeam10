@@ -12,7 +12,11 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Old Suppler List</h1>
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist" ,"Clerk")"><b>Old Suppliers</b></a></li>
+                    <li><a href="@Url.Action("ShowActiveSupplierlist", "Clerk")">ActiveSuppliers</a></li>
+                    <li><a href="@Url.Action("CreateSuppandItem", "Clerk")">Create </a></li>
+                   </ol>
             </div>
         </div>
     </div>
@@ -20,8 +24,9 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("DeActive", "Clerk")"  >Dashboard</a></li>
-                    <li><a href="@Url.Action("ShowActiveSupplierlist", "Clerk")">Active Suppliers</li>
+                    <li><a href="@Url.Action("DeActive", "Clerk")">Dashboard</a></li>
+                  
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist" ,"Clerk")">Old Suppliers</a></li>
                 </ol>
             </div>
         </div>

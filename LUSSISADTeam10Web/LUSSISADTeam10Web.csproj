@@ -1063,6 +1063,8 @@
     <Content Include="Styles\images\twitter_corner_blue.png" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />
+    <Content Include="Styles\js\jquery.qrcode.min.js" />
+    <Content Include="Styles\js\qrcode.js" />
     <Content Include="Styles\Scripts\bootstrap.js" />
     <Content Include="Styles\Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1377,6 +1379,7 @@
     <Content Include="Views\Clerk\PurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
+    <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

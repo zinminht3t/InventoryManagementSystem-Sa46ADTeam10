@@ -336,6 +336,7 @@ namespace LUSSISADTeam10Web.Controllers
                 {
                     viewmodel.OldCpName = p.CpName;
                 }
+
             }
             catch (Exception ex)
             {
@@ -565,6 +566,32 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
+        public ActionResult RequisitionsComplete()
+        {
+            string token = GetToken();
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+
+            try
+            {
+                int status = 6;
+                reqms = APIRequisition.GetRequisitionByStatus(status, token, out string error);
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(reqms);
+        }
+
+
+
         //END TAZ
 
         //Start Mahsu
@@ -857,8 +884,10 @@ namespace LUSSISADTeam10Web.Controllers
                 outreqvm.Reason = outr.Reason;
                 outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
                 outreqvm.OutReqDetails = outr.OutReqDetails;
-
-                outreqvms.Add(outreqvm);
+                if (reqm.Status == ConRequisition.Status.OUTSTANDINGREQUISITION)
+                {
+                    outreqvms.Add(outreqvm);
+                }
             }
 
             ViewBag.Outstandings = outreqvms;
@@ -879,7 +908,7 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION || 
+            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||
                 outr.Status == ConOutstandingsRequisition.Status.COMPLETE || outreqvm.CanFullFill == false)
             {
                 return RedirectToAction("Outstanding");

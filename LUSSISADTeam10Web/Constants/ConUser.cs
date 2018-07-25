@@ -15,6 +15,7 @@ namespace LUSSISADTeam10Web.Constants
             public const int HOD = 4;
             public const int EMPLOYEE = 5;
             public const int DEPARTMENTREP = 6;
+            public const int TEMPHOD = 7;
         }
 
         public static class RoleString
@@ -25,6 +26,7 @@ namespace LUSSISADTeam10Web.Constants
             public const string HOD = "HOD";
             public const string EMPLOYEE = "EMPLOYEE";
             public const string DEPARTMENTREP = "DEPARTMENTREP";
+            public const string TEMPHOD = "TEMPHOD";
         }
 
         public static string CovertRoletoRoleString(int role)
@@ -43,6 +45,8 @@ namespace LUSSISADTeam10Web.Constants
                     return RoleString.EMPLOYEE;
                 case Role.DEPARTMENTREP:
                     return RoleString.DEPARTMENTREP;
+                case Role.TEMPHOD:
+                    return RoleString.TEMPHOD;
             }
             return "";
         }
