@@ -107,7 +107,7 @@ namespace LUSSISADTeam10API.Repositories
                 foreach (outstandingrequisitiondetail ord in or.outstandingrequisitiondetails)
                 {
                     inv = invs.Where(x => x.itemid == ord.itemid).FirstOrDefault();
-                    if(ord.qty <= inv.stock)
+                    if (ord.qty <= inv.stock)
                     {
                         result = true;
                     }
@@ -141,6 +141,8 @@ namespace LUSSISADTeam10API.Repositories
                 or = entities.outstandingrequisitions
                     .Where(x => x.reqid == reqid)
                     .FirstOrDefault();
+
+                orm = GetOutstandingReqById(or.outreqid, out error);
             }
             catch (NullReferenceException)
             {
@@ -170,9 +172,35 @@ namespace LUSSISADTeam10API.Repositories
                 // transfering data from API model to DB Model
                 outreq.reqid = ordm.ReqId;
                 outreq.reason = ordm.Reason;
+                var TempStatus = outreq.status;
+
+
+                outreq.status = ordm.Status;
 
                 // saving the update
                 entities.SaveChanges();
+
+
+
+                if (TempStatus != ordm.Status && ordm.Status == ConOutstandingsRequisition.Status.DELIVERED)
+                {
+                    foreach (outstandingrequisitiondetail outrd in outreq.outstandingrequisitiondetails)
+                    {
+
+                        InventoryModel invm = InventoryRepo.GetInventoryByItemid(outrd.itemid, out error);
+                        invm.Stock -= outrd.qty;
+                        invm = InventoryRepo.UpdateInventory(invm, out error);
+                        InventoryTransactionModel invtm = new InventoryTransactionModel();
+                        invtm.ItemID = outrd.itemid;
+                        invtm.InvID = invm.Invid;
+                        invtm.Qty = (outrd.qty) * -1;
+                        invtm.TransDate = DateTime.Now;
+                        invtm.Remark = "Fulfill Outstanding" + outrd.outreqid;
+                        invtm.TransType = ConInventoryTransaction.TransType.OUTSTANDING;
+                        invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
+                    }
+                }
+
 
                 // return the updated model 
                 outreqm = ConvertDBOutReqToAPIOutReq(outreq);

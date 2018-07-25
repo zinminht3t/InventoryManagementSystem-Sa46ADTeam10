@@ -14,7 +14,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<ReportsModel> MonthlyItemUsageReportByHOD(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/api/MonthlyItemUsageByHOD/";
+            string url = APIHelper.Baseurl + "/MonthlyItemUsageByHOD/";
             List<ReportsModel> mtul = APIHelper.Execute<List<ReportsModel>>(token, url, out error);
             return mtul;
         }
@@ -28,16 +28,16 @@ namespace LUSSISADTeam10Web.API
         }
 
 
-        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, string suppliername, int month)
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, int suppliername1, int suppliername2, int suppliername3, int month)
         {
-            string url = APIHelper.Baseurl + "/pi/ItemUsageByClerk/ " + suppliername + month;
+            string url = APIHelper.Baseurl + "/ItemUsageByClerk/ " + suppliername1 + suppliername2 +suppliername3+ month;
             List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
             return micl;
         }
 
         public static List<MonthlyItemUsageByClerkModel> GetItemUsageByClerk(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/pi/ItemUsageByClerk/";
+            string url = APIHelper.Baseurl + "/ItemUsageByClerk/";
             List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
             return micl;
         }
@@ -46,9 +46,9 @@ namespace LUSSISADTeam10Web.API
 
 
 
-        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, string fristdepartname, string seconddepartname, string thirddepartname, string description)
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, int fristdepartname, int seconddepartname, int thirddepartname, int itemid)
         {
-            string url = APIHelper.Baseurl + "/api/ItemTrendAnalysis/" + fristdepartname + seconddepartname + thirddepartname + description;
+            string url = APIHelper.Baseurl + "/ItemTrendAnalysis/" + fristdepartname + seconddepartname + thirddepartname + itemid;
             List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
             return itam;
         }
@@ -56,7 +56,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/api/ItemTrendAnalysis/";
+            string url = APIHelper.Baseurl + "/ItemTrendAnalysis/";
             List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
             return itam;
         }
@@ -64,7 +64,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<FrequentlyTop5ItemsModel> FrequentlyItemList(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/api/FrequentlyItemList/";
+            string url = APIHelper.Baseurl + "/FrequentlyItemList/";
             List<FrequentlyTop5ItemsModel> ftopit = APIHelper.Execute<List<FrequentlyTop5ItemsModel>>(token, url, out error);
             return ftopit;
         }
@@ -72,7 +72,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<OrderByDepartmentModel> OrderByDepartment(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/api/OrderByDepartment/";
+            string url = APIHelper.Baseurl + "/OrderByDepartment/";
             List<OrderByDepartmentModel> odm = APIHelper.Execute<List<OrderByDepartmentModel>>(token, url, out error);
             return odm;
             

@@ -19,8 +19,22 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: Clerk
         public ActionResult Index()
         {
-            return View("ClerkDashboard");
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+            try
+            {
+                reportData = APIReport.FrequentlyItemList(token, out error);
+                return View("ClerkDashboard", reportData);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
+
 
         // Start AM
 
@@ -295,11 +309,24 @@ namespace LUSSISADTeam10Web.Controllers
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
             List<DepartmentCollectionPointModel> st = new List<DepartmentCollectionPointModel>();
 
-
             try
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
+
+                DepartmentCollectionPointModel active =
+                    st.Where(x => x.DeptID.Equals(GetUser().Deptid))
+                    .LastOrDefault();
+                CollectionPointModel cpActive =
+                    APICollectionPoint.GetCollectionPointBycpid
+                    (token, active.CpID, out error);
+                CollectionPointModel cpPending =
+                    APICollectionPoint.GetCollectionPointBycpid
+                    (token, dcpm.CpID, out error);
+                ViewBag.OldLat = cpActive.Latitude;
+                ViewBag.OldLng = cpActive.Longitude;
+                ViewBag.NewLat = cpPending.Latitude;
+                ViewBag.NewLng = cpPending.Longitude;
                 ViewBag.DepartmentCollectionModel = dcpm;
                 ViewBag.DepartmentCollectionModel = st;
                 viewmodel.CpID = dcpm.DeptCpID;
@@ -317,6 +344,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
 
         [HttpPost]
         public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
@@ -387,8 +415,8 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 cm = APICategory.GetAllCategories(token, out error);
-            
-                
+
+
                 ViewBag.InventoryModel = invm;
 
                 viewmodel.CatId = itm.Catid;
@@ -431,12 +459,12 @@ namespace LUSSISADTeam10Web.Controllers
             InventoryModel invm = new InventoryModel();
             ItemModel it = new ItemModel();
             CategoryModel c = new CategoryModel();
-   
+
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
             c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
             c.Name = viewmodel.CategoryName;
-            
+
             invm.Invid = viewmodel.Invid;
             invm.Itemid = viewmodel.Itemid;
             invm.Stock = viewmodel.Stock;
@@ -460,6 +488,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
        
+
         public ActionResult SearchByTransDate(DateTime? startdate, DateTime? enddate)
 
         {
@@ -839,11 +868,97 @@ namespace LUSSISADTeam10Web.Controllers
             List<OutstandingReqModel> outrm = new List<OutstandingReqModel>();
 
             outrm = APIOutstandingReq.GetAllOutReqs(token, out error);
-            outrm.Where(p => p.Status == ConOutstandingsRequisition.Status.PENDING).ToList();
+            List<OutReqViewModel> outreqvms = new List<OutReqViewModel>();
 
-            ViewBag.Outstandings = outrm;
+            foreach (OutstandingReqModel outr in outrm)
+            {
+                OutReqViewModel outreqvm = new OutReqViewModel();
+                RequisitionModel reqm = new RequisitionModel();
+                reqm = APIRequisition.GetRequisitionByReqid(outr.ReqId, token, out error);
+                outreqvm.ReqId = outr.ReqId;
+                outreqvm.DeptId = reqm.Depid;
+                outreqvm.DeptName = reqm.Depname;
+                outreqvm.OutReqId = outr.OutReqId;
+                outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
+                outreqvm.Status = outr.Status;
+                outreqvm.Reason = outr.Reason;
+                outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
+                outreqvm.OutReqDetails = outr.OutReqDetails;
+
+                outreqvms.Add(outreqvm);
+            }
+
+            ViewBag.Outstandings = outreqvms;
 
             return View();
+        }
+
+        public ActionResult OutstandingDetail(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            RequisitionModel reqm = new RequisitionModel();
+            OutReqViewModel outreqvm = new OutReqViewModel();
+            OutstandingReqModel outr = new OutstandingReqModel();
+
+            outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
+            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
+
+            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION || 
+                outr.Status == ConOutstandingsRequisition.Status.COMPLETE || outreqvm.CanFullFill == false)
+            {
+                return RedirectToAction("Outstanding");
+            }
+
+            outreqvm.ReqId = outr.ReqId;
+            outreqvm.DeptId = reqm.Depid;
+            outreqvm.DeptName = reqm.Depname;
+            outreqvm.OutReqId = outr.OutReqId;
+            outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
+            outreqvm.Status = outr.Status;
+            outreqvm.Reason = outr.Reason;
+            outreqvm.OutReqDetails = outr.OutReqDetails;
+            return View(outreqvm);
+
+        }
+
+        public ActionResult ProcessOutstanding(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            RequisitionModel reqm = new RequisitionModel();
+            OutstandingReqModel outr = new OutstandingReqModel();
+
+            outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
+            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            bool CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
+
+            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||
+                outr.Status != ConOutstandingsRequisition.Status.PENDING || CanFullFill == false)
+            {
+                return RedirectToAction("Outstanding");
+            }
+
+            outr.Status = ConOutstandingsRequisition.Status.DELIVERED;
+
+            outr = APIOutstandingReq.UpdateOutReq(outr, token, out error);
+
+
+            NotificationModel nom = new NotificationModel();
+            nom.Datetime = DateTime.Now;
+            nom.Deptid = reqm.Depid;
+            nom.Remark = "The Outstanding Items with Requisition ID (" + reqm.Reqid + ") is now ready to collect";
+            nom.Role = ConUser.Role.DEPARTMENTREP;
+            nom.Title = "Outstanding Items Ready to Collect";
+            nom.NotiType = ConNotification.NotiType.OutstandingItemsReadyToCollect;
+            nom.ResID = outr.OutReqId;
+            nom = APINotification.CreateNoti(token, nom, out error);
+
+
+            return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
         }
 
         public ActionResult UpdateToPreparing()
@@ -1051,7 +1166,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
 
-            if(pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
             {
                 Session["noti"] = true;
                 Session["notitype"] = "error";
