@@ -286,6 +286,8 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.ItemTrendAnalysis' does not have 
           <Property Name="Item Usage" Type="int" />
           <Property Name="deptid" Type="int" Nullable="false" />
           <Property Name="itemid" Type="int" Nullable="false" />
+          <Property Name="Monthofreq" Type="int" />
+          <Property Name="Yearofreq" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SA46ADTeam10.dbo.MonthItemUsage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -848,7 +850,9 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
     [ItemTrendAnalysis].[Item Name] AS [Item Name], 
     [ItemTrendAnalysis].[Item Usage] AS [Item Usage], 
     [ItemTrendAnalysis].[deptid] AS [deptid], 
-    [ItemTrendAnalysis].[itemid] AS [itemid]
+    [ItemTrendAnalysis].[itemid] AS [itemid], 
+    [ItemTrendAnalysis].[Monthofreq] AS [Monthofreq], 
+    [ItemTrendAnalysis].[Yearofreq] AS [Yearofreq]
     FROM [dbo].[ItemTrendAnalysis] AS [ItemTrendAnalysis]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="MonthItemUsage" EntityType="Self.MonthItemUsage" store:Type="Views" store:Schema="dbo">
@@ -1404,6 +1408,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="Item_Usage" Type="Int32" />
           <Property Name="deptid" Type="Int32" Nullable="false" />
           <Property Name="itemid" Type="Int32" Nullable="false" />
+          <Property Name="Monthofreq" Type="Int32" />
+          <Property Name="Yearofreq" Type="Int32" />
         </EntityType>
         <EntityType Name="MonthItemUsage">
           <Key>
@@ -2396,6 +2402,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="ItemTrendAnalysis">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.ItemTrendAnalysi">
               <MappingFragment StoreEntitySet="ItemTrendAnalysis">
+                <ScalarProperty Name="Yearofreq" ColumnName="Yearofreq" />
+                <ScalarProperty Name="Monthofreq" ColumnName="Monthofreq" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
                 <ScalarProperty Name="Item_Name" ColumnName="Item Name" />
                 <ScalarProperty Name="Item_Usage" ColumnName="Item Usage" />

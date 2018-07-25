@@ -32,7 +32,7 @@ namespace LUSSISADTeam10API.Repositories
 
         private static ItemTrendAnalysisModel ConvertItemTrendAnalysis(ItemTrendAnalysi ita)
         {
-            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName,ita.Item_Name,ita.Item_Usage,ita.deptid,ita.itemid);
+            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName,ita.Item_Name,ita.Item_Usage,ita.deptid,ita.itemid,ita.Monthofreq,ita.Yearofreq);
             return iucm;
         }
 
@@ -172,7 +172,7 @@ namespace LUSSISADTeam10API.Repositories
             return mucbc;
         }
 
-        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error,string fristdepartname,string seconddepartname, string thirddepartname,string description)
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(out string error,int fristdepartname,int seconddepartname, int thirddepartname,int itemid)
         {
             LUSSISEntities entities = new LUSSISEntities();
 
@@ -184,8 +184,7 @@ namespace LUSSISADTeam10API.Repositories
             {
 
 
-                List<ItemTrendAnalysi> rms = entities.ItemTrendAnalysis.Where(p=>p.DepartmentName == fristdepartname || p.DepartmentName == seconddepartname || p.DepartmentName == thirddepartname && p.Item_Name 
-                 == description).ToList<ItemTrendAnalysi>();
+                List<ItemTrendAnalysi> rms = entities.ItemTrendAnalysis.Where(p=>(p.deptid == fristdepartname || p.deptid == seconddepartname || p.deptid == thirddepartname) && p.itemid == itemid).ToList<ItemTrendAnalysi>();
 
                 // convert the DB Model list to API Model list
                 foreach (ItemTrendAnalysi repl in rms)

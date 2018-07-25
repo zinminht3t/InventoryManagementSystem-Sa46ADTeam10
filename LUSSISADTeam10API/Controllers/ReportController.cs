@@ -115,11 +115,11 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/ItemTrendAnalysis/{fristdepartname}/{seconddepartname}/{thirddepartname}/{description}")]
-        public IHttpActionResult ItemTrendAnalysis(string fristdepartname,string seconddepartname,string thirddepartname, string description )
+        [Route("api/ItemTrendAnalysis/{fristdepartname}/{seconddepartname}/{thirddepartname}/{itemid}")]
+        public IHttpActionResult ItemTrendAnalysis(int fristdepartname,int seconddepartname,int thirddepartname, int itemid )
         {
             string error = "";
-            List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error, fristdepartname, seconddepartname, thirddepartname, description);
+            List<ItemTrendAnalysisModel> reqm = ReportRepo.ItemTrendAnalysis(out error, fristdepartname, seconddepartname, thirddepartname, itemid);
             // if the erorr is not blank or the category list is null
             if (error != "" || reqm == null)
             {

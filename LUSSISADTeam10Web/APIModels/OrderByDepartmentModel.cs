@@ -10,7 +10,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public OrderByDepartmentModel(int? qty, string deptname)
         {
             this.Qty = qty;
-            this.Departmentname = Departmentname;
+            this.Departmentname = deptname;
         }
 
         public int? Qty { get; set; }
