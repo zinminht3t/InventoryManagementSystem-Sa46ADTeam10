@@ -25,7 +25,7 @@ namespace LUSSISADTeam10API.Repositories
 
         private static MonthlyItemUsageByClerkModel ConvertMonthlyItemUsageByClerktoAPI(MonthItemUsage miuc)
         {
-            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_, miuc.Usage_Item, miuc.Month_Name, miuc.year, miuc.supname);
+            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_,miuc.Usage_Item,miuc.Month_Name,miuc.year, miuc.supname, miuc.supid);
             return iucm;
         }
 
@@ -111,19 +111,18 @@ namespace LUSSISADTeam10API.Repositories
             return realism;
         }
 
-        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error,string suppliername,int month)
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error,int suppliername1,int suppliername2, int suppliername3, int month)
         {
             LUSSISEntities entities = new LUSSISEntities();
 
             // Initializing the error variable to return only blank if there is no error
             error = "";
             List<MonthlyItemUsageByClerkModel> mucbc = new List<MonthlyItemUsageByClerkModel>();
-
             try
             {
 
 
-                List<MonthItemUsage> rms = entities.MonthItemUsages.Where(p => p.supname == suppliername && p.Month_Name == month).ToList<MonthItemUsage>();
+                List<MonthItemUsage> rms = entities.MonthItemUsages.Where(p =>( p.supid == suppliername1 || p.supid == suppliername2 || p.supid == suppliername3 )&& p.Month_Name == month).ToList<MonthItemUsage>();
 
                 // convert the DB Model list to API Model list
                 foreach (MonthItemUsage repl in rms)

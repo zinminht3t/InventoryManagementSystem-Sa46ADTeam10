@@ -28,16 +28,16 @@ namespace LUSSISADTeam10Web.API
         }
 
 
-        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, string suppliername, int month)
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, int suppliername1, int suppliername2, int suppliername3, int month)
         {
-            string url = APIHelper.Baseurl + "/pi/ItemUsageByClerk/ " + suppliername + month;
+            string url = APIHelper.Baseurl + "/ItemUsageByClerk/ " + suppliername1 + suppliername2 +suppliername3+ month;
             List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
             return micl;
         }
 
         public static List<MonthlyItemUsageByClerkModel> GetItemUsageByClerk(string token, out string error)
         {
-            string url = APIHelper.Baseurl + "/pi/ItemUsageByClerk/";
+            string url = APIHelper.Baseurl + "/ItemUsageByClerk/";
             List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
             return micl;
         }

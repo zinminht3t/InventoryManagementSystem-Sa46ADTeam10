@@ -292,12 +292,14 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.MonthItemUsage' does not have a p
         <EntityType Name="MonthItemUsage">
           <Key>
             <PropertyRef Name="supname" />
+            <PropertyRef Name="supid" />
           </Key>
           <Property Name="Item " Type="varchar" MaxLength="200" />
           <Property Name="Usage Item" Type="int" />
           <Property Name="Month Name" Type="int" />
           <Property Name="year" Type="int" />
           <Property Name="supname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="supid" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SA46ADTeam10.dbo.MonthlyItemUsageByHOD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -855,7 +857,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
     [MonthItemUsage].[Usage Item] AS [Usage Item], 
     [MonthItemUsage].[Month Name] AS [Month Name], 
     [MonthItemUsage].[year] AS [year], 
-    [MonthItemUsage].[supname] AS [supname]
+    [MonthItemUsage].[supname] AS [supname], 
+    [MonthItemUsage].[supid] AS [supid]
     FROM [dbo].[MonthItemUsage] AS [MonthItemUsage]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="MonthlyItemUsageByHOD" EntityType="Self.MonthlyItemUsageByHOD" store:Type="Views" store:Schema="dbo">
@@ -1405,12 +1408,14 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
         <EntityType Name="MonthItemUsage">
           <Key>
             <PropertyRef Name="supname" />
+            <PropertyRef Name="supid" />
           </Key>
           <Property Name="Item_" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Usage_Item" Type="Int32" />
           <Property Name="Month_Name" Type="Int32" />
           <Property Name="supname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="year" Type="Int32" />
+          <Property Name="supid" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MonthlyItemUsageByHOD">
           <Key>
@@ -2402,6 +2407,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="MonthItemUsages">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.MonthItemUsage">
               <MappingFragment StoreEntitySet="MonthItemUsage">
+                <ScalarProperty Name="supid" ColumnName="supid" />
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="Item_" ColumnName="Item " />
                 <ScalarProperty Name="Usage_Item" ColumnName="Usage Item" />
