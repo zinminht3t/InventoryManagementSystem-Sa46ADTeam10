@@ -190,10 +190,11 @@
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
     <Compile Include="Constants\ConInventoryTransaction.cs" />
+    <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
-    <Compile Include="Models\Clerk\OutstandingReqDetailViewModel.cs" />
-    <Compile Include="Models\Clerk\OutstandingRequisitonViewModel.cs" />
+    <Compile Include="Models\Clerk\OutReqDetailViewModel.cs" />
+    <Compile Include="Models\Clerk\OutReqViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
@@ -1370,6 +1371,7 @@
     <Content Include="Views\Clerk\PurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\Outstandings.cshtml" />
+    <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

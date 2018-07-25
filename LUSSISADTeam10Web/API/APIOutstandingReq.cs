@@ -15,26 +15,24 @@ namespace LUSSISADTeam10Web.API
             List<OutstandingReqModel> outm = APIHelper.Execute<List<OutstandingReqModel>>(token, url, out error);
             return outm;
         }
-
-
         public static OutstandingReqModel GetOutstandingReqById(string token, int outreqid, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreq/" + outreqid;
             OutstandingReqModel outm = APIHelper.Execute<OutstandingReqModel>(token, url, out error);
             return outm;
         }
-
-
-
         public static OutstandingReqModel GetOutReqByReqId(string token, int reqid, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreq/requisition/" + reqid;
             OutstandingReqModel outm = APIHelper.Execute<OutstandingReqModel>(token, url, out error);
             return outm;
         }
-
-
-
+        public static bool CheckInventoryStock(string token, int outreqid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/outstandingreqs/checkstock/" + outreqid;
+            bool outm = APIHelper.Execute<bool>(token, url, out error);
+            return outm;
+        }
         public static OutstandingReqModel UpdateOutReq(OutstandingReqModel outreq, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreq/update/";
@@ -42,8 +40,6 @@ namespace LUSSISADTeam10Web.API
             OutstandingReqModel outm = APIHelper.Execute<OutstandingReqModel>(token, objectstring, url, out error);
             return outm;
         }
-
-
         public static OutstandingReqModel CreateOutReq(OutstandingReqModel outreq, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreq/create/";
@@ -51,8 +47,6 @@ namespace LUSSISADTeam10Web.API
             OutstandingReqModel outm = APIHelper.Execute<OutstandingReqModel>(token, objectstring, url, out error);
             return outm;
         }
-
-
         public static OutstandingReqModel CompleteOutstanding(string token, OutstandingReqModel outreq, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreq/complete/";
@@ -60,16 +54,12 @@ namespace LUSSISADTeam10Web.API
             OutstandingReqModel outm = APIHelper.Execute<OutstandingReqModel>(token, objectstring, url, out error);
             return outm;
         }
-
-
         public static List<OutstandingReqDetailModel> GetAllOutReqDetails(string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreqdetails/";
             List<OutstandingReqDetailModel> outm = APIHelper.Execute<List<OutstandingReqDetailModel>>(token, url, out error);
             return outm;
         }
-
-
         public static OutstandingReqDetailModel UpdateOutReqDetail(OutstandingReqDetailModel outreqdetail, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreqdetail/update/";
@@ -77,9 +67,6 @@ namespace LUSSISADTeam10Web.API
             OutstandingReqDetailModel outm = APIHelper.Execute<OutstandingReqDetailModel>(token, objectstring, url, out error);
             return outm;
         }
-
-
-
         public static OutstandingReqDetailModel CreateOutReqDetail(OutstandingReqDetailModel outreqdetail, string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingreqdetail/create/";
@@ -87,37 +74,11 @@ namespace LUSSISADTeam10Web.API
             OutstandingReqDetailModel outm = APIHelper.Execute<OutstandingReqDetailModel>(token, objectstring, url, out error);
             return outm;
         }
-
-
-
         public static List<OutstandingItemModel> GetOutstandingItemList(string token, out string error)
         {
             string url = APIHelper.Baseurl + "/outstandingitemlist/";
             List<OutstandingItemModel> outm = APIHelper.Execute<List<OutstandingItemModel>>(token, url, out error);
             return outm;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -141,6 +141,8 @@ namespace LUSSISADTeam10API.Repositories
                 or = entities.outstandingrequisitions
                     .Where(x => x.reqid == reqid)
                     .FirstOrDefault();
+
+                orm = GetOutstandingReqById(or.outreqid, out error);
             }
             catch (NullReferenceException)
             {
@@ -170,6 +172,7 @@ namespace LUSSISADTeam10API.Repositories
                 // transfering data from API model to DB Model
                 outreq.reqid = ordm.ReqId;
                 outreq.reason = ordm.Reason;
+                outreq.status = ordm.Status;
 
                 // saving the update
                 entities.SaveChanges();

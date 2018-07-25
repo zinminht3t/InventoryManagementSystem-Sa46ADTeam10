@@ -1,0 +1,122 @@
+﻿@model LUSSISADTeam10Web.Models.Clerk.OutReqViewModel
+
+
+@{
+    ViewBag.Title = "Outstanding Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Process Requisition</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li><a href="@Url.Action("outstanding", "Clerk")">Outstanding List</a></li>
+                    <li class="active">Process Outstanding</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Process Outstanding Requisition : @Model.ReqId </strong>
+            </div>
+            <div class="card-body">
+
+
+
+                <div class="card">
+
+
+                    <div class="card-body">
+                        <form method="post">
+
+                            <div class="mx-auto d-block">
+                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Process Outstanding </h5><br />
+                                <h6>Department :  @Model.DeptName </h6><br />
+                                <h6>Collection Point : @ViewBag.ColectionPoint</h6><br />
+                                <h6>Requested Date :  @Convert.ToDateTime(Model.ReqDate).ToShortDateString()</h6><br />
+                                <h6>Reason : <strong>@Model.Reason</strong></h6><br />
+
+                                <div class="text-sm-center">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-info">
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th>Category Name</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.OutReqDetails)
+                                            {
+                                                <tr>
+
+                                                    <td>@item.Description</td>
+                                                    <td>@item.CategoryName</td>
+                                                    <td>@item.Qty</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+
+                            <div class="card-text text-sm-right">
+                                @if (Model.Status == 0)
+                                {
+                                    <a href="@Url.Action("ProcessOutstanding", new { id = Model.ReqId })" class="btn btn-outline-info"> Delivered</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-outline-dark">Generate QR</button>
+                                }
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript"></script>
+}
+
+
+
+
+
