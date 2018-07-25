@@ -38,6 +38,60 @@ namespace LUSSISADTeam10API.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("api/outstandingreqs/pending")]
+        public IHttpActionResult GetPendingOutstandingReqs()
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from outstandingreqRepo and will insert the error if there is one
+            List<OutstandingReqModel> orm =
+                OutstandingReqRepo.GetAllOutstandingReq(out error);
+
+            orm = orm.Where(x => x.Status == ConOutstandingsRequisition.Status.PENDING).ToList();
+
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "" || orm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Outstanding list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(orm);
+
+        }
+
+        [HttpGet]
+        [Route("api/outstandingreqs/checkstock/{outreqid}")]
+        public IHttpActionResult CheckInventoryStock(int outreqid)
+        {
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from outstandingreqRepo and will insert the error if there is one
+            bool result =
+                OutstandingReqRepo.CheckInventoryStock(outreqid, out error);
+
+
+            // if the erorr is not blank or the outstanding list is null
+            if (error != "")
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Outstanding list Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(result);
+
+        }
+
         // to get outstanding by outstandingreq id
         [HttpGet]
         [Route("api/outstandingreq/{outreqid}")]

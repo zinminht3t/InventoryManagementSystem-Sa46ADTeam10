@@ -38,7 +38,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // get outstanding req list from database
-                List<outstandingrequisition> outreqs = 
+                List<outstandingrequisition> outreqs =
                     entities.outstandingrequisitions.ToList();
 
                 // convert the DB Model list to API Model list
@@ -86,6 +86,47 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return orm;
+        }
+        // Get Outstanding Req Model by Id number
+        public static bool CheckInventoryStock(int outreq, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            outstandingrequisition or = new outstandingrequisition();
+            OutstandingReqModel orm = new OutstandingReqModel();
+            List<inventory> invs = new List<inventory>();
+            inventory inv = new inventory();
+            bool result = false;
+
+            try
+            {
+
+                or = entities.outstandingrequisitions.Where(x => x.outreqid == outreq).FirstOrDefault();
+                invs = entities.inventories.ToList();
+                foreach (outstandingrequisitiondetail ord in or.outstandingrequisitiondetails)
+                {
+                    inv = invs.Where(x => x.itemid == ord.itemid).FirstOrDefault();
+                    if(ord.qty <= inv.stock)
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+                }
+                return result;
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return result;
         }
         //Get Outstanding Req Model by Req Id
         public static OutstandingReqModel GetOutstandingReqByReqId(int reqid, out string error)
@@ -159,7 +200,7 @@ namespace LUSSISADTeam10API.Repositories
                 // transfering data from API model to DB Model
                 List<outstandingrequisitiondetail> details =
                     new List<outstandingrequisitiondetail>();
-                foreach(OutstandingReqDetailModel ordModel in ordm.OutReqDetails)
+                foreach (OutstandingReqDetailModel ordModel in ordm.OutReqDetails)
                 {
                     details.Add(OutstandingReqDetailRepo
                     .ConvertAPIOutReqDetailToDBModel(ordModel));
@@ -168,7 +209,7 @@ namespace LUSSISADTeam10API.Repositories
                 outreq.reason = ordm.Reason;
                 outreq.status = ConOutstandingsRequisition.Status.PENDING;
                 outreq.outstandingrequisitiondetails = details;
-                    
+
                 // adding into DB
                 entities.outstandingrequisitions.Add(outreq);
                 entities.SaveChanges();
