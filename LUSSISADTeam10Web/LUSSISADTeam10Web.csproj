@@ -1057,6 +1057,8 @@
     <Content Include="Styles\images\twitter_corner_blue.png" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />
+    <Content Include="Styles\js\jquery.qrcode.min.js" />
+    <Content Include="Styles\js\qrcode.js" />
     <Content Include="Styles\Scripts\bootstrap.js" />
     <Content Include="Styles\Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

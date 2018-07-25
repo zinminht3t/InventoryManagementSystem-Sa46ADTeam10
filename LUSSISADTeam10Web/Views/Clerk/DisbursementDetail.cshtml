@@ -48,7 +48,7 @@
                     <h6>Collection Point : @Model.Cpname</h6><br />
                     <h6>Locker Name : @Model.LockerName</h6><br />
                     <h6>Requested Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
-                    <h6>Status : Delivered</h6><br />
+                    <h6>Status : @Model.Status</h6><br />
                     <div class="text-sm-center">
 
                         <table class="table table-bordered table-hover">
@@ -83,8 +83,9 @@
 
 
                 <div class="card-text text-sm-right">
-                    Approved By : <strong>@Model.Approvedbyname</strong>
+                    <div class="btn btn-outline-dark" onclick="generate()">Generate QR</div>
                 </div>
+                <div id="qrgenerate" class="center-block"></div>
 
 
 
@@ -98,5 +99,16 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        var count = 0;
+        function generate() {
+            if (count == 0)
+                {
+                jQuery('#qrgenerate').qrcode('@Model.Reqid');
+                count++;
+            }
+        }
+
+
+</script>
 }

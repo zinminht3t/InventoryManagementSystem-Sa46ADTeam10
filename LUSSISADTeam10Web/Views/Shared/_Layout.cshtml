@@ -20,6 +20,7 @@
     <link href="~/styles/css/datatable.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.6/dist/sweetalert2.all.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>*@
 
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
@@ -320,7 +321,9 @@
     <script src="~/styles/js/lib/data-table/buttons.print.min.js"></script>
     <script src="~/styles/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="~/styles/js/lib/data-table/datatables-init.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+    <script type="text/javascript" src="~/Styles/js/jquery.qrcode.min.js"></script>
+    <script type="text/javascript" src="~/Styles/js/qrcode.js"></script>
+
     <!-- DataTable -->
     @RenderSection("scripts", required: false)
 
