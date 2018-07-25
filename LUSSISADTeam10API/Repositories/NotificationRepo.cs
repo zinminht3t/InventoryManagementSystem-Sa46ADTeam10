@@ -12,7 +12,7 @@ namespace LUSSISADTeam10API.Repositories
     {
         private static NotificationModel CovertDBNotitoAPINoti(notification noti)
         {
-            NotificationModel nm = new NotificationModel(noti.notiid,noti.datetime,noti.deptid,noti.role,noti.title,noti.remark,noti.isread);
+            NotificationModel nm = new NotificationModel(noti.notiid,noti.datetime,noti.deptid,noti.role,noti.title,noti.remark,noti.isread, noti.notitype, noti.resid);
             return nm;
         }
         
@@ -111,15 +111,18 @@ namespace LUSSISADTeam10API.Repositories
             notification n = new notification();
             try
             {
-                n.datetime = nm.Datetime;
+                n.datetime = DateTime.Now;
                 n.deptid = nm.Deptid;
                 n.role = nm.Role;
                 n.title = nm.Title;
                 n.remark = nm.Remark;
-                n.isread = nm.Isread;
+                n.isread = false;
+                n.resid = nm.ResID;
+                n.notitype = nm.NotiType;
                 n = entities.notifications.Add(n);
                 entities.SaveChanges();
-                nm = CovertDBNotitoAPINoti(n);
+
+                nm = GetNotiBynotiid(n.notiid, out error);
             }
             catch (NullReferenceException)
             {

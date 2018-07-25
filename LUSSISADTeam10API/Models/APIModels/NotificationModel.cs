@@ -11,7 +11,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class NotificationModel
     {
-        public NotificationModel(int notiID, DateTime datetime, int deptid, int role, string title, string remark, bool isread)
+        public NotificationModel(int notiID, DateTime datetime, int deptid, int role, string title, string remark, bool isread, int n, int r)
         {
             NotiID = notiID;
             Datetime = datetime;
@@ -20,9 +20,11 @@ namespace LUSSISADTeam10API.Models.APIModels
             Title = title;
             Remark = remark;
             Isread = isread;
+            NotiType = n;
+            ResID = r;
         }
 
-        public NotificationModel():this(0, new DateTime(), 0, 0, "", "",true) { }
+        public NotificationModel():this(0, new DateTime(), 0, 0, "", "",true, 0, 0) { }
 
         public int NotiID { get; set; }
         public DateTime  Datetime{ get; set; }
@@ -36,6 +38,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public string Remark { get; set; }
 
         public bool Isread { get; set; }
-
-}
+        public int ResID { get; set; }
+        public int NotiType { get; set; }
+    }
 }

@@ -21,6 +21,8 @@ namespace LUSSISADTeam10API.Models.DBModels
         public string title { get; set; }
         public string remark { get; set; }
         public bool isread { get; set; }
+        public int notitype { get; set; }
+        public int resid { get; set; }
     
         public virtual department department { get; set; }
     }

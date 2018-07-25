@@ -1,5 +1,6 @@
 ﻿using LUSSISADTeam10API.Constants;
 using LUSSISADTeam10API.Models;
+using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using System;
 using System.Collections.Generic;
@@ -161,18 +162,25 @@ namespace LUSSISADTeam10API.Repositories
 
         // End TAZ
 
-        public static UserModel AssignDepRep(int id )
+        public static UserModel AssignDepRep(int id)
         {
 
             LUSSISEntities entities = new LUSSISEntities();
-            user um = entities.users.Where(p => p.userid == id ).First<user>();
+            user um = entities.users.Where(p => p.userid == id).First<user>();
             user um1 = entities.users.Where(p => p.deptid == um.deptid && p.role == ConUser.Role.DEPARTMENTREP).First<user>();
             um1.role = ConUser.Role.EMPLOYEEREP;
             um.role = ConUser.Role.DEPARTMENTREP;
             entities.SaveChanges();
-           UserModel umm = CovertDBUsertoAPIUser(um);
+            UserModel umm = CovertDBUsertoAPIUser(um);
 
-
+            NotificationModel nom = new NotificationModel();
+            nom.Deptid = um.deptid;
+            nom.Role = ConUser.Role.EMPLOYEEREP;
+            nom.Title = "Department Representative";
+            nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
+            nom.ResID = um.userid;
+            nom.Remark = "You has been assigned as a Department Representative!";
+            nom = NotificationRepo.CreatNotification(nom, out string error);
             return umm;
         }
 

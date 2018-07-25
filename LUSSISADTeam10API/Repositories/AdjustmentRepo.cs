@@ -14,11 +14,12 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static AdjustmentModel ConvertDBtoAPIAdjust(adjustment adj)
         {
-            List<AdjustmentDetailModel> adjdm = new List<AdjustmentDetailModel>();            
-            foreach(adjustmentdetail adjd in adj.adjustmentdetails) { 
-             adjdm.Add(new AdjustmentDetailModel(adjd.adjid, adjd.itemid, adjd.item.description, adjd.adjustedqty, adjd.reason, adjd.item.category.name, adjd.item.uom));
+            List<AdjustmentDetailModel> adjdm = new List<AdjustmentDetailModel>();
+            foreach (adjustmentdetail adjd in adj.adjustmentdetails)
+            {
+                adjdm.Add(new AdjustmentDetailModel(adjd.adjid, adjd.itemid, adjd.item.description, adjd.adjustedqty, adjd.reason, adjd.item.category.name, adjd.item.uom));
             }
-            AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate,adj.status, adjdm);
+            AdjustmentModel adjm = new AdjustmentModel(adj.adjid, adj.raisedby, adj.user.fullname, adj.raisedto, adj.user1.fullname, adj.issueddate, adj.status, adjdm);
             return adjm;
         }
         //Get all adjustment list
@@ -78,7 +79,7 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return adjm;
-        }       
+        }
         //get adjustment greaterprice
         //public static List<AdjustmentModel> GetAdjustmentGreaterPrice(double price, out string error)
         //{
@@ -121,7 +122,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 adj = entities.adjustments.Where(a => a.raisedby == raisedby).ToList<adjustment>();
-                foreach(adjustment ad in adj)
+                foreach (adjustment ad in adj)
                 {
                     adjm.Add(ConvertDBtoAPIAdjust(ad));
                 }
@@ -187,7 +188,7 @@ namespace LUSSISADTeam10API.Repositories
             return adjm;
         }
         //find Adjustment by status
-        public static List<AdjustmentModel> GetAdjustmentByStatus(int status,out string error)
+        public static List<AdjustmentModel> GetAdjustmentByStatus(int status, out string error)
         {
 
             LUSSISEntities entities = new LUSSISEntities();
@@ -220,11 +221,11 @@ namespace LUSSISADTeam10API.Repositories
             adjustment adj = new adjustment();
             try
             {
-                adj.raisedby = adjm.Raisedby;               
+                adj.raisedby = adjm.Raisedby;
                 adj.issueddate = adjm.Issueddate;
                 adj.status = ConAdjustment.Active.PENDING;
                 List<AdjustmentDetailModel> adjds = adjm.Adjds;
-               
+
                 //check item price
                 foreach (AdjustmentDetailModel adjd in adjds)
                 {
@@ -238,13 +239,13 @@ namespace LUSSISADTeam10API.Repositories
                     }
                     else
                     {
-                        user user = entities.users.Where(u => u.role==ConUser.Role.SUPERVISOR).First();
+                        user user = entities.users.Where(u => u.role == ConUser.Role.SUPERVISOR).First();
                         adj.raisedto = user.userid;
-                    }                      
+                    }
                 }
-                adj = entities.adjustments.Add(adj);                
+                adj = entities.adjustments.Add(adj);
                 entities.SaveChanges();
-                                
+
                 foreach (AdjustmentDetailModel adjdm in adjds)
                 {
                     adjustmentdetail adjd = new adjustmentdetail
@@ -255,10 +256,20 @@ namespace LUSSISADTeam10API.Repositories
                         reason = adjdm.Reason
                     };
                     adjd = entities.adjustmentdetails.Add(adjd);
-                    entities.SaveChanges();  
+                    entities.SaveChanges();
                 }
 
                 adjm = GetAdjustmentByID(adj.adjid, out error);
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(adj.raisedto ?? default(int), out error).Deptid;
+                nom.Role = UserRepo.GetUserByUserID(adj.raisedto ?? default(int)).Role;
+                nom.Title = "New Adjustment";
+                nom.NotiType = ConNotification.NotiType.Adjustment;
+                nom.ResID = adj.adjid;
+                nom.Remark = "A new adjustment has been raised by clerk!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
+
             }
             catch (NullReferenceException)
             {
@@ -275,38 +286,52 @@ namespace LUSSISADTeam10API.Repositories
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
+
+            NotificationModel nom = new NotificationModel();
+
             adjustment adj = new adjustment();
-             try
+            try
             {
                 adj = entities.adjustments.Where(a => a.adjid == adjm.Adjid).First<adjustment>();
                 adj.raisedby = adjm.Raisedby;
                 adj.raisedto = adjm.Raisedto;
                 adj.issueddate = adjm.Issueddate;
                 adj.status = adjm.Status;
+                nom.Remark = "The Adjustment Voucher has been Rejected!";
+
+
                 if (adj.status == ConAdjustment.Active.APPROVED)
+                    nom.Remark = "The Adjustment Voucher has been Approved!";
+
+                List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
+                foreach (AdjustmentDetailModel adjustd in adjustds)
                 {
-                    List<AdjustmentDetailModel> adjustds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid, out error);
-                    foreach(AdjustmentDetailModel adjustd in adjustds)
-                    {
-                        InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.Itemid, out error);
-                        inventory invent = entities.inventories.Where(i => i.invid == inventm.Invid).First<inventory>();
-                        invent.stock += adjustd.Adjustedqty;
+                    InventoryModel inventm = InventoryRepo.GetInventoryByItemid(adjustd.Itemid, out error);
+                    inventory invent = entities.inventories.Where(i => i.invid == inventm.Invid).First<inventory>();
+                    invent.stock += adjustd.Adjustedqty;
 
-                        InventoryTransactionModel invtm = new InventoryTransactionModel();
+                    InventoryTransactionModel invtm = new InventoryTransactionModel();
 
-                        invtm.InvID = invent.invid;
-                        invtm.ItemID = invent.itemid;
-                        invtm.Qty = adjustd.Adjustedqty;
-                        invtm.TransType = ConInventoryTransaction.TransType.ADJUSTMENT;
-                        invtm.TransDate = DateTime.Now;
-                        invtm.Remark = adjustd.Reason;
+                    invtm.InvID = invent.invid;
+                    invtm.ItemID = invent.itemid;
+                    invtm.Qty = adjustd.Adjustedqty;
+                    invtm.TransType = ConInventoryTransaction.TransType.ADJUSTMENT;
+                    invtm.TransDate = DateTime.Now;
+                    invtm.Remark = adjustd.Reason;
 
-                        invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
-                    }                        
+                    invtm = InventoryTransactionRepo.CreateInventoryTransaction(invtm, out error);
                 }
-                
+
+
                 entities.SaveChanges();
-                adjm = ConvertDBtoAPIAdjust(adj);
+                adjm = GetAdjustmentByID(adj.adjid, out error);
+
+                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(adj.raisedto ?? default(int), out error).Deptid;
+                nom.Role = UserRepo.GetUserByUserID(adj.raisedby ?? default(int)).Role;
+                nom.Title = "Adjustment Approval";
+                nom.NotiType = ConNotification.NotiType.Adjustment;
+                nom.ResID = adj.adjid;
+                nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
             {

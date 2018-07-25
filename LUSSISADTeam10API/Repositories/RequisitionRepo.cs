@@ -479,6 +479,16 @@ namespace LUSSISADTeam10API.Repositories
                 reqn = entities.requisitions.Add(reqn);
                 entities.SaveChanges();
                 req = GetRequisitionByRequisitionId(reqn.reqid, out error);
+
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
+                nom.Role = ConUser.Role.HOD;
+                nom.Title = "Requisition Approval";
+                nom.NotiType = ConNotification.NotiType.RequisitionApproval;
+                nom.ResID = reqn.reqid;
+                nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
             {
@@ -512,6 +522,62 @@ namespace LUSSISADTeam10API.Repositories
                 req.status = reqm.Status;
                 // saving the update
                 entities.SaveChanges();
+
+                if(req.status == ConRequisition.Status.DELIVERED)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
+                    nom.Title = "Items Ready to Collect";
+                    nom.NotiType = ConNotification.NotiType.DeliveredRequisition;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "Requisition is now ready to collect";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else if (req.status == ConRequisition.Status.APPROVED)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.EMPLOYEEREP;
+                    nom.Title = "HOD Requisition";
+                    nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been approved by Head of Department";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else if (req.status == ConRequisition.Status.REQUESTPENDING)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Approved Requisition";
+                    nom.NotiType = ConNotification.NotiType.ClerkApprovedRequisiton;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been approved by the store";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else if(req.status == ConRequisition.Status.COMPLETED || req.status == ConRequisition.Status.OUTSTANDINGREQUISITION)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = 11;
+                    nom.Role = ConUser.Role.CLERK;
+                    nom.Title = "Items Collected";
+                    nom.NotiType = ConNotification.NotiType.CollectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The Items in Requisiton has been collected by Department Rep!";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else if (req.status == ConRequisition.Status.REJECTED)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the store";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
 
                 // return the updated model 
                 reqm = CovertDBRequisitiontoAPIRequisition(req);
@@ -621,6 +687,17 @@ namespace LUSSISADTeam10API.Repositories
                 }
 
                 reqm = GetRequisitionByRequisitionId(req.reqid, out error);
+
+
+
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqm.Raisedby ?? default(int), out error).Deptid;
+                nom.Role = ConUser.Role.HOD;
+                nom.Title = "Requisition Approval";
+                nom.NotiType = ConNotification.NotiType.RequisitionApproval;
+                nom.ResID = reqm.Reqid;
+                nom.Remark = "A new requisition has been raised by " + reqm.Rasiedbyname + "!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
             {

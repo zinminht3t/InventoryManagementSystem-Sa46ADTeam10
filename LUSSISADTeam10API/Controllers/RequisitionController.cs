@@ -333,7 +333,6 @@ namespace LUSSISADTeam10API.Controllers
             po.Status = ConRequisition.Status.REQUESTPENDING;
 
 
-
             // updating the status
             RequisitionModel pom = RequisitionRepo.UpdateRequisition(po, out error);
             if (error != "" || pom == null)

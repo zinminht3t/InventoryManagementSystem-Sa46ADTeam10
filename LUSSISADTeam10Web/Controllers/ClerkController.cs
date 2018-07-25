@@ -184,19 +184,19 @@ namespace LUSSISADTeam10Web.Controllers
                             p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
                             p.Description = ((Excel.Range)range.Cells[row, 2]).Text;
                             p.Uom = ((Excel.Range)range.Cells[row, 3]).Text;
-                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 4]).Text);                                                     
+                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 4]).Text);
                             SuppItem.Add(p);
                         }
 
 
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
                         workbook.Close();
-//int i = 0;
-                      //  foreach (SupplierItemModel s in sm) {
-//
-                     //       i = s.SupId;
-                     //   }
-                     //   List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
+                        //int i = 0;
+                        //  foreach (SupplierItemModel s in sm) {
+                        //
+                        //       i = s.SupId;
+                        //   }
+                        //   List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
 
                         return View(sm);
                     }
@@ -255,16 +255,16 @@ namespace LUSSISADTeam10Web.Controllers
                             p.SupPhone = int.Parse(((Excel.Range)range.Cells[row, 3]).Text);
                             p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
                             p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
-                          
+
                             SuppItem.Add(p);
 
 
                         }
 
-                       
+
                         List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
-                      
+
                         return View(sm);
                     }
                     else
@@ -804,7 +804,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
             reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
 
-            return View("Requisition");
+
+            return RedirectToAction("StationaryRetrievalForm");
         }
 
         public ActionResult Outstanding()
@@ -962,6 +963,129 @@ namespace LUSSISADTeam10Web.Controllers
             return View(povm);
         }
 
+        public ActionResult PurchaseOrders()
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<PurchaseOrderModel> pom = new List<PurchaseOrderModel>();
+            pom = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
+            pom = pom.OrderBy(x => x.Status).ThenBy(x => x.Podate).ToList();
+            return View(pom);
+        }
+
+        public ActionResult PurchaseOrderDetail(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            PurchaseOrderModel pom = new PurchaseOrderModel();
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+            if (pom == null || pom.Status == ConPurchaseOrder.Status.PENDING)
+            {
+                return RedirectToAction("PurchaseOrders");
+            }
+            ViewBag.pom = pom;
+
+            PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
+
+            return View(povm);
+        }
+
+        public ActionResult ProcessPurchaseOrderDetail(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            PurchaseOrderModel pom = new PurchaseOrderModel();
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+            if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            {
+                return RedirectToAction("PurchaseOrders");
+            }
+
+            ViewBag.pom = pom;
+
+            PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
+
+            return View(povm);
+        }
+
+        public ActionResult CancelPurchaseOrder(int id)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            PurchaseOrderModel pom = new PurchaseOrderModel();
+
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+            if(pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "The Purchase Order has already been expired!";
+                return RedirectToAction("PurchaseOrders");
+            }
+
+            pom.Status = ConPurchaseOrder.Status.CANCELLED;
+
+            pom = APIPurchaseOrder.UpdatePO(pom, token, out error);
+
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Purchase Order";
+            Session["notimessage"] = "The Purchase Order has been cancelled successfully";
+            return RedirectToAction("PurchaseOrders");
+        }
+
+
+        [HttpPost]
+        public ActionResult ProcessPurchaseOrderDetail(PurchaseOrderViewModel povm)
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            PurchaseOrderModel pom = new PurchaseOrderModel();
+
+            List<PurchaseOrderDetailModel> podms = new List<PurchaseOrderDetailModel>();
+            if (povm.podms == null)
+            {
+                return RedirectToAction("PurchaseOrders");
+            }
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+
+            foreach (PurchaseOrderDetailViewModel podvm in povm.podms)
+            {
+                PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
+                podm = pom.podms.Where(x => x.Itemid == podvm.Itemid).FirstOrDefault();
+                podm.DelivQty = podvm.DelivQty;
+                podm = APIPurchaseOrder.UpdatePODetail(podm, token, out error);
+            }
+
+            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+
+            pom.Status = ConPurchaseOrder.Status.RECEIVED;
+
+            pom = APIPurchaseOrder.UpdatePOStatusComplete(pom, token, out error);
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Purchase Order Update Success";
+            Session["notimessage"] = "The Purchase Order Status has been updated successfully";
+            return RedirectToAction("PurchaseOrderDetail", new { id = pom.PoId });
+        }
+
         public PartialViewResult GetSupplierLists(int id)
         {
             string error = "";
@@ -1009,7 +1133,7 @@ namespace LUSSISADTeam10Web.Controllers
                         Status = ConPurchaseOrder.Status.PENDING
                     };
                     pom = APIPurchaseOrder.CreatePurchaseOrder(pom, token, out error);
-                    foreach(PurchaseOrderDetailViewModel od in odvm)
+                    foreach (PurchaseOrderDetailViewModel od in odvm)
                     {
                         PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
                         podm.PoId = pom.PoId;
@@ -1028,6 +1152,11 @@ namespace LUSSISADTeam10Web.Controllers
 
             TempData["pos"] = POIDs;
 
+
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Purchase Order";
+            Session["notimessage"] = "The Purchase Orders has been created and Email with POs has been sent to suppliers successfully";
             return RedirectToAction("PODetails");
         }
 
@@ -1035,9 +1164,9 @@ namespace LUSSISADTeam10Web.Controllers
         {
             List<PurchaseOrderModel> pos = new List<PurchaseOrderModel>();
 
-            pos = (List<PurchaseOrderModel>) TempData["pos"];
+            pos = (List<PurchaseOrderModel>)TempData["pos"];
 
-            if(pos == null)
+            if (pos == null)
             {
                 return View("PurchaseOrders");
             }

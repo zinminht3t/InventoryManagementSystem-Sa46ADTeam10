@@ -26,7 +26,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public String ItemDescription { get; set; }
         public String CategoryName { get; set; }
         public String UOM { get; set; }
-        public double Price { get; set; }
+        public double? Price { get; set; }
         public int Qty { get; set; }
         public int DelivQty { get; set; }
     }
