@@ -798,7 +798,7 @@ namespace LUSSISADTeam10Web.Controllers
                     OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
                     outreq.OutReqId = outr.OutReqId;
                     outreq.ItemId = ri.ItemID;
-                    outreq.Qty = ri.ApproveQty - ri.Qty;
+                    outreq.Qty = ri.Qty - ri.ApproveQty;
                     outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
                 }
             }
