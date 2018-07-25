@@ -1,7 +1,115 @@
-﻿
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.FrequentlyTop5ItemsModel>
 @{
-    ViewBag.Title = "ClerkDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Dashboard";
+    int count = Model.Count();
+    var labels = new string[count];
+    var data = new int?[count];
+    labels = Model.Select(x => x.Description).ToArray();
+    data = Model.Select(x => x.Qty).ToArray();
+}
+@section Styles {
+    <style>
+    </style>
 }
 
-<h2>ClerkDashboard</h2>
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Title Here</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+    <script type="text/javascript">
+        var lbls = [];
+        var dt = [];
+        @for(int i=0; i<labels.Length; i++){
+            <text>
+                lbls.push( ' @labels[i] ' );
+            </text>
+        }
+        @for(int i=0; i< data.GetLength(0); i++){
+            <text>
+                dt.push( ' @data[i] ' );
+            </text>
+        }
+        window.onload = dataload;
+        function dataload() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lbls,
+                    datasets: [{
+                        data: dt,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.45)',
+                            'rgba(54, 162, 235, 0.45)',
+                            'rgba(255, 206, 86, 0.45)',
+                            'rgba(75, 192, 192, 0.45)',
+                            'rgba(153, 102, 255, 0.45)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 0,
+                                minRotation: 0
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+}

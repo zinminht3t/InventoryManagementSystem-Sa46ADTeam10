@@ -19,8 +19,22 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: Clerk
         public ActionResult Index()
         {
-            return View("ClerkDashboard");
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+            try
+            {
+                reportData = APIReport.FrequentlyItemList(token, out error);
+                return View("ClerkDashboard", reportData);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
+
 
         // Start AM
 
@@ -295,11 +309,24 @@ namespace LUSSISADTeam10Web.Controllers
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
             List<DepartmentCollectionPointModel> st = new List<DepartmentCollectionPointModel>();
 
-
             try
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
+
+                DepartmentCollectionPointModel active =
+                    st.Where(x => x.DeptID.Equals(GetUser().Deptid))
+                    .LastOrDefault();
+                CollectionPointModel cpActive =
+                    APICollectionPoint.GetCollectionPointBycpid
+                    (token, active.CpID, out error);
+                CollectionPointModel cpPending =
+                    APICollectionPoint.GetCollectionPointBycpid
+                    (token, dcpm.CpID, out error);
+                ViewBag.OldLat = cpActive.Latitude;
+                ViewBag.OldLng = cpActive.Longitude;
+                ViewBag.NewLat = cpPending.Latitude;
+                ViewBag.NewLng = cpPending.Longitude;
                 ViewBag.DepartmentCollectionModel = dcpm;
                 ViewBag.DepartmentCollectionModel = st;
                 viewmodel.CpID = dcpm.DeptCpID;
@@ -309,10 +336,6 @@ namespace LUSSISADTeam10Web.Controllers
                 {
                     viewmodel.OldCpName = p.CpName;
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -320,6 +343,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
 
         [HttpPost]
         public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
