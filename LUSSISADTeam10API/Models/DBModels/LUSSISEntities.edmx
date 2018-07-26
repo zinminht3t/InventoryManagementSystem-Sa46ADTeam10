@@ -317,6 +317,21 @@ warning 6002: The table/view 'SA46ADTeam10.dbo.MonthlyItemUsageByHOD' does not h
           <Property Name="Unit of Measurement" Type="varchar" MaxLength="50" />
           <Property Name="deptid" Type="int" Nullable="false" />
           <Property Name="deptname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MonthProduce" Type="int" />
+          <Property Name="YearProduce" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SA46ADTeam10.dbo.NumberofRequest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="NumberofRequest">
+          <Key>
+            <PropertyRef Name="deptid" />
+            <PropertyRef Name="deptname" />
+          </Key>
+          <Property Name="deptid" Type="int" Nullable="false" />
+          <Property Name="noofrequest" Type="int" />
+          <Property Name="produceyear" Type="int" />
+          <Property Name="producemonth" Type="int" />
+          <Property Name="deptname" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SA46ADTeam10.dbo.OrderByDepartmentDarshboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -811,6 +826,22 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SPItemTrendAnalysis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fristdept" Type="int" Mode="In" />
+          <Parameter Name="seconddept" Type="int" Mode="In" />
+          <Parameter Name="thirddept" Type="int" Mode="In" />
+          <Parameter Name="month" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SPMonthlyItemUsage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="supplierone" Type="int" Mode="In" />
+          <Parameter Name="suppliertwo" Type="int" Mode="In" />
+          <Parameter Name="supplierthree" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SPRequistionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="deptid" Type="int" Mode="In" />
+          <Parameter Name="fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="todate" Type="datetime" Mode="In" />
+        </Function>
         <EntityContainer Name="SA46ADTeam10ModelStoreContainer">
           <EntitySet Name="adjustment" EntityType="Self.adjustment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="adjustmentdetail" EntityType="Self.adjustmentdetail" Schema="dbo" store:Type="Tables" />
@@ -872,8 +903,19 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
     [MonthlyItemUsageByHOD].[Quantity] AS [Quantity], 
     [MonthlyItemUsageByHOD].[Unit of Measurement] AS [Unit of Measurement], 
     [MonthlyItemUsageByHOD].[deptid] AS [deptid], 
-    [MonthlyItemUsageByHOD].[deptname] AS [deptname]
+    [MonthlyItemUsageByHOD].[deptname] AS [deptname], 
+    [MonthlyItemUsageByHOD].[MonthProduce] AS [MonthProduce], 
+    [MonthlyItemUsageByHOD].[YearProduce] AS [YearProduce]
     FROM [dbo].[MonthlyItemUsageByHOD] AS [MonthlyItemUsageByHOD]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="NumberofRequest" EntityType="Self.NumberofRequest" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [NumberofRequest].[deptid] AS [deptid], 
+    [NumberofRequest].[noofrequest] AS [noofrequest], 
+    [NumberofRequest].[produceyear] AS [produceyear], 
+    [NumberofRequest].[producemonth] AS [producemonth], 
+    [NumberofRequest].[deptname] AS [deptname]
+    FROM [dbo].[NumberofRequest] AS [NumberofRequest]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="OrderByDepartmentDarshboard" EntityType="Self.OrderByDepartmentDarshboard" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1435,6 +1477,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="Unit_of_Measurement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="deptid" Type="Int32" Nullable="false" />
           <Property Name="deptname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MonthProduce" Type="Int32" />
+          <Property Name="YearProduce" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderByDepartmentDarshboard">
           <Key>
@@ -2092,6 +2136,23 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
             <End Role="supplieritem" EntitySet="supplieritems" />
           </AssociationSet>
           <EntitySet Name="database_firewall_rules" EntityType="SA46ADTeam10Model.database_firewall_rules" />
+          <EntitySet Name="NumberofRequests" EntityType="SA46ADTeam10Model.NumberofRequest" />
+          <FunctionImport Name="GetMonthlyItemUsage" ReturnType="Collection(SA46ADTeam10Model.MonthlyItemUsage)" >
+            <Parameter Name="supplierone" Mode="In" Type="Int32" />
+            <Parameter Name="suppliertwo" Mode="In" Type="Int32" />
+            <Parameter Name="supplierthree" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetItemTrendAnalysis" ReturnType="Collection(SA46ADTeam10Model.ItemTrendAnalysis)">
+            <Parameter Name="fristdept" Mode="In" Type="Int32" />
+            <Parameter Name="seconddept" Mode="In" Type="Int32" />
+            <Parameter Name="thirddept" Mode="In" Type="Int32" />
+            <Parameter Name="month" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRequistionList" ReturnType="Collection(SA46ADTeam10Model.RequistionList1)">
+            <Parameter Name="deptid" Mode="In" Type="Int32" />
+            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="todate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -2109,6 +2170,61 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="NumberofRequest">
+          <Key>
+            <PropertyRef Name="deptid" />
+            <PropertyRef Name="deptname" />
+          </Key>
+          <Property Name="deptid" Type="Int32" Nullable="false" />
+          <Property Name="noofrequest" Type="Int32" />
+          <Property Name="produceyear" Type="Int32" />
+          <Property Name="producemonth" Type="Int32" />
+          <Property Name="deptname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="SPMonthlyItemUsage_Result">
+          <Property Type="String" Name="Item_" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Usage_Item" Nullable="true" />
+          <Property Type="Int32" Name="Month_Name" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="String" Name="supname" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="supid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MonthlyItemUsage">
+          <Property Type="String" Name="Item_" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Usage_Item" Nullable="true" />
+          <Property Type="Int32" Name="Month_Name" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="String" Name="supname" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="supid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SPItemTrendAnalysis_Result">
+          <Property Type="String" Name="DepartmentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Item_Name" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Item_Usage" Nullable="true" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+          <Property Type="Int32" Name="itemid" Nullable="false" />
+          <Property Type="Int32" Name="Monthofreq" Nullable="true" />
+          <Property Type="Int32" Name="Yearofreq" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPRequistionList_Result">
+          <Property Type="DateTime" Name="reqdate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="29" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ItemTrendAnalysis">
+          <Property Type="String" Name="DepartmentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Item_Name" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Item_Usage" Nullable="true" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+          <Property Type="Int32" Name="itemid" Nullable="false" />
+          <Property Type="Int32" Name="Monthofreq" Nullable="true" />
+          <Property Type="Int32" Name="Yearofreq" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="RequistionList1">
+          <Property Type="DateTime" Name="reqdate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="29" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2427,6 +2543,8 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <EntitySetMapping Name="MonthlyItemUsageByHODs">
             <EntityTypeMapping TypeName="SA46ADTeam10Model.MonthlyItemUsageByHOD">
               <MappingFragment StoreEntitySet="MonthlyItemUsageByHOD">
+                <ScalarProperty Name="YearProduce" ColumnName="YearProduce" />
+                <ScalarProperty Name="MonthProduce" ColumnName="MonthProduce" />
                 <ScalarProperty Name="deptname" ColumnName="deptname" />
                 <ScalarProperty Name="deptid" ColumnName="deptid" />
                 <ScalarProperty Name="Item" ColumnName="Item" />
@@ -2465,6 +2583,51 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NumberofRequests">
+            <EntityTypeMapping TypeName="SA46ADTeam10Model.NumberofRequest">
+              <MappingFragment StoreEntitySet="NumberofRequest">
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
+                <ScalarProperty Name="producemonth" ColumnName="producemonth" />
+                <ScalarProperty Name="produceyear" ColumnName="produceyear" />
+                <ScalarProperty Name="noofrequest" ColumnName="noofrequest" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMonthlyItemUsage" FunctionName="SA46ADTeam10Model.Store.SPMonthlyItemUsage">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.MonthlyItemUsage">
+                <ScalarProperty Name="Item_" ColumnName="Item " />
+                <ScalarProperty Name="Usage_Item" ColumnName="Usage Item" />
+                <ScalarProperty Name="Month_Name" ColumnName="Month Name" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="supname" ColumnName="supname" />
+                <ScalarProperty Name="supid" ColumnName="supid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetItemTrendAnalysis" FunctionName="SA46ADTeam10Model.Store.SPItemTrendAnalysis">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.ItemTrendAnalysis">
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Item_Name" ColumnName="Item Name" />
+                <ScalarProperty Name="Item_Usage" ColumnName="Item Usage" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="itemid" ColumnName="itemid" />
+                <ScalarProperty Name="Monthofreq" ColumnName="Monthofreq" />
+                <ScalarProperty Name="Yearofreq" ColumnName="Yearofreq" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRequistionList" FunctionName="SA46ADTeam10Model.Store.SPRequistionList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.RequistionList1">
+                <ScalarProperty Name="reqdate" ColumnName="reqdate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
