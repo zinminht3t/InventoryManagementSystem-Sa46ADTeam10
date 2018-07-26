@@ -25,7 +25,7 @@ namespace LUSSISADTeam10API.Repositories
             List<CategoryModel> catm = new List<CategoryModel>();
             try
             {
-                List<category> categories = entities.categories.ToList<category>();
+                List<category> categories = entities.categories.Where(c => c.name != "Default" ).ToList<category>();
                 catm = new List<CategoryModel>();
                 foreach (category c in categories)
                 {

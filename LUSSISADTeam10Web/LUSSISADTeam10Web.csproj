@@ -203,6 +203,7 @@
     <Compile Include="Models\Clerk\OutReqViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
+    <Compile Include="Models\Clerk\SupplierItemImportViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -1370,7 +1371,6 @@
     <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
-    <Content Include="Views\Clerk\importsupplier.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
     <Content Include="Views\Employee\RaiseRequisition.cshtml" />
