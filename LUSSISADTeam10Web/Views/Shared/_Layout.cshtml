@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="~/styles/images/logo.png">
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+
+
     <link rel="stylesheet" href="~/styles/css/normalize.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
@@ -24,9 +31,6 @@
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
 
-
-
-    @Scripts.Render("~/bundles/modernizr")
 
 
 </head>
@@ -71,6 +75,11 @@
                 <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width="70px" height="70px"></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
+            @{
+                var role = "";
+                var department = "";
+            }
+
 
             @if (Session["Role"] == null)
             {
@@ -78,182 +87,198 @@
                     location.href = '@Url.Action("Logoff", "Account")';
                 </script>
             }
-
-            @if (Session["Role"].ToString() == "4")
-            {
-                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        <h3 class="menu-title">Head of Department</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="@Url.Action("SearchPreviousDelegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-exchange-vertical"></i>Assign Department Rep </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Change Collection Points </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
-                        </li>
-                        <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                            <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-table"></i><a href="tables-basic.html">Mothly Item Usage Report</a></li>
-                                <li><i class="fa fa-table"></i><a href="tables-data.html">Requisition Report</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            }
-            else if (Session["Role"].ToString() == "5" || Session["Role"].ToString() == "6")
-            {
-                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        <h3 class="menu-title">Representative</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
-                        </li>
-                        <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
-                        </li>
-                        <li>
-                            <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>Order History </a>
-                        </li>
-
-                    </ul>
-                </div>
-            }
-            else if (Session["Role"].ToString() == "1")
-            {
-                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        <h3 class="menu-title">Store Clerk</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-files"></i>Manage Inventory </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon ti-search"></i>Search Items by Date</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon ti-folder"></i>Requisition Disbursement </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-file"></i> Item Retrieval Form </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursement List </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-share"></i>Purchase Orders </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-eye"></i>Inventory Check</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-face-sad"></i> Outstandings</a>
-                        </li>
-                        <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                            <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
-                                <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
-                                <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            }
-            else if (Session["Role"].ToString() == "7")
-            {
-                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                        </li>
-                        <h3 class="menu-title">Temporary HOD</h3>
-                        <li>
-                            <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
-                        </li>
-
-                    </ul>
-                </div>
-
-            }
             else
             {
-                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
-                    <ul class="nav navbar-nav">
-                        @if (Session["Role"].ToString() == "2")
-                    {
+                department = Session["department"].ToString();
+
+                if (Session["Role"].ToString() == "4")
+                {
+                    role = "Head of Department";
+
+                    <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                        <ul class="nav navbar-nav">
                             <li class="active">
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
-                            <h3 class="menu-title">Supervisor</h3><!-- /.menu-title -->
                             <li>
-                                <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
-                            </li>
-                        }
-                        else if (Session["Role"].ToString() == "3")
-                        {
-                            <li class="active">
-                                <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
-                            </li>
-                            <h3 class="menu-title">Manager</h3>
-                            <li>
-                                <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                                <a href="@Url.Action("SearchPreviousDelegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                                <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-exchange-vertical"></i>Assign Department Rep </a>
                             </li>
-                        }
+                            <li>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Change Collection Points </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                            </li>
+                            <li class="menu-item-has-children dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                                <ul class="sub-menu children dropdown-menu">
+                                    <li><i class="fa fa-table"></i><a href="tables-basic.html">Mothly Item Usage Report</a></li>
+                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Requisition Report</a></li>
+                                </ul>
+                            </li>
 
-                        else
-                        {
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                }
+                else if (Session["Role"].ToString() == "5" || Session["Role"].ToString() == "6")
+                {
+                    role = "Department Representative";
+
+                    <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                        <ul class="nav navbar-nav">
                             <li class="active">
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
-                        }
+                            <li>
+                                <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
+                            </li>
+                            <li>
+                                <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
+                            </li>
+                            <li>
+                                <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>Order History </a>
+                            </li>
 
-                        <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                            <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
-                                <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
-                                <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+                }
+                else if (Session["Role"].ToString() == "1")
+                {
+                    role = "Store Clerk";
+
+
+                    <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-files"></i>Manage Inventory </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon ti-search"></i>Search Items by Date</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon ti-folder"></i>Requisition Disbursement </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-file"></i> Item Retrieval Form </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursement List </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-share"></i>Purchase Orders </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-eye"></i>Inventory Check</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-face-sad"></i> Outstandings</a>
+                            </li>
+                            <li class="menu-item-has-children dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                                <ul class="sub-menu children dropdown-menu">
+                                    <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
+                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
+                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else if (Session["Role"].ToString() == "7")
+                {
+                    role = "Temp HOD";
+
+
+                    <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                }
+                else
+                {
+                    <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                        <ul class="nav navbar-nav">
+                            @if (Session["Role"].ToString() == "2")
+                            {
+                                role = "Supervisor";
+
+
+                                <li class="active">
+                                    <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                                </li>
+                            }
+                            else if (Session["Role"].ToString() == "3")
+                            {
+                                role = "Manager";
+
+
+                                <li class="active">
+                                    <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                                </li>
+                            }
+
+                            else
+                            {
+                                <li class="active">
+                                    <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                                </li>
+                            }
+
+                            <li class="menu-item-has-children dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                                <ul class="sub-menu children dropdown-menu">
+                                    <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
+                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
+                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
             }
+
 
         </nav>
     </aside><!-- /#left-panel -->
@@ -262,61 +287,27 @@
         <!-- Header-->
         <header id="header" class="header sticky-top">
             <div class="header-menu">
-                <div class="col-sm-7">
+                <div class="col-sm-5">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">1</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 3 Notification</p>
-                                <a class="dropdown-item media bg-flat-color-1" href="@Url.Action("ApproveRequisition", "HOD", new { id = 17 })">
-                                    <i class="fa fa-check"></i>
-                                    <p>Approved Requisition</p>
-                                </a>
-                                <a class="dropdown-item media bg-flat-color-5" href="@Url.Action("ApproveCollectionPoint", "Clerk", new { id = 50 })">
-                                    <i class="fa fa-info"></i>
-                                    <p>Approved CollectionPoint</p>
-                                </a>
-                            </div>
+                        <div class="dropdown for-notification" id="notifications" >
+                      
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
-                        Welcome, @User.Identity.Name &nbsp;&nbsp;&nbsp;
-                        <br />
+                <div class="col-sm-7">
 
+                    <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="~/styles/images/admin.jpg" alt="@User.Identity.Name">
                         </a>
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
-                            <a class="nav-link" href="#"><i class="fa fa-bell"></i> Notifications <span class="count">13</span></a>
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
                             <a class="nav-link" href="@Url.Action("Logoff", "Account")"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
-                    <div class="language-select dropdown" id="language-select">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="language" aria-haspopup="true" aria-expanded="true">
-                            <i class="flag-icon flag-icon-us"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="language">
-                            <div class="dropdown-item">
-                                <span class="flag-icon flag-icon-fr"></span>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-es"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-us"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-it"></i>
-                            </div>
-                        </div>
+                    <div class="text-info float-right" style="margin: 10 0 0 0; font-size: 12px;">
+                        Welcome, @User.Identity.Name.ToUpper()<br />
+                        <span class="text-dark"> @role |  @department</span>
                     </div>
                 </div>
             </div>
@@ -328,7 +319,7 @@
         </div>
 
     </div>
-    <script src="~/styles/js/jquery.min.js"></script>
+    @*<script src="~/styles/js/jquery.min.js"></script>*@
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>
     <script src="~/styles/js/main.js"></script>
@@ -352,6 +343,27 @@
 
     <!-- DataTable -->
     @RenderSection("scripts", required: false)
+
+    <script>
+
+
+        $(document).ready(function () {
+            $.ajax({
+                  url: '@Url.Action("GetNotifications", "Home")',
+                        data: {},
+                        type: 'GET',
+                        success: function (data) {
+                            $(notifications).html(data);
+                        }
+                    });
+        });
+
+
+
+
+
+
+    </script>
 
 </body>
 </html>
