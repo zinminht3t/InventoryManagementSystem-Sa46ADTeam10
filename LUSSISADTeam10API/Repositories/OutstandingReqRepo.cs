@@ -154,6 +154,43 @@ namespace LUSSISADTeam10API.Repositories
             }
             return orm;
         }
+
+        public static RequisitionWithOutstandingModel GetCompletedOutstaingReqByReqID(int reqid, out string error)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            RequisitionWithOutstandingModel model = new RequisitionWithOutstandingModel();
+            outstandingrequisition req = new outstandingrequisition();
+
+            List<RequisitionDetailsWithOutstandingModel> reqdm = new List<RequisitionDetailsWithOutstandingModel>();
+
+            try
+            {
+                req = entities.outstandingrequisitions.Where(x => x.reqid == reqid && x.status == ConOutstandingsRequisition.Status.COMPLETE).FirstOrDefault();
+
+                foreach (outstandingrequisitiondetail rqdm in req.outstandingrequisitiondetails)
+                {
+                    reqdm.Add(new RequisitionDetailsWithOutstandingModel(req.reqid, rqdm.itemid, rqdm.item.description,
+                        rqdm.qty, rqdm.item.category.name, rqdm.item.uom,
+                        rqdm.qty));
+                }
+                model = new RequisitionWithOutstandingModel(req.reqid, req.requisition.raisedby, req.requisition.user.fullname
+                                        , req.requisition.approvedby, req.requisition.user1.fullname, req.requisition.cpid, req.requisition.collectionpoint.cpname
+                                         , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 0, 
+                                         "", reqdm);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            return model;
+        }
         // To Update Outstanding Requisition
         public static OutstandingReqModel UpdateOutReq
             (OutstandingReqModel ordm, out string error)
