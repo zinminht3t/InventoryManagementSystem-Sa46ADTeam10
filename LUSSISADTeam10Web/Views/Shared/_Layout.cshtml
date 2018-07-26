@@ -20,6 +20,7 @@
     <link href="~/styles/css/datatable.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.6/dist/sweetalert2.all.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>*@
 
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
@@ -183,12 +184,34 @@
                     </ul>
                 </div>
             }
+            else if (Session["Role"].ToString() == "7")
+            {
+                <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
+                        </li>
+                        <h3 class="menu-title">Temporary HOD</h3>
+                        <li>
+                            <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            }
             else
             {
                 <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                     <ul class="nav navbar-nav">
                         @if (Session["Role"].ToString() == "2")
-                        {
+                    {
                             <li class="active">
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
@@ -323,7 +346,9 @@
     <script src="~/styles/js/lib/data-table/buttons.print.min.js"></script>
     <script src="~/styles/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="~/styles/js/lib/data-table/datatables-init.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+    <script type="text/javascript" src="~/Styles/js/jquery.qrcode.min.js"></script>
+    <script type="text/javascript" src="~/Styles/js/qrcode.js"></script>
+
     <!-- DataTable -->
     @RenderSection("scripts", required: false)
 

@@ -199,6 +199,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.assignedby = dele.AssignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
+                UserRepo.delegateuser(dele.Userid);
 
                 dele = GetDelegationByDelegationID(d.delid, out error);
 
@@ -243,6 +244,8 @@ namespace LUSSISADTeam10API.Repositories
 
                 // saving the update
                 entities.SaveChanges();
+
+                UserRepo.canceldelegateuser(dm.Userid);
 
                 // return the updated model 
                 dm = GetDelegationByDelegationID(d.delid, out error);
