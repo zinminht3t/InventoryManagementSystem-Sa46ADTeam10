@@ -187,6 +187,10 @@ namespace LUSSISADTeam10API.Repositories
                     {
                         delegation del = entities.delegations.Where(p => p.delid == deleg.Delid).FirstOrDefault<delegation>();
                         del.active = ConDelegation.Active.INACTIVE;
+                        if (u.Role != ConUser.Role.DEPARTMENTREP)
+                        {
+                            UserRepo.canceldelegateuser(u.Userid);
+                        }
                         entities.SaveChanges();
                     }
 
