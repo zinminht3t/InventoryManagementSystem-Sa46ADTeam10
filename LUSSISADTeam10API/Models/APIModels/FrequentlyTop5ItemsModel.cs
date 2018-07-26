@@ -15,6 +15,8 @@ namespace LUSSISADTeam10API.Models.APIModels
 
         }
 
+        public FrequentlyTop5ItemsModel() : this(0, "", null) { }
+
         public int Itemid { get; set; }
 
         public string Description { get; set; }

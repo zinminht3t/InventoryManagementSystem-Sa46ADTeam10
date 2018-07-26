@@ -12,6 +12,8 @@ namespace LUSSISADTeam10API.Models.DBModels
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class LUSSISEntities : DbContext
     {
@@ -57,5 +59,61 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<OrderByDepartmentDarshboard> OrderByDepartmentDarshboards { get; set; }
         public virtual DbSet<RequistionList> RequistionLists { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<NumberofRequest> NumberofRequests { get; set; }
+    
+        public virtual ObjectResult<MonthlyItemUsage> GetMonthlyItemUsage(Nullable<int> supplierone, Nullable<int> suppliertwo, Nullable<int> supplierthree)
+        {
+            var supplieroneParameter = supplierone.HasValue ?
+                new ObjectParameter("supplierone", supplierone) :
+                new ObjectParameter("supplierone", typeof(int));
+    
+            var suppliertwoParameter = suppliertwo.HasValue ?
+                new ObjectParameter("suppliertwo", suppliertwo) :
+                new ObjectParameter("suppliertwo", typeof(int));
+    
+            var supplierthreeParameter = supplierthree.HasValue ?
+                new ObjectParameter("supplierthree", supplierthree) :
+                new ObjectParameter("supplierthree", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MonthlyItemUsage>("GetMonthlyItemUsage", supplieroneParameter, suppliertwoParameter, supplierthreeParameter);
+        }
+    
+        public virtual ObjectResult<ItemTrendAnalysis> GetItemTrendAnalysis(Nullable<int> fristdept, Nullable<int> seconddept, Nullable<int> thirddept, Nullable<int> month)
+        {
+            var fristdeptParameter = fristdept.HasValue ?
+                new ObjectParameter("fristdept", fristdept) :
+                new ObjectParameter("fristdept", typeof(int));
+    
+            var seconddeptParameter = seconddept.HasValue ?
+                new ObjectParameter("seconddept", seconddept) :
+                new ObjectParameter("seconddept", typeof(int));
+    
+            var thirddeptParameter = thirddept.HasValue ?
+                new ObjectParameter("thirddept", thirddept) :
+                new ObjectParameter("thirddept", typeof(int));
+    
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("month", month) :
+                new ObjectParameter("month", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ItemTrendAnalysis>("GetItemTrendAnalysis", fristdeptParameter, seconddeptParameter, thirddeptParameter, monthParameter);
+        }
+    
+        public virtual ObjectResult<RequistionList1> GetRequistionList(Nullable<int> deptid, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
+        {
+            var deptidParameter = deptid.HasValue ?
+                new ObjectParameter("deptid", deptid) :
+                new ObjectParameter("deptid", typeof(int));
+    
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequistionList1>("GetRequistionList", deptidParameter, fromdateParameter, todateParameter);
+        }
     }
 }

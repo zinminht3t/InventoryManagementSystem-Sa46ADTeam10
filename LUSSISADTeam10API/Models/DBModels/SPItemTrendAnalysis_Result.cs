@@ -10,17 +10,15 @@
 namespace LUSSISADTeam10API.Models.DBModels
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class MonthlyItemUsageByHOD
+    public partial class SPItemTrendAnalysis_Result
     {
-        public string Item { get; set; }
-        public string Category { get; set; }
-        public int Quantity { get; set; }
-        public string Unit_of_Measurement { get; set; }
+        public string DepartmentName { get; set; }
+        public string Item_Name { get; set; }
+        public Nullable<int> Item_Usage { get; set; }
         public int deptid { get; set; }
-        public string deptname { get; set; }
-        public Nullable<int> MonthProduce { get; set; }
-        public Nullable<int> YearProduce { get; set; }
+        public int itemid { get; set; }
+        public Nullable<int> Monthofreq { get; set; }
+        public Nullable<int> Yearofreq { get; set; }
     }
 }

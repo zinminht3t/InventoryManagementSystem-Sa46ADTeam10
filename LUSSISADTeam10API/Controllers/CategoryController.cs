@@ -71,7 +71,7 @@ namespace LUSSISADTeam10API.Controllers
 
         // to get category by category name
         [HttpGet]
-        [Route("api/category/{catname}")]
+        [Route("api/category/catname/{catname}")]
         public IHttpActionResult GetCategoryByCatName(string catname)
         {
             string error = "";

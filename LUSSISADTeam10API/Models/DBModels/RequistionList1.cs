@@ -10,17 +10,11 @@
 namespace LUSSISADTeam10API.Models.DBModels
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class MonthlyItemUsageByHOD
+    public partial class RequistionList1
     {
-        public string Item { get; set; }
-        public string Category { get; set; }
-        public int Quantity { get; set; }
-        public string Unit_of_Measurement { get; set; }
+        public Nullable<System.DateTime> reqdate { get; set; }
+        public string Status { get; set; }
         public int deptid { get; set; }
-        public string deptname { get; set; }
-        public Nullable<int> MonthProduce { get; set; }
-        public Nullable<int> YearProduce { get; set; }
     }
 }
