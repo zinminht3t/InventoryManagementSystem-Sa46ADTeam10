@@ -1,56 +1,98 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierItemModel>
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.SupplierItemImportViewModel>
 
 @{
     ViewBag.Title = "csvsupplier";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-<table class="table">
-    <tr>
-    
-        <th>
-            @Html.DisplayNameFor(model => model.SupName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Uom)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.SupName)
-        </td>
-        <td>
-            @Html.DropDownListFor(modelItem => item.CategoryName, new SelectList(ViewBag.catlist))
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Uom)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+@section Styles {
+    <style>
+    </style>
 }
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Employeelist</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Employeelist</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                   
+                    <div class="card-body">
+                        @using (Html.BeginForm("CreateSupplierItem", "Clerk"))
+                        {
+                            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SupName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CategoryName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Price)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Uom)
+                                        </th>
 
-</table>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ( var item in ViewBag.supplierlist)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <h6> @item.SupName </h6>
+                                                
+                                            </td>
+                                            <td>
+                                              
+                                                @Html.DropDownList("CategoryName", new SelectList(ViewBag.catlist))
+
+                                            </td>
+                                            <td>
+                                              @item.Description
+                                            </td>
+                                            <td>
+                                                @item.Price
+                                            </td>
+                                            <td>
+                                              <h6>@item.Uom</h6>
+                                            </td>
+                                           
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            <input type="Submit" class="btn btn-outline-success pull-right" value="Create">
+                        }
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
