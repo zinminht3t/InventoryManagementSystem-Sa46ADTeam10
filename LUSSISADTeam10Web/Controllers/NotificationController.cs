@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using System;
@@ -21,13 +22,41 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             NotificationModel notim = new NotificationModel();
+            notim = APINotification.UpdateNotificationAsRead(token, id, out error);
 
-            notim = APINotification.GetNotificationByid(token, id, out error);
-            notim.Isread = true;
-
-            //notim = APINotification
-
-
+            switch (notim.NotiType)
+            {
+                case ConNotification.NotiType.Adjustment:
+                    return RedirectToAction("Approve", "Supervisor");
+                case ConNotification.NotiType.ClerkApprovedCollectionPointChange:
+                    return RedirectToAction("CollectionPoint", "HOD");
+                case ConNotification.NotiType.ClerkApprovedRequisiton:
+                    return RedirectToAction("CollectionPoint", "HOD");
+                case ConNotification.NotiType.ClerkRejectedCollectionPointChange:
+                    return RedirectToAction("CollectionPoint", "HOD");
+                case ConNotification.NotiType.CollectedRequistion:
+                    return RedirectToAction("DisbursementDetail", "Clerk", new { id = notim.ResID });
+                case ConNotification.NotiType.CollectionPointChangeRequestApproval:
+                    return RedirectToAction("ApproveCollectionPoint", "Clerk", new { id = notim.ResID });
+                case ConNotification.NotiType.DelegationAssigned:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.DelegationCancelled:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.DeliveredRequisition:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.DeptRepAssigned:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.HODApprovedRequistion:
+                    return RedirectToAction("RequisitionDetail", "Clerk", new { id = notim.ResID });
+                case ConNotification.NotiType.OutstandingItemsCollected:
+                    return RedirectToAction("OutstandingDetail", "Clerk", new { id = notim.ResID });
+                case ConNotification.NotiType.OutstandingItemsReadyToCollect:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.RejectedRequistion:
+                    return RedirectToAction("Index", "Home");
+                case ConNotification.NotiType.RequisitionApproval:
+                    return RedirectToAction("ApproveRequisition", "HOD", new { id = notim.ResID });
+            }
             return View();
         }
 
