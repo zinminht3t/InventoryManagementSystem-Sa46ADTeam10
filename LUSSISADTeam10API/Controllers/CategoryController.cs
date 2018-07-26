@@ -68,6 +68,26 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(catm);
         }
+
+        // to get category by category name
+        [HttpGet]
+        [Route("api/category/{catname}")]
+        public IHttpActionResult GetCategoryByCatName(string catname)
+        {
+            string error = "";
+            CategoryModel catm = CategoryRepo.GetCategoryByCatname(catname, out error);
+            if (error != "" || catm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Category Is Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(catm);
+        }
+
+
         // to update category
         [HttpPost]
         [Route("api/category/update")]

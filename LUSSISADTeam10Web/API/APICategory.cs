@@ -21,6 +21,13 @@ namespace LUSSISADTeam10Web.API
             CategoryModel dm = APIHelper.Execute<CategoryModel>(token, url, out error);
             return dm;
         }
+
+        public static CategoryModel GetCategoryByCatName(string token, string catname, out string error)
+        {
+            string url = APIHelper.Baseurl + "/category/" + catname;
+            CategoryModel dm = APIHelper.Execute<CategoryModel>(token, url, out error);
+            return dm;
+        }
         public static CategoryModel GetCategoryByItemID(string token, int itemid, out string error)
         {
             string url = APIHelper.Baseurl + "/category/item/" + itemid;
