@@ -75,16 +75,16 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetCategoryByCatName(string catname)
         {
             string error = "";
-            CategoryModel catm = CategoryRepo.GetCategoryByCatname(catname, out error);
-            if (error != "" || catm == null)
+            CategoryModel cpm = CategoryRepo.GetCategorybyCatName(catname, out error);
+            if (error != "" || cpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                 {
-                    return Content(HttpStatusCode.NotFound, "Category Is Not Found");
+                    return Content(HttpStatusCode.NotFound, "Category Not Found");
                 }
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(catm);
+            return Ok(cpm);
         }
 
 
