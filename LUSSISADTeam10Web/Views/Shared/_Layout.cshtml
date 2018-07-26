@@ -16,7 +16,11 @@
 
 
     <link rel="stylesheet" href="~/styles/css/normalize.css">
-     <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="~/styles/css/bootstrap.min.css">*@
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/styles/css/themify-icons.css">
     <link rel="stylesheet" href="~/styles/css/flag-icon.min.css">
@@ -39,7 +43,19 @@
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
 
+    <style>
+        body, nav {
+            font-size: 12px !important;
+        }
 
+        .navbar .navbar-nav li > a {
+            font-size: 13px !important;
+        }
+
+        .btn, .button {
+            border-radius: 5px !important;
+        }
+    </style>
 
 </head>
 <body>
@@ -75,12 +91,12 @@
 
     <!-- Left Panel -->
     <aside id="left-panel" class="left-panel" style="background-color:black; ">
-        <nav class="navbar navbar-expand-sm navbar-default sticky-top" style="background-color:black; border:none; border-color:black">
+        <nav class="navbar navbar-expand-sm navbar-default sticky-top" style="background-color:black; border:none; border-color:#344955">
             <div class="navbar-header" style="background-color:black">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width="70px" height="70px"></a>
+                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width=60 height=60></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
             @{
@@ -356,14 +372,31 @@
 
 
         $(document).ready(function () {
-            $.ajax({
-                  url: '@Url.Action("GetNotifications", "Home")',
-                        data: {},
-                        type: 'GET',
-                        success: function (data) {
-                            $(notifications).html(data);
-                        }
-                    });
+
+            @*var interval = 3000;  // 1000 = 1 second, 3000 = 3 seconds
+            function doAjax() {
+                $.ajax({
+                    url: '@Url.Action("GetNotifications", "Home")',
+                    data: {},
+                    type: 'GET',
+                    success: function (data) {
+                        $(notifications).html(data);
+                    }
+                });
+            }
+            setTimeout(doAjax, interval);*@
+
+
+            setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("GetNotifications", "Home")',
+                    data: {},
+                    type: 'GET',
+                    success: function (data) {
+                        $(notifications).html(data);
+                    }
+                });
+            }, 2000);
         });
 
 
