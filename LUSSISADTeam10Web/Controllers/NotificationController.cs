@@ -1,8 +1,6 @@
 ﻿using LUSSISADTeam10Web.API;
-using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
-using LUSSISADTeam10Web.Models.Clerk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,38 +10,27 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "DepartmentRep")]
-    public class DepartmentRepController : Controller
+    public class NotificationController : Controller
     {
-        // GET: DepartmentRep
-        public ActionResult Index()
+        // GET: Notification
+        public ActionResult Index(int id)
         {
-            return View("DeptRepDashboard");
-        }
 
-        public ActionResult OrderHistory(int id)
-        {
+            string error = "";
             string token = GetToken();
             UserModel um = GetUser();
 
-            List<OrderHistoryModel> inendetail = new List<OrderHistoryModel>();
+            NotificationModel notim = new NotificationModel();
 
-            try
-            {
-                inendetail = APIRequisition.GetOrderHistory(id, token, out string error);
+            notim = APINotification.GetNotificationByid(token, id, out error);
+            notim.Isread = true;
 
-                if (error != "")
-                {
-                    return RedirectToAction("Index", "Error", new { error });
-                }
-            }
-            catch (Exception ex)
-            {
-                RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
+            //notim = APINotification
 
-            return View(inendetail);
+
+            return View();
         }
+
 
         #region Utilities
         public string GetToken()
@@ -71,10 +58,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return um;
         }
-        #endregion 
+        #endregion
 
 
     }
-
-
 }

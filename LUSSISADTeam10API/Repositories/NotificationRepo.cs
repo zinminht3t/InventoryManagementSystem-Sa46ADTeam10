@@ -136,6 +136,31 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
+        public static NotificationModel UpdateNotiRead(int id, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            notification n = new notification();
+            NotificationModel nm = new NotificationModel();
+            try
+            {
+                n = entities.notifications.Where(x => x.notiid == id).FirstOrDefault();
+                n.isread = true;
+                entities.SaveChanges();
+
+                nm = GetNotiBynotiid(n.notiid, out error);
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return nm;
+        }
+
 
     }
 }
