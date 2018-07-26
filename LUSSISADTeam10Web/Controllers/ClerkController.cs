@@ -465,9 +465,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
-            c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
-            c.Name = viewmodel.CategoryName;
+            string name = viewmodel.CategoryName;
+            c = APICategory.GetCategoryByCatName(token, name, out error);
 
+            it.Catid = c.Catid;
             invm.Invid = viewmodel.Invid;
             invm.Itemid = viewmodel.Itemid;
             invm.Stock = viewmodel.Stock;
@@ -476,13 +477,10 @@ namespace LUSSISADTeam10Web.Controllers
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
 
-
-
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
-                //c = APICategory.UpdateCategory(token, c, out error);
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
