@@ -130,6 +130,25 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(orm);
         }
 
+
+        [HttpGet]
+        [Route("api/completedoutstandingreq/requisition/{reqid}")]
+        public IHttpActionResult GetCompletedOutstaingReqByReqID(int reqid)
+        {
+            string error = "";
+            RequisitionWithOutstandingModel orm =
+                OutstandingReqRepo.GetCompletedOutstaingReqByReqID(reqid, out error);
+            if (error != "" || orm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(orm);
+        }
+
         // to update outstanding req
         [HttpPost]
         [Route("api/outstandingreq/update")]
