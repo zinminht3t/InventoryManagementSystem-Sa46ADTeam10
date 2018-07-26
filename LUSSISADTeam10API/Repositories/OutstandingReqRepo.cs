@@ -177,7 +177,7 @@ namespace LUSSISADTeam10API.Repositories
                 }
                 model = new RequisitionWithOutstandingModel(req.reqid, req.requisition.raisedby, req.requisition.user.fullname
                                         , req.requisition.approvedby, req.requisition.user1.fullname, req.requisition.cpid, req.requisition.collectionpoint.cpname
-                                         , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 0, 
+                                         , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 0,
                                          "", reqdm);
             }
             catch (NullReferenceException)
@@ -293,28 +293,43 @@ namespace LUSSISADTeam10API.Repositories
             return outreqm;
         }
         // To change the status from pending to complete
-        public static OutstandingReqModel Complete
-            (OutstandingReqModel ordm, out string error)
+        public static RequisitionWithOutstandingModel Complete
+            (RequisitionWithOutstandingModel ordm, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            OutstandingReqModel outreqm = new OutstandingReqModel();
-            outstandingrequisition outreq = new outstandingrequisition();
+            outstandingrequisition req = new outstandingrequisition();
+            RequisitionWithOutstandingModel reqoutm = new RequisitionWithOutstandingModel();
+            List<RequisitionDetailsWithOutstandingModel> reqdm = new List<RequisitionDetailsWithOutstandingModel>();
             try
             {
                 // finding the db object using API model
-                outreq = entities.outstandingrequisitions
-                    .Where(x => x.outreqid == ordm.OutReqId)
+                req = entities.outstandingrequisitions
+                    .Where(x => x.requisition.reqid == ordm.Reqid)
                     .FirstOrDefault();
 
-                // update the status
-                outreq.status = ConOutstandingsRequisition.Status.COMPLETE;
+                if (req.requisition.status == ConRequisition.Status.OUTSTANDINGREQUISITION || req.status == ConOutstandingsRequisition.Status.DELIVERED)
+                {
+                    req.status = ConOutstandingsRequisition.Status.COMPLETE;
+                    req.requisition.status = ConRequisition.Status.COMPLETED;
+                    entities.SaveChanges();
+                    foreach (outstandingrequisitiondetail rqdm in req.outstandingrequisitiondetails)
+                    {
+                        reqdm.Add(new RequisitionDetailsWithOutstandingModel(req.reqid, rqdm.itemid, rqdm.item.description,
+                            rqdm.qty, rqdm.item.category.name, rqdm.item.uom,
+                            rqdm.qty));
+                    }
+                    reqoutm = new RequisitionWithOutstandingModel(req.reqid, req.requisition.raisedby, req.requisition.user.fullname
+                                            , req.requisition.approvedby, req.requisition.user1.fullname, req.requisition.cpid, req.requisition.collectionpoint.cpname
+                                             , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 999,
+                                             "Z9", reqdm);
+                }
+                else
+                {
+                    error = "Status not Outstanding";
+                    reqoutm = new RequisitionWithOutstandingModel();
+                }
 
-                // saving the update
-                entities.SaveChanges();
-
-                // return the updated model 
-                outreqm = ConvertDBOutReqToAPIOutReq(outreq);
             }
             catch (NullReferenceException)
             {
@@ -324,7 +339,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return outreqm;
+            return reqoutm;
         }
     }
 }

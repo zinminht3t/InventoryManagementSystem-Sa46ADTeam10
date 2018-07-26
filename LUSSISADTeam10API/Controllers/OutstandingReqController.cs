@@ -184,10 +184,10 @@ namespace LUSSISADTeam10API.Controllers
         // to complete the exisiting outstanding
         [HttpPost]
         [Route("api/outstandingreq/complete")]
-        public IHttpActionResult CompleteOutstanding(OutstandingReqModel outreq)
+        public IHttpActionResult CompleteOutstanding(RequisitionWithOutstandingModel outreq)
         {
             string error = "";
-            OutstandingReqModel orm = OutstandingReqRepo.Complete(outreq, out error);
+            RequisitionWithOutstandingModel orm = OutstandingReqRepo.Complete(outreq, out error);
             if (error != "" || orm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
