@@ -911,7 +911,7 @@ namespace LUSSISADTeam10Web.Controllers
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
             if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||
-                outr.Status == ConOutstandingsRequisition.Status.COMPLETE || outreqvm.CanFullFill == false)
+                outr.Status != ConOutstandingsRequisition.Status.DELIVERED || outreqvm.CanFullFill == false)
             {
                 return RedirectToAction("Outstanding");
             }
