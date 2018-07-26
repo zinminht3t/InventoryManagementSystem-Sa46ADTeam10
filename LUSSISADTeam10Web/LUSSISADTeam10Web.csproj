@@ -1383,6 +1383,7 @@
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
     <Content Include="Views\Clerk\Test.cshtml" />
+    <Content Include="Views\Home\GetNotifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
