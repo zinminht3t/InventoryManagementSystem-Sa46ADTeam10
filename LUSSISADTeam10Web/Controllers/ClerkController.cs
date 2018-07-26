@@ -205,12 +205,17 @@ namespace LUSSISADTeam10Web.Controllers
 
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
                         workbook.Close();
-                        //int i = 0;
-                        //  foreach (SupplierItemModel s in sm) {
-                        //
-                        //       i = s.SupId;
-                        //   }
-                        //   List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
+                        List<String> catname = new List<string>();
+
+                        List <CategoryModel> cm = APICategory.GetAllCategories(token, out error);
+
+                        foreach (CategoryModel c in cm)
+                        {
+                            catname.Add(c.Name);
+
+
+                        }
+                        ViewBag.catlist = catname;
 
                         return View(sm);
                     }
@@ -279,7 +284,7 @@ namespace LUSSISADTeam10Web.Controllers
                         List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
 
-                        return View(sm);
+                        return RedirectToAction("ShowActiveSupplierlist");
                     }
                     else
                     {
@@ -910,7 +915,7 @@ namespace LUSSISADTeam10Web.Controllers
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
             if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||
-                outr.Status == ConOutstandingsRequisition.Status.COMPLETE || outreqvm.CanFullFill == false)
+                outr.Status != ConOutstandingsRequisition.Status.DELIVERED || outreqvm.CanFullFill == false)
             {
                 return RedirectToAction("Outstanding");
             }

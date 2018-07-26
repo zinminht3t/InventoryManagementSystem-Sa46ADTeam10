@@ -26,7 +26,7 @@ namespace LUSSISADTeam10Web.API
 
         public static List<NotificationModel> GetNotiByisread(bool isread,int deptid,int role,string token, out string error)
         {
-            string url = APIHelper.Baseurl + "noti/isread/" + isread + deptid + role;
+            string url = APIHelper.Baseurl + "/noti/isread/" + isread + "/" + deptid + "/" + role;
             List<NotificationModel> nom = APIHelper.Execute<List<NotificationModel>>(token, url, out error);
             return nom;
         }
@@ -34,12 +34,10 @@ namespace LUSSISADTeam10Web.API
 
         public static List<NotificationModel> GetNotiByunread(bool isread, int deptid, int role, string token, out string error)
         {
-            string url = APIHelper.Baseurl + "notification/unread/" + isread + deptid + role;
+            string url = APIHelper.Baseurl + "/notification/unread/" + isread + "/" + deptid + "/" + role;
             List<NotificationModel> nom = APIHelper.Execute<List<NotificationModel>>(token, url, out error);
             return nom;
         }
-
-        
 
 
         public static NotificationModel CreateNoti(string token,NotificationModel mns, out string error)

@@ -5,19 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>csvsupplierdetail</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SupId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ItemId)
-        </th>
+    
         <th>
             @Html.DisplayNameFor(model => model.SupName)
         </th>
@@ -38,17 +29,12 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SupId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemId)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.SupName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CategoryName)
+            @Html.DropDownListFor(modelItem => item.CategoryName, new SelectList(ViewBag.catlist))
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)

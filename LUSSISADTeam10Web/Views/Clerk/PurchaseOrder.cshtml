@@ -176,14 +176,14 @@ function addRow() {
         function getSupplierList(id, pageid) {
 
 
-        $.ajax({
-        url: '@Url.Action("GetSupplierLists", "Clerk")',
-        data: { ID: id },
-        type: 'GET',
-        success: function (data) {
-            $(pageid).html(data);
-        }
-    });
+                        $.ajax({
+                        url: '@Url.Action("GetSupplierLists", "Clerk")',
+                        data: { ID: id },
+                        type: 'GET',
+                        success: function (data) {
+                            $(pageid).html(data);
+                        }
+                    });
         }
 
 

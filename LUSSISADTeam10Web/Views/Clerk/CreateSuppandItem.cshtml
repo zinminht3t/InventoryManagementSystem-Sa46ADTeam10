@@ -53,21 +53,22 @@
                                         <div class="panel-body">
                                             <div class="card">
 
+                                                <div class="col-md-5">
+                                                    @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                    {
+                                                        <br />
+                                                        @Html.Raw(ViewBag.Error)
 
+                                                        <input type="file" name="excelfile" />
+                                                        <br />
+                                                        <br />
+                                                        <input type="submit" value="Import" class="btn-outline-secondary" />
+                                                        <br />
+                                                        <br />
 
+                                                    }
 
-                                                @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                {
-
-                                                    @Html.Raw(ViewBag.Error)
-
-                                                    <input type="file" name="excelfile" />
-                                                    <br />
-                                                    <input type="submit" value="Import" />
-
-                                                }
-
-
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -87,21 +88,22 @@
                                     <div id="collapse2" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <div class="card">
+                                                <div class="col-md-5">
+                                                    @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                    {
 
-                                                @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                {
+                                                        <br />
+                                                        @Html.Raw(ViewBag.Error)
 
-                                                    <div class="container">
-
-                                                        <form role="form">
-                                                            <div class="form-group">
-
-                                                                <input type="file" name="excelfile">
-                                                            </div>
-                                                            <button type="submit" value="Import" class="btn btn-default">Submit</button>
-                                                        </form>
-                                                    </div>
-                                                }
+                                                        <input type="file" name="excelfile" />
+                                                        <br />
+                                                        <br />
+                                                        <input type="submit" value="Import" class="btn-bs-file btn btn-lg btn-primary" />
+                                                        <br />
+                                                        <br />
+                                                    }
+                                                </div>
+                                                <div />
                                             </div>
                                         </div>
                                     </div>
@@ -113,25 +115,22 @@
             </div>
         </div>
     </div>
-</div>
 
 
 
 
 
-@section Scripts {
-   
-    <script src="~/styles/js/bootstrap-prettyfile.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript">
 
-        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
-            e.stopPropagation();
-        });
+    @section Scripts {
 
-    </script>
-    <script>
-        $('input[type="file"]').prettyFile();
-    </script>
-}
+        <link rel="stylesheet" href="~/styles/css/btn.css">
+        <script type="text/javascript">
+
+            $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
+                e.stopPropagation();
+            });
+
+        </script>
+
+    }
 
