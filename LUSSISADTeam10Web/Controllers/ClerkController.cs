@@ -425,23 +425,21 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.InventoryModel = invm;
 
                 viewmodel.CatId = itm.Catid;
+               // itm.CatName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
                 viewmodel.ReorderQty = invm.ReorderQty;
-                //viewmodel.CategoryName = invm.CategoryName;
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                List<String> catname = new List<string>();
+                List<String> catname = new List<string>();              
 
                 ViewBag.cat = cm;
 
                 foreach (CategoryModel c in cm)
                 {
-                    catname.Add(c.Name);
-
-
+                    catname.Add(c.Name);     
                 }
                 ViewBag.catlist = catname;
 
@@ -479,11 +477,12 @@ namespace LUSSISADTeam10Web.Controllers
             it.Uom = viewmodel.UOM;
 
 
+
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
-                c = APICategory.UpdateCategory(token, c, out error);
+                //c = APICategory.UpdateCategory(token, c, out error);
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
