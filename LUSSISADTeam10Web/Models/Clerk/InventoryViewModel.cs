@@ -19,6 +19,8 @@ namespace LUSSISADTeam10Web.Models.Clerk
         public int CatId { get; set; }
         public string CategoryName { get; set; }
 
+
+
     }
 
 
