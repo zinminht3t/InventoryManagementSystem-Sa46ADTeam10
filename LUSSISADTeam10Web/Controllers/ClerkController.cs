@@ -569,13 +569,15 @@ namespace LUSSISADTeam10Web.Controllers
 
         public ActionResult RequisitionsComplete()
         {
+            string error = "";
             string token = GetToken();
             List<RequisitionModel> reqms = new List<RequisitionModel>();
 
             try
             {
-                int status = 6;
-                reqms = APIRequisition.GetRequisitionByStatus(status, token, out string error);
+                reqms = APIRequisition.GetAllRequisition(token, out error);
+
+                reqms = reqms.Where(x => x.Status == ConRequisition.Status.DELIVERED || x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
 
                 if (error != "")
                 {
