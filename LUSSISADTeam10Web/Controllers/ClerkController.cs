@@ -279,7 +279,7 @@ namespace LUSSISADTeam10Web.Controllers
                         List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
 
-                        return View(sm);
+                        return RedirectToAction("ShowActiveSupplierlist");
                     }
                     else
                     {
