@@ -24,6 +24,14 @@ namespace LUSSISADTeam10Web.API
             return nm;
         }
 
+
+        public static NotificationModel UpdateNotificationAsRead(string token, int notiid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/notification/updateasread/" + notiid;
+            NotificationModel nm = APIHelper.Execute<NotificationModel>(token, url, out error);
+            return nm;
+        }
+
         public static List<NotificationModel> GetNotiByisread(bool isread,int deptid,int role,string token, out string error)
         {
             string url = APIHelper.Baseurl + "/noti/isread/" + isread + "/" + deptid + "/" + role;

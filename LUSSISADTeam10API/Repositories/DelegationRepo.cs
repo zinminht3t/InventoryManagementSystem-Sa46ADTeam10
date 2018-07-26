@@ -213,7 +213,7 @@ namespace LUSSISADTeam10API.Repositories
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dele.Userid;
-                nom.Remark = "You has been assigned as a Temp Head of Department!";
+                nom.Remark = d.user.fullname + " has been assigned as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
 

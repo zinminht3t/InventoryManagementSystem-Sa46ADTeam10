@@ -75,6 +75,7 @@
         <AssociationConnector Association="SA46ADTeam10Model.FK_requisitiondetail_requestion" ManuallyRouted="false" />
         <AssociationConnector Association="SA46ADTeam10Model.FK_supplieritem_supplier" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SA46ADTeam10Model.database_firewall_rules" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SA46ADTeam10Model.NumberofRequest" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

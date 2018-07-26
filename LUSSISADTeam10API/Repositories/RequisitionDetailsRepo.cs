@@ -209,7 +209,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
                 //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
-              List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid && p.requisition.raisedby == p.requisition.user.userid).Distinct().ToList();
+              List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).Distinct().ToList();
                 
 
                 foreach (var order in reqdetail)
