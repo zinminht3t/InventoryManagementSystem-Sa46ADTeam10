@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
@@ -121,18 +122,34 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(getViewModel(adjlist));
         }
+
+        #region Utilities
         public string GetToken()
         {
             string token = "";
             token = (string)Session["token"];
+            if (string.IsNullOrEmpty(token))
+            {
+                token = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+                Session["token"] = token;
+                UserModel um = APIAccount.GetUserProfile(token, out string error);
+                Session["user"] = um;
+                Session["role"] = um.Role;
+                Session["department"] = um.Deptname;
+            }
             return token;
         }
         public UserModel GetUser()
         {
-            UserModel user = new UserModel();
-            user = (UserModel)Session["user"];
-            return user;
+            UserModel um = (UserModel)Session["user"];
+            if (um == null)
+            {
+                GetToken();
+                um = (UserModel)Session["user"];
+            }
+            return um;
         }
+        #endregion
 
     }
 }

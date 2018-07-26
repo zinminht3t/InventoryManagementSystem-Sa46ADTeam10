@@ -562,6 +562,7 @@ namespace LUSSISADTeam10Web.Controllers
                 UserModel um = APIAccount.GetUserProfile(token, out string error);
                 Session["user"] = um;
                 Session["role"] = um.Role;
+                Session["department"] = um.Deptname;
             }
             return token;
         }
