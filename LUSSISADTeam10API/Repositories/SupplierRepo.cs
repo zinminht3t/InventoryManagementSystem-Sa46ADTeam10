@@ -299,9 +299,9 @@ namespace LUSSISADTeam10API.Repositories
             {
                 foreach (SupplierModel nsm in spm)
                 {
-                    SupplierModel spm1 = GetSupplierById(nsm.SupId, out string error1);
+                    SupplierModel spm1 = GetSupplierBySupname(nsm.SupName, out string error1);
 
-                    if (spm1.SupName ==  "")
+                    if (spm1.SupName == "")
                     {
 
                         CreateSupplier(nsm, out string error2);
