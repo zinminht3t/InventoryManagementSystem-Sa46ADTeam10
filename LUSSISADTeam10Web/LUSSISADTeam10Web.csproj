@@ -1061,6 +1061,7 @@
     <Content Include="Styles\images\placeholder.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
+    <Content Include="Styles\js\bootstrap-prettyfile.js" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />
     <Content Include="Styles\js\jquery.qrcode.min.js" />
@@ -1380,6 +1381,7 @@
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
+    <Content Include="Views\Clerk\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
