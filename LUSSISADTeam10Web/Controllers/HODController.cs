@@ -15,18 +15,23 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "HOD")]
     public class HODController : Controller
     {
         #region Get Methods
+        [Authorize(Roles = "HOD")]
+
         public ActionResult Chart()
         {
             return View();
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult Index()
         {
             return View();
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
         public ActionResult RequisitionsList()
         {
             string token = GetToken();
@@ -51,6 +56,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(reqms);
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
+
         public ActionResult OrderHistory()
         {
 
@@ -74,6 +82,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(reqms);
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
+
         public ActionResult TrackRequisition(int id)
         {
             string token = GetToken();
@@ -149,6 +160,9 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(reqm);
         }
+
+        [Authorize(Roles = "HOD")]
+
         public ActionResult CollectionPoint()
         {
             string token = GetToken();
@@ -197,6 +211,8 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(cpms);
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult CancelCollectionPoint(int id)
         {
             string token = GetToken();
@@ -214,6 +230,9 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("CollectionPoint");
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
+
         public ActionResult RequisitionDetail(int id)
         {
             string token = GetToken();
@@ -230,6 +249,9 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(reqm);
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
+
         public ActionResult ApproveRequisition(int id)
         {
             string token = GetToken();
@@ -250,11 +272,15 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult AssignDepartmentRep()
         {
             UserModel um = new UserModel();
             return View();
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult SearchPreviousDelegation()
         {
 
@@ -285,6 +311,8 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(viewmodel);
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult CancelDelegation(int id)
         {
             string token = GetToken();
@@ -312,6 +340,8 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("SearchPreviousDelegation");
         }
 
+        [Authorize(Roles = "HOD")]
+
         public ActionResult CreateDelegationList()
         {
 
@@ -337,6 +367,8 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewModel);
 
         }
+        [Authorize(Roles = "HOD")]
+
         public ActionResult AssignDepRep()
         {
             string token = GetToken();
@@ -371,6 +403,8 @@ namespace LUSSISADTeam10Web.Controllers
         #endregion
 
         #region Post Methods
+        [Authorize(Roles = "HOD")]
+
         [HttpPost]
         public ActionResult CollectionPoint(int id)
         {
@@ -391,6 +425,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("CollectionPoint");
         }
+
+        [Authorize(Roles = "HOD, TempHOD")]
 
         [HttpPost]
         public ActionResult ApproveRequisition(ApproveRequisitionViewModel viewmodel)
@@ -425,6 +461,8 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HOD")]
+
         public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel, int userid)
         {
 
@@ -452,6 +490,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("SearchPreviousDelegation");
         }
+        [Authorize(Roles = "HOD")]
+
         [HttpPost]
         public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid)
         {
@@ -475,6 +515,8 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("AssignDepRep");
 
         }
+
+        [Authorize(Roles = "HOD")]
 
         [HttpPost]
         public ActionResult SearchPreviousDelegation(EditDelegationViewModel viewmodel, int id)
@@ -520,6 +562,7 @@ namespace LUSSISADTeam10Web.Controllers
                 UserModel um = APIAccount.GetUserProfile(token, out string error);
                 Session["user"] = um;
                 Session["role"] = um.Role;
+                Session["department"] = um.Deptname;
             }
             return token;
         }

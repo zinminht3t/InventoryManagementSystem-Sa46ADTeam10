@@ -187,6 +187,10 @@ namespace LUSSISADTeam10API.Repositories
                     {
                         delegation del = entities.delegations.Where(p => p.delid == deleg.Delid).FirstOrDefault<delegation>();
                         del.active = ConDelegation.Active.INACTIVE;
+                        if (u.Role != ConUser.Role.DEPARTMENTREP)
+                        {
+                            UserRepo.canceldelegateuser(u.Userid);
+                        }
                         entities.SaveChanges();
                     }
 
@@ -199,6 +203,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.assignedby = dele.AssignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
+                UserRepo.delegateuser(dele.Userid);
 
                 dele = GetDelegationByDelegationID(d.delid, out error);
 
@@ -243,6 +248,8 @@ namespace LUSSISADTeam10API.Repositories
 
                 // saving the update
                 entities.SaveChanges();
+
+                UserRepo.canceldelegateuser(dm.Userid);
 
                 // return the updated model 
                 dm = GetDelegationByDelegationID(d.delid, out error);

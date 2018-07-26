@@ -13,7 +13,7 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "Employee, DepartmentRep")]
+    [Authorize(Roles = "Employee, DepartmentRep, TempHOD")]
     public class EmployeeController : Controller
     {
         // GET: Employee
@@ -196,6 +196,7 @@ namespace LUSSISADTeam10Web.Controllers
                 UserModel um = APIAccount.GetUserProfile(token, out string error);
                 Session["user"] = um;
                 Session["role"] = um.Role;
+                Session["department"] = um.Deptname;
             }
             return token;
         }

@@ -363,7 +363,7 @@ namespace LUSSISADTeam10API.Controllers
 
             OutstandingReqModel outreqm;
             outreqm = OutstandingReqRepo.GetOutstandingReqByReqId(po.Reqid, out error);
-            if (outreqm != null)
+            if (outreqm.ReqId != 0)
             {
                 po.Status = ConRequisition.Status.OUTSTANDINGREQUISITION;
             }

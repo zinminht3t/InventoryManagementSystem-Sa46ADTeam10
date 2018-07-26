@@ -1,0 +1,53 @@
+﻿@{
+    var count = 0;
+    if (ViewBag.NotiCount != null)
+    {
+        count = ViewBag.NotiCount;
+    }
+}
+
+<style>
+    .dropdown-item, .dropdown-menu, .noti-items {
+        border: 1px solid #cccbcb;
+        color: #ffd800;
+        background: #ededed;
+        opacity: 1;
+    }
+    #noti-div {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+</style>
+
+
+<button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-bell"></i>
+    <span class="count bg-danger">@count</span>
+</button>
+
+<div class="dropdown-menu" aria-labelledby="notification" id="noti-div">
+    @if (count <= 0)
+    {
+        <p class="text-danger noti-items"> <i class="ti-eraser"></i> No New Notification!</p>
+    }
+    else
+    {
+        <p class="text-info noti-items" > <i class="ti-info"></i> You have @count Notification</p>
+
+        foreach (var item in ViewBag.Notifications)
+        {
+
+            <a class="dropdown-item media d-block" href="@Url.Action("Index", "Notification", new { id = item.NotiID })">
+                <i class="ti-info-alt"></i>
+                @item.Title
+                <br />
+                <em>@item.Remark</em>
+            </a>
+        }
+    }
+</div>
+
+
+
+
+

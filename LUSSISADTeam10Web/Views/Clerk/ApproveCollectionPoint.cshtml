@@ -40,19 +40,28 @@
             <div class="card-body">
 
                 <dl class="dl-horizontal"></dl>
-                <div class="row">
-                    <div class="col-md-4"><b>Department Name:</b> </div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.DepName)</div>
-                </div><br />
-                <div class="row">
-                    <div class="col-md-4"><b>Previous CollectionPoint:</b> </div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.OldCpName)</div>
-                </div><br />
-                <div class="row">
-                    <div class="col-md-4"><b>Change CollectionPoint:</b> </div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.CpName)</div>
+                <div class="col-md-4"><b>Department Name:</b> </div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.DepName)</div>
+            </div><hr />
+            <div class="row">
+                <div class="col-md-5 card mx-auto">
+                    <div class="row p-2">
+                        <b>Previous CollectionPoint : </b>
+                        @Html.DisplayFor(model => model.OldCpName)
+                    </div>
+                    <div class="row p-2">
+                        <div id="mapOld" style="width:100%; height:200px;"></div>
+                    </div>
                 </div>
-
+                <div class="col-md-5 card mx-auto">
+                    <div class="row p-2">
+                        <b>Change CollectionPoint : </b>
+                        @Html.DisplayFor(model => model.CpName)
+                    </div>
+                    <div class="row p-2">
+                        <div id="mapNew" style="width:100%; height:200px;"></div>
+                    </div>
+                </div>
             </div>
             <div class="card-text text-sm-center">
                 <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
@@ -82,11 +91,68 @@
 
                 </form>
             </div>
-            </div>
         </div>
-</div>
+    </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8UpozIrTb-kqTx2K8zydcLiNbi6YDaEY" type="text/javascript"></script>
+    <script type="text/javascript">
+        var mapcode;
+        var loc = [];
+
+        window.onload = mapLoad;
+        function mapLoad() {
+            loc.push([@ViewBag.OldLat, @ViewBag.OldLng]);
+            loc.push([@ViewBag.NewLat, @ViewBag.NewLng]);
+            initMap(loc[0][0], loc[0][1],
+                loc[1][0], loc[1][1]);
+        }
+
+        function initMap(lat1, lng1, lat2, lng2) {
+            mapcode = new google.maps.Geocoder();
+            var lnt1 = new google.maps.LatLng(lat1, lng1);
+            var lnt2 = new google.maps.LatLng(lat2, lng2);
+            var marker1;
+            var marker2;
+            var diagChoice1 = {
+                zoom: 15,
+                center: lnt1,
+                diagId: google.maps.MapTypeId.ROADMAP
+            }
+            var diagChoice2 = {
+                zoom: 15,
+                center: lnt2,
+                diagId: google.maps.MapTypeId.ROADMAP
+            }
+            oldM = new google.maps.Map(document.getElementById('mapOld'), diagChoice1);
+            newM = new google.maps.Map(document.getElementById('mapNew'), diagChoice2);
+
+            var infowindow1 = new google.maps.InfoWindow();
+            var infowindow2 = new google.maps.InfoWindow();
+
+            mark(oldM, lnt1, "Previous <br/> Loaction", marker1, infowindow1);
+            mark(newM, lnt2, "Requested <br/> Location", marker2, infowindow2);
+
+            function mark(map, location, text, marker, iw) {
+                marker = new google.maps.Marker({
+                    map: map,
+                    draggable: false,
+                    position: location
+                });
+                marker.setTitle(text);
+                infoWin(map, marker, text);
+                marker.addListener('click', function () {
+                    infoWin(map, marker, marker.getTitle(), iw);
+                });
+                function infoWin(MAP, MARKER, info, iWin) {
+                    iWin = new google.maps.InfoWindow();
+                    iWin.setContent(info);
+                    iWin.open(MAP, MARKER);
+                }
+            }
+
+
+        }
+    </script>
 }

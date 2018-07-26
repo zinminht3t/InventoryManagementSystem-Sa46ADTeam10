@@ -14,7 +14,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
             this.Qty = qty;
 
         }
-
+        public FrequentlyTop5ItemsModel() : this(0, "", 0) { }
         public int Itemid { get; set; }
 
         public string Description { get; set; }

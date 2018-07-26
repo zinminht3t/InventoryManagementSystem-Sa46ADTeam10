@@ -130,6 +130,25 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(orm);
         }
 
+
+        [HttpGet]
+        [Route("api/completedoutstandingreq/requisition/{reqid}")]
+        public IHttpActionResult GetCompletedOutstaingReqByReqID(int reqid)
+        {
+            string error = "";
+            RequisitionWithOutstandingModel orm =
+                OutstandingReqRepo.GetCompletedOutstaingReqByReqID(reqid, out error);
+            if (error != "" || orm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "Outstanding Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(orm);
+        }
+
         // to update outstanding req
         [HttpPost]
         [Route("api/outstandingreq/update")]
@@ -165,10 +184,10 @@ namespace LUSSISADTeam10API.Controllers
         // to complete the exisiting outstanding
         [HttpPost]
         [Route("api/outstandingreq/complete")]
-        public IHttpActionResult CompleteOutstanding(OutstandingReqModel outreq)
+        public IHttpActionResult CompleteOutstanding(RequisitionWithOutstandingModel outreq)
         {
             string error = "";
-            OutstandingReqModel orm = OutstandingReqRepo.Complete(outreq, out error);
+            RequisitionWithOutstandingModel orm = OutstandingReqRepo.Complete(outreq, out error);
             if (error != "" || orm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

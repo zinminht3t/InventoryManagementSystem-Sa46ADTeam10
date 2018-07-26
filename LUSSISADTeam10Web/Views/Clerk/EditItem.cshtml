@@ -68,9 +68,10 @@
                         <div class="row">
                             <div class="col-md-4">@Html.LabelFor(model => model.Stock) </div>
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
-
+                                @Html.DisplayFor(model => model.Stock)
+                                @Html.HiddenFor(model => model.Stock)
                             </div>
+                     
                         </div><br />
                         <div class="row">
                             <div class="col-md-4">@Html.LabelFor(model => model.ReorderLevel)</div>
@@ -100,10 +101,9 @@
                         </div>
                     </div>
                 </form>
-                <div><input type="Submit" class="btn btn-outline-success col-md-2 btn-flat m-b-30 m-t-30" value="Save"></div>
                 <div>
-                    <br />
-                    @Html.ActionLink("Back to List", "Manage")
+                    <a href="@Url.Action("Manage", "Clerk" )" ><i class="fa fa-arrow-circle-o-left" style="font-size:40px"></i></a>
+                    <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Save">
                 </div>
             </div>
 
