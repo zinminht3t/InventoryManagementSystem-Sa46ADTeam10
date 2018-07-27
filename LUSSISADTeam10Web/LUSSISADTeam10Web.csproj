@@ -202,6 +202,9 @@
     <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
+    <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Utilities\MailHelper.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqDetailViewModel.cs" />
@@ -1391,6 +1394,10 @@
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
     <Content Include="Views\Clerk\Test.cshtml" />
     <Content Include="Views\Home\GetNotifications.cshtml" />
+    <Content Include="Views\Reports\ItemTrendAnalysis.cshtml" />
+    <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
+    <Content Include="Views\Reports\testing.cshtml" />
+    <Content Include="Views\Reports\testingview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1398,7 +1405,6 @@
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
-    <Folder Include="Report\" />
     <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
