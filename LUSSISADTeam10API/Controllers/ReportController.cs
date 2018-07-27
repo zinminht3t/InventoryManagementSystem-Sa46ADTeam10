@@ -195,64 +195,87 @@ namespace LUSSISADTeam10API.Controllers
 
 
 
-        //[HttpGet]
-        //[Route("api/FrequentlyItemList")]
-        //public IHttpActionResult FrequentlyItemList()
-        //{
-        //    string error = "";
-        //    List<FrequentlyTop5ItemsModel> reqm = ReportRepo.FrequentlyTop5Items(out error);
-        //    // if the erorr is not blank or the category list is null
-        //    if (error != "" || reqm == null)
-        //    {
-        //        // if the error is 404
-        //        if (error == ConError.Status.NOTFOUND)
-        //            return Content(HttpStatusCode.NotFound, "Report Is Not Found");
-        //        // if the error is other one
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    // if there is no error
-        //    return Ok(reqm);
-        //}
+        [HttpGet]
+        [Route("api/FrequentlyItemList")]
+        public IHttpActionResult FrequentlyItemList()
+        {
+            string error = "";
+            List<FrequentlyTop5ItemsModel> reqm = ReportRepo.FrequentlyTop5Items(out error);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || reqm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(reqm);
+        }
 
 
-        //[HttpGet]
-        //[Route("api/OrderByDepartment")]
-        //public IHttpActionResult OrderByDepartment()
-        //{
-        //    string error = "";
-        //    List<OrderByDepartmentModel> odm = ReportRepo.OrderByDept(out error);
-        //    // if the erorr is not blank or the category list is null
-        //    if (error != "" || odm == null)
-        //    {
-        //        // if the error is 404
-        //        if (error == ConError.Status.NOTFOUND)
-        //            return Content(HttpStatusCode.NotFound, "Report Is Not Found");
-        //        // if the error is other one
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    // if there is no error
-        //    return Ok(odm);
-        //}
+        [HttpGet]
+        [Route("api/OrderByDepartment")]
+        public IHttpActionResult OrderByDepartment()
+        {
+            string error = "";
+            List<OrderByDepartmentModel> odm = ReportRepo.OrderByDept(out error);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || odm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(odm);
+        }
 
 
 
-        //[HttpGet]
-        //[Route("api/NumberOfRequest")]
-        //public IHttpActionResult NumberofRequest()
-        //{
-        //    string error = "";
-        //    List<NumberofRequestModel> nur = ReportRepo.NumberofRequest(out error);
-        //    // if the erorr is not blank or the category list is null
-        //    if (error != "" || nur == null)
-        //    {
-        //        // if the error is 404
-        //        if (error == ConError.Status.NOTFOUND)
-        //            return Content(HttpStatusCode.NotFound, "Report Is Not Found");
-        //        // if the error is other one
-        //        return Content(HttpStatusCode.BadRequest, error);
-        //    }
-        //    // if there is no error
-        //    return Ok(nur);
-        //}
+        [HttpGet]
+        [Route("api/NumberOfRequest")]
+        public IHttpActionResult NumberofRequest()
+        {
+            string error = "";
+            List<NumberofRequestModel> nur = ReportRepo.NumberofRequest(out error);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || nur == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(nur);
+        }
+
+
+
+        [HttpGet]
+        [Route("api/ItemUsageByClerk/{suppliername1}/{suppliername2}/{suppliername3}")]
+        public IHttpActionResult ItemUsageByClerk(int suppliername1, int suppliername2, int suppliername3)
+        {
+            string error = "";
+
+            List<MonthlyItemUsage> reqm = ReportRepo.ItemUsageByClerk(out error, suppliername1, suppliername2, suppliername3);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || reqm == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(reqm);
+        }
+
     }
 }
