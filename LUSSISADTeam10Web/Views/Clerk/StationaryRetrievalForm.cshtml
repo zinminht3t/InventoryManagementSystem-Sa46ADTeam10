@@ -8,7 +8,7 @@
 
     <style>
         @@media print {
-            body *{
+            body * {
                 visibility: hidden;
             }
 
@@ -59,7 +59,10 @@
                 @if (Model.Count() > 0)
                 {
                     <div>
-                        <a href="@Url.Action("UpdateToPreparing", "Clerk")" class="btn btn-outline-success pull-right" onclick="return confirm('Are you sure you already collected all items in this list?')">Item Collected <i class="fa fa-arrow-right"></i></a>
+                        <button type="button" onclick="ConfirmDelete()" class="btn btn-outline-success pull-right" data-toggle="modal" data-target="#myModal">
+                            Item Collected<i class="fa fa-arrow-right"></i>
+                        </button>
+
                         <a href="@Url.Action("Requisition", "Clerk")" class="btn btn-outline-success pull-left"> <i class="fa fa-arrow-left"></i> Add More Requisitons </a>
 
                         <br />
@@ -138,11 +141,76 @@
     </div>
 </div>
 
-@section Scripts {
-    <script type="text/javascript">
-        $('#print').click(function () {
-            window.print();
-        });
 
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <h5>Do you want to Remove Authority  </h5>
+
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-success" onclick="ItemCollect()">Confirm</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/Styles/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="~/Styles/js/popper.min.js"></script>
+    <script src="~/Styles/js/plugins.js"></script>
+    <script src="~/Styles/js/main.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+
+            var ConfirmDelete = function () {
+
+
+                $("#myModal").modal('show');
+
+            }
+
+        var ItemCollect = function () {
+            $("#loaderDiv").show();
+              var url1 = '@Url.Action("DisbursementLists", "Clerk")';
+            
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("UpdateToPreparing", "Clerk")',                   
+                    success: function (ResultSuccess) {
+                        $("#loaderDiv").hide();
+                        $("#myModal").hide();
+                       // Location.url: '@Url.Action("DisbursementLists", "Clerk")',
+                        window.location.href = url1;
+                    }
+
+                })
+
+            }
     </script>
 }
