@@ -8,7 +8,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
 {
     public class AdjustmentDetailModel
     {
-        public AdjustmentDetailModel(int adjid, int itemid, string itemdescription, int adjustedqty, string reason, string categoryname, string uom)
+        public AdjustmentDetailModel(int adjid, int itemid, string itemdescription, int adjustedqty, string reason, string categoryname, string uom, DateTime date)
         {
             this.Adjid = adjid;
             this.Itemid = itemid;
@@ -17,10 +17,11 @@ namespace LUSSISADTeam10Web.Models.APIModels
             this.Reason = reason;
             this.CategoryName = categoryname;
             this.UOM = uom;
+            DateTime IssueDate = date;
         }
-        public AdjustmentDetailModel(int itemid, int adjustedqty, string reason): this (0, itemid,"",adjustedqty, reason,"","")
+        public AdjustmentDetailModel(int itemid, int adjustedqty, string reason): this (0, itemid,"",adjustedqty, reason,"","", new DateTime())
         { }
-        public AdjustmentDetailModel() : this(0, 0, "", 0, "", "", "")
+        public AdjustmentDetailModel() : this(0, 0, "", 0, "", "", "", new DateTime())
         {
         }
         public int Adjid { get; set; }

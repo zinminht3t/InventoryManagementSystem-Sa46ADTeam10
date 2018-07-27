@@ -60,7 +60,7 @@
     {
                     <tr>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Category)
+                    @Html.DisplayFor(modelItem => item.CatName)
                     </td>
                     <td>
                     @Html.DisplayFor(modelItem => item.ItemDescription)
@@ -72,18 +72,18 @@
                     <input type="number" name="Current" asp-for="Current" value="@item.Current" class="form-control" />
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.UOM)
+                    @Html.DisplayFor(modelItem => item.Uom)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Shelf)
-                    @Html.DisplayFor(modelItem => item.Level)
+                    @Html.DisplayFor(modelItem => item.ShelfLocation)
+                    @Html.DisplayFor(modelItem => item.ShelfLevel)
                     </td>
                     <td>
                         <textarea name="Reason" id="textarea-input" rows="2" placeholder="Reason for Discrepancy..." class="form-control"></textarea>
                         
                     </td>
                     </tr>
-                    <input type="hidden" name="InvID" asp-for="@Model.InvIDs" value="@item.InventoryId" />
+                    <input type="hidden" name="InvID" asp-for="@Model.InvIDs" value="@item.Invid" />
 }
                         <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
                         <td colspan="100%">
