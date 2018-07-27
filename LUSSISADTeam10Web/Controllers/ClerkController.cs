@@ -1343,6 +1343,9 @@ namespace LUSSISADTeam10Web.Controllers
                     pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
 
                     POIDs.Add(pom);
+
+                    SupplierModel sup = APISupplier.GetSupplierById(pom.Supid, token, out error);
+                    bool result = Utilities.Utility.SendPurchaseOrdersPDF(sup, pom);
                 }
             }
 

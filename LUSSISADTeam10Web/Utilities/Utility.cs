@@ -1,0 +1,132 @@
+﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.Models.APIModels;
+using PdfSharp.Drawing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+using System.Web;
+
+namespace LUSSISADTeam10Web.Utilities
+{
+    public static class Utility
+    {
+
+        public static bool SendPurchaseOrdersPDF(SupplierModel sup, PurchaseOrderModel po)
+        {
+            var fromAddress = new MailAddress("fty.fateezy@gmail.com");
+
+            var toAddress = new MailAddress("zinminht3t@gmail.com"); //todo
+            const string fromPassword = "chitchitlay";
+            string subject = "Hello";
+            string body = "Blah Blha";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            try
+            {
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    var table = "";
+                    var total = 0.00;
+                    foreach (PurchaseOrderDetailModel podm in po.podms)
+                    {
+                        var amount = podm.Qty * podm.Price;
+                        table +=
+                            "<tr>" +
+                            "<td>" + podm.ItemDescription + "</td>" +
+                            "<td>" + podm.CategoryName + "</td>" +
+                            "<td>" + podm.UOM + "</td>" +
+                            "<td>" + podm.Price + "</td>" +
+                            "<td>" + podm.Qty + "</td>" +
+                            "<td>" + amount + "</td>" +
+                            "</tr>";
+                        total += amount ?? default(double);
+                    }
+
+                    var head = "<html><head><style>table {border-collapse: collapse;}table, th, td { border: 1px solid black;} </style></head><body>";
+                    var htmlbody = "<div style='width: 100%; height: 50px;'>" +
+                                        "<p align='center' style='font-size: 25px;'>" +
+                                        "Purchase order" +
+                                        "</p>" +
+                                    "</div>" +
+                                    "<div style='width:100%'>"+
+                                            "<p align='right' > PO-" + po.PoId + "</p>" +
+                                    "</div>" +
+                                        "<div  style='width: 50%; float:left;'>" +
+                                            "<p align='left' style='font-size: 25px;'>Logic University</p>" +
+                                            "<p align='left' >Bukit Batok , Singapore</p>" +
+                                        "</div>"+
+                                     "<div>" +
+                                       "<div width=50%>" +
+                                           "<p align='left' >"
+                                                + sup.ContactName 
+                                           + "</p>" +
+                                           "<p align='left' >"
+                                                + sup.SupName 
+                                           + "</p>" +
+                                           "<p align='left'>"
+                                                + sup.SupEmail
+                                           + "</p>" +
+                                           "<p align='left'>"
+                                                 + sup.SupPhone 
+                                           + "</p>" +
+                                       "</div>" +
+                                     "</div>" +
+                                     "<div style='width:100%; height:50px; float:clear;'></div>" +
+                                        "<table style='width:100%'>" +
+                                            "<tr>" +
+                                                "<th>Item</th>" +
+                                                "<th>Category</th>" +
+                                                "<th>UOM</th>" +
+                                                "<th>Price</th>" +
+                                                "<th>Qty</th>" +
+                                                "<th>Amount</th>" +
+                                            "</tr>" +table;
+                    var tablebody = "</table>";
+                    var tablefooter = "<div style='width:100%; height:100px; float:clear;'></div>" +
+                        "<div style='width:100%;'>" +
+                        "<p align='right' >" + DateTime.Today.ToShortDateString() + "</p>" +
+                        "<p align='right' >Date</p>" +
+                        "</div>";
+                    var end = "</body></html>";
+
+                    var whole = head + htmlbody + tablebody + tablefooter + end;
+
+                    var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(whole, PdfSharp.PageSize.A4);
+                    var ms = new MemoryStream();
+                    pdf.Save(ms, false);
+                    ms.Position = 0;
+                    ContentType ct = new ContentType(MediaTypeNames.Application.Pdf);
+                    Attachment attach = new Attachment(ms, ct);
+                    attach.ContentDisposition.FileName = DateTime.Today.ToShortDateString() + "_PurchaseOrder.pdf";
+                    message.Attachments.Add(attach);
+
+                    smtp.Send(message);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+            }
+
+            return true;
+
+        }
+    }
+}
