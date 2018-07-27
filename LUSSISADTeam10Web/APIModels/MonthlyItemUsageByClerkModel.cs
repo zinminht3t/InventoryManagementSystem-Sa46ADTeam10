@@ -9,21 +9,25 @@ namespace LUSSISADTeam10Web.Models.APIModels
     {
         public MonthlyItemUsageByClerkModel(string description, int? qty, int? podate, int? Year, string supname, int supid)
         {
-            this.Description = description;
-            this.Qty = qty;
-            this.Podate = podate;
-            this.Year = Year;
-            this.Supname = supname;
-            this.Supid = supid;
+            this.Item_ = description;
+            this.UsageItem = qty;
+            this.MonthName = podate;
+            this.year = Year;
+            this.supname = supname;
+            this.supid = supid;
         }
-        public string Description { get; set; }
-        public int? Qty { get; set; }
+        public MonthlyItemUsageByClerkModel() : this("", null, null, null, "", 0) { }
 
-        public int? Podate { get; set; }
-        public int? Year { get; set; }
-        public string Supname { get; set; }
+        public string Item_ { get; set; }
 
-        public int Supid { get; set; }
+        public int? UsageItem { get; set; }
+
+        public int? MonthName { get; set; }
+
+        public int? year { get; set; }
+
+        public string supname { get; set; }
+        public int supid { get; set; }
 
     }
 }

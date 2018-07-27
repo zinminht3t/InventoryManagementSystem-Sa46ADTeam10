@@ -434,6 +434,34 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
+        public static List<ItemTrendAnalysis> ItemTrendAnalysis(out string error, int d1, int d2, int d3, int month)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<ItemTrendAnalysis> ita = new List<ItemTrendAnalysis>();
+            ItemTrendAnalysis i = new ItemTrendAnalysis();
+
+            try
+            {
+                ita = entities.GetItemTrendAnalysis(d1,d2,d3,month).ToList<ItemTrendAnalysis>();
+     
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            return ita;
+        }
+
+
+
     }
 
 }
