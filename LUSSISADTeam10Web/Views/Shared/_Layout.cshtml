@@ -122,16 +122,16 @@
                                 <a href="@Url.Action("SearchPreviousDelegation", "HOD")"><i class="menu-icon ti-user"></i>Delegate Authority </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-exchange-vertical"></i>Department Representative </a>
+                                <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon fa fa-user"></i>Department Representative </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions </a>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i> Order History </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions</a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-comments-smiley"></i> Requisitions</a>
                             </li>
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -157,7 +157,7 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "Employee")"> <i class="menu-icon ti-check"></i>Requisitions</a>
+                                <a href="@Url.Action("RequisitionsList", "Employee")"> <i class="menu-icon ti-comments-smiley"></i>Requisitions</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions</a>
@@ -180,37 +180,37 @@
                                 <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i> Suppliers</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-files"></i> Inventory </a>
+                                <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-panel"></i> Inventory </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon ti-search"></i> Stock Cards</a>
+                                <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon fa fa-shopping-basket"></i> Stock Cards</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i> Requisitions </a>
+                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-comments-smiley"></i> Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-file"></i> Stationary Retrieval List </a>
+                                <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon fa fa-file-pdf-o"></i> Stationary Retrieval List </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursements </a>
+                                <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon fa fa-newspaper-o"></i> Disbursements </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon ti-folder"></i> Previous Disbursements </a>
+                                <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon fa fa-history"></i> Previous Disbursements </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-pin"></i> Outstandings</a>
+                                <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-new-window"></i> Outstandings</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-share"></i>Purchase Orders </a>
+                                <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-shopping-cart"></i>Purchase Orders </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-eye"></i>Inventory Check</a>
+                                <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-marker-alt"></i>Inventory Check</a>
                             </li>
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                 <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
-                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageByClerk", "Reports")">Monthly Item Usage</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysis", "Reports")">Item Trend Analysis</a></li>
                                     <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
                                 </ul>
                             </li>
@@ -234,7 +234,7 @@
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions </a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-comments-smiley"></i> Requisitions </a>
                             </li>
 
                         </ul>
@@ -254,10 +254,10 @@
                                     <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                                    <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-stamp"></i>Approve Adjustment</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i> Previous Adjustments </a>
+                                    <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon fa fa-history"></i> Adjustments History </a>
                                 </li>
                             }
                             else if (Session["Role"].ToString() == "3")
@@ -269,10 +269,10 @@
                                     <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
+                                    <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-stamp"></i>Approve Adjustment</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i> Previous Adjustment </a>
+                                    <a href="@Url.Action("History", "Manager")"> <i class="menu-icon fa fa-history"></i> Adjustment History</a>
                                 </li>
                             }
 
@@ -287,7 +287,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                 <ul class="sub-menu children dropdown-menu">
                                     <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
-                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Monthly Item Usage</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageByClerk", "Reports")">Monthly Item Usage</a></li>
                                     <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
                                 </ul>
                             </li>

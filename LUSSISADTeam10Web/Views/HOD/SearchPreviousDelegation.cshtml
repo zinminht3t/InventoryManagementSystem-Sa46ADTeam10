@@ -42,6 +42,7 @@
                     <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a>
                 </div>
                 <div class="card-body">
+                    <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Previous Delegation </h5><br />
                     @if (ViewBag.name == "")
                     {
                         <p>There is no previous delegation.</p>
@@ -77,25 +78,70 @@
                             </tr>
                         </table>
                         @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate });
-                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid});
-                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid});
+                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid });
+                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid });
 
                     }
 
-                    <a href="@Url.Action("CancelDelegation", "HOD", new { id = @ViewBag.Deleid })" class="btn btn-outline-danger">Delete</a>
+                   
+                    <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                        Delete
+                    </button>
                     <input type="Submit" class="btn btn-outline-success" value="Update">
                 </div>
             </div>
         }
-        </div>
-</div>
+    </div>
 
-@section Scripts {
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+</div>
+                <div class="modal-body">
+                    <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
+
+                    <div style="text-align:center;display:none" id="loaderDiv">
+                        <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a href="#" class="btn btn-success" onclick="DeleteDelegation()">Confirm</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @*hidden field for storing current employeeId*@
+    <input type="hidden" id="HiddenDeleid" />
+
+</div>
+   
+
+    @section Scripts {
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/Styles/js/vendor/jquery-2.1.4.min.js"></script>
+        <script src="~/Styles/js/popper.min.js"></script>
+        <script src="~/Styles/js/plugins.js"></script>
+        <script src="~/Styles/js/main.js"></script>
+
+
+        <script>
         $(function () {
             $("#datepicker").datepicker();
 
@@ -105,5 +151,35 @@
 
 
         });
-    </script>
-}
+        </script>
+        <script>
+
+            var ConfirmDelete = function (Deleid) {
+
+                $("#HiddenDeleid").val(Deleid);
+                $("#myModal").modal('show');
+
+            }
+
+            var DeleteDelegation = function () {
+
+                $("#loaderDiv").show();
+
+                var id = $("#HiddenDeleid").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("CancelDelegation", "HOD")',
+                    data: { id },
+                    success: function (result) {
+                        $("#loaderDiv").hide();
+                        location.reload();
+                        $("#myModal").hide();
+
+                    }
+
+                })
+
+            }
+        </script>
+    }

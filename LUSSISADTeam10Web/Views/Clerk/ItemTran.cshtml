@@ -13,7 +13,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Item List</h1>
+                <h1>Item Transaction</h1>
             </div>
         </div>
     </div>
@@ -33,11 +33,10 @@
                                     <div class="animated fadeIn">
                                         <div class="card">
                                             <div class="card-header">
-                                                
+                                                <i class="mr-2 fa fa-align-justify"></i>                                 
                                                 <href class="icon"><i class="fa fa-search" style="font-size:24px"></i> Search by Date... </href>
-                                               
                                                 <div id="div1">
-                                                   
+
                                                     <br />
                                                     <div class="row">
                                                         <div class="col-md-4"><b>@Html.LabelFor(model => model.StartDate)</b> </div>
@@ -50,13 +49,14 @@
                                                         <br />
                                                     </div>
                                                     <div class="row">
-                                                    <br />
+                                                        <br />
                                                         <div class="col-md-6"><input type="Submit" class="btn btn-outline-success  " style="height:40px;width:100px; margin-left:465px" value="Search"></div>
-                                                        </div><br />
+                                                    </div><br />
                                                 </div>
 
                                             </div>
                                             <div class="card-body">
+                                                <h5 class="text-sm-center text-info"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
                                                 @if (Model.InvTrans.Count == 0)
                                                 {
 

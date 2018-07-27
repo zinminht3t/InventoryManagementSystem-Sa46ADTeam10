@@ -204,17 +204,18 @@ namespace LUSSISADTeam10API.Repositories
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
                 UserRepo.delegateuser(dele.Userid);
-
                 dele = GetDelegationByDelegationID(d.delid, out error);
-                d = entities.delegations.Where(p => p.delid == d.delid).FirstOrDefault();
+
+
+                user us = entities.users.Where(p => p.userid == dele.AssignedbyId).FirstOrDefault();
 
                 NotificationModel nom = new NotificationModel();
-                nom.Deptid = d.user.deptid;
+                nom.Deptid = us.deptid;
                 nom.Role = ConUser.Role.TEMPHOD;
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dele.Userid;
-                nom.Remark = d.user.fullname + " has been assigned as a Temp Head of Department!";
+                nom.Remark = us.fullname + " has been assigned as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
 

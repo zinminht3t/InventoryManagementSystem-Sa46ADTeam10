@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LUSSISADTeam10web.Models.APIModels;
+
 using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using RestSharp;
@@ -28,9 +28,9 @@ namespace LUSSISADTeam10Web.API
         }
 
 
-        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, int suppliername1, int suppliername2, int suppliername3, int month)
+        public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, int suppliername1, int suppliername2, int suppliername3)
         {
-            string url = APIHelper.Baseurl + "/ItemUsageByClerk/ " + suppliername1 + suppliername2 +suppliername3+ month;
+            string url = APIHelper.Baseurl + "/ItemUsageByClerk/"+suppliername1+"/"+suppliername2+"/"+suppliername3;
             List<MonthlyItemUsageByClerkModel> micl = APIHelper.Execute<List<MonthlyItemUsageByClerkModel>>(token, url, out error);
             return micl;
         }
@@ -45,20 +45,22 @@ namespace LUSSISADTeam10Web.API
 
 
 
+        
 
-        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, int fristdepartname, int seconddepartname, int thirddepartname, int itemid)
+        //public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)
+        //{
+        //    string url = APIHelper.Baseurl + "/ItemTrendAnalysis/";
+        //    List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
+        //    return itam;
+        //}
+
+
+
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, int d1, int d2, int d3,int month)
         {
-            string url = APIHelper.Baseurl + "/ItemTrendAnalysis/" + fristdepartname + seconddepartname + thirddepartname + itemid;
-            List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
-            return itam;
-        }
-
-
-        public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)
-        {
-            string url = APIHelper.Baseurl + "/ItemTrendAnalysis/";
-            List<ItemTrendAnalysisModel> itam = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
-            return itam;
+            string url = APIHelper.Baseurl + "/ItemTrendAnalysis/" + d1 + "/" + d2 + "/" + d3 + "/" + month;
+            List<ItemTrendAnalysisModel> micl = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);
+            return micl;
         }
 
 

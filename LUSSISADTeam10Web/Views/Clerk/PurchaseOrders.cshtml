@@ -12,7 +12,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Item List</h1>
+                <h1>Purchase Orders</h1>
             </div>
         </div>
     </div>
@@ -38,6 +38,7 @@
                         <a href="@Url.Action("PurchaseOrder")" class="btn btn-sm btn-outline-primary pull-right">Raise PO</a>
                     </div>
                     <div class="card-body">
+                        <div>  <h5 class="text-sm-center text-info"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Orders </h5></div><br />
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead class="table-info">
                                 <tr>
@@ -65,46 +66,46 @@
 
                                 @foreach (var item in Model)
                                 {
-                                <tr>
+                                    <tr>
 
-                                    <td>
-                                        @item.PoId
-                                    </td>
-                                    <td>
-                                        @item.Podate.Value.ToString("d")
-                                    </td>
-                                    <td>
-                                        @item.Fullname
-                                    </td>
-                                    <td>
-                                        @item.SupName
-                                    </td>
-                                    <td>
-                                        @switch (item.Status)
-                                        {
-                                            case 0:
-                                                <span>Pending</span>
-                                                break;
-                                            case 1:
-                                                <span>Received</span>
-                                                break;
-                                            case 2:
-                                                <span>Cancelled</span>
-                                                break;
-                                        }
-                                    </td>
+                                        <td>
+                                            @item.PoId
+                                        </td>
+                                        <td>
+                                            @item.Podate.Value.ToString("d")
+                                        </td>
+                                        <td>
+                                            @item.Fullname
+                                        </td>
+                                        <td>
+                                            @item.SupName
+                                        </td>
+                                        <td>
+                                            @switch (item.Status)
+                                            {
+                                                case 0:
+                                                    <span>Pending</span>
+                                                    break;
+                                                case 1:
+                                                    <span>Received</span>
+                                                    break;
+                                                case 2:
+                                                    <span>Cancelled</span>
+                                                    break;
+                                            }
+                                        </td>
 
-                                    <td>
-                                        @if (item.Status != 0)
-                                        {
-                                            <a href="@Url.Action("PurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info"> <i class="text-info ti-agenda"></i> View</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("ProcessPurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info btn-sm"> <i class="text-info ti-pencil"></i> Update</a>
-                                        }
-                                    </td>
-                                </tr>
+                                        <td>
+                                            @if (item.Status != 0)
+                                            {
+                                                <a href="@Url.Action("PurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info"> <i class="text-info ti-agenda"></i> View</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("ProcessPurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info btn-sm"> <i class="text-info ti-pencil"></i> Update</a>
+                                            }
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
