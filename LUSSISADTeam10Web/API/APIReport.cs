@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LUSSISADTeam10web.Models.APIModels;
+
 using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using RestSharp;
@@ -56,7 +56,7 @@ namespace LUSSISADTeam10Web.API
 
 
 
-        public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error, int d1, int d2, int d3,int month)
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, int d1, int d2, int d3,int month)
         {
             string url = APIHelper.Baseurl + "/ItemTrendAnalysis/" + d1 + "/" + d2 + "/" + d3 + "/" + month;
             List<ItemTrendAnalysisModel> micl = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);

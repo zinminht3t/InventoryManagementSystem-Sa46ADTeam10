@@ -273,6 +273,7 @@
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1391,6 +1392,7 @@
     <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
+    <Content Include="Views\Reports\ItemTrendAnalysis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
