@@ -205,7 +205,6 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
-    <Compile Include="Utilities\MailHelper.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqDetailViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqViewModel.cs" />
