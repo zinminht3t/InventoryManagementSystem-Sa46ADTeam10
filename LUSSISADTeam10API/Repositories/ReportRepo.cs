@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using LUSSISADTeam10API.Models;
 using System.Linq;
 using System.Web;
+using System.Data.Entity.Core.Objects;
 
 namespace LUSSISADTeam10API.Repositories
 {
@@ -51,9 +52,10 @@ namespace LUSSISADTeam10API.Repositories
 
         private static NumberofRequestModel ConvertDBNumberofReqtoAPI(NumberofRequest nur)
         {
-            NumberofRequestModel odm = new NumberofRequestModel(nur.deptid,nur.noofrequest,nur.produceyear,nur.producemonth,nur.deptname);
+            NumberofRequestModel odm = new NumberofRequestModel(nur.deptid, nur.noofrequest, nur.produceyear, nur.producemonth, nur.deptname);
             return odm;
         }
+
 
 
 
@@ -167,7 +169,7 @@ namespace LUSSISADTeam10API.Repositories
         //    //List<MonthItemUsage> sup3rms = new List<MonthItemUsage>();
 
 
-           
+
 
         //    try
         //    {
@@ -184,7 +186,7 @@ namespace LUSSISADTeam10API.Repositories
         //        //    entities.MonthItemUsages.Where(p => (p.supid == suppliername3)
         //        //    && p.Month_Name == month).ToList<MonthItemUsage>();
 
-             
+
 
         //        //rms.AddRange(sup1rms);
         //        //rms.AddRange(sup2rms);
@@ -193,7 +195,7 @@ namespace LUSSISADTeam10API.Repositories
 
         //        //rms = entities.MonthItemUsages.Where(p => p.Month_Name == month).ToList<MonthItemUsage>();
 
-                
+
         //        rms = entities.GetMonthlyItemUsage.T
 
         //        // convert the DB Model list to API Model list
@@ -307,102 +309,130 @@ namespace LUSSISADTeam10API.Repositories
         //}
 
 
-        //public static List<FrequentlyTop5ItemsModel> FrequentlyTop5Items(out string error)
-        //{
-        //    LUSSISEntities entities = new LUSSISEntities();
+        public static List<FrequentlyTop5ItemsModel> FrequentlyTop5Items(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
 
-        //    // Initializing the error variable to return only blank if there is no error
-        //    error = "";
-        //    List<FrequentlyTop5ItemsModel> ftfiveI = new List<FrequentlyTop5ItemsModel>();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<FrequentlyTop5ItemsModel> ftfiveI = new List<FrequentlyTop5ItemsModel>();
 
-        //    try
-        //    {
-
-
-        //        List<FrequentlyTop5ItemsDashboard> ftfive = entities.FrequentlyTop5ItemsDashboard.ToList<FrequentlyTop5ItemsDashboard>();
-
-        //        // convert the DB Model list to API Model list
-        //        foreach (FrequentlyTop5ItemsDashboard ft in ftfive)
-        //        {
-        //            ftfiveI.Add(ConvertFrequentlyItem(ft));
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        error = ConError.Status.NOTFOUND;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-        //    return ftfiveI;
-        //}
+            try
+            {
 
 
+                List<FrequentlyTop5ItemsDashboard> ftfive = entities.FrequentlyTop5ItemsDashboard.ToList<FrequentlyTop5ItemsDashboard>();
 
-        //public static List<OrderByDepartmentModel> OrderByDept(out string error)
-        //{
-        //    LUSSISEntities entities = new LUSSISEntities();
-
-        //    // Initializing the error variable to return only blank if there is no error
-        //    error = "";
-        //    List<OrderByDepartmentModel> odm = new List<OrderByDepartmentModel>();
-
-        //    try
-        //    {
-
-
-        //        List<OrderByDepartmentDarshboard> omdd = entities.OrderByDepartmentDarshboards.ToList<OrderByDepartmentDarshboard>();
-
-        //        // convert the DB Model list to API Model list
-        //        foreach (OrderByDepartmentDarshboard od in omdd)
-        //        {
-        //            odm.Add(ConvertOrderByDepartmentModeltoAPI(od));
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        error = ConError.Status.NOTFOUND;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-        //    return odm;
-        //}
+                // convert the DB Model list to API Model list
+                foreach (FrequentlyTop5ItemsDashboard ft in ftfive)
+                {
+                    ftfiveI.Add(ConvertFrequentlyItem(ft));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return ftfiveI;
+        }
 
 
 
-        //public static List<NumberofRequestModel> NumberofRequest(out string error)
-        //{
-        //    LUSSISEntities entities = new LUSSISEntities();
+        public static List<OrderByDepartmentModel> OrderByDept(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
 
-        //    // Initializing the error variable to return only blank if there is no error
-        //    error = "";
-        //    List<NumberofRequestModel> noq = new List<NumberofRequestModel>();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<OrderByDepartmentModel> odm = new List<OrderByDepartmentModel>();
 
-        //    try
-        //    {
+            try
+            {
 
 
-        //        List<NumberofRequest> omdd = entities.NumberofRequests.ToList<NumberofRequest>();
+                List<OrderByDepartmentDarshboard> omdd = entities.OrderByDepartmentDarshboards.ToList<OrderByDepartmentDarshboard>();
 
-        //        // convert the DB Model list to API Model list
-        //        foreach (NumberofRequest od in omdd)
-        //        {
-        //            noq.Add(ConvertDBNumberofReqtoAPI(od));
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        error = ConError.Status.NOTFOUND;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-        //    return noq;
-        //}
+                // convert the DB Model list to API Model list
+                foreach (OrderByDepartmentDarshboard od in omdd)
+                {
+                    odm.Add(ConvertOrderByDepartmentModeltoAPI(od));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return odm;
+        }
+
+
+
+        public static List<NumberofRequestModel> NumberofRequest(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<NumberofRequestModel> noq = new List<NumberofRequestModel>();
+
+            try
+            {
+
+
+                List<NumberofRequest> omdd = entities.NumberofRequests.ToList<NumberofRequest>();
+
+                // convert the DB Model list to API Model list
+                foreach (NumberofRequest od in omdd)
+                {
+                    noq.Add(ConvertDBNumberofReqtoAPI(od));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return noq;
+        }
+
+        public static List<MonthlyItemUsage> ItemUsageByClerk(out string error,int sup1,int sup2,int sup3)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            List<MonthlyItemUsage> mit = new List<MonthlyItemUsage>();
+
+            try
+            {
+
+              mit = entities.GetMonthlyItemUsage(sup1, sup2, sup3).ToList<MonthlyItemUsage>();
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            return mit;
+           
+        }
+
+
 
     }
 

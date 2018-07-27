@@ -2805,17 +2805,17 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-info {
-  color: #17a2b8;
-  background-color: transparent;
-  background-image: none;
-  border-color: #17a2b8;
+    color: #3AAFA9;
+    background-color: transparent;
+    background-image: none;
+    border-color: #3AAFA9;
 }
 
-.btn-outline-info:hover {
-  color: #fff;
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-}
+    .btn-outline-info:hover {
+        color: #fff;
+        background-color: #3AAFA9;
+        border-color: #3AAFA9;
+    }
 
 .btn-outline-info:focus, .btn-outline-info.focus {
   box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
