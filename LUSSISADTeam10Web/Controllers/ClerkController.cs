@@ -1014,7 +1014,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
         }
 
-        public ActionResult UpdateToPreparing()
+        public JsonResult UpdateToPreparing()
         {
             string token = GetToken();
             UserModel um = GetUser();
@@ -1024,7 +1024,13 @@ namespace LUSSISADTeam10Web.Controllers
 
             reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
 
-            return RedirectToAction("DisbursementLists");
+            bool ResultSuccess = false;
+
+            if(error == "" || reqdisms != null)
+            {
+                ResultSuccess = true;
+            }
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DisbursementLists()

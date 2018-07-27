@@ -198,6 +198,7 @@
     <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqDetailViewModel.cs" />
@@ -272,11 +273,13 @@
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\gif\InternetSlowdown_Day.gif" />
     <Content Include="Styles\Content\bootstrap-theme.css" />
     <Content Include="Styles\Content\bootstrap-theme.min.css" />
     <Content Include="Styles\Content\bootstrap.css" />
@@ -1386,10 +1389,12 @@
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
     <Content Include="Views\Clerk\Test.cshtml" />
     <Content Include="Views\Home\GetNotifications.cshtml" />
+    <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
+    <Content Include="Views\Reports\testing.cshtml" />
+    <Content Include="Views\Reports\testingview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
