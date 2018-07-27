@@ -313,11 +313,11 @@ namespace LUSSISADTeam10Web.Controllers
         }
         [Authorize(Roles = "HOD")]
 
-        public ActionResult CancelDelegation(int id)
+        public JsonResult CancelDelegation(int id)
         {
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             if (id != 0)
             {
                 try
@@ -325,19 +325,19 @@ namespace LUSSISADTeam10Web.Controllers
 
                     DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
                     DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
-
+                    result = true;
                     if (error != "")
                     {
-                        return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                      //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
                     }
                 }
                 catch (Exception ex)
                 {
-                    return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                  //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
                 }
             }
 
-            return RedirectToAction("SearchPreviousDelegation");
+            return Json( result , JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "HOD")]
