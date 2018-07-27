@@ -29,7 +29,7 @@ namespace LUSSISADTeam10Web.Models.Report
 
     public class MonthlyItemResultUsageViewModel
     {
-        public string Item { get; set; }
+        public string Item_ { get; set; }
 
         public int? UsageItem { get; set; }
 

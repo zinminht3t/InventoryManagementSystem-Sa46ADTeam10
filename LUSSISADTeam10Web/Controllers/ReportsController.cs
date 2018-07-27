@@ -133,12 +133,12 @@ namespace LUSSISADTeam10Web.Controllers
             foreach (MonthlyItemUsageByClerkModel m in mm)
             {
                 var result = new MonthlyItemResultUsageViewModel();
-                result.Item = m.Description;
-                result.UsageItem = m.Qty;
-                result.MonthName = m.Podate;
-                result.year = m.Year;
-                result.supname = m.Supname;
-                result.supid = m.Supid;
+                result.Item_ = m.Item_;
+                result.UsageItem = m.UsageItem;
+                result.MonthName = m.MonthName;
+                result.year = m.year;
+                result.supname = m.supname;
+                result.supid = m.supid;
                 viewmodel.mtu.Add(result);
             }
 
