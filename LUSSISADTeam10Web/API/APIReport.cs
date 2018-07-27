@@ -43,8 +43,12 @@ namespace LUSSISADTeam10Web.API
         }
 
 
-
-
+        public static List<RequsitionListReportModel> RequsitionList(string token ,out string error,int deptid,DateTime startdate,DateTime enddate)
+        {
+            string url = APIHelper.Baseurl + "/requistionalist/"+deptid+"/"+startdate+"/"+enddate;
+            List<RequsitionListReportModel> micl = APIHelper.Execute<List<RequsitionListReportModel>>(token, url, out error);
+            return micl;
+        }
         
 
         //public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)

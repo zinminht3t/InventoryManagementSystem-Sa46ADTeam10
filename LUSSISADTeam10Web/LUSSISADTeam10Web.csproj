@@ -199,6 +199,7 @@
     <Compile Include="APIModels\PurchaseOrderModel.cs" />
     <Compile Include="APIModels\ReportsModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
+    <Compile Include="APIModels\RequsitionListReportModel.cs" />
     <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -215,7 +216,6 @@
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
     <Compile Include="APIModels\RequisitionWithDisbursementModel.cs" />
-    <Compile Include="APIModels\RequsitionListReportModel.cs" />
     <Compile Include="APIModels\SupplierItemModel.cs" />
     <Compile Include="APIModels\SupplierModel.cs" />
     <Compile Include="APIModels\UserModel.cs" />
