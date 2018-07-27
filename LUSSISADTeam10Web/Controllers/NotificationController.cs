@@ -27,7 +27,13 @@ namespace LUSSISADTeam10Web.Controllers
             switch (notim.NotiType)
             {
                 case ConNotification.NotiType.Adjustment:
-                    return RedirectToAction("Approve", "Supervisor");
+                    if(notim.Role == ConUser.Role.SUPERVISOR)
+                    {
+                        return RedirectToAction("Approve", "Supervisor");
+                    }
+                    else
+                    return RedirectToAction("Approve", "Manager");
+
                 case ConNotification.NotiType.ClerkApprovedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
                 case ConNotification.NotiType.ClerkApprovedRequisiton:

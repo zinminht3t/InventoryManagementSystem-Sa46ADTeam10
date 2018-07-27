@@ -73,7 +73,7 @@
                     <hr />
 
                     <div id="StationaryRetrivalForm">
-                        <h5 class="text-info text-center"><i class="fa fa-file-pdf-o fa-3x"></i><br /> Stationary Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
+                        <h5 class="text-info text-center"><i class="fa fa-file-pdf-o fa-3x"></i><br /><br /> Stationary Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
                         <br />
                         <table class="table table-bordered">
                             <thead class="thead-dark text-primary text-center">
@@ -188,6 +188,11 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
+
+
+        $('#print').click(function () {
+            window.print();
+        });
 
             var ConfirmDelete = function () {
 
