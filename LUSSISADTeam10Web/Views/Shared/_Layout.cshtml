@@ -361,8 +361,7 @@
     <script>
 
 
-        $(document).ready(function () {
-            setInterval(function () {
+            $(document).ready(function () {
                 $.ajax({
                     url: '@Url.Action("GetNotifications", "Home")',
                     data: {},
@@ -371,12 +370,17 @@
                         $(notifications).html(data);
                     }
                 });
-            }, 10000);
-        });
-
-
-
-
+            setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("GetNotifications", "Home")',
+                        data: {},
+                        type: 'GET',
+                        success: function (data) {
+                            $(notifications).html(data);
+                        }
+                    });
+                }, 10000);
+                    });
 
 
     </script>

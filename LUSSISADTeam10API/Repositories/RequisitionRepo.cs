@@ -528,7 +528,7 @@ namespace LUSSISADTeam10API.Repositories
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.DEPARTMENTREP;
-                    nom.Title = "Items Ready to Collect";
+                    nom.Title = "Ready to Collect";
                     nom.NotiType = ConNotification.NotiType.DeliveredRequisition;
                     nom.ResID = reqm.Reqid;
                     nom.Remark = "Requisition is now ready to collect";

@@ -46,6 +46,11 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             List<NotificationModel> notis = new List<NotificationModel>();
             notis = APINotification.GetNotiByunread(false, um.Deptid, um.Role, token, out error);
+            notis = notis.OrderByDescending(x => x.Datetime).ToList();
+            foreach(NotificationModel noti in notis)
+            {
+                noti.RelativeTime = Utilities.Utility.GetRelativeTime(noti.Datetime);
+            }
             ViewBag.NotiCount = notis.Count;
             ViewBag.Notifications = notis;
             return PartialView();

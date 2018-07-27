@@ -39,7 +39,7 @@
 
             <a class="dropdown-item media d-block" href="@Url.Action("Index", "Notification", new { id = item.NotiID })">
                 <i class="ti-info-alt"></i>
-                @item.Title
+                @item.Title <span class="pull-right"> @item.RelativeTime </span>
                 <br />
                 <em>@item.Remark</em>
             </a>
