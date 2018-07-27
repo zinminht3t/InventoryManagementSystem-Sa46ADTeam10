@@ -204,6 +204,22 @@ namespace LUSSISADTeam10Web.Controllers
 
 
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
+                        ViewBag.supplierlist = sm;
+                        List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
+                       
+                        foreach (SupplierItemModel sim in sm) {
+                            SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
+                            sivm1.ItemId = sim.ItemId;
+                            sivm1.SupId = sim.SupId;
+                            sivm1.SupName = sim.SupName;
+                            sivm1.Price = sim.Price;
+                            sivm1.Uom = sim.Uom;
+                            sivm1.CategoryName = sim.CategoryName;
+                            sivm1.Description = sim.Description;
+
+
+                            sivm.Add(sivm1);
+                        }
                         workbook.Close();
                         List<String> catname = new List<string>();
 
@@ -217,7 +233,7 @@ namespace LUSSISADTeam10Web.Controllers
                         }
                         ViewBag.catlist = catname;
 
-                        return View(sm);
+                        return View(sivm);
                     }
                     else
                     {
@@ -302,6 +318,40 @@ namespace LUSSISADTeam10Web.Controllers
             }
         }
 
+
+        [HttpPost]
+        public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+        
+
+            try
+            {
+                foreach (SupplierItemImportViewModel sim in simvm) {
+                    ItemModel si = new ItemModel();
+                    si.Itemid = sim.ItemId;
+                    si.Uom = sim.Uom;
+                    si.CatName = sim.CategoryName;
+                    si.Description = sim.Description;
+                    CategoryModel cat = APICategory.GetCategoryByCatName(token, sim.CategoryName, out string error);
+                    si.Catid = cat.Catid;
+
+
+                    APIItem.UpdateItem(token, si, out string itemerror);
+                    List<SupplierModel> sm2 = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error2);
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
 
         // End AM
 
@@ -465,9 +515,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
-            c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
-            c.Name = viewmodel.CategoryName;
+            string name = viewmodel.CategoryName;
+            c = APICategory.GetCategoryByCatName(token, name, out error);
 
+            it.Catid = c.Catid;
             invm.Invid = viewmodel.Invid;
             invm.Itemid = viewmodel.Itemid;
             invm.Stock = viewmodel.Stock;
@@ -476,13 +527,10 @@ namespace LUSSISADTeam10Web.Controllers
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
 
-
-
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
-                //c = APICategory.UpdateCategory(token, c, out error);
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
@@ -597,9 +645,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-
-        //END TAZ
-
+       
         //Start Mahsu
 
         //Get All InventoryCheckViewModel

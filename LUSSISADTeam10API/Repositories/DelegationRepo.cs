@@ -206,14 +206,15 @@ namespace LUSSISADTeam10API.Repositories
                 UserRepo.delegateuser(dele.Userid);
 
                 dele = GetDelegationByDelegationID(d.delid, out error);
+                d = entities.delegations.Where(p => p.delid == d.delid).FirstOrDefault();
 
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = d.user.deptid;
-                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Role = ConUser.Role.TEMPHOD;
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dele.Userid;
-                nom.Remark = "You has been assigned as a Temp Head of Department!";
+                nom.Remark = d.user.fullname + " has been assigned as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
 
@@ -257,11 +258,11 @@ namespace LUSSISADTeam10API.Repositories
 
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = d.user.deptid;
-                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Role = ConUser.Role.TEMPHOD;
                 nom.Title = "Authority Cancellation";
                 nom.NotiType = ConNotification.NotiType.DelegationCancelled;
                 nom.ResID = dm.Userid;
-                nom.Remark = "You has been removed as a Temp Head of Department!";
+                nom.Remark = d.user.fullname + " has been removed as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)
