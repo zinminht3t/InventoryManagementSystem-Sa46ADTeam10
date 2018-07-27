@@ -8,19 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="~/styles/images/logo.png">
-
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
-
-
     <link rel="stylesheet" href="~/styles/css/normalize.css">
-    @*<link rel="stylesheet" href="~/styles/css/bootstrap.min.css">*@
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/styles/css/themify-icons.css">
     <link rel="stylesheet" href="~/styles/css/flag-icon.min.css">
@@ -29,16 +21,11 @@
     <link rel="stylesheet" href="~/styles/css/lib/datatable/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="~/styles/css/animate.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap-select.css">
-
     <link rel="stylesheet" href="~/styles/css/bootstrap.css.map">
     <link rel="stylesheet" href="~/styles/css/variables.css">
-
-
-
     <link href="~/styles/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <link href="~/styles/css/datatable.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.25.6/dist/sweetalert2.all.min.js"></script>
+    <script src="~/Styles/Scripts/sweetalert2.all.min.js"></script>
 
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
@@ -49,6 +36,7 @@
         }
 
         .navbar .navbar-nav li > a {
+            font-family: Arial;
             font-size: 13px !important;
         }
 
@@ -87,9 +75,6 @@
         Session["notimessage"] = null;
     }
 
-
-
-    <!-- Left Panel -->
     <aside id="left-panel" class="left-panel" style="background-color:black; ">
         <nav class="navbar navbar-expand-sm navbar-default sticky-top" style="background-color:black; border:none; border-color:#344955">
             <div class="navbar-header" style="background-color:black">
@@ -125,19 +110,19 @@
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("SearchPreviousDelegation", "HOD")"> <i class="menu-icon ti-user"></i>Delegate Authority </a>
+                                <a href="@Url.Action("SearchPreviousDelegation", "HOD")"><i class="menu-icon ti-user"></i>Delegate Authority </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-exchange-vertical"></i>Assign Department Rep </a>
+                                <a href="@Url.Action("AssignDepRep", "HOD")"> <i class="menu-icon ti-exchange-vertical"></i>Department Representative </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Change Collection Points </a>
+                                <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions</a>
                             </li>
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -148,7 +133,7 @@
                             </li>
 
                         </ul>
-                    </div><!-- /.navbar-collapse -->
+                    </div>
                 }
                 else if (Session["Role"].ToString() == "5" || Session["Role"].ToString() == "6")
                 {
@@ -163,10 +148,10 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="widgets.html"> <i class="menu-icon ti-location-arrow"></i>Track Requisition </a>
+                                <a href="@Url.Action("RequisitionsList", "Employee")"> <i class="menu-icon ti-check"></i>Requisitions</a>
                             </li>
                             <li>
-                                <a href="widgets.html"> <i class="menu-icon ti-bookmark"></i>Order History </a>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions</a>
                             </li>
 
                         </ul>
@@ -183,34 +168,34 @@
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i>Manage Supplier </a>
+                                <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i> Suppliers</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-files"></i>Manage Inventory </a>
+                                <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-files"></i> Inventory </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon ti-search"></i>Search Items by Date</a>
+                                <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon ti-search"></i> Stock Cards</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i>Process Requisition </a>
+                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-pulse"></i> Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon ti-folder"></i>Requisition Disbursement </a>
+                                <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-file"></i> Stationary Retrieval List </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon ti-file"></i> Item Retrieval Form </a>
+                                <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursements </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("DisbursementLists", "Clerk")"> <i class="menu-icon ti-notepad"></i> Disbursement List </a>
+                                <a href="@Url.Action("RequisitionsComplete", "Clerk")"> <i class="menu-icon ti-folder"></i> Previous Disbursements </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-pin"></i> Outstandings</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-share"></i>Purchase Orders </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Inventory", "Clerk")"> <i class="menu-icon ti-eye"></i>Inventory Check</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Outstanding", "Clerk")"> <i class="menu-icon ti-face-sad"></i> Outstandings</a>
                             </li>
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -237,10 +222,10 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i>Order History </a>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions List </a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-check"></i> Requisitions </a>
                             </li>
 
                         </ul>
@@ -263,7 +248,7 @@
                                     <a href="@Url.Action("Approve", "Supervisor")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                                    <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon ti-files"></i> Previous Adjustments </a>
                                 </li>
                             }
                             else if (Session["Role"].ToString() == "3")
@@ -278,7 +263,7 @@
                                     <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-check"></i>Approve Adjustment</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i>Adjustment History </a>
+                                    <a href="@Url.Action("History", "Manager")"> <i class="menu-icon ti-files"></i> Previous Adjustment </a>
                                 </li>
                             }
 
@@ -305,17 +290,15 @@
 
 
         </nav>
-    </aside><!-- /#left-panel -->
-    <!-- Right Panel -->
+    </aside>
     <div id="right-panel" class="right-panel">
-        <!-- Header-->
         <header id="header" class="header sticky-top">
             <div class="header-menu">
                 <div class="col-sm-5">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        <div class="dropdown for-notification" id="notifications" >
-                      
+                        <div class="dropdown for-notification" id="notifications">
+
                         </div>
                     </div>
                 </div>
@@ -326,10 +309,10 @@
                             <img class="user-avatar rounded-circle" src="~/styles/images/admin.jpg" alt="@User.Identity.Name">
                         </a>
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="@Url.Action("Logoff", "Account")"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="nav-link" href="@Url.Action("Logoff", "Account")"><i class="ti-power-off"></i> Logout</a>
                         </div>
                     </div>
-                    <div class="text-info float-right" style="margin: 10 0 0 0; font-size: 12px;">
+                    <div class="text-info float-right" style="margin: 0 0 0 0; font-size: 12px;">
                         Welcome, @User.Identity.Name.ToUpper()<br />
                         <span class="text-dark"> @role |  @department</span>
                     </div>
@@ -343,14 +326,12 @@
         </div>
 
     </div>
-    @*<script src="~/styles/js/jquery.min.js"></script>*@
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>
     <script src="~/styles/js/main.js"></script>
     <script src="~/styles/js/lib/vector-map/jquery.vmap.min.js"></script>
     <script src="~/styles/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
     <script src="~/styles/js/lib/vector-map/country/jquery.vmap.world.js"></script>
-
     <script src="~/styles/js/lib/data-table/datatables.min.js"></script>
     <script src="~/styles/js/lib/data-table/dataTables.bootstrap.min.js"></script>
     <script src="~/styles/js/lib/data-table/dataTables.buttons.min.js"></script>
@@ -372,21 +353,6 @@
 
 
         $(document).ready(function () {
-
-            @*var interval = 3000;  // 1000 = 1 second, 3000 = 3 seconds
-            function doAjax() {
-                $.ajax({
-                    url: '@Url.Action("GetNotifications", "Home")',
-                    data: {},
-                    type: 'GET',
-                    success: function (data) {
-                        $(notifications).html(data);
-                    }
-                });
-            }
-            setTimeout(doAjax, interval);*@
-
-
             setInterval(function () {
                 $.ajax({
                     url: '@Url.Action("GetNotifications", "Home")',
@@ -396,7 +362,7 @@
                         $(notifications).html(data);
                     }
                 });
-            }, 2000);
+            }, 10000);
         });
 
 
