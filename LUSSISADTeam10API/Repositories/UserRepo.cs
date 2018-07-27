@@ -176,7 +176,7 @@ namespace LUSSISADTeam10API.Repositories
 
             NotificationModel nom = new NotificationModel();
             nom.Deptid = um.deptid;
-            nom.Role = ConUser.Role.EMPLOYEEREP;
+            nom.Role = ConUser.Role.DEPARTMENTREP;
             nom.Title = "Department Representative";
             nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
             nom.ResID = um.userid;

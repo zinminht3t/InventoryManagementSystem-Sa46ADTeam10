@@ -25,7 +25,7 @@ namespace LUSSISADTeam10API.Repositories
             List<CategoryModel> catm = new List<CategoryModel>();
             try
             {
-                List<category> categories = entities.categories.ToList<category>();
+                List<category> categories = entities.categories.Where(c => c.name != "Default" ).ToList<category>();
                 catm = new List<CategoryModel>();
                 foreach (category c in categories)
                 {
@@ -64,16 +64,18 @@ namespace LUSSISADTeam10API.Repositories
             }
             return cat;
         }
-        public static CategoryModel GetCategoryByCatname(String name, out string error)
+        public static CategoryModel GetCategorybyCatName(string catname, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            CategoryModel cat = new CategoryModel();
-            category category = new category();
+
+            category cp = new category();
+
+            CategoryModel cpm = new CategoryModel();
             try
             {
-                category = entities.categories.Where(c => c.name == name).FirstOrDefault<category>();
-                cat = ConvertDBCategorytoAPICategory(category);
+                cp = entities.categories.Where(p => p.name == catname).FirstOrDefault<category>();
+                cpm = ConvertDBCategorytoAPICategory(cp);
             }
             catch (NullReferenceException)
             {
@@ -83,7 +85,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return cat;
+            return cpm;
         }
         //Get Category by Item ID
         public static CategoryModel GetCategoryByItemId(int itemid, out string error)

@@ -7,7 +7,7 @@ namespace LUSSISADTeam10API.Models.APIModels
 {
     public class ReportsModel
     {
-        public ReportsModel (string name, string description, int qty , string uom,int deptid,string deptname)
+        public ReportsModel(string name, string description, int qty, string uom, int deptid, string deptname, int? month, int? year)
         {
             this.Description = description;
             this.Name = name;
@@ -17,6 +17,8 @@ namespace LUSSISADTeam10API.Models.APIModels
             //this.Status = status;
             this.Deptid = deptid;
             this.DeptName = deptname;
+            this.MonthProduce = month;
+            this.YearProduce = year;
         }
 
 
@@ -30,5 +32,9 @@ namespace LUSSISADTeam10API.Models.APIModels
         public int Qty { get; set; }
 
         public string Uom { get; set; }
+
+        public int? MonthProduce { get; set; }
+
+        public int? YearProduce { get; set; }
     }
 }

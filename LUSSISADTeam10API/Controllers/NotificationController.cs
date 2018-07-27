@@ -109,6 +109,20 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(notim);
         }
 
+        [HttpGet]
+        [Route("api/notification/updateasread/{id}")]
+        public IHttpActionResult UpdateNotiRead(int id)
+        {
+            string error = "";
+            NotificationModel notim = NotificationRepo.UpdateNotiRead(id, out error);
+            if (error != "" || notim == null)
+            {
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(notim);
+        }
+
+
 
 
 

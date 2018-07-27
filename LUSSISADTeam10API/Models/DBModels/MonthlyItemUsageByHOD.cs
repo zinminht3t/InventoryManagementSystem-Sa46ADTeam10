@@ -20,5 +20,7 @@ namespace LUSSISADTeam10API.Models.DBModels
         public string Unit_of_Measurement { get; set; }
         public int deptid { get; set; }
         public string deptname { get; set; }
+        public Nullable<int> MonthProduce { get; set; }
+        public Nullable<int> YearProduce { get; set; }
     }
 }

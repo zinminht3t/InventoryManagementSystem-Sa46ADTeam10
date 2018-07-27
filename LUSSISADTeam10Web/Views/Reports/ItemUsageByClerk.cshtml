@@ -1,0 +1,120 @@
+﻿@model  LUSSISADTeam10Web.Models.Report.MonthlyItemUsageViewModel
+
+@{
+    ViewBag.Title = "ItemUsageByClerk";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<body>
+    @if (ViewBag.Count == 0)
+    {
+
+        <form asp-action="ItemUsageByClerk" asp-controller="Reports" method="post">
+            <h2>ItemUsageByClerk</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.supplier1, new SelectList(ViewBag.supplierlist))
+
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.supplier2, new SelectList(ViewBag.supplierlist))
+
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.supplier3, new SelectList(ViewBag.supplierlist))
+
+                </div>
+            </div>
+            <br />
+            <div>
+
+            </div>
+
+            @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
+                <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
+                <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
+
+
+
+
+            <input type="hidden" name="supplier1" asp-for="model.supplier1" value="@Model.supplier1" />
+            <input type="hidden" name="supplier2" asp-for="model.supplier2" value="@Model.supplier2" />
+            <input type="hidden" name="supplier3" asp-for="model.supplier3" value="@Model.supplier3" />
+
+
+
+            <input type="submit" formmethod="post" value="Submit" />
+
+
+        </form>
+
+
+    }
+
+        <div class="card-body">
+
+            @if (ViewBag.Count == 0)
+            {
+
+                <h1>There is no transaction for this item </h1>
+            }
+            else
+            {
+
+                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                    <thead class="table-info">
+                        <tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UsageItem)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MonthName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.year)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.supname)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.mtu)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Item_
+                                </td>
+                                <td>
+                                    @item.UsageItem
+
+                                </td>
+                                <td>
+                                    @item.MonthName
+                                </td>
+                                <td>
+                                    @item.year
+                                </td>
+                                <td>
+                                    @item.supname
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+
+
+        </div>
+
+    </body>
+</html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

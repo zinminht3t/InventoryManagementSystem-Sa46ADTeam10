@@ -17,6 +17,9 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Supname = supname;
             this.Supid = supid;
         }
+
+        public MonthlyItemUsageByClerkModel() : this("",null,null,null,"",0) { }
+
         public string Description { get; set; }
         public int? Qty { get; set; }
 

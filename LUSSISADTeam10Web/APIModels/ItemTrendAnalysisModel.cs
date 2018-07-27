@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LUSSISADTeam10web.Models.APIModels
+namespace LUSSISADTeam10Web.Models.APIModels
 {
     public class ItemTrendAnalysisModel
     {
-        public ItemTrendAnalysisModel(string deptname, string description, int? qty, int deptid, int itemid, int? monofreq, int? yearofreq)
+        public ItemTrendAnalysisModel(string deptname, string description, int? qty, int deptid, int itemid, int? monofreq , int? yearofreq)
         {
             this.Deptname = deptname;
             this.Description = description;
@@ -16,7 +16,7 @@ namespace LUSSISADTeam10web.Models.APIModels
             this.Itemid = itemid;
             this.Monthofreq = monofreq;
             this.Yearofreq = yearofreq;
-
+    
         }
 
         public string Deptname { get; set; }
@@ -30,6 +30,6 @@ namespace LUSSISADTeam10web.Models.APIModels
 
         public int? Yearofreq { get; set; }
 
-
+        
     }
 }

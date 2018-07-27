@@ -204,15 +204,36 @@ namespace LUSSISADTeam10Web.Controllers
 
 
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
-                        workbook.Close();
-                        //int i = 0;
-                        //  foreach (SupplierItemModel s in sm) {
-                        //
-                        //       i = s.SupId;
-                        //   }
-                        //   List<SupplierItemModel> sm1 = APISupplier.GetItemsBySupplierId(i, token, out string error1);
+                        ViewBag.supplierlist = sm;
+                        List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
+                       
+                        foreach (SupplierItemModel sim in sm) {
+                            SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
+                            sivm1.ItemId = sim.ItemId;
+                            sivm1.SupId = sim.SupId;
+                            sivm1.SupName = sim.SupName;
+                            sivm1.Price = sim.Price;
+                            sivm1.Uom = sim.Uom;
+                            sivm1.CategoryName = sim.CategoryName;
+                            sivm1.Description = sim.Description;
 
-                        return View(sm);
+
+                            sivm.Add(sivm1);
+                        }
+                        workbook.Close();
+                        List<String> catname = new List<string>();
+
+                        List <CategoryModel> cm = APICategory.GetAllCategories(token, out error);
+
+                        foreach (CategoryModel c in cm)
+                        {
+                            catname.Add(c.Name);
+
+
+                        }
+                        ViewBag.catlist = catname;
+
+                        return View(sivm);
                     }
                     else
                     {
@@ -279,7 +300,7 @@ namespace LUSSISADTeam10Web.Controllers
                         List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
                         workbook.Close();
 
-                        return View(sm);
+                        return RedirectToAction("ShowActiveSupplierlist");
                     }
                     else
                     {
@@ -297,6 +318,40 @@ namespace LUSSISADTeam10Web.Controllers
             }
         }
 
+
+        [HttpPost]
+        public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            SupplierModel sm = new SupplierModel();
+        
+
+            try
+            {
+                foreach (SupplierItemImportViewModel sim in simvm) {
+                    ItemModel si = new ItemModel();
+                    si.Itemid = sim.ItemId;
+                    si.Uom = sim.Uom;
+                    si.CatName = sim.CategoryName;
+                    si.Description = sim.Description;
+                    CategoryModel cat = APICategory.GetCategoryByCatName(token, sim.CategoryName, out string error);
+                    si.Catid = cat.Catid;
+
+
+                    APIItem.UpdateItem(token, si, out string itemerror);
+                    List<SupplierModel> sm2 = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error2);
+                }
+            }
+            catch (Exception ex)
+            {
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return RedirectToAction("ShowActiveSupplierlist");
+        }
 
         // End AM
 
@@ -420,23 +475,21 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.InventoryModel = invm;
 
                 viewmodel.CatId = itm.Catid;
+               // itm.CatName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
                 viewmodel.ReorderQty = invm.ReorderQty;
-                //viewmodel.CategoryName = invm.CategoryName;
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                List<String> catname = new List<string>();
+                List<String> catname = new List<string>();              
 
                 ViewBag.cat = cm;
 
                 foreach (CategoryModel c in cm)
                 {
-                    catname.Add(c.Name);
-
-
+                    catname.Add(c.Name);     
                 }
                 ViewBag.catlist = catname;
 
@@ -462,9 +515,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
             it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
-            c = APICategory.GetCategoryByCatID(token, it.Catid, out error);
-            c.Name = viewmodel.CategoryName;
+            string name = viewmodel.CategoryName;
+            c = APICategory.GetCategoryByCatName(token, name, out error);
 
+            it.Catid = c.Catid;
             invm.Invid = viewmodel.Invid;
             invm.Itemid = viewmodel.Itemid;
             invm.Stock = viewmodel.Stock;
@@ -473,12 +527,10 @@ namespace LUSSISADTeam10Web.Controllers
             it.Description = viewmodel.ItemDescription;
             it.Uom = viewmodel.UOM;
 
-
             try
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
-                c = APICategory.UpdateCategory(token, c, out error);
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
@@ -569,13 +621,15 @@ namespace LUSSISADTeam10Web.Controllers
 
         public ActionResult RequisitionsComplete()
         {
+            string error = "";
             string token = GetToken();
             List<RequisitionModel> reqms = new List<RequisitionModel>();
 
             try
             {
-                int status = 6;
-                reqms = APIRequisition.GetRequisitionByStatus(status, token, out string error);
+                reqms = APIRequisition.GetAllRequisition(token, out error);
+
+                reqms = reqms.Where(x => x.Status == ConRequisition.Status.DELIVERED || x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
 
                 if (error != "")
                 {
@@ -591,9 +645,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-
-        //END TAZ
-
+       
         //Start Mahsu
 
         //Display Awaiting Approval Adjustments     //Display All Inventories
@@ -871,8 +923,7 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||
-                outr.Status == ConOutstandingsRequisition.Status.COMPLETE || outreqvm.CanFullFill == false)
+            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
             {
                 return RedirectToAction("Outstanding");
             }
@@ -926,7 +977,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
         }
 
-        public ActionResult UpdateToPreparing()
+        public JsonResult UpdateToPreparing()
         {
             string token = GetToken();
             UserModel um = GetUser();
@@ -936,7 +987,13 @@ namespace LUSSISADTeam10Web.Controllers
 
             reqdisms = APIRequisition.UpdateAllRequistionRequestStatusToPreparing(token, out error);
 
-            return RedirectToAction("DisbursementLists");
+            bool ResultSuccess = false;
+
+            if(error == "" || reqdisms != null)
+            {
+                ResultSuccess = true;
+            }
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DisbursementLists()
@@ -1319,6 +1376,7 @@ namespace LUSSISADTeam10Web.Controllers
                 UserModel um = APIAccount.GetUserProfile(token, out string error);
                 Session["user"] = um;
                 Session["role"] = um.Role;
+                Session["department"] = um.Deptname;
             }
             return token;
         }

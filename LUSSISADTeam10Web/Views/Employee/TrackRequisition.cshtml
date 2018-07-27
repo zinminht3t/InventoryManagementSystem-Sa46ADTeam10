@@ -84,8 +84,6 @@
                 <strong class="card-title">Track Requisition : @Model.Reqid</strong>
             </div>
             <div class="card-body">
-
-
                 <div class="stepwizard">
                     <div class="stepwizard-row">
                         <div class="stepwizard-step">
@@ -131,7 +129,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach(var item in Model.Requisitiondetails)
+                                                @foreach (var item in Model.Requisitiondetails)
                                                 {
                                                     <tr>
                                                         <td>@item.Itemname</td>

@@ -36,7 +36,7 @@
             </div>
 
             <div class="card-body">
-
+                <h5 class="text-sm-center text-info"> <i class="ti-stamp fa-3x"></i><br /> Approve Adjustment</h5><br />
                 <div class="row">
                     <div class="col-sm-12">
                         <table class="table">
@@ -54,71 +54,71 @@
                             </tr>
 
                             @foreach (var item in Model)
-                        {
-                            <tr style="background-color:lightblue">
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Issueddate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Raisedbyname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.RaisedTobyname)
-                                </td>
-                                <td>
-                                    @{
-                                    string Disabled = "";
-                                    string color = "";
-                                    if (item.RaisedToRole == ConUser.Role.MANAGER)
-                                    {
-                                        Disabled = "disabled";
-                                        color = "grey";
-                                    }
-                                    }
-                                    @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
+                            {
+                                <tr style="background-color:lightblue">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Issueddate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Raisedbyname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RaisedTobyname)
+                                    </td>
+                                    <td>
+                                        @{
+                                            string Disabled = "";
+                                            string color = "";
+                                            if (item.RaisedToRole == ConUser.Role.MANAGER)
+                                            {
+                                                Disabled = "disabled";
+                                                color = "grey";
+                                            }
+                                        }
+                                        @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
+                                        {
+                                            <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Item</th>
+                                    <th>Adjusted Qty</th>
+                                    <th>UOM</th>
+                                    <th>Price</th>
+                                    <th>Reason</th>
+                                </tr>
+                                foreach (var i in item.adjdvm)
                                 {
-                                    <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
-                            }
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Category</th>
-                                <th>Item</th>
-                                <th>Adjusted Qty</th>
-                                <th>UOM</th>
-                                <th>Price</th>
-                                <th>Reason</th>
-                            </tr>
-                        foreach (var i in item.adjdvm)
-                        {
 
-                            <tr style="border:hidden;width:inherit">
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.Itemdescription)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.Adjustedqty)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.UOM)
-                                </td>
-                                <td>
-                                    $@Html.DisplayFor(modelItem => i.Price)
-                                </td>
-                                <td>
-                                    @if (i.Reason == "" || i.Reason == null)
-                                {
-                                    i.Reason = "_";
+                                    <tr style="border:hidden;width:inherit">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => i.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => i.Itemdescription)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => i.Adjustedqty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => i.UOM)
+                                        </td>
+                                        <td>
+                                            $@Html.DisplayFor(modelItem => i.Price)
+                                        </td>
+                                        <td>
+                                            @if (i.Reason == "" || i.Reason == null)
+                                            {
+                                                i.Reason = "_";
+                                            }
+                                            @Html.DisplayFor(modelItem => i.Reason)
+                                        </td>
+                                    </tr>
                                 }
-                                    @Html.DisplayFor(modelItem => i.Reason)
-                                </td>
-                            </tr>
-                    }
 
-                }
+                            }
                         </table>
                     </div>
                 </div>

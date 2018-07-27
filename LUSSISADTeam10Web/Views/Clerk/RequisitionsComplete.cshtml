@@ -22,7 +22,7 @@
                 <ol class="breadcrumb text-right">
 
                     <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Requisition List</li>
+                    <li class="active">Previous Disbursements</li>
 
                 </ol>
             </div>
@@ -39,6 +39,7 @@
                         <strong class="card-title">Requisition List</strong>
                     </div>
                     <div class="card-body">
+                        <div>  <h5 class="text-sm-center text-info"> <i class="fa fa-history fa-3x"></i><br /> Previous Disbursements </h5></div><br />
                         @if (Model.Count() > 0)
                         {
 
@@ -59,9 +60,11 @@
                                         </td>
                                         <td>
                                             Collection Point
-                                        </td> 
-                                        <td>
                                         </td>
+                                        <td>
+                                            Status
+                                        </td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +87,23 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Cpname)
-                                            </td>   
+                                            </td>
+                                            <td>
+                                                @if (item.Status == 4)
+                                                {
+                                                    <span>Item Delivered</span>
+                                                }
+                                                else if (item.Status == 4)
+                                                {
+                                                    <span>Outstandings</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Completed</span>
+                                                }
+
+
+                                            </td>
                                             <td>
                                                 <a href="@Url.Action("DisbursementDetail", "Clerk", new { id = item.Reqid })" class="btn btn-outline-info"><i class="fa fa-check"></i> Disbursement</a>
                                             </td>

@@ -369,6 +369,15 @@ namespace LUSSISADTeam10API.Repositories
                         ItemModel im = ItemRepo.GetItemByItemid(item.itemid, out error);
 
 
+                        inventory ivm = new inventory();
+                        ivm.itemid = im.Itemid;
+                        ivm.stock = 0;
+                        ivm.reorderqty = 0;
+                        ivm.reorderlevel = 0;
+                        ivm = entities.inventories.Add(ivm);
+                        entities.SaveChanges();
+
+
                         supplieritem supitem = new supplieritem();
                         supitem.supid = spm.SupId;
                         supitem.itemid = im.Itemid;

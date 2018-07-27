@@ -197,12 +197,15 @@
     <Compile Include="APIModels\RequisitionDetailsModel.cs" />
     <Compile Include="Constants\ConInventoryTransaction.cs" />
     <Compile Include="Constants\ConNotification.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqDetailViewModel.cs" />
     <Compile Include="Models\Clerk\OutReqViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderDetailViewModel.cs" />
     <Compile Include="Models\Clerk\PurchaseOrderViewModel.cs" />
+    <Compile Include="Models\Clerk\SupplierItemImportViewModel.cs" />
     <Compile Include="Models\Employee\RequisitionDetailsViewModel.cs" />
     <Compile Include="APIModels\RequisitionDetailsWithDisbursementModel.cs" />
     <Compile Include="APIModels\RequisitionModel.cs" />
@@ -270,11 +273,13 @@
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\gif\InternetSlowdown_Day.gif" />
     <Content Include="Styles\Content\bootstrap-theme.css" />
     <Content Include="Styles\Content\bootstrap-theme.min.css" />
     <Content Include="Styles\Content\bootstrap.css" />
@@ -282,6 +287,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Styles\Content\Site.css" />
+    <Content Include="Styles\css\btn.css" />
     <Content Include="Styles\css\datatable.min.css" />
     <Content Include="Styles\images\admin.jpg" />
     <Content Include="Styles\images\avatar\1.jpg" />
@@ -1061,6 +1067,7 @@
     <Content Include="Styles\images\placeholder.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
+    <Content Include="Styles\js\bootstrap-prettyfile.js" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />
     <Content Include="Styles\js\jquery.qrcode.min.js" />
@@ -1182,6 +1189,7 @@
     <Content Include="Styles\js\vendor\jquery-2.1.4.min.js" />
     <Content Include="Styles\js\vendor\modernizr-2.8.3.min.js" />
     <Content Include="Styles\js\widgets.js" />
+    <Content Include="Styles\Scripts\sweetalert2.all.min.js" />
     <Content Include="Styles\scss\bootstrap\bootstrap-grid.css" />
     <Content Include="Styles\scss\bootstrap\bootstrap-reboot.css" />
     <Content Include="Styles\scss\bootstrap\bootstrap.css" />
@@ -1368,7 +1376,6 @@
     <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
-    <Content Include="Views\Clerk\importsupplier.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
     <Content Include="Views\Employee\RaiseRequisition.cshtml" />
@@ -1380,14 +1387,19 @@
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
+    <Content Include="Views\Clerk\Test.cshtml" />
+    <Content Include="Views\Home\GetNotifications.cshtml" />
+    <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
+    <Content Include="Views\Reports\testing.cshtml" />
+    <Content Include="Views\Reports\testingview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Report\" />
+    <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
