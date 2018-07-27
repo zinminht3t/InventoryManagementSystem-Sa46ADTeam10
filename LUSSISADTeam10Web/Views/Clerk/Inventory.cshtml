@@ -40,12 +40,14 @@
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Reported Adjustments</a>
                 </div>
                 <div id="collapse1" class="panel-collapse collapse in">
+
                     <div class="panel-body">
                                 <div class="card">
                                  
                                     <div class="card card-body" style="background-color:aliceblue">
+                              
                                         <table>
-                                            <thead >
+                                            <thead>
                                                 <tr style="background-color:cadetblue;font-weight:600;color:white;height:50px;">
                                                     <th style="text-align:center">
                                                         IssueDate
@@ -113,6 +115,7 @@
         <strong class="card-title"> Inventories </strong>
     </div>
     <div class="card-body">
+        <div>  <h5 class="text-sm-center text-info"> <i class="ti-marker-alt fa-3x"></i><br /> Inventory Check </h5></div><br />
         <div class="row">
             <div class="col-sm-12">
                 <form asp-action="Inventory" asp-controller="Clerk" method="post">

@@ -47,6 +47,7 @@
 
                 <form asp-action="EditItem" asp-controller="Clerk" method="post">
                     <div class="form-horizontal">
+                        <h5 class="text-sm-center text-info"> <i class="fa fa-edit fa-3x"></i><br /> Edit Item </h5><br />
                         <hr />
                         <div class="row">
                             <div class="col-md-4"> @Html.LabelFor(model => model.ItemDescription) </div>
@@ -71,7 +72,7 @@
                                 @Html.DisplayFor(model => model.Stock)
                                 @Html.HiddenFor(model => model.Stock)
                             </div>
-                     
+
                         </div><br />
                         <div class="row">
                             <div class="col-md-4">@Html.LabelFor(model => model.ReorderLevel)</div>
