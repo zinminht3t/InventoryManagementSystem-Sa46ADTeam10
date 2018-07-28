@@ -10,35 +10,35 @@ using System.Net.Http;
 using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
-{ 
-        // to allow access only by login user
-        [Authorize]
-        public class CollectionPointController : ApiController
+{
+    // to allow access only by login user
+    [Authorize]
+    public class CollectionPointController : ApiController
+    {
+        // to show collectionpoint list
+        [HttpGet]
+        [Route("api/collectionpoints")]
+        public IHttpActionResult GetAllCollectionPoints()
         {
-            // to show collectionpoint list
-            [HttpGet]
-            [Route("api/collectionpoints")]
-            public IHttpActionResult GetAllCollectionPoints()
+            // declare and initialize error variable to accept the error from Repo
+            string error = "";
+
+            // get the list from collectionpointrepo and will insert the error if there is one
+            List<CollectionPointModel> cpm = CollectionPointRepo.GetAllCollectionPoint(out error);
+
+            // if the erorr is not blank or the collectionpoint list is null
+            if (error != "" || cpm == null)
             {
-                // declare and initialize error variable to accept the error from Repo
-                string error = "";
-
-                // get the list from collectionpointrepo and will insert the error if there is one
-                List<CollectionPointModel> cpm = CollectionPointRepo.GetAllCollectionPoint(out error);
-
-                // if the erorr is not blank or the collectionpoint list is null
-                if (error != "" || cpm == null)
-                {
-                    // if the error is 404
-                    if (error == ConError.Status.NOTFOUND)
-                        return Content(HttpStatusCode.NotFound, "CollectionsPoints Not Found");
-                    // if the error is other one
-                    return Content(HttpStatusCode.BadRequest, error);
-                }
-                // if there is no error
-                return Ok(cpm);
-
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "CollectionsPoints Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
             }
+            // if there is no error
+            return Ok(cpm);
+
+        }
         // to get collectoinpoint by collectionpoint id
         [HttpGet]
         [Route("api/collectionpoint/{cpid}")]
@@ -113,7 +113,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult UpdateCollectionPoint(CollectionPointModel cp)
         {
             string error = "";
-            CollectionPointModel cpm=CollectionPointRepo.UpdateCollectionPoint(cp, out error);
+            CollectionPointModel cpm = CollectionPointRepo.UpdateCollectionPoint(cp, out error);
             if (error != "" || cpm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

@@ -41,7 +41,7 @@ namespace LUSSISADTeam10API.Controllers
         }
         //show adjustment and detail by adjustment ID
         [HttpGet]
-        [Route("api/adjustment/{adjid}")]        
+        [Route("api/adjustment/{adjid}")]
         public IHttpActionResult GetAdjustmentbyAdjId(int adjid)
         {
             string error = "";
@@ -83,7 +83,7 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(adj);
-        }       
+        }
         //show adjustment raisedby
         [HttpGet]
         [Route("api/adjustment/raisedby/{raisedby}")]
@@ -114,7 +114,6 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(adjus);
         }
-        
 
         //create adjustment
         [HttpPost]
@@ -123,18 +122,13 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             AdjustmentModel adjm = AdjustmentRepo.CreateAdjustment(adj, out error);
-            //List<AdjustmentDetailModel> adjds = adjm.adjds;           
-            //foreach (AdjustmentDetailModel adjd in adjds)
-            //{
-            //    AdjustmentDetailModel adjdm = AdjustmentDetailRepo.CreateAdjustmentDetail(adjd, out error);
-            //}
             if (error != "" || adjm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
             }
             return Ok(adjm);
         }
-       
+
         //update adjustment
         [HttpPost]
         [Route("api/adjustment/update")]
@@ -150,7 +144,7 @@ namespace LUSSISADTeam10API.Controllers
                 }
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(adjm);          
+            return Ok(adjm);
         }
         //update adjustment detail
         [HttpPost]
@@ -159,16 +153,16 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             AdjustmentDetailModel adjdm = AdjustmentDetailRepo.UpdateAdjustmentDetail(adjd, out error);
-            if(error !="" || adjdm == null)
+            if (error != "" || adjdm == null)
             {
-                if(error== ConError.Status.NOTFOUND)
+                if (error == ConError.Status.NOTFOUND)
                 {
                     return Content(HttpStatusCode.NotFound, "Adjustment detail is Not Found");
                 }
                 return Content(HttpStatusCode.BadRequest, error);
-                    }
+            }
             return Ok(adjdm);
         }
-        
+
     }
 }

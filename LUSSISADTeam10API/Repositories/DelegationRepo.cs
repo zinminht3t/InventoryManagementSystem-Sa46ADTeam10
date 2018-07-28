@@ -207,7 +207,7 @@ namespace LUSSISADTeam10API.Repositories
                 dele = GetDelegationByDelegationID(d.delid, out error);
 
 
-                user us = entities.users.Where(p => p.userid == dele.AssignedbyId).FirstOrDefault();
+                user us = entities.users.Where(p => p.userid == dele.Userid).FirstOrDefault();
 
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = us.deptid;
@@ -218,6 +218,14 @@ namespace LUSSISADTeam10API.Repositories
                 nom.Remark = us.fullname + " has been assigned as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
+
+                nom.Deptid = us.deptid;
+                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Title = "New Authority";
+                nom.NotiType = ConNotification.NotiType.DelegationAssigned;
+                nom.ResID = dele.Userid;
+                nom.Remark = us.fullname + " has been assigned as a Temp Head of Department!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
 
             }
             catch (NullReferenceException)
@@ -257,13 +265,23 @@ namespace LUSSISADTeam10API.Repositories
                 dm = GetDelegationByDelegationID(d.delid, out error);
 
 
+                user us = entities.users.Where(p => p.userid == dm.Userid).FirstOrDefault();
+
                 NotificationModel nom = new NotificationModel();
-                nom.Deptid = d.user.deptid;
+                nom.Deptid = us.deptid;
+                nom.Role = ConUser.Role.EMPLOYEEREP;
+                nom.Title = "Authority Cancellation";
+                nom.NotiType = ConNotification.NotiType.DelegationAssigned;
+                nom.ResID = dm.Userid;
+                nom.Remark = us.fullname + " has been removed as a Temp Head of Department!";
+                nom = NotificationRepo.CreatNotification(nom, out error);
+
+                nom.Deptid = us.deptid;
                 nom.Role = ConUser.Role.TEMPHOD;
                 nom.Title = "Authority Cancellation";
-                nom.NotiType = ConNotification.NotiType.DelegationCancelled;
+                nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dm.Userid;
-                nom.Remark = d.user.fullname + " has been removed as a Temp Head of Department!";
+                nom.Remark = us.fullname + " has been removed as a Temp Head of Department!";
                 nom = NotificationRepo.CreatNotification(nom, out error);
             }
             catch (NullReferenceException)

@@ -17,7 +17,7 @@ namespace LUSSISADTeam10API.Controllers
         [HttpGet]
         [Route("api/Categories")]
         public IHttpActionResult GetAllCategory()
-        {            
+        {
             string error = "";
             List<CategoryModel> catm = CategoryRepo.GetAllCategory(out error);
             // if the erorr is not blank or the category list is null
@@ -111,8 +111,8 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateCategory(CategoryModel cat)
         {
             string error = "";
-            CategoryModel catm =CategoryRepo.CreateCategory(cat, out error);
-            if(error !="" || catm == null)
+            CategoryModel catm = CategoryRepo.CreateCategory(cat, out error);
+            if (error != "" || catm == null)
             {
                 return Content(HttpStatusCode.BadRequest, error);
             }

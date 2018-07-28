@@ -180,8 +180,18 @@ namespace LUSSISADTeam10API.Repositories
             nom.Title = "Department Representative";
             nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
             nom.ResID = um.userid;
-            nom.Remark = "You has been assigned as a Department Representative!";
+            nom.Remark = um.fullname  + " has been assigned as a Department Representative!";
             nom = NotificationRepo.CreatNotification(nom, out string error);
+
+
+            nom.Deptid = um.deptid;
+            nom.Role = ConUser.Role.EMPLOYEEREP;
+            nom.Title = "Department Representative";
+            nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
+            nom.ResID = um.userid;
+            nom.Remark = um.fullname + " has been assigned as a Department Representative!";
+            nom = NotificationRepo.CreatNotification(nom, out error);
+
             return umm;
         }
 
@@ -189,8 +199,8 @@ namespace LUSSISADTeam10API.Repositories
         {
 
             LUSSISEntities entities = new LUSSISEntities();
-            user u = entities.users.Where(p => p.userid == userid).First<user>();       
-            u.role = ConUser.Role.TEMPHOD;        
+            user u = entities.users.Where(p => p.userid == userid).First<user>();
+            u.role = ConUser.Role.TEMPHOD;
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }

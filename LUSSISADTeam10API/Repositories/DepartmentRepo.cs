@@ -117,7 +117,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 cps = entities.departmentcollectionpoints.Where(p => p.cpid == cpid).ToList<departmentcollectionpoint>();
-                foreach(departmentcollectionpoint cp in cps)
+                foreach (departmentcollectionpoint cp in cps)
                 {
                     dms.Add(CovertDBDepttoAPIDept(cp.department));
                 }
@@ -269,7 +269,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 dcps = entities.departmentcollectionpoints.Where(p => p.status == status).ToList<departmentcollectionpoint>();
                 // return the updated model
-                foreach(departmentcollectionpoint dcp in dcps)
+                foreach (departmentcollectionpoint dcp in dcps)
                 {
                     dcpms.Add(CovertDBDCPtoAPIDCP(dcp));
                 }
@@ -309,7 +309,7 @@ namespace LUSSISADTeam10API.Repositories
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = 11;
                 nom.Role = ConUser.Role.CLERK;
-                nom.Title = "Collection Point Change Request Approval";
+                nom.Title = "Collection Point Request";
                 nom.NotiType = ConNotification.NotiType.CollectionPointChangeRequestApproval;
                 nom.ResID = dcpm.DeptCpID;
                 nom.Remark = "The new collection point change has been requested!";
@@ -344,24 +344,24 @@ namespace LUSSISADTeam10API.Repositories
                 // return the updated model 
                 dcpm = GetDepartmentCollectionPointByDcpID(dcp.deptcpid, out error);
 
-                if(dcpm.Status == ConDepartmentCollectionPoint.Status.ACTIVE)
+                if (dcpm.Status == ConDepartmentCollectionPoint.Status.ACTIVE)
                 {
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = dcpm.DeptID;
                     nom.Role = ConUser.Role.HOD;
-                    nom.Title = "Approved Collection Point Change";
+                    nom.Title = "Approved Collection Point";
                     nom.NotiType = ConNotification.NotiType.ClerkApprovedCollectionPointChange;
                     nom.ResID = dcpm.DeptCpID;
                     nom.Remark = "The new collection point change request has been approved by the store";
                     nom = NotificationRepo.CreatNotification(nom, out error);
 
                 }
-                else if(dcpm.Status == ConDepartmentCollectionPoint.Status.REJECTED)
+                else if (dcpm.Status == ConDepartmentCollectionPoint.Status.REJECTED)
                 {
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = dcpm.DeptID;
                     nom.Role = ConUser.Role.HOD;
-                    nom.Title = "Rejected Collection Point Change";
+                    nom.Title = "Rejected Collection Point";
                     nom.NotiType = ConNotification.NotiType.ClerkRejectedCollectionPointChange;
                     nom.ResID = dcpm.DeptCpID;
                     nom.Remark = "The new collection point change request has been rejected by the store";
