@@ -53,6 +53,10 @@ namespace LUSSISADTeam10Web.Controllers
                 case ConNotification.NotiType.DeptRepAssigned:
                     return RedirectToAction("Index", "Home");
                 case ConNotification.NotiType.HODApprovedRequistion:
+                    if(notim.Role == ConUser.Role.EMPLOYEE)
+                    {
+                        return RedirectToAction("TrackRequisition", "Employee", new { id = notim.ResID });
+                    }
                     return RedirectToAction("RequisitionDetail", "Clerk", new { id = notim.ResID });
                 case ConNotification.NotiType.OutstandingItemsCollected:
                     return RedirectToAction("OutstandingDetail", "Clerk", new { id = notim.ResID });

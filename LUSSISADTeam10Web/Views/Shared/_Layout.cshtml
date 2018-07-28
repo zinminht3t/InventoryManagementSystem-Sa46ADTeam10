@@ -148,6 +148,11 @@
                 {
                     role = "Department Representative";
 
+                    if (Session["Role"].ToString() == "5")
+                    {
+                        role = "Employee";
+                    }
+
                     <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                         <ul class="nav navbar-nav">
                             <li class="active">

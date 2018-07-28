@@ -448,6 +448,15 @@ namespace LUSSISADTeam10Web.Controllers
 
                 reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
 
+                NotificationModel nom = new NotificationModel();
+                nom.Deptid = reqm.Depid;
+                nom.Role = ConUser.Role.EMPLOYEE;
+                nom.Title = "Requisition Rejected";
+                nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                nom.ResID = reqm.Reqid;
+                nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark ;
+                nom = APINotification.CreateNoti(token, nom, out error);
+
                 if (viewmodel.Approve)
                 {
                     return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
