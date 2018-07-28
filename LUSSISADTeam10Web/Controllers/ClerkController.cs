@@ -1315,6 +1315,14 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult PurchaseOrder(PurchaseOrderViewModel povm)
         {
+
+            if(povm.podms.Count < 1)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "You cannot create purchase order with items!";
+            }
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();

@@ -439,6 +439,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm.Status = ConRequisition.Status.APPROVED;
+                reqm.Approvedby = um.Userid;
 
                 if (!viewmodel.Approve)
                 {

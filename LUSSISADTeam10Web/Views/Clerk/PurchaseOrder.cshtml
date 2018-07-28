@@ -88,7 +88,7 @@
                                                 <input type='hidden' class='form-control' value='@item.Itemid' id='podms_@count __Title' name='podms[@count].Itemid'>
                                             </td>
                                             <td><input type='text' readonly id='@item.ItemDescription' class='form-control' value='@item.ItemDescription' /></td>
-                                            <td><input class='form-control' required='required' id='podms_@count __Title' name='podms[@count].Qty' type='number' value='@item.Qty' /></td>
+                                            <td><input class='form-control' required='required' id='podms_@count __Title' name='podms[@count].Qty' min="1" type='number' value='@item.Qty' /></td>
                                             <td>
                                                 <select class='form-control' id='selectbox_@count' name='podms[@count].SupplierID'>
                                                     @{
@@ -166,7 +166,7 @@ function addRow() {
 
     var indexCell = "<td style='display:none'><input name='podms.Index' type='hidden' value='" + index + "' /></td>";
     var titleCell = "<td><select class='form-control' onChange='getSupplierList(this.selectedIndex, podms_" + index + "__Titlea)' id='podms_" + index + "__Title' name='podms[" + index + "].Itemid'>" + option  + "</select></td>";
-    var publishedCell = "<td><input  class='form-control' required='required' id='podms_" + index + "__Title' name='podms[" + index + "].Qty' type='number' value='100' /></td>";
+    var publishedCell = "<td><input  class='form-control' required='required' id='podms_" + index + "__Title' name='podms[" + index + "].Qty' min='1'  type='number' value='100' /></td>";
     var suppliercell = "<td><select  class='form-control' required='required' id='podms_" + index + "__Titlea' name='podms[" + index + "].SupplierID'></select></td>";
     var removeCell = "<td><input id='btnAddReqD' type='button' class='btn btn-outline-danger' value='Remove' onclick='removeRow(" + index + ");' /></td>";
     var newRow = "<tr id='trReqD" + index + "'>" + indexCell + titleCell + publishedCell + suppliercell + removeCell + "</tr>";

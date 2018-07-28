@@ -7,12 +7,16 @@
 }
 
 <style>
-    .dropdown-item, .dropdown-menu, .noti-items {
+    .dropdown-menu {
         border: 1px solid #cccbcb;
         color: #ffd800;
-        background: #ededed;
         opacity: 1;
     }
+
+    #noti-div{
+        border: 1px solid #808080
+    }
+
     #noti-div {
         max-height: 300px;
         overflow-y: scroll;
@@ -22,7 +26,7 @@
 
 <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="fa fa-bell"></i>
-    <span class="count bg-info">@count</span>
+    <span class="count bg-danger">@count</span>
 </button>
 
 <div class="dropdown-menu" aria-labelledby="notification" id="noti-div">
@@ -33,15 +37,18 @@
     else
     {
         <p class="text-info noti-items" > <i class="ti-info"></i> You have @count Notification</p>
-
-        foreach (var item in ViewBag.Notifications)
+        <ul class="list-group">
+        @foreach (var item in ViewBag.Notifications)
         {
-            <a class="dropdown-item media d-block" href="@Url.Action("Index", "Notification", new { id = item.NotiID })">
-                @item.Title <span class="pull-right"> @item.RelativeTime </span>
-                <br />
-                <em>@item.Remark</em>
+            <a class="dropdown-item media" href="@Url.Action("Index", "Notification", new { id = item.NotiID })">
+                <li class="list-group-item" style="min-width: 500px">
+                    <span class="pull-left"> @item.Title</span> <span class="pull-right text-info"> @item.RelativeTime </span>
+                    <br />
+                    <em>@item.Remark</em>
+                </li>
             </a>
         }
+            </ul>
     }
 </div>
 
