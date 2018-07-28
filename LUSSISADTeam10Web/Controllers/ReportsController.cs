@@ -33,12 +33,12 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             SupplierModel sm = new SupplierModel();
             string error = "";
-           
+
             UserModel um = GetUser();
             ViewBag.SupplierModel = sm;
             MonthlyItemUsageViewModel viewmodel = new MonthlyItemUsageViewModel();
             List<SupplierModel> sml = new List<SupplierModel>();
-            sml = APISupplier.GetAllSuppliers(token, out  error);
+            sml = APISupplier.GetAllSuppliers(token, out error);
 
             try
             {
@@ -54,7 +54,7 @@ namespace LUSSISADTeam10Web.Controllers
                 foreach (SupplierModel s in sml)
                 {
                     suppliername.Add(s.SupId);
-                    
+
                 }
                 ViewBag.supplierlist = suppliername;
 
@@ -103,7 +103,7 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.departmentlist = departmentname;
 
                 List<int> month = new List<int>();
-                for(int i = 1; i<= 12; i++)
+                for (int i = 1; i <= 12; i++)
                 {
                     month.Add(i);
                 }
@@ -122,7 +122,50 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewmodel);
         }
 
-        
+
+
+        public ActionResult RequisitionList()
+        {
+            string token = GetToken();
+            DepartmentModel dm = new DepartmentModel();
+            string error = "";
+
+            UserModel um = GetUser();
+            ViewBag.DepartmnetModel = dm;
+            RequisitionListViewModel viewmodel = new RequisitionListViewModel();
+            List<DepartmentModel> dml = new List<DepartmentModel>();
+            dml = APIDepartment.GetAllDepartments(token, out error);
+
+            try
+            {
+
+                ViewBag.DepartmnetModel = dml;
+                viewmodel.deptid = dm.Deptid;
+
+                List<int> departmentname = new List<int>();
+
+                ViewBag.departmentname = dml;
+
+                foreach (DepartmentModel d in dml)
+                {
+                    departmentname.Add(d.Deptid);
+
+                }
+                ViewBag.departmentlist = departmentname;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+            ViewBag.count = 0;
+            return View(viewmodel);
+        }
+
+
 
         #endregion
 
@@ -136,7 +179,7 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
 
             UserModel um = GetUser();
-         
+
             string token = GetToken();
 
             int suppliername1 = viewModel.supplier1;
@@ -168,11 +211,11 @@ namespace LUSSISADTeam10Web.Controllers
 
 
             return View(viewmodel);
-           
 
 
 
-            
+
+
 
 
 
@@ -196,14 +239,14 @@ namespace LUSSISADTeam10Web.Controllers
             int d3 = viewModel.d3;
             int month = viewModel.month;
             ItemTrendAnalysisViewModel viewmodel = new ItemTrendAnalysisViewModel();
-            List<ItemTrendAnalysisModel> itm = APIReport.ItemTrendAnalysis(token, out error, d1, d2, d3,month);
+            List<ItemTrendAnalysisModel> itm = APIReport.ItemTrendAnalysis(token, out error, d1, d2, d3, month);
             viewmodel.itd = new List<ItemTrendDetailViewModel>();
 
 
             foreach (ItemTrendAnalysisModel trend in itm)
             {
                 var result = new ItemTrendDetailViewModel();
-          
+
 
                 result.Deptid = trend.Deptid;
                 result.DepartmentName = trend.DepartmentName;
@@ -222,7 +265,50 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(viewmodel);
         }
-            public ActionResult testingview()
+
+
+
+
+         [HttpPost]
+        public ActionResult RequisitionList(DateTime? startdate, DateTime? enddate, int deptid)
+
+        {
+            string token = GetToken();
+            string error = "";
+            RequisitionListViewModel viewmodel = new RequisitionListViewModel();
+            List<RequsitionListReportModel> reql = new List<RequsitionListReportModel>();
+           
+            try
+            {
+                
+               deptid = viewmodel.deptid;
+                reql = APIReport.RequsitionList(token,out error,deptid,(DateTime)startdate,(DateTime)enddate);
+                viewmodel.rd = new List<RequisitionDetailViewModel>();
+
+                foreach (RequsitionListReportModel i in reql)
+                {
+                    
+                    var result = new RequisitionDetailViewModel();
+                  
+
+
+                    result.deptid = i.Deptid;
+                    result.reqdate = i.Reqdate;
+                    result.status = i.Status;
+                    viewmodel.rd.Add(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            ViewBag.count = viewmodel.rd.Count;
+
+            ViewBag.itd = viewmodel.rd;
+            return View(viewmodel);
+        }
+        public ActionResult testingview()
         {
             return View();
         }
