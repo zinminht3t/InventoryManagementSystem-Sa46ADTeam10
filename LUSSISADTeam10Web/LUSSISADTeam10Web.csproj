@@ -278,6 +278,7 @@
     <Compile Include="Models\HOD\AssignDepRepViewModel.cs" />
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
+    <Compile Include="Models\Report\RequisitionListViewModel.cs" />
     <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
@@ -1397,6 +1398,7 @@
     <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
+    <Content Include="Views\Reports\RequisitionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
