@@ -57,8 +57,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqms);
         }
 
-        [Authorize(Roles = "HOD, TempHOD")]
-
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
         public ActionResult OrderHistory()
         {
 
@@ -231,7 +230,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("CollectionPoint");
         }
 
-        [Authorize(Roles = "HOD, TempHOD")]
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
 
         public ActionResult RequisitionDetail(int id)
         {
@@ -444,24 +443,31 @@ namespace LUSSISADTeam10Web.Controllers
                 if (!viewmodel.Approve)
                 {
                     reqm.Status = ConRequisition.Status.REJECTED;
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.EMPLOYEE;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
+                    nom = APINotification.CreateNoti(token, nom, out error);
                 }
 
                 reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
 
-                NotificationModel nom = new NotificationModel();
-                nom.Deptid = reqm.Depid;
-                nom.Role = ConUser.Role.EMPLOYEE;
-                nom.Title = "Requisition Rejected";
-                nom.NotiType = ConNotification.NotiType.RejectedRequistion;
-                nom.ResID = reqm.Reqid;
-                nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark ;
-                nom = APINotification.CreateNoti(token, nom, out error);
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
 
                 if (viewmodel.Approve)
                 {
+                    Session["notititle"] = "Requisition Approval";
+                    Session["notimessage"] = "Requisiton is now approved!";
                     return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
                 }
-                return RedirectToAction("RequisitionList");
+                Session["notititle"] = "Requisition Rejection";
+                Session["notimessage"] = "Requisiton is rejected!";
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

@@ -148,23 +148,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                <i class="fa fa-exclamation-triangle text-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Item Already Collected?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
 
             </div>
             <div class="modal-body">
-                <h5>Do you want to Remove Authority  </h5>
+                <h5>Are you sure that you already collected all items described from the warehouse? </h5>
 
                 <div style="text-align:center;display:none" id="loaderDiv">
-                    <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                    <img src="~/Styles/images/loading.gif" width="150"/>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                <a href="#" class="btn btn-success" onclick="ItemCollect()">Confirm</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Not Yet</a>
+                <a href="#" class="btn btn-success" onclick="ItemCollect()">Yes</a>
             </div>
 
         </div>
@@ -195,10 +195,7 @@
         });
 
             var ConfirmDelete = function () {
-
-
                 $("#myModal").modal('show');
-
             }
 
         var ItemCollect = function () {
@@ -214,7 +211,6 @@
                        // Location.url: '@Url.Action("DisbursementLists", "Clerk")',
                         window.location.href = url1;
                     }
-
                 })
 
             }

@@ -180,8 +180,18 @@ namespace LUSSISADTeam10API.Repositories
             nom.Title = "Department Representative";
             nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
             nom.ResID = um.userid;
-            nom.Remark = "You has been assigned as a Department Representative!";
+            nom.Remark = um.fullname  + " has been assigned as a Department Representative!";
             nom = NotificationRepo.CreatNotification(nom, out string error);
+
+
+            nom.Deptid = um.deptid;
+            nom.Role = ConUser.Role.EMPLOYEEREP;
+            nom.Title = "Department Representative";
+            nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
+            nom.ResID = um.userid;
+            nom.Remark = um.fullname + " has been assigned as a Department Representative!";
+            nom = NotificationRepo.CreatNotification(nom, out error);
+
             return umm;
         }
 
