@@ -148,6 +148,11 @@
                 {
                     role = "Department Representative";
 
+                    if (Session["Role"].ToString() == "5")
+                    {
+                        role = "Employee";
+                    }
+
                     <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                         <ul class="nav navbar-nav">
                             <li class="active">
@@ -157,7 +162,7 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "Employee")"> <i class="menu-icon ti-comments-smiley"></i>Requisitions</a>
+                                <a href="@Url.Action("TrackRequisitions", "Employee")"> <i class="menu-icon ti-comments-smiley"></i>Requisitions</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions</a>
@@ -209,9 +214,9 @@
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                 <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
                                     <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageByClerk", "Reports")">Monthly Item Usage</a></li>
-                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysis", "Reports")">Item Trend Analysis</a></li>
+                                    <li><i class="fa fa-table"></i><a href="@Url.Action("RequisitionList", "Reports")">Order Report</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -226,9 +231,6 @@
                         <ul class="nav navbar-nav">
                             <li class="active">
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-file"></i>Raise Requisition </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon ti-files"></i> Previous Requisitions </a>
@@ -288,7 +290,7 @@
                                 <ul class="sub-menu children dropdown-menu">
                                     <li><i class="fa fa-table"></i><a href="tables-basic.html">Item Trend Analysis</a></li>
                                     <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageByClerk", "Reports")">Monthly Item Usage</a></li>
-                                    <li><i class="fa fa-table"></i><a href="tables-data.html">Order Report</a></li>
+                                    <li><i class="fa fa-table"></i><a href="@Url.Action("RequisitionList", "Reports")">Order Report</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -315,7 +317,7 @@
 
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="~/styles/images/admin.jpg" alt="@User.Identity.Name">
+                            <img class="user-avatar rounded-circle" src="~/styles/images/user.png" alt="@User.Identity.Name">
                         </a>
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="@Url.Action("Logoff", "Account")"><i class="ti-power-off"></i> Logout</a>
@@ -361,8 +363,7 @@
     <script>
 
 
-        $(document).ready(function () {
-            setInterval(function () {
+            $(document).ready(function () {
                 $.ajax({
                     url: '@Url.Action("GetNotifications", "Home")',
                     data: {},
@@ -371,12 +372,17 @@
                         $(notifications).html(data);
                     }
                 });
-            }, 10000);
-        });
-
-
-
-
+            setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("GetNotifications", "Home")',
+                        data: {},
+                        type: 'GET',
+                        success: function (data) {
+                            $(notifications).html(data);
+                        }
+                    });
+                }, 10000);
+                    });
 
 
     </script>

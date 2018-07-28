@@ -87,7 +87,7 @@
                                                 <td class="@style">@item.Stock</td>
                                                 <td>
                                                     <input type="hidden" value="@item.ItemID" name="ItemIDs" />
-                                                    <input type="number" value="@approveqty" name="ApproveQtys" class="form-control form-control-sm" />
+                                                    <input type="number" required value="@approveqty" name="ApproveQtys" min="0" max="@approveqty" class="form-control form-control-sm" />
                                                 </td>
                                                 <td>@item.UOM</td>
                                             </tr>

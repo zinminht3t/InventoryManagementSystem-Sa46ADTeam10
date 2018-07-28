@@ -30,12 +30,8 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 string username = model.Username;
                 string password = model.Password;
-
                 string token = "";
-
                 token = APIAccount.GetToken(username, password, out string error);
-
-                // User found in the database
                 if (error == "" || token != "")
                 {
                     FormsAuthentication.SetAuthCookie(token, false);
@@ -47,16 +43,10 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["department"] = um.Deptname;
 
 
-                    //if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    //    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //{
-                    //    return Redirect(returnUrl);
-                    //}
-                    //else
-                    //{
-
-
-             
+                    Session["noti"] = true;
+                    Session["notitype"] = "success";
+                    Session["notititle"] = "Login Success";
+                    Session["notimessage"] = "Your Login is Successful";
 
                     switch (um.Role)
                     {
@@ -76,7 +66,6 @@ namespace LUSSISADTeam10Web.Controllers
                             return RedirectToAction("Index", "Employee");
                     }
                     return RedirectToAction("Login", "Account");
-                    //}
                 }
                 else
                 {
@@ -89,7 +78,6 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -99,17 +87,11 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             string error = "";
             List<NotificationModel> notis = new List<NotificationModel>();
-
-
             notis = APINotification.GetNotiByunread(false, um.Deptid, um.Role, token, out error);
-
-
-
             ViewBag.NotiCount = notis.Count;
             ViewBag.Notifications = notis;
             return PartialView();
         }
-
 
         #region Utilities
         public string GetToken()

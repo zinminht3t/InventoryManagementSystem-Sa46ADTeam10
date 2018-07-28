@@ -57,8 +57,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqms);
         }
 
-        [Authorize(Roles = "HOD, TempHOD")]
-
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
         public ActionResult OrderHistory()
         {
 
@@ -231,7 +230,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("CollectionPoint");
         }
 
-        [Authorize(Roles = "HOD, TempHOD")]
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
 
         public ActionResult RequisitionDetail(int id)
         {
@@ -423,11 +422,6 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Request Collection Point Change ";
-            Session["notimessage"] = cpm.Cpname + " is requested to change ";
             return RedirectToAction("CollectionPoint");
         }
 
@@ -445,27 +439,36 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm.Status = ConRequisition.Status.APPROVED;
+                reqm.Approvedby = um.Userid;
 
                 if (!viewmodel.Approve)
                 {
                     reqm.Status = ConRequisition.Status.REJECTED;
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.EMPLOYEE;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
+                    nom = APINotification.CreateNoti(token, nom, out error);
                 }
 
                 reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
 
-                if (viewmodel.Approve)
-                {
-                    Session["noti"] = true;
-                    Session["notitype"] = "success";
-                    Session["notititle"] = "Approve Requisition ";
-                    Session["notimessage"] = " Requisition by " + reqm.Rasiedbyname + " is approved";
-                    return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
-                }
+
                 Session["noti"] = true;
                 Session["notitype"] = "success";
-                Session["notititle"] = "Approve Requisition ";
-                Session["notimessage"] = " Requisition by " +reqm.Rasiedbyname+ " is rejected";
-                return RedirectToAction("RequisitionList");
+
+                if (viewmodel.Approve)
+                {
+                    Session["notititle"] = "Requisition Approval";
+                    Session["notimessage"] = "Requisiton is now approved!";
+                    return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
+                }
+                Session["notititle"] = "Requisition Rejection";
+                Session["notimessage"] = "Requisiton is rejected!";
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -483,7 +486,7 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             viewmodel.assignedby = um.Userid;
             DelegationModel dm = new DelegationModel();
-            UserModel user = new UserModel();
+
             dm.Userid = userid;
             dm.Enddate = viewmodel.EndDate;
             dm.Startdate = viewmodel.StartDate;
@@ -494,17 +497,13 @@ namespace LUSSISADTeam10Web.Controllers
                 if (viewmodel != null)
                 {
                     APIDelegation.CreateDelegation(token, dm, out string error);
-                    user = APIUser.GetUserByUserID(userid, token, out string error1);
+
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Delegate Authority ";
-            Session["notimessage"] = user.Fullname + " is Delegated as Head of Department ";
             return RedirectToAction("SearchPreviousDelegation");
         }
         [Authorize(Roles = "HOD")]
@@ -515,25 +514,20 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-            UserModel upum = new UserModel();
+
 
             try
             {
                 if (viewmodel != null)
                 {
 
-                  upum = APIUser.AssignDepRep(token, userid, out string error);
+                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Assign Departement Rep";
-            Session["notimessage"] = upum.Fullname + " is assigned as Department Rep ";
-
             return RedirectToAction("AssignDepRep");
 
         }
@@ -568,10 +562,6 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Update Delegation ";
-            Session["notimessage"] =  " End Date of Delegation is updated ";
             return RedirectToAction("SearchPreviousDelegation");
         }
         #endregion

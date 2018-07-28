@@ -5,7 +5,6 @@
 }
 @section Styles {
     <style>
-
     </style>
 }
 <div class="breadcrumbs">
@@ -35,9 +34,10 @@
                 <strong class="card-title"> Title Here </strong>
             </div>
             <div class="card-body">
+                <button onclick="test()">Click</button>
                 <div class="row">
-                    <div class="col-md-6">
-                        <canvas id="myChart"></canvas>
+                    <div class="col-md-10">
+                        <canvas id="myChart" class="m-auto p-3"></canvas>
                     </div>
                     <div class="col-md-6">
 
@@ -50,30 +50,33 @@
 </div>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
-    <script type="text/javascript">var ctx = document.getElementById("myChart");
+    <script type="text/javascript">
+        var dataset = [[30, 70, 40], [40, 30, 50], [70, 20, 60]];
+
+        var ctx = document.getElementById("myChart");
         var data = {
             labels: ["Chocolate", "Vanilla", "Strawberry"],
             datasets: [
                 {
                     label: "Harpo",
-                    backgroundColor: 'rgba(255, 206, 86, 0.45)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(247, 55, 42, 0.45)',
+                    borderColor: 'rgba(247, 55, 42, 1)',
                     borderWidth: 1,
-                    data: [30, 70, 40]
+                    data: dataset[0]
                 },
                 {
                     label: "Chico",
-                    backgroundColor: 'rgba(75, 192, 192, 0.45)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(58, 175, 169, 0.45)',
+                    borderColor: 'rgba(58, 175, 169, 1)',
                     borderWidth: 1,
-                    data: [40, 30, 50]
+                    data: dataset[1]
                 },
                 {
                     label: "Groucho",
-                    backgroundColor: 'rgba(153, 102, 255, 0.45)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
+                    backgroundColor: 'rgba(77, 31, 132, 0.45)',
+                    borderColor: 'rgba(77, 31, 132, 1)',
                     borderWidth: 1,
-                    data: [70, 20, 60]
+                    data: dataset[2]
                 }
             ]
         };
@@ -90,5 +93,13 @@
                     }]
                 }
             }
-        });</script>
+        });
+        function test() {
+            dataset = [[20, 60, 30], [30, 20, 40], [60, 10, 50]];
+            myBarChart.data.datasets[0].data = dataset[0];
+            myBarChart.data.datasets[1].data = dataset[1];
+            myBarChart.data.datasets[2].data = dataset[2];
+            myBarChart.update();
+        }
+    </script>
 }

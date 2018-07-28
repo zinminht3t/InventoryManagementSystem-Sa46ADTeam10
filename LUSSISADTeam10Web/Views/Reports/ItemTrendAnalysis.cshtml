@@ -1,0 +1,133 @@
+﻿@model LUSSISADTeam10Web.Models.Report.ItemTrendAnalysisViewModel
+
+@{
+    ViewBag.Title = "ItemTrendAnalysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ItemTrendAnalysis</h2>
+
+
+<html>
+<body>
+    @if (ViewBag.Count == 0)
+    {
+
+    <form asp-action="ItemTrendAnalysis" asp-controller="Reports" method="post">
+        <h2>ItemUsageByClerk</h2>
+        @*<div class="row">
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.d1, new SelectList(ViewBag.departmentlist))
+
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.d2, new SelectList(ViewBag.departmentlist))
+
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.d3, new SelectList(ViewBag.departmentlist))
+
+
+            </div>
+            @Html.DropDownListFor(model => model.month, new SelectList(ViewBag.monthlist))
+
+        </div>*@
+
+        @Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))
+        <br />
+        <div>
+
+        </div>
+
+
+
+
+        @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
+        <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
+        <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
+
+
+
+
+        <input type="hidden" name="d1" asp-for="model.d1" value="@Model.d1" />
+        <input type="hidden" name="d2" asp-for="model.d2" value="@Model.d2" />
+        <input type="hidden" name="d3" asp-for="model.d3" value="@Model.d3" />
+        <input type="hidden" name="month" asp-for="model.month" value="@Model.month" />
+
+
+
+        <input type="submit" formmethod="post" value="Submit" />
+
+
+    </form>
+
+
+    }
+    <div class="card-body">
+
+        @if (ViewBag.Count == 0)
+        {
+
+            <h1>There is no transaction for this item </h1>
+        }
+        else
+        {
+
+            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                <thead class="table-info">
+                    <tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DepartmentName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Item_Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Item_Usage)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Monthofreq)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Yearofreq)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.itd)
+                    {
+                        <tr>
+                            <td>
+                                @item.DepartmentName
+                            </td>
+                            <td>
+                                @item.Item_Name
+
+                            </td>
+                            <td>
+                                @item.Item_Usage
+                            </td>
+                            <td>
+                                @item.Monthofreq
+                            </td>
+                            <td>
+                                @item.Yearofreq
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+
+
+    </div>
+
+</body>
+</html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

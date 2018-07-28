@@ -362,6 +362,8 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult ApproveCollectionPoint(int id)
         {
             string token = GetToken();
+
+
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
             ViewBag.DepartmentCollectionPointModel = dcpm;
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
@@ -370,6 +372,17 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+
+                if(dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
+                {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Change Request Expired";
+                    Session["notimessage"] = "This collection point request has already been cancelled or approved!";
+                    return RedirectToAction("Index");
+                }
+
+
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
 
                 DepartmentCollectionPointModel active =
@@ -1321,6 +1334,14 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult PurchaseOrder(PurchaseOrderViewModel povm)
         {
+
+            if(povm.podms.Count < 1)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "You cannot create purchase order with items!";
+            }
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
@@ -1362,6 +1383,9 @@ namespace LUSSISADTeam10Web.Controllers
                     pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
 
                     POIDs.Add(pom);
+
+                    SupplierModel sup = APISupplier.GetSupplierById(pom.Supid, token, out error);
+                    bool result = Utilities.Utility.SendPurchaseOrdersPDF(sup, pom);
                 }
             }
 

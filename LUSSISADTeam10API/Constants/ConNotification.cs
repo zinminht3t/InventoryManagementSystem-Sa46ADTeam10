@@ -35,6 +35,9 @@ namespace LUSSISADTeam10API.Constants
             public const int DelegationCancelled = 12;
 
             public const int DeptRepAssigned = 13;
+
+            public const int OutstandingItemsReadyToCollect = 14;
+            public const int OutstandingItemsCollected = 15;
         }
     }
 }

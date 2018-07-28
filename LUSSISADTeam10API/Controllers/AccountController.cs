@@ -10,9 +10,9 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class AccountController : ApiController
     {
-        [Authorize]
         [HttpGet]
         [Route("api/user")]
         public IHttpActionResult GetForAuthenticate()
@@ -22,7 +22,6 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(um);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("api/user/update")]
         public IHttpActionResult UpdateUser(UserModel um)

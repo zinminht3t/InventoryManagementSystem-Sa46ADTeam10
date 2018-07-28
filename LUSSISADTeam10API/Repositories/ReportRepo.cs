@@ -14,7 +14,7 @@ namespace LUSSISADTeam10API.Repositories
     {
         private static ReportsModel ConvertDBReporttoAPIreport(MonthlyItemUsageByHOD monthlyhod)
         {
-            ReportsModel rm = new ReportsModel(monthlyhod.Item, monthlyhod.Category, monthlyhod.Quantity, monthlyhod.Unit_of_Measurement, monthlyhod.deptid, monthlyhod.deptname, monthlyhod.MonthProduce,monthlyhod.YearProduce);
+            ReportsModel rm = new ReportsModel(monthlyhod.Item, monthlyhod.Category, monthlyhod.Quantity, monthlyhod.Unit_of_Measurement, monthlyhod.deptid, monthlyhod.deptname, monthlyhod.MonthProduce, monthlyhod.YearProduce);
             return rm;
         }
 
@@ -27,26 +27,26 @@ namespace LUSSISADTeam10API.Repositories
 
         private static MonthlyItemUsageByClerkModel ConvertMonthlyItemUsageByClerktoAPI(MonthItemUsage miuc)
         {
-            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_,miuc.Usage_Item,miuc.Month_Name,miuc.year, miuc.supname, miuc.supid);
+            MonthlyItemUsageByClerkModel iucm = new MonthlyItemUsageByClerkModel(miuc.Item_, miuc.Usage_Item, miuc.Month_Name, miuc.year, miuc.supname, miuc.supid);
             return iucm;
         }
 
 
         private static ItemTrendAnalysisModel ConvertItemTrendAnalysis(ItemTrendAnalysi ita)
         {
-            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName,ita.Item_Name,ita.Item_Usage,ita.deptid,ita.itemid,ita.Monthofreq,ita.Yearofreq);
+            ItemTrendAnalysisModel iucm = new ItemTrendAnalysisModel(ita.DepartmentName, ita.Item_Name, ita.Item_Usage, ita.deptid, ita.itemid, ita.Monthofreq, ita.Yearofreq);
             return iucm;
         }
 
         private static FrequentlyTop5ItemsModel ConvertFrequentlyItem(FrequentlyTop5ItemsDashboard ft)
         {
-            FrequentlyTop5ItemsModel fti = new FrequentlyTop5ItemsModel(ft.itemid,ft.description,ft.Total_Order_Qty);
+            FrequentlyTop5ItemsModel fti = new FrequentlyTop5ItemsModel(ft.itemid, ft.description, ft.Total_Order_Qty);
             return fti;
         }
 
         private static OrderByDepartmentModel ConvertOrderByDepartmentModeltoAPI(OrderByDepartmentDarshboard od)
         {
-            OrderByDepartmentModel odm = new OrderByDepartmentModel(od.Total_Order_Qty,od.deptname);
+            OrderByDepartmentModel odm = new OrderByDepartmentModel(od.Total_Order_Qty, od.deptname);
             return odm;
         }
 
@@ -125,24 +125,19 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
-        //public static List<RequsitionListReportModel> RequsitionList(out string error)
+        //public static List<RequistionList1> RequsitionList(out string error, int deptid, DateTime fromdate, DateTime todate)
         //{
         //    LUSSISEntities entities = new LUSSISEntities();
 
         //    // Initializing the error variable to return only blank if there is no error
         //    error = "";
-        //    List<RequsitionListReportModel> realism = new List<RequsitionListReportModel>();
+        //    List<RequistionList1> rl = new List<RequistionList1>();
+
+
         //    try
         //    {
+        //        rl = entities.GetRequistionList(deptid, fromdate, todate).ToList<RequistionList1>();
 
-
-        //        List<RequistionList> rms = entities.RequistionLists.ToList<RequistionList>();
-
-        //        // convert the DB Model list to API Model list
-        //        foreach (RequistionList repl in rms)
-        //        {
-        //            realism.Add(ConvertDBRequsitionListtoAPI(repl));
-        //        }
         //    }
         //    catch (NullReferenceException)
         //    {
@@ -152,7 +147,8 @@ namespace LUSSISADTeam10API.Repositories
         //    {
         //        error = e.Message;
         //    }
-        //    return realism;
+
+        //    return rl;
         //}
 
         //public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(out string error,int suppliername1,int suppliername2, int suppliername3, int month)
@@ -406,7 +402,7 @@ namespace LUSSISADTeam10API.Repositories
             return noq;
         }
 
-        public static List<MonthlyItemUsage> ItemUsageByClerk(out string error,int sup1,int sup2,int sup3)
+        public static List<MonthlyItemUsage> ItemUsageByClerk(out string error, int sup1, int sup2, int sup3)
         {
             LUSSISEntities entities = new LUSSISEntities();
 
@@ -417,7 +413,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
 
-              mit = entities.GetMonthlyItemUsage(sup1, sup2, sup3).ToList<MonthlyItemUsage>();
+                mit = entities.GetMonthlyItemUsage(sup1, sup2, sup3).ToList<MonthlyItemUsage>();
             }
             catch (NullReferenceException)
             {
@@ -429,7 +425,7 @@ namespace LUSSISADTeam10API.Repositories
             }
 
             return mit;
-           
+
         }
 
 
@@ -445,8 +441,8 @@ namespace LUSSISADTeam10API.Repositories
 
             try
             {
-                ita = entities.GetItemTrendAnalysis(d1,d2,d3,month).ToList<ItemTrendAnalysis>();
-     
+                ita = entities.GetItemTrendAnalysis(d1, d2, d3, month).ToList<ItemTrendAnalysis>();
+
             }
             catch (NullReferenceException)
             {
@@ -462,9 +458,41 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
+        public static List<RequistionList1> RequisitionList(out string error, int deptid, DateTime startdate, DateTime enddate)
+        {
+
+            LUSSISEntities entities = new LUSSISEntities();
+            List<RequistionList1> rl = new List<RequistionList1>();
+            // Initializing the error variable to return only blank if there is no error
+            error = "";
+            try
+            {
+
+
+                rl = entities.GetRequistionList(deptid, startdate, enddate).ToList<RequistionList1>();
+
+
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            return rl;
+        }
+
+
+
+
+
+
     }
 
 }
 
-   
-    
+
+

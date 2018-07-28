@@ -13,7 +13,7 @@ namespace LUSSISADTeam10API.Repositories
         // Convert From Auto Generated DB Model to APIModel
         private static LockerCollectionPointModel ConvertBDLockerCPToAPILockerCP(lockercollectionpoint lcp)
         {
-            LockerCollectionPointModel lcpm = new LockerCollectionPointModel(lcp.lockerid, lcp.lockername, lcp.lockersize, lcp.cpid, lcp.status,lcp.collectionpoint.cpname);
+            LockerCollectionPointModel lcpm = new LockerCollectionPointModel(lcp.lockerid, lcp.lockername, lcp.lockersize, lcp.cpid, lcp.status, lcp.collectionpoint.cpname);
             return lcpm;
         }
         // Get the list of all LockerCollectionPoint and will return with error if there is one.
@@ -29,7 +29,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 // get lockercollectionpoint list from database
                 List<lockercollectionpoint> lockercps = entities.lockercollectionpoints.ToList<lockercollectionpoint>();
-               
+
                 // convert the DB Model list to API Model list
                 foreach (lockercollectionpoint lockercp in lockercps)
                 {
@@ -53,7 +53,7 @@ namespace LUSSISADTeam10API.Repositories
         public static LockerCollectionPointModel GetLockerCPByLockerid(int lockerid, out string error)
         {
             error = "";
-            
+
             LUSSISEntities entities = new LUSSISEntities();
             lockercollectionpoint lcp = new lockercollectionpoint();
             LockerCollectionPointModel lcpm = new LockerCollectionPointModel();
@@ -248,8 +248,8 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 lcps = entities.lockercollectionpoints.Where(p => p.collectionpoint.cpname == cpname).ToList<lockercollectionpoint>();
-               
-                 foreach (lockercollectionpoint Lcp in lcps)
+
+                foreach (lockercollectionpoint Lcp in lcps)
                 {
                     lcplm.Add(ConvertBDLockerCPToAPILockerCP(Lcp));
                 }
@@ -364,7 +364,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 disls = entities.disbursementlockers.Where(p => p.reqid == LockerID).ToList();
 
-                foreach(disbursementlocker disl in disls)
+                foreach (disbursementlocker disl in disls)
                 {
                     dislms.Add(CovertDisLockertoModel(disl));
                 }

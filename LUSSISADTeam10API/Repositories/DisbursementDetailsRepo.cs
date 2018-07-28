@@ -129,12 +129,12 @@ namespace LUSSISADTeam10API.Repositories
         }
 
         //create the disbursement details
-        public static List< DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
+        public static List<DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
             disbursementdetail disdb = new disbursementdetail();
-           
+
             try
             {
                 disdb.disid = disdm.Disid;
@@ -142,7 +142,7 @@ namespace LUSSISADTeam10API.Repositories
                 disdb.qty = disdm.Qty;
                 disdb = entities.disbursementdetails.Add(disdb);
                 entities.SaveChanges();
-             
+
             }
 
             catch (NullReferenceException)
@@ -177,7 +177,7 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
 
                 // return the updated model 
-              
+
             }
             catch (NullReferenceException)
             {
@@ -188,7 +188,7 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             // return the updated model 
-            return GetDisbursementDetailsByDisbursementId(ndism.disid , out error);
+            return GetDisbursementDetailsByDisbursementId(ndism.disid, out error);
         }
 
         // to get the list for the clerk to retrive items from inventory
@@ -201,7 +201,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // get outstanding details list from database
-               
+
                 List<disbursementdetail> outreqdetails =
                     entities.disbursementdetails
                     .Where(x => x.disbursement.requisition.status ==
@@ -209,7 +209,8 @@ namespace LUSSISADTeam10API.Repositories
 
                 var groupedBy =
                     outreqdetails.GroupBy(x => x.item)
-                    .Select(y => new {
+                    .Select(y => new
+                    {
                         Item = y.Key,
                         Quantity = y.Sum(x => x.qty)
                     });
@@ -264,7 +265,8 @@ namespace LUSSISADTeam10API.Repositories
 
                 List<int> itemids = entities.disbursementdetails.Where(p => p.disbursement.requisition.status == ConRequisition.Status.REQUESTPENDING).Select(x => x.itemid).Distinct().ToList();
 
-                foreach (int itemid in itemids) {
+                foreach (int itemid in itemids)
+                {
 
                     var data = entities.disbursementdetails.Where(p => p.itemid == itemid
                     && p.disbursement.requisition.status == ConRequisition.Status.REQUESTPENDING)
@@ -284,8 +286,8 @@ namespace LUSSISADTeam10API.Repositories
                     foreach (var item in data)
                     {
                         BreakDown bd = new BreakDown();
-                        bd.DeptID  = item.Department.deptid;
-                        bd.DeptName  = item.Department.deptname;
+                        bd.DeptID = item.Department.deptid;
+                        bd.DeptName = item.Department.deptname;
                         bd.Qty = item.Quantity;
                         bds.Add(bd);
                     }

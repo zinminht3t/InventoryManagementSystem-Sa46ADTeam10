@@ -9,9 +9,9 @@ namespace LUSSISADTeam10Web.Models.APIModels
     {
         public ItemTrendAnalysisModel(string deptname, string description, int? qty, int deptid, int itemid, int? monofreq , int? yearofreq)
         {
-            this.Deptname = deptname;
-            this.Description = description;
-            this.Qty = qty;
+            this.DepartmentName = deptname;
+            this.Item_Name = description;
+            this.Item_Usage = qty;
             this.Deptid = deptid;
             this.Itemid = itemid;
             this.Monthofreq = monofreq;
@@ -19,9 +19,11 @@ namespace LUSSISADTeam10Web.Models.APIModels
     
         }
 
-        public string Deptname { get; set; }
-        public string Description { get; set; }
-        public int? Qty { get; set; }
+        public  ItemTrendAnalysisModel() :this("","",null,0,0,null,null) {}
+
+        public string DepartmentName { get; set; }
+        public string Item_Name { get; set; }
+        public int? Item_Usage { get; set; }
         public int Deptid { get; set; }
 
         public int Itemid { get; set; }
