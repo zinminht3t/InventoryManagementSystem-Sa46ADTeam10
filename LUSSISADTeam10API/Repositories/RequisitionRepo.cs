@@ -528,7 +528,7 @@ namespace LUSSISADTeam10API.Repositories
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.DEPARTMENTREP;
-                    nom.Title = "Items Ready to Collect";
+                    nom.Title = "Ready to Collect";
                     nom.NotiType = ConNotification.NotiType.DeliveredRequisition;
                     nom.ResID = reqm.Reqid;
                     nom.Remark = "Requisition is now ready to collect";
@@ -544,12 +544,28 @@ namespace LUSSISADTeam10API.Repositories
                     nom.ResID = reqm.Reqid;
                     nom.Remark = "The new requisition has been approved by Head of Department";
                     nom = NotificationRepo.CreatNotification(nom, out error);
+
+                    nom.Deptid = 11;
+                    nom.Role = ConUser.Role.CLERK;
+                    nom.Title = "HOD Requisition";
+                    nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rasied by " + reqm.Depname;
+                    nom = NotificationRepo.CreatNotification(nom, out error);
                 }
                 else if (req.status == ConRequisition.Status.REQUESTPENDING)
                 {
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Approved Requisition";
+                    nom.NotiType = ConNotification.NotiType.ClerkApprovedRequisiton;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been approved by the store";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.TEMPHOD;
                     nom.Title = "Approved Requisition";
                     nom.NotiType = ConNotification.NotiType.ClerkApprovedRequisiton;
                     nom.ResID = reqm.Reqid;
@@ -567,18 +583,6 @@ namespace LUSSISADTeam10API.Repositories
                     nom.Remark = "The Items in Requisiton has been collected by Department Rep!";
                     nom = NotificationRepo.CreatNotification(nom, out error);
                 }
-                else if (req.status == ConRequisition.Status.REJECTED)
-                {
-                    NotificationModel nom = new NotificationModel();
-                    nom.Deptid = reqm.Depid;
-                    nom.Role = ConUser.Role.HOD;
-                    nom.Title = "Requisition Rejected";
-                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
-                    nom.ResID = reqm.Reqid;
-                    nom.Remark = "The new requisition has been rejected by the store";
-                    nom = NotificationRepo.CreatNotification(nom, out error);
-                }
-
                 // return the updated model 
                 reqm = CovertDBRequisitiontoAPIRequisition(req);
             }

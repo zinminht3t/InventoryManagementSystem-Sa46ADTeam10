@@ -259,7 +259,7 @@ namespace LUSSISADTeam10API.Repositories
 
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = d.user.deptid;
-                nom.Role = ConUser.Role.TEMPHOD;
+                nom.Role = ConUser.Role.EMPLOYEEREP;
                 nom.Title = "Authority Cancellation";
                 nom.NotiType = ConNotification.NotiType.DelegationCancelled;
                 nom.ResID = dm.Userid;

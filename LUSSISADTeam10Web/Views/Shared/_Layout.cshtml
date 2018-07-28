@@ -148,6 +148,11 @@
                 {
                     role = "Department Representative";
 
+                    if (Session["Role"].ToString() == "5")
+                    {
+                        role = "Employee";
+                    }
+
                     <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color:black">
                         <ul class="nav navbar-nav">
                             <li class="active">
@@ -361,8 +366,7 @@
     <script>
 
 
-        $(document).ready(function () {
-            setInterval(function () {
+            $(document).ready(function () {
                 $.ajax({
                     url: '@Url.Action("GetNotifications", "Home")',
                     data: {},
@@ -371,12 +375,17 @@
                         $(notifications).html(data);
                     }
                 });
-            }, 10000);
-        });
-
-
-
-
+            setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("GetNotifications", "Home")',
+                        data: {},
+                        type: 'GET',
+                        success: function (data) {
+                            $(notifications).html(data);
+                        }
+                    });
+                }, 10000);
+                    });
 
 
     </script>

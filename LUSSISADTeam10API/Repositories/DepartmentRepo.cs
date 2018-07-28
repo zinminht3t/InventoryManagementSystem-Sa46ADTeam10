@@ -309,7 +309,7 @@ namespace LUSSISADTeam10API.Repositories
                 NotificationModel nom = new NotificationModel();
                 nom.Deptid = 11;
                 nom.Role = ConUser.Role.CLERK;
-                nom.Title = "Collection Point Change Request Approval";
+                nom.Title = "Collection Point Request";
                 nom.NotiType = ConNotification.NotiType.CollectionPointChangeRequestApproval;
                 nom.ResID = dcpm.DeptCpID;
                 nom.Remark = "The new collection point change has been requested!";
@@ -349,7 +349,7 @@ namespace LUSSISADTeam10API.Repositories
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = dcpm.DeptID;
                     nom.Role = ConUser.Role.HOD;
-                    nom.Title = "Approved Collection Point Change";
+                    nom.Title = "Approved Collection Point";
                     nom.NotiType = ConNotification.NotiType.ClerkApprovedCollectionPointChange;
                     nom.ResID = dcpm.DeptCpID;
                     nom.Remark = "The new collection point change request has been approved by the store";
@@ -361,7 +361,7 @@ namespace LUSSISADTeam10API.Repositories
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = dcpm.DeptID;
                     nom.Role = ConUser.Role.HOD;
-                    nom.Title = "Rejected Collection Point Change";
+                    nom.Title = "Rejected Collection Point";
                     nom.NotiType = ConNotification.NotiType.ClerkRejectedCollectionPointChange;
                     nom.ResID = dcpm.DeptCpID;
                     nom.Remark = "The new collection point change request has been rejected by the store";
