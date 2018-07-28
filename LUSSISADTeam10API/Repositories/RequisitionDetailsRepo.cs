@@ -202,15 +202,15 @@ namespace LUSSISADTeam10API.Repositories
             LUSSISEntities entities = new LUSSISEntities();
             // Initializing the error variable to return only blank if there is no error
             error = "";
-           // List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
+            // List<RequisitionDetailsModel> ordh = new List<RequisitionDetailsModel>();
             List<OrderHistoryModel> orhm = new List<OrderHistoryModel>();
             try
             {
 
 
                 //List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.deptid == deptid).ToList();
-              List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).Distinct().ToList();
-                
+                List<requisitiondetail> reqdetail = entities.requisitiondetails.Where(p => p.requisition.status == ConRequisition.Status.COMPLETED && p.requisition.deptid == deptid).Distinct().ToList();
+
 
                 foreach (var order in reqdetail)
                 {
@@ -221,17 +221,17 @@ namespace LUSSISADTeam10API.Repositories
                     o.Reqdate = order.requisition.reqdate;
                     o.Deptid = order.requisition.deptid;
                     o.Cpname = order.requisition.collectionpoint.cpname;
-                  o.Raisename = order.requisition.user.username;
+                    o.Raisename = order.requisition.user.username;
                     o.Deptname = order.requisition.department.deptname;
-                   
 
-                    if(order.requisition.status  == ConRequisition.Status.COMPLETED)
+
+                    if (order.requisition.status == ConRequisition.Status.COMPLETED)
                     {
                         o.Status = "Completed Order";
                     }
-                   
+
                     orhm.Add(o);
-                    
+
                 }
 
             }
@@ -252,7 +252,7 @@ namespace LUSSISADTeam10API.Repositories
 
 
 
-       
+
     }
 }
 

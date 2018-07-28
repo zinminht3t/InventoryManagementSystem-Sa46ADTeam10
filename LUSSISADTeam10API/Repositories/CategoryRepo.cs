@@ -9,7 +9,7 @@ using LUSSISADTeam10API.Constants;
 namespace LUSSISADTeam10API.Repositories
 {
     public class CategoryRepo
-    {       
+    {
         private static CategoryModel ConvertDBCategorytoAPICategory(category cat)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -25,12 +25,12 @@ namespace LUSSISADTeam10API.Repositories
             List<CategoryModel> catm = new List<CategoryModel>();
             try
             {
-                List<category> categories = entities.categories.Where(c => c.name != "Default" ).ToList<category>();
+                List<category> categories = entities.categories.Where(c => c.name != "Default").ToList<category>();
                 catm = new List<CategoryModel>();
                 foreach (category c in categories)
                 {
                     catm.Add(ConvertDBCategorytoAPICategory(c));
-                }                
+                }
             }
             catch (NullReferenceException)
             {
@@ -51,14 +51,14 @@ namespace LUSSISADTeam10API.Repositories
             category category = new category();
             try
             {
-               category = entities.categories.Where(c => c.catid == catid).FirstOrDefault<category>();
+                category = entities.categories.Where(c => c.catid == catid).FirstOrDefault<category>();
                 cat = ConvertDBCategorytoAPICategory(category);
             }
             catch (NullReferenceException)
             {
                 error = ConError.Status.NOTFOUND;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 error = e.Message;
             }
@@ -129,7 +129,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = ConError.Status.NOTFOUND;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 error = e.Message;
             }
@@ -140,9 +140,9 @@ namespace LUSSISADTeam10API.Repositories
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
-            category c = new category();            
+            category c = new category();
             try
-            {               
+            {
                 c.name = cat.Name;
                 c.shelflocation = cat.Shelflocation;
                 c.shelflevel = cat.Shelflevel;

@@ -21,7 +21,7 @@ namespace LUSSISADTeam10API.Controllers
         [Route("api/delegation")]
         public IHttpActionResult GetAllDelegation()
         {
-           
+
             List<DelegationModel> dels = DelegationRepo.GetAllDelegations();
             return Ok(dels);
         }
@@ -47,7 +47,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetDelegationByDeleid(int deleid)
         {
             string error = "";
-            DelegationModel dm = DelegationRepo.GetDelegationByDelegationID( deleid , out error);
+            DelegationModel dm = DelegationRepo.GetDelegationByDelegationID(deleid, out error);
             if (error != "" || dm == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -81,7 +81,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetDelegationByAssignedbyid(int assignedbyid)
         {
             string error = "";
-          List< DelegationModel> dm = DelegationRepo.GetDelegationByassignedby(assignedbyid, out error);
+            List<DelegationModel> dm = DelegationRepo.GetDelegationByassignedby(assignedbyid, out error);
             if (error != "" || dm == null)
             {
                 if (error == ConError.Status.NOTFOUND)

@@ -189,8 +189,8 @@ namespace LUSSISADTeam10API.Repositories
         {
 
             LUSSISEntities entities = new LUSSISEntities();
-            user u = entities.users.Where(p => p.userid == userid).First<user>();       
-            u.role = ConUser.Role.TEMPHOD;        
+            user u = entities.users.Where(p => p.userid == userid).First<user>();
+            u.role = ConUser.Role.TEMPHOD;
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }

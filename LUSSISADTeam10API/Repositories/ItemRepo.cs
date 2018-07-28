@@ -102,7 +102,7 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return item;
-        }     
+        }
 
         public static ItemModel GetItemsByDisid(int disid, out string error)
         {
