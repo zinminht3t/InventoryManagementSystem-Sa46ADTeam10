@@ -323,6 +323,15 @@ namespace LUSSISADTeam10API.Repositories
                                             , req.requisition.approvedby, req.requisition.user1.fullname, req.requisition.cpid, req.requisition.collectionpoint.cpname
                                              , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 999,
                                              "Z9", reqdm);
+                    NotificationModel nom = new NotificationModel();
+                    nom.Datetime = DateTime.Now;
+                    nom.Deptid = 11;
+                    nom.Remark = "The Outstanding Items with Requisition ID (" + req.reqid + ") is now collected";
+                    nom.Role = ConUser.Role.CLERK;
+                    nom.Title = "Outstanding Items Collected";
+                    nom.NotiType = ConNotification.NotiType.OutstandingItemsCollected;
+                    nom.ResID = req.reqid;
+                    nom = NotificationRepo.CreatNotification(nom, out error);
                 }
                 else
                 {

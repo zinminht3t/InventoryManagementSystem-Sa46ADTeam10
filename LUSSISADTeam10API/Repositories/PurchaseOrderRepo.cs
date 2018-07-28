@@ -21,7 +21,7 @@ namespace LUSSISADTeam10API.Repositories
             PurchaseOrderModel pom = new PurchaseOrderModel(po.poid, po.purchasedby, po.user.fullname, po.supid, po.supplier.supname, po.podate, po.status, podms);
             return pom;
         }
-        
+
         //Get all purchase order list
         public static List<PurchaseOrderModel> GetAllPurchaseOrders(out string error)
         {

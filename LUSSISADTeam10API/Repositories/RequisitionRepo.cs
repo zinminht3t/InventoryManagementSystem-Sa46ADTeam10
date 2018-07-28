@@ -523,7 +523,7 @@ namespace LUSSISADTeam10API.Repositories
                 // saving the update
                 entities.SaveChanges();
 
-                if(req.status == ConRequisition.Status.DELIVERED)
+                if (req.status == ConRequisition.Status.DELIVERED)
                 {
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
@@ -539,6 +539,14 @@ namespace LUSSISADTeam10API.Repositories
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.EMPLOYEEREP;
+                    nom.Title = "HOD Requisition";
+                    nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been approved by Head of Department";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
                     nom.Title = "HOD Requisition";
                     nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
                     nom.ResID = reqm.Reqid;
@@ -572,7 +580,7 @@ namespace LUSSISADTeam10API.Repositories
                     nom.Remark = "The new requisition has been approved by the store";
                     nom = NotificationRepo.CreatNotification(nom, out error);
                 }
-                else if(req.status == ConRequisition.Status.COMPLETED || req.status == ConRequisition.Status.OUTSTANDINGREQUISITION)
+                else if (req.status == ConRequisition.Status.COMPLETED || req.status == ConRequisition.Status.OUTSTANDINGREQUISITION)
                 {
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = 11;

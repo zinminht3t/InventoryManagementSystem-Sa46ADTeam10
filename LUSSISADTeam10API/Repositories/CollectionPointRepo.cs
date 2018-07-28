@@ -205,7 +205,7 @@ namespace LUSSISADTeam10API.Repositories
 
                 cp = entities.collectionpoints.Add(cp);
                 entities.SaveChanges();
-                cpm = GetCollectionPointByCpid(cp.cpid,out error);
+                cpm = GetCollectionPointByCpid(cp.cpid, out error);
             }
             catch (NullReferenceException)
             {

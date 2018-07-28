@@ -92,7 +92,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(sms);
         }
-        
+
         // to update Supplier
         [HttpPost]
         [Route("api/supplier/update")]
@@ -178,7 +178,7 @@ namespace LUSSISADTeam10API.Controllers
         {
             string error = "";
             List<SupplierModel> sim = SupplierRepo
-                .importsupplier(sup , out error);
+                .importsupplier(sup, out error);
             if (error != "" || sim == null)
             {
                 if (error == ConError.Status.NOTFOUND)
