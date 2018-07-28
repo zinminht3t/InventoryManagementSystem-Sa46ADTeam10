@@ -1073,7 +1073,7 @@ namespace LUSSISADTeam10Web.Controllers
                 outreqvm.Reason = outr.Reason;
                 outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
                 outreqvm.OutReqDetails = outr.OutReqDetails;
-                if (reqm.Status == ConRequisition.Status.OUTSTANDINGREQUISITION)
+                if (reqm.Status >= ConRequisition.Status.REQUESTPENDING)
                 {
                     outreqvms.Add(outreqvm);
                 }
