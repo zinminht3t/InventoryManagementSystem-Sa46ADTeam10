@@ -48,10 +48,15 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult RaiseRequisition(RequisitionViewModel reqvm)
         {
-            if (reqvm.Requisitiondetails == null)
+            if (reqvm.Requisitiondetails.Count < 1)
             {
-                RedirectToAction("RaiseRequisition");
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Raise Requisition Error";
+                Session["notimessage"] = "You cannot raise requisition without any items!";
+                return RedirectToAction("RaiseRequisition");
             }
+
 
             string error = "";
             string token = GetToken();

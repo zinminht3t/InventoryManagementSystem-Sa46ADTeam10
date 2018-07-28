@@ -84,7 +84,7 @@
 
 
                     <div class="card-text text-sm-right">
-                        <input type="submit" value="Create" class="btn btn-outline-info" />
+                        <input type="submit" value="Raise" class="btn btn-outline-info" />
                     </div>
 
                     <div id="optionvlaues" style="display: none">
@@ -115,16 +115,11 @@
 
             var indexCell = "<td style='display:none'><input name='Requisitiondetails.Index' type='hidden' value='" + index + "' /></td>";
             var titleCell = "<td><select class='form-control' id='Requisitiondetails_" + index + "__Title' name='Requisitiondetails[" + index + "].Itemid'>" + option  + "</select></td>";
-            var publishedCell = "<td><input  class='form-control' required='required' id='Requisitiondetails_" + index + "__Title' name='Requisitiondetails[" + index + "].Qty' type='number' value='' /></td>";
+            var publishedCell = "<td><input  class='form-control' required='required' id='Requisitiondetails_" + index + "__Title' name='Requisitiondetails[" + index + "].Qty' type='number' min='1' autofocus value='100' /></td>";
             var removeCell = "<td><input id='btnAddReqD' type='button' class='btn btn-outline-danger' value='Remove' onclick='removeRow(" + index + ");' /></td>";
             var newRow = "<tr id='trReqD" + index + "'>" +  indexCell + titleCell + publishedCell + removeCell + "</tr>";
             $("#tbRequisitiondetails").append(newRow);
-
         }
-
-        
-
-
         function removeRow(id) {
             var controlToBeRemoved = "#trReqD" + id;
             $(controlToBeRemoved).remove();

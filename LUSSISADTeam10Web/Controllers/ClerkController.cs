@@ -359,6 +359,8 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult ApproveCollectionPoint(int id)
         {
             string token = GetToken();
+
+
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
             ViewBag.DepartmentCollectionPointModel = dcpm;
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
@@ -367,6 +369,17 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+
+                if(dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
+                {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Change Request Expired";
+                    Session["notimessage"] = "This collection point request has already been cancelled or approved!";
+                    return RedirectToAction("Index");
+                }
+
+
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
 
                 DepartmentCollectionPointModel active =
