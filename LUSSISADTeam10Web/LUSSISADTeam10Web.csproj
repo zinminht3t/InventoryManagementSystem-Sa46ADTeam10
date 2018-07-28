@@ -293,6 +293,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Styles\Content\Site.css" />
+    <Content Include="Styles\css\accordion.css" />
     <Content Include="Styles\css\btn.css" />
     <Content Include="Styles\css\datatable.min.css" />
     <Content Include="Styles\images\admin.jpg" />

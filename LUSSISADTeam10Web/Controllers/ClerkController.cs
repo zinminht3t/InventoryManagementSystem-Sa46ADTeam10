@@ -129,12 +129,12 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         }
-        public ActionResult DeActive(int id)
+        public JsonResult DeActive(int id)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
             sm = APISupplier.GetSupplierById(id, token, out string superror);
 
@@ -143,22 +143,22 @@ namespace LUSSISADTeam10Web.Controllers
 
                 APISupplier.DeactivateSupplier(sm, token, out string error);
 
-
+                result = true;
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return RedirectToAction("ShowDeActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
-        public ActionResult Active(int id)
+        public JsonResult Active(int id)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
             sm = APISupplier.GetSupplierById(id, token, out string superror);
 
@@ -167,13 +167,13 @@ namespace LUSSISADTeam10Web.Controllers
 
                 APISupplier.ActivateSupplier(sm, token, out string error);
 
-
+                result = true;
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return RedirectToAction("ShowActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult CreateSuppandItem()
         {
@@ -300,7 +300,7 @@ namespace LUSSISADTeam10Web.Controllers
                         Excel.Workbook workbook = application.Workbooks.Open(path);
                         Excel.Worksheet worksheet = workbook.ActiveSheet;
                         Excel.Range range = worksheet.UsedRange;
-                        List<SupplierModel> SuppItem = new List<SupplierModel>();
+                        List<SupplierModel> Supp = new List<SupplierModel>();
                         for (int row = 2; row <= range.Rows.Count; row++)
                         {
 
@@ -311,13 +311,16 @@ namespace LUSSISADTeam10Web.Controllers
                             p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
                             p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
 
-                            SuppItem.Add(p);
+                            Supp.Add(p);
 
 
                         }
+                        Session["noti"] = true;
+                        Session["notitype"] = "success";
+                        Session["notititle"] = "Import Supplier";
+                        Session["notimessage"] = Supp.Count + "Suppliers are successfully created";
 
-
-                        List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                        List<SupplierModel> sm = APISupplier.importsupplier(token, Supp, out string error);
                         workbook.Close();
 
                         return RedirectToAction("ShowActiveSupplierlist");
@@ -369,7 +372,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-
+           
             return RedirectToAction("ShowActiveSupplierlist");
         }
 
@@ -564,6 +567,12 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Update Item";
+                Session["notimessage"] =  it.Description+ "is updated successfully";
+
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
@@ -820,7 +829,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = e.Message });
             }
-
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Adjustment Form";
+            Session["notimessage"] = "Adjustment Form with " +invent.Count+ " items are successfully rasised";
             return RedirectToAction("Inventory");
         }
 
@@ -1028,6 +1040,10 @@ namespace LUSSISADTeam10Web.Controllers
             }
             reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
 
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Requision";
+            Session["notimessage"] =  "Reqision is approved ";
 
             return RedirectToAction("StationaryRetrievalForm");
         }
@@ -1213,7 +1229,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RedirectToAction("DisbursementLists");
             }
-
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "";
+            Session["notimessage"] ="" ;
             return View(req);
 
         }
