@@ -4,24 +4,24 @@
     ViewBag.Title = "RequisitionList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section Styles {
+    <style>
+    </style>
+}
 <h2>RequisitionList</h2>
 
 @if (ViewBag.Count == 0)
 {
 
-<form asp-action="aa" asp-controller="Reports" method="post">
-    <h2>ItemUsageByClerk</h2>
+
+<form asp-action="RequisitionList" asp-controller="Reports" method="post">
     <div class="row">
         <div class="col-md-4">
-            @Html.DropDownListFor(model => model.deptid, new SelectList(ViewBag.departmentlist))
+            @Html.DropDownListFor(model => model.Deptid, new SelectList(ViewBag.departmentlist))
 
         </div>
-
-        <br />
-
-
     </div>
+    <br />
     <div class="row">
         <div class="col-md-4"><b>@Html.LabelFor(model => model.startdate)</b> </div>
         <div class="col-md-5">@Html.TextBoxFor(model => model.startdate, new { id = "datepicker" })</div>
@@ -33,81 +33,77 @@
         <br />
     </div>
 
+  
 
 
-
-
-    @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
-        <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
-        <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
-
-
-
-
-    <input type="hidden" name="deptid" asp-for="model.deptid" value="@Model.deptid" />
-
-    <input type="hidden" name="startdate" asp-for="model.startdate" value="@Model.startdate"  />
+    <input type="hidden" name="deptid" asp-for="model.Deptid" value="@Model.Deptid" />
+    <input type="hidden" name="startdate" asp-for="model.startdate" value="@Model.startdate" />
     <input type="hidden" name="enddate" asp-for="model.enddate" value="@Model.enddate" />
 
 
 
 
-    <input type="submit" formmethod="post" value="Submit" />
+
+    <input type="submit" value="submit" />
+
+
 
 </form>
 
-    <div class="card-body">
+}
 
-        @if (ViewBag.Count == 0)
-        {
+<div class="card-body">
 
-            <h1>There is no transaction for this item </h1>
-        }
-        else
-        {
+    @if (ViewBag.Count == 0)
+    {
 
-            <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                <thead class="table-info">
+        <h1>There is no transaction for this item </h1>
+    }
+    else
+    {
+
+        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+            <thead class="table-info">
+                <tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Deptid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reqdate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.rd)
+                {
                     <tr>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.deptid)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.reqdate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.status)
-                        </th>
+                        <td>
+                            @item.Deptid
+                        </td>
+                        <td>
+                            @item.Reqdate
 
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
 
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.rd)
-                    {
-                        <tr>
-                            <td>
-                                @item.deptid
-                            </td>
-                            <td>
-                                @item.reqdate
-
-                            </td>
-                            <td>
-                                @item.status
-                            </td>
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-
-
-
-    </div>
+                }
+            </tbody>
+        </table>
     }
+
+
+
+
+</div>
 
 
 
@@ -129,16 +125,14 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(function () {
+          
+            $("#datepicker1").datepicker();
+            $("#datepicker1").datepicker('option', "showAnim", 'slide');
+            $("#datepicker1").datepicker('setDate', 'today')
 
-            document.getElementById("div1").style.display = "none";
-
-
-            $("href").click(function () {
-
-                $("#div1").fadeToggle();
-
-            });
         });
     </script>
+
+
 }

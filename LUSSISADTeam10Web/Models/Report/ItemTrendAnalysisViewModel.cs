@@ -24,6 +24,12 @@ namespace LUSSISADTeam10Web.Models.Report
         public int d2 { get; set; }
         public int d3 { get; set; }
 
+        public string d1Name { get; set; }
+
+        public string d2Name { get; set; }
+
+        public string d3Name { get; set; }
+
 
         public int month { get; set; }
         public List<ItemTrendDetailViewModel> itd { get; set; }
