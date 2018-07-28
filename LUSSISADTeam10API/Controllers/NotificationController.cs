@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class NotificationController : ApiController
     {
         // to show notification list
@@ -21,9 +22,9 @@ namespace LUSSISADTeam10API.Controllers
             // declare and initialize error variable to accept the error from Repo
             string error = "";
 
-           
+
             List<NotificationModel> nms = NotificationRepo.GetAllNoti(out error);
-         
+
             if (error != "" || nms == null)
             {
                 // if the error is 404
@@ -57,13 +58,13 @@ namespace LUSSISADTeam10API.Controllers
 
         [HttpGet]
         [Route("api/noti/isread/{isread}/{deptid}/{role}")]
-        public IHttpActionResult GetNotiByisread(bool isread, int deptid ,int role)
+        public IHttpActionResult GetNotiByisread(bool isread, int deptid, int role)
         {
-            
+
             string error = "";
-           // isread = ConNotification.IsRead.Read;
+            // isread = ConNotification.IsRead.Read;
             List<NotificationModel> nms =
-                NotificationRepo.GetNotiByisread(isread,deptid,role, out error);
+                NotificationRepo.GetNotiByisread(isread, deptid, role, out error);
             if (error != "" || nms == null)
             {
                 if (error == ConError.Status.NOTFOUND)
@@ -82,7 +83,7 @@ namespace LUSSISADTeam10API.Controllers
         {
 
             string error = "";
-          //  isread = ConNotification.IsRead.UnRead;
+            //  isread = ConNotification.IsRead.UnRead;
             List<NotificationModel> nms =
                 NotificationRepo.GetNotiByisread(isread, deptid, role, out error);
             if (error != "" || nms == null)

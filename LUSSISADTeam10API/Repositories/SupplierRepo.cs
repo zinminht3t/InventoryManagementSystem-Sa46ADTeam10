@@ -122,7 +122,7 @@ namespace LUSSISADTeam10API.Repositories
                 sups = entities.suppliers
                     .Where(x => x.active == status)
                     .ToList();
-                foreach(supplier s in sups)
+                foreach (supplier s in sups)
                 {
                     sm.Add(ConvertDBSupToAPISup(s));
                 }
@@ -292,7 +292,7 @@ namespace LUSSISADTeam10API.Repositories
         }
         public static List<SupplierModel> importsupplier(List<SupplierModel> spm, out string error)
         {
-           
+
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
             try
@@ -314,9 +314,9 @@ namespace LUSSISADTeam10API.Repositories
                     }
 
                 }
-               
+
             }
-                      catch (Exception e)
+            catch (Exception e)
             {
                 error = e.Message;
             }
@@ -324,5 +324,5 @@ namespace LUSSISADTeam10API.Repositories
             return sm;
         }
 
-        }
     }
+}

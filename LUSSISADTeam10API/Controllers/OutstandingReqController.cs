@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class OutstandingReqController : ApiController
     {
         // to show outstanding list
@@ -21,7 +22,7 @@ namespace LUSSISADTeam10API.Controllers
             string error = "";
 
             // get the list from outstandingreqRepo and will insert the error if there is one
-            List<OutstandingReqModel> orm = 
+            List<OutstandingReqModel> orm =
                 OutstandingReqRepo.GetAllOutstandingReq(out error);
 
             // if the erorr is not blank or the outstanding list is null
@@ -98,7 +99,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult GetOutstandingReqById(int outreqid)
         {
             string error = "";
-            OutstandingReqModel orm = 
+            OutstandingReqModel orm =
                 OutstandingReqRepo.GetOutstandingReqById(outreqid, out error);
             if (error != "" || orm == null)
             {
@@ -230,7 +231,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult UpdateOutReqDetail(OutstandingReqDetailModel outreqdetail)
         {
             string error = "";
-            OutstandingReqDetailModel ordm = 
+            OutstandingReqDetailModel ordm =
                 OutstandingReqDetailRepo.UpdateOutReqDetail(outreqdetail, out error);
             if (error != "" || ordm == null)
             {
@@ -249,7 +250,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateOutReqDetail(OutstandingReqDetailModel outreqdetail)
         {
             string error = "";
-            OutstandingReqDetailModel ordm = 
+            OutstandingReqDetailModel ordm =
                 OutstandingReqDetailRepo.CreateOutReqDetail(outreqdetail, out error);
             if (error != "" || ordm == null)
             {

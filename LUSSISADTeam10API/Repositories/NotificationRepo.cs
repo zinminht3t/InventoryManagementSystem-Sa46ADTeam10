@@ -12,10 +12,10 @@ namespace LUSSISADTeam10API.Repositories
     {
         private static NotificationModel CovertDBNotitoAPINoti(notification noti)
         {
-            NotificationModel nm = new NotificationModel(noti.notiid,noti.datetime,noti.deptid,noti.role,noti.title,noti.remark,noti.isread, noti.notitype, noti.resid);
+            NotificationModel nm = new NotificationModel(noti.notiid, noti.datetime, noti.deptid, noti.role, noti.title, noti.remark, noti.isread, noti.notitype, noti.resid);
             return nm;
         }
-        
+
         public static List<NotificationModel> GetAllNoti(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -75,7 +75,7 @@ namespace LUSSISADTeam10API.Repositories
         }
 
 
-        public static List<NotificationModel> GetNotiByisread(bool isread,int deptid, int role, out string error)
+        public static List<NotificationModel> GetNotiByisread(bool isread, int deptid, int role, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
@@ -85,7 +85,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 no = entities.notifications.Where(p => p.isread == isread && p.deptid == deptid && p.role == role).ToList<notification>();
-
+                no = no.OrderByDescending(x => x.datetime).ToList();
                 foreach (notification notii in no)
                 {
                     nm.Add(CovertDBNotitoAPINoti(notii));

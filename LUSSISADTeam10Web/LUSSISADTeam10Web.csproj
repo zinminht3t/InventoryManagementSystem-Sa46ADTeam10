@@ -1067,11 +1067,13 @@
     <Content Include="Styles\images\flag\fr.png" />
     <Content Include="Styles\images\flag\it.png" />
     <Content Include="Styles\images\flag\us.png" />
+    <Content Include="Styles\images\loading.gif" />
     <Content Include="Styles\images\logo.png" />
     <Content Include="Styles\images\logo2.png" />
     <Content Include="Styles\images\placeholder.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
+    <Content Include="Styles\images\user.png" />
     <Content Include="Styles\js\bootstrap-prettyfile.js" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />

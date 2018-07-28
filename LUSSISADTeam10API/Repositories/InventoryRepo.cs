@@ -10,16 +10,13 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class InventoryRepo
     {
-        // Convert From Auto Generated DB Model to APIModel
         private static InventoryModel CovertDBInventorytoAPIInventory(inventory inv)
         {
             InventoryModel invm = new InventoryModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.category.name, inv.item.uom);
             return invm;
         }
-
         private static List<PurchaseOrderModel> staticpoms;
         private static int staticcount = 0;
-        // Convert From Auto Generated DB Model to APIModel for InventoryDetail
         private static InventoryDetailModel CovertDBInventorytoAPIInventoryDet(inventory inv)
         {
             string error = "";
@@ -92,7 +89,6 @@ namespace LUSSISADTeam10API.Repositories
             InventoryDetailModel invdm = new InventoryDetailModel(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, recommededorderqty, inv.item.category.shelflocation, inv.item.category.shelflevel);
             return invdm;
         }
-        // Get the list of all invs and will return with error if there is one.
         public static List<InventoryModel> GetAllInventories(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -343,6 +339,45 @@ namespace LUSSISADTeam10API.Repositories
                 return false;
             }
             return true;
+        }
+        public static List<InventoryDetailWithStatus> GetInventoryDetailWithStatus(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<InventoryDetailWithStatus> invdms = new List<InventoryDetailWithStatus>();
+            try
+            {
+                List<adjustmentdetail> adjds = entities.adjustmentdetails.Where(x => x.adjustment.status == ConAdjustment.Active.PENDING).ToList();
+
+                List<inventory> invs = entities.inventories.ToList<inventory>();
+                foreach (inventory inv in invs)
+                {
+                    bool IsPending = false;
+                    int count = adjds.Where(x => x.itemid == inv.itemid).Count();
+                    InventoryDetailWithStatus invdm = new InventoryDetailWithStatus();
+                    if(count > 0)
+                    {
+                        IsPending = true;
+                    }
+                    invdm = new InventoryDetailWithStatus(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, IsPending, inv.item.category.shelflocation, inv.item.category.shelflevel);
+                    invdms.Add(invdm);
+                }
+
+            }
+
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                // for other exceptions
+                error = e.Message;
+            }
+
+            //returning the list
+            return invdms;
         }
     }
 }
