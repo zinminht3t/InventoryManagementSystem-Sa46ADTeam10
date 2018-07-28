@@ -85,7 +85,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 no = entities.notifications.Where(p => p.isread == isread && p.deptid == deptid && p.role == role).ToList<notification>();
-
+                no = no.OrderByDescending(x => x.datetime).ToList();
                 foreach (notification notii in no)
                 {
                     nm.Add(CovertDBNotitoAPINoti(notii));

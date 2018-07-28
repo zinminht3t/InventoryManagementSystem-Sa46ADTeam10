@@ -545,6 +545,14 @@ namespace LUSSISADTeam10API.Repositories
                     nom.Remark = "The new requisition has been approved by Head of Department";
                     nom = NotificationRepo.CreatNotification(nom, out error);
 
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
+                    nom.Title = "HOD Requisition";
+                    nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been approved by Head of Department";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+
                     nom.Deptid = 11;
                     nom.Role = ConUser.Role.CLERK;
                     nom.Title = "HOD Requisition";
