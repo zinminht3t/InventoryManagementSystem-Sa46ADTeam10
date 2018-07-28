@@ -56,10 +56,7 @@ namespace LUSSISADTeam10Web.Controllers
                     //{
 
 
-                    Session["noti"] = true;
-                    Session["notitype"] = "success";
-                    Session["notititle"] = "Login Success";
-                    Session["notimessage"] = "Your Login is Successful";
+             
 
                     switch (um.Role)
                     {

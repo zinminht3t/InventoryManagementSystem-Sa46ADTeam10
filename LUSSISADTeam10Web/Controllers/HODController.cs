@@ -423,6 +423,11 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Request Collection Point Change ";
+            Session["notimessage"] = cpm.Cpname + " is requested to change ";
             return RedirectToAction("CollectionPoint");
         }
 
@@ -450,8 +455,16 @@ namespace LUSSISADTeam10Web.Controllers
 
                 if (viewmodel.Approve)
                 {
+                    Session["noti"] = true;
+                    Session["notitype"] = "success";
+                    Session["notititle"] = "Approve Requisition ";
+                    Session["notimessage"] = " Requisition by " + reqm.Rasiedbyname + " is approved";
                     return RedirectToAction("TrackRequisition", new { id = reqm.Reqid });
                 }
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Approve Requisition ";
+                Session["notimessage"] = " Requisition by " +reqm.Rasiedbyname+ " is rejected";
                 return RedirectToAction("RequisitionList");
             }
             catch (Exception ex)
@@ -470,7 +483,7 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             viewmodel.assignedby = um.Userid;
             DelegationModel dm = new DelegationModel();
-
+            UserModel user = new UserModel();
             dm.Userid = userid;
             dm.Enddate = viewmodel.EndDate;
             dm.Startdate = viewmodel.StartDate;
@@ -481,13 +494,17 @@ namespace LUSSISADTeam10Web.Controllers
                 if (viewmodel != null)
                 {
                     APIDelegation.CreateDelegation(token, dm, out string error);
-
+                    user = APIUser.GetUserByUserID(userid, token, out string error1);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Delegate Authority ";
+            Session["notimessage"] = user.Fullname + " is Delegated as Head of Department ";
             return RedirectToAction("SearchPreviousDelegation");
         }
         [Authorize(Roles = "HOD")]
@@ -498,20 +515,25 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            UserModel upum = new UserModel();
 
             try
             {
                 if (viewmodel != null)
                 {
 
-                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
+                  upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Assign Departement Rep";
+            Session["notimessage"] = upum.Fullname + " is assigned as Department Rep ";
+
             return RedirectToAction("AssignDepRep");
 
         }
@@ -546,6 +568,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Update Delegation ";
+            Session["notimessage"] =  " End Date of Delegation is updated ";
             return RedirectToAction("SearchPreviousDelegation");
         }
         #endregion
