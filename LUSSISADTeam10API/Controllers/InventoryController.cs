@@ -99,6 +99,24 @@ namespace LUSSISADTeam10API.Controllers
 
         }
 
+        // to show inventory detail list with status
+        [HttpGet]
+        [Route("api/inventorydetailswithstatus")]
+        public IHttpActionResult GetInventoryDetailWithStatus()
+        {
+            string error = "";
+            List<InventoryDetailWithStatus> dms = InventoryRepo.GetInventoryDetailWithStatus(out error);
+
+            if (error != "" || dms == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(dms);
+
+        }
+
         // to get inventory by inventory id
         [HttpGet]
         [Route("api/inventorydetail/{invid}")]
