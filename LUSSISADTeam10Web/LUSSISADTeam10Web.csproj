@@ -204,6 +204,7 @@
     <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Models\Clerk\RequisitionViewModel.cs" />
     <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
@@ -1075,6 +1076,7 @@
     <Content Include="Styles\images\twitter_corner_blue.png" />
     <Content Include="Styles\images\user.png" />
     <Content Include="Styles\js\bootstrap-prettyfile.js" />
+    <Content Include="Styles\js\Chart.bundle.js" />
     <Content Include="Styles\js\datatable.min.js" />
     <Content Include="Styles\js\jquery.min.js" />
     <Content Include="Styles\js\jquery.qrcode.min.js" />

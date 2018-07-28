@@ -23,11 +23,31 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             string error = "";
             List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+
+            List<RequisitionModel> reqs = new List<RequisitionModel>();
+
+            List<OutstandingReqModel> outs = new List<OutstandingReqModel>();
+
+            List<InventoryDetailModel> invs = new List<InventoryDetailModel>();
+
+
             try
             {
                 reportData = APIReport.FrequentlyItemList(token, out error);
-                return View("ClerkDashboard", reportData);
 
+                reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
+                ViewBag.ReqCount = reqs.Count;
+
+                outs = APIOutstandingReq.GetAllOutReqs(token, out error);
+                ViewBag.OutCount = outs.Where(x => x.Status == ConOutstandingsRequisition.Status.PENDING).Count();
+
+                reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PREPARING, token, out error);
+                ViewBag.DisCount = reqs.Count;
+
+                invs = APIInventory.GetAllInventoryDetails(token, out error);
+                ViewBag.RestockCount = invs.Where(x => x.RecommendedOrderQty > 0).Count();
+
+                return View("Index", reportData);
             }
             catch (Exception ex)
             {
@@ -821,7 +841,87 @@ namespace LUSSISADTeam10Web.Controllers
 
             ViewBag.Requisitions = reqms;
 
-            return View();
+            return View(new RequisitionViewModel());
+        }
+
+        [HttpPost]
+        public JsonResult ApproveAllRequisitons(int[] reqids)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            bool ResultSuccess = false;
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            DisbursementModel dis = new DisbursementModel();
+            OutstandingReqModel outr = new OutstandingReqModel();
+            bool IsNeededOutstanding = false;
+
+            foreach (int i in reqids)
+            {
+                RequisitionModel req = new RequisitionModel();
+                req = APIRequisition.GetRequisitionByReqid(i, token, out error);
+                if(req != null)
+                {
+                    dis.Reqid = req.Reqid;
+                    dis.Ackby = um.Userid;
+                    dis = APIDisbursement.Createdisbursement(dis, token, out error);
+
+                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                    {
+                        if (reqd.Stock < reqd.Qty)
+                        {
+                            IsNeededOutstanding = true;
+                        }
+                        else
+                        {
+                            IsNeededOutstanding = false;
+                        }
+                    }
+
+                    if (IsNeededOutstanding)
+                    {
+                        outr.ReqId = req.Reqid;
+                        outr.Reason = "Not Enough Stock";
+                        outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                        outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
+                    }
+
+                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                    {
+                        DisbursementDetailsModel disdm = new DisbursementDetailsModel
+                        {
+                            Disid = dis.Disid,
+                            Itemid = reqd.Itemid
+                        };
+                        if (IsNeededOutstanding)
+                        {
+                            disdm.Qty = reqd.Stock;
+                        }
+                        else
+                        {
+                            disdm.Qty = reqd.Qty;
+                        }
+                        disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+
+
+                        if (IsNeededOutstanding)
+                        {
+                            OutstandingReqDetailModel outreq = new OutstandingReqDetailModel
+                            {
+                                OutReqId = outr.OutReqId,
+                                ItemId = reqd.Itemid,
+                                Qty = reqd.Qty - reqd.Stock
+                            };
+                            outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                        }
+                    }
+
+                }
+                req = APIRequisition.UpdateRequisitionStatusToPending(req, token, out error);
+                ResultSuccess = true;
+            }
+
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult RequisitionDetail(int id)
@@ -829,8 +929,16 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
+
+
             RequisitionModel reqm = new RequisitionModel();
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+
+            if(reqm.Status != ConRequisition.Status.APPROVED)
+            {
+                return RedirectToAction("Requisition");
+            }
+
             ViewBag.Requisition = reqm;
             ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
             {
