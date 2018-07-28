@@ -1284,6 +1284,7 @@ namespace LUSSISADTeam10Web.Controllers
                         Qty = ivndm.RecommendedOrderQty ?? default(int),
                         Prices = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).ToList(),
                         SupplierIDs = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.SupId).ToList(),
+                        SupplierNames = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.SupName).ToList(),
                         LowestPrice = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).Min()
                     };
                     poview.Add(podvm);

@@ -6,149 +6,163 @@
 }
 
 
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>Dashboard</h1>
+@section Styles {
+    <style>
+
+        .qtyinput{
+            width: 14%;
+        }
+
+        .btnremove{
+            width: 10%;
+        }
+
+
+    </style>
+}
+
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                        <li><a href="@Url.Action("PurchaseOrders", "Clerk")">POs List</a></li>
+                        <li class="active">Purchase Order</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li><a href="@Url.Action("PurchaseOrders", "Clerk")">POs List</a></li>
-                    <li class="active">Purchase Order</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="content mt-3">
-    <div class="animated fadeIn">
+    <div class="content mt-3">
+        <div class="animated fadeIn">
 
 
-        <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title">Raise Requisition</strong>
-            </div>
-            <div class="card-body">
-                <div>  <h5 class="text-sm-center text-info"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Order </h5></div><br />
-                @using (Html.BeginForm())
-                {
-                    <div class="mx-auto d-block">
-                       
-                        <h6>Purchased By :  @User.Identity.Name </h6><br />
-                        <h6>Request Date :  @DateTime.Now.ToString("d")</h6><br />
+            <div class="card">
+                <div class="card-body">
+                    <div>  <h5 class="text-sm-center text-info"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Order </h5></div><br />
+                    @using (Html.BeginForm())
+                    {
+                        <div class="mx-auto d-block">
+
+                            <h6>Purchased By :  @User.Identity.Name </h6><br />
+                            <h6>Request Date :  @DateTime.Now.ToString("d")</h6><br />
 
 
-                        <div>
+                            <div>
 
-                            <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
-                            <br />
-                            <br />
-                            <br />
-                            <table class="table table-bordered table-hover">
-                                <thead class="table-info">
-                                    <tr>
-                                        <th>Item Name</th>
-                                        <th>Quantity</th>
-                                        <th>Supplier</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-
-                                @{
-                                    var on = "<option value=''> Select Item </option>";
-
-
-
-                                    foreach (var item in ViewBag.ItemsList)
-                                    {
-
-                                        on += "<option value='" + item.Itemid + "'>" + item.Description + "</option>";
-                                    }
-
-                                }
-
-                                <tbody id="tbpodms">
-                                    @{var count = 0;
-                                    }
-
-                                    @foreach (var item in ViewBag.poview)
-                                    {
-                                        var id = "trReqD" + count;
-                                        Model.podms.Add(new LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel());
-                                        <tr id="@id">
-                                            <td style='display:none'>
-                                                <input name='podms.Index' type='hidden' value='@count' />
-                                                <input type='hidden' class='form-control' value='@item.Itemid' id='podms_@count __Title' name='podms[@count].Itemid'>
-                                            </td>
-                                            <td><input type='text' readonly id='@item.ItemDescription' class='form-control' value='@item.ItemDescription' /></td>
-                                            <td><input class='form-control' required='required' id='podms_@count __Title' name='podms[@count].Qty' min="1" type='number' value='@item.Qty' /></td>
-                                            <td>
-                                                <select class='form-control' id='selectbox_@count' name='podms[@count].SupplierID'>
-                                                    @{
-                                                        for (var i = 0; i < item.SupplierIDs.Count; i++)
-                                                        {
-                                                            var SupID = item.SupplierIDs[i];
-                                                            var SupName = "SUP " + SupID + "- S$" + item.Prices[i];
-                                                            var selected = "";
-                                                            if (item.Prices[i] == item.LowestPrice)
-                                                            {
-                                                                selected = "selected";
-                                                            }
-                                                            <option value='@SupID' @selected> @SupName </option>
-                                                        }
-
-                                                    }
-                                                </select>
-                                            </td>
-
-                                            <td><input id='btnAddReqD' type='button' class='btn btn-outline-danger' value='Remove' onclick='removeRow(@count);' /></td>
+                                <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
+                                <br />
+                                <br />
+                                <br />
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Quantity</th>
+                                            <th>Supplier</th>
+                                            <th>Action</th>
                                         </tr>
-                                        count++;
+                                    </thead>
+
+                                    @{
+                                        var on = "<option value=''> Select Item </option>";
+
+
+
+                                        foreach (var item in ViewBag.ItemsList)
+                                        {
+
+                                            on += "<option value='" + item.Itemid + "'>" + item.Description + "</option>";
+                                        }
+
                                     }
 
+                                    <tbody id="tbpodms">
+                                        @{var count = 0;
+                                        }
 
-                                </tbody>
-                            </table>
+                                        @foreach (var item in ViewBag.poview)
+                                        {
+                                            var id = "trReqD" + count;
+                                            Model.podms.Add(new LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel());
+                                            <tr id="@id">
+                                                <td style='display:none'>
+                                                    <input name='podms.Index' type='hidden' value='@count' />
+                                                    <input type='hidden' class='form-control' value='@item.Itemid' id='podms_@count __Title' name='podms[@count].Itemid'>
+                                                </td>
+                                                <td><input type='text' readonly id='@item.ItemDescription' class='form-control' value='@item.ItemDescription' /></td>
+                                                <td class="qtyinput"><input class='form-control' required='required' id='podms_@count __Title' name='podms[@count].Qty' min="1" type='number' value='@item.Qty' /></td>
+                                                <td class='supinput'>
+                                                    <select class='form-control' id='selectbox_@count' name='podms[@count].SupplierID'>
+                                                        @{
+                                                            for (var i = 0; i < item.SupplierIDs.Count; i++)
+                                                            {
+                                                                var SupID = item.SupplierIDs[i];
+                                                                var SupName = item.SupplierNames[i] + " - S$ " + item.Prices[i];
+                                                                var selected = "";
+                                                                if (item.Prices[i] == item.LowestPrice)
+                                                                {
+                                                                    selected = "selected";
+                                                                }
+                                                                <option value='@SupID' @selected> @SupName </option>
+                                                            }
+
+                                                        }
+                                                    </select>
+                                                </td>
+
+                                                <td class='btnremove'><input id='btnAddReqD' type='button' class='btn btn-outline-danger btn-sm' value='Remove' onclick='removeRow(@count);' /></td>
+                                            </tr>
+                                            count++;
+                                        }
 
 
+                                    </tbody>
+                                </table>
+
+
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr>
+                        <hr>
 
 
-                    <div class="card-text text-sm-right">
-                        <input type="submit" value="Raise PO" class="btn btn-outline-info" />
-                    </div>
+                        <div class="card-text text-sm-right">
 
-                    <div id="optionvlaues" style="display: none">
-                        @on
-                    </div>
-                }
+                            <em>Some items are auto generated recommended quantity</em>
+
+                            <input type="submit" value="Raise PO" class="btn btn-outline-info" />
+                        </div>
+
+                        <div id="optionvlaues" style="display: none">
+                            @on
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
 
 
-</div><!-- .animated -->
+    </div><!-- .animated -->
 
 
-@section Scripts {
+    @section Scripts {
 
 
 
 
-    <script language="javascript" type="text/javascript">
+        <script language="javascript" type="text/javascript">
 
 
 function addRow() {
@@ -167,17 +181,15 @@ function addRow() {
 
     var indexCell = "<td style='display:none'><input name='podms.Index' type='hidden' value='" + index + "' /></td>";
     var titleCell = "<td><select class='form-control' onChange='getSupplierList(this.selectedIndex, podms_" + index + "__Titlea)' id='podms_" + index + "__Title' name='podms[" + index + "].Itemid'>" + option  + "</select></td>";
-    var publishedCell = "<td><input  class='form-control' required='required' id='podms_" + index + "__Title' name='podms[" + index + "].Qty' min='1'  type='number' value='100' /></td>";
-    var suppliercell = "<td><select  class='form-control' required='required' id='podms_" + index + "__Titlea' name='podms[" + index + "].SupplierID'></select></td>";
-    var removeCell = "<td><input id='btnAddReqD' type='button' class='btn btn-outline-danger' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+    var publishedCell = "<td class='qtyinput'><input  class='form-control' required='required' id='podms_" + index + "__Title' name='podms[" + index + "].Qty' min='1'  type='number' value='100' /></td>";
+    var suppliercell = "<td class='supinput'><select  class='form-control' required='required' id='podms_" + index + "__Titlea' name='podms[" + index + "].SupplierID'></select></td>";
+    var removeCell = "<td class='btnremove'><input id='btnAddReqD' type='button' class='btn btn-outline-danger btn-sm' value='Remove' onclick='removeRow(" + index + ");' /></td>";
     var newRow = "<tr id='trReqD" + index + "'>" + indexCell + titleCell + publishedCell + suppliercell + removeCell + "</tr>";
             $("#tbpodms").append(newRow);
 
 }
 
         function getSupplierList(id, pageid) {
-
-
                         $.ajax({
                         url: '@Url.Action("GetSupplierLists", "Clerk")',
                         data: { ID: id },
@@ -188,9 +200,6 @@ function addRow() {
                     });
         }
 
-
-
-
         function removeRow(id) {
             var controlToBeRemoved = "#trReqD" + id;
             $(controlToBeRemoved).remove();
@@ -198,6 +207,6 @@ function addRow() {
 
 
 
-    </script>
+        </script>
 
-}
+    }
