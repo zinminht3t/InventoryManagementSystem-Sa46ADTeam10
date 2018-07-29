@@ -7,6 +7,13 @@
 
 @section Styles {
 <style>
+    @@media only screen and (max-width: 600px) {
+
+
+        .hideinmobile {
+            display: none;
+        }
+    }
 </style>
 }
 
@@ -22,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -44,8 +51,8 @@
 
                 <form asp-action="EditItem" asp-controller="Clerk" method="post">
                     <div class="form-horizontal">
-                        <h5 class="text-sm-center text-info"> <i class="fa fa-edit fa-3x"></i><br /> Edit Item </h5><br />
-                        <hr />
+                        <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-edit fa-3x"></i><br /> Edit Item </h5><br />
+                        
                         <div class="row">
                             <div class="col-md-4"> @Html.LabelFor(model => model.ItemDescription) </div>
                             <div class="col-md-6">
@@ -100,7 +107,7 @@
                     </div>
                 </form>
                 <div>
-                    <a href="@Url.Action("Manage", "Clerk" )" ><i class="fa fa-arrow-circle-o-left" style="font-size:40px"></i></a>
+                    <a href="@Url.Action("Manage", "Clerk" )" ><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
                     <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Save">
                 </div>
             </div>

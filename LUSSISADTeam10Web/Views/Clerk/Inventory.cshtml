@@ -6,6 +6,16 @@
     ViewBag.Title = "InventoryCheck";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Styles {
+    <style>
+        @@media only screen and (max-width: 600px) {
+
+            .hideinmobile {
+                display: none;
+            }
+        }
+    </style>
+}
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -15,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -27,7 +37,7 @@
     </div>
 </div>
 <div class="card">
-    <h5 class="text-sm-center text-info"> <i class="ti-marker-alt fa-3x"></i><br /> Inventories </h5><br />
+    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-marker-alt fa-3x"></i><br /> Inventories </h5><br />
 
     <div class="panel-group" id="accordion">
 
