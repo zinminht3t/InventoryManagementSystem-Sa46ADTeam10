@@ -1,0 +1,20 @@
+﻿
+table, tr, td, th {   
+}   
+tr.header {
+        cursor: pointer;
+    }
+
+.header .sign:after {
+    font-family: FontAwesome;
+    content: "\f056";
+    font-size: large;
+    color: teal;
+}
+
+.header.expand .sign:after {
+    width: 20px;
+    font-size: large;
+    font-weight: 700;    
+    content: "\f055";
+}

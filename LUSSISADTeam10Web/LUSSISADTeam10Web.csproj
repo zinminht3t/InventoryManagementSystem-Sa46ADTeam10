@@ -295,6 +295,7 @@
     <Content Include="Styles\Content\Site.css" />
     <Content Include="Styles\css\accordion.css" />
     <Content Include="Styles\css\btn.css" />
+    <Content Include="Styles\css\collapse-row.css" />
     <Content Include="Styles\css\datatable.min.css" />
     <Content Include="Styles\images\admin.jpg" />
     <Content Include="Styles\images\avatar\1.jpg" />
@@ -1382,7 +1383,6 @@
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
     <Content Include="Views\HOD\Chart.cshtml" />
-    <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />

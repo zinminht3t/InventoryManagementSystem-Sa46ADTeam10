@@ -136,31 +136,7 @@ namespace LUSSISADTeam10Web.Controllers
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return RedirectToAction("Approve");
-        }
-        public ActionResult History()
-        {
-            string token = GetToken();
-            List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            SupplierItemModel supp = new SupplierItemModel();
-            try
-            {
-                adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.APPROVED, out string error);
-                foreach(AdjustmentModel ad in adjlist)
-                {
-                    foreach(AdjustmentDetailModel add in ad.Adjds)
-                    {
-                        supp = APISupplier.GetOneSupplierItemByItemId(add.Itemid, token, out error);
-                        add.Price = supp.Price * Math.Abs(add.Adjustedqty);
-                        ad.TotalPrice += add.Price;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            return View(adjlist);
-        }
+        }     
        
         #region Utilities
         public string GetToken()
