@@ -12,10 +12,11 @@ namespace LUSSISADTeam10Web.Models.APIModels
         {
             Month = month;
             Total = total;
-            PoCount = poCount;
+            PurchaseOrderCount = poCount;
         }
+        public POCountList() : this("", 0, 0) { }
         public string Month { get; set; }
         public int Total { get; set; }
-        public int PoCount { get; set; }
+        public int PurchaseOrderCount { get; set; }
     }
 }
