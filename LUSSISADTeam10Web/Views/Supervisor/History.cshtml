@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -28,13 +28,9 @@
 <div class="content mt-3">
     <div class="animated fadeIn">
         <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Adjustment History List</strong>
-            </div>
 
             <div class="card-body">
-                <h5 class="text-sm-center text-info"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
                 <div class="card card-body">
                     <table id="bottstrap-data-table">
                         <tr style="background-color:lightblue;height:45px">
@@ -44,7 +40,7 @@
                             <th>
                                 Reported By
                             </th>
-                            <th>
+                            <th class="hideinmobile">
                                 Reported To
                             </th>
                             <th>
@@ -61,7 +57,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Raisedbyname)
                                 </td>
-                                <td>
+                                <td class="hideinmobile">
                                     @Html.DisplayFor(modelItem => item.Raisedtoname)
                                 </td>
                                 <td>
@@ -69,18 +65,18 @@
                                 </td>
                             </tr>
                             <tr style="height:40px;background-color:aliceblue">
-                                <th>Category</th>
+                                <th class="hideinmobile">Category</th>
                                 <th>Item</th>
                                 <th>Adjusted Qty</th>
-                                <th>UOM</th>
+                                <th class="hideinmobile">UOM</th>
                                 <th>Price</th>
-                                <th>Reason</th>
+                                <th class="hideinmobile">Reason</th>
                             </tr>
                             foreach (var i in item.Adjds)
                             {
 
                                 <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
-                                    <td>
+                                    <td class="hideinmobile">
                                         @Html.DisplayFor(modelItem => i.CategoryName)
                                     </td>
                                     <td>
@@ -89,13 +85,13 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => i.Adjustedqty)
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @Html.DisplayFor(modelItem => i.UOM)
                                     </td>
                                     <td>
                                         $@Html.DisplayFor(modelItem => i.Price)
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @if (i.Reason == "" || i.Reason == null)
                                         {
                                             i.Reason = "_";
@@ -105,8 +101,9 @@
                                 </tr>
                             }
                         }
+                    </table>
                 </div>
-                </table>
+                
             </div>
         </div>
     </div>
