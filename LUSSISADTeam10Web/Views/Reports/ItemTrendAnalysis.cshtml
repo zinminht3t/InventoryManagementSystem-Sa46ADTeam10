@@ -15,7 +15,7 @@
 
     <form asp-action="ItemTrendAnalysis" asp-controller="Reports" method="post">
         <h2>ItemUsageByClerk</h2>
-        @*<div class="row">
+        <div class="row">
             <div class="col-md-4">
                 @Html.DropDownListFor(model => model.d1, new SelectList(ViewBag.departmentlist))
 
@@ -31,10 +31,10 @@
             </div>
             @Html.DropDownListFor(model => model.month, new SelectList(ViewBag.monthlist))
 
-        </div>*@
+        </div>
 
-        @Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))
-        <br />
+        @*@Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))
+        <br />*@
         <div>
 
         </div>

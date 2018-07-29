@@ -94,31 +94,31 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.d1Name = dm.Deptname;
                 viewmodel.d2Name = dm.Deptname;
                 viewmodel.d3Name = dm.Deptname;
-                // List<int> departmentname = new List<int>();
-                ////List<DepartmentModel> departmentname = new List<DepartmentModel>();
-                //List<string> dname = new List<string>();
-                //ViewBag.departmentname = dml;
-                //ViewBag.dname = dml;
-
-                //foreach (DepartmentModel d in dml)
-                //{
-                //    departmentname.Add(d.Deptid);
-                //    dname.Add(d.Deptname);
-
-                //}
-                //ViewBag.departmentlist = departmentname;
-                //ViewBag.departmentnamelist = dname;
-
-
-                List<String> deptname = new List<string>();
-
-                ViewBag.dept = deptname;
+                List<int> departmentname = new List<int>();
+                //List<DepartmentModel> departmentname = new List<DepartmentModel>();
+                List<string> dname = new List<string>();
+                ViewBag.departmentname = dml;
+                ViewBag.dname = dml;
 
                 foreach (DepartmentModel d in dml)
                 {
-                    deptname.Add(d.Deptname);
+                    departmentname.Add(d.Deptid);
+                    dname.Add(d.Deptname);
+
                 }
-                ViewBag.deptlist = deptname;
+                ViewBag.departmentlist = departmentname;
+                ViewBag.departmentnamelist = dname;
+
+
+                //List<String> deptname = new List<string>();
+
+                //ViewBag.dept = deptname;
+
+                //foreach (DepartmentModel d in dml)
+                //{
+                //    deptname.Add(d.Deptname);
+                //}
+                //ViewBag.deptlist = deptname;
 
 
 
@@ -398,17 +398,18 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
 
             int deptid = viewModel.Deptid;
-            DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
-            DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
-            //DateTime startdate = viewModel.startdate;
-            //DateTime enddate = viewModel.enddate;
+            //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
+            //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
+            DateTime startdate = viewModel.startdate.Value;
+            DateTime enddate = viewModel.enddate.Value;
 
-
+            //DateTime startD = new DateTime(startdate.Year, startdate.Month, startdate.Day, 0, 0, 0);
+            //DateTime endD = new DateTime(enddate.Year, enddate.Month, enddate.Day, 0, 0, 0);
 
             List<RequsitionListReportModel> reql = new List<RequsitionListReportModel>();
             viewModel.rd = new List<RequisitionDetailViewModel>();
 
-            reql = APIReport.RequsitionList(token, out error, deptid, startdate  ,enddate);
+            reql = APIReport.RequsitionList(token, out error, deptid, startdate ,enddate);
             
 
 
