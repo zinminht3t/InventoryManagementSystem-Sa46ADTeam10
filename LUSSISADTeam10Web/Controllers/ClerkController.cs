@@ -3,6 +3,7 @@ using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Clerk;
+using LUSSISADTeam10Web.Models.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,10 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "Clerk")]
     public class ClerkController : Controller
     {
         // GET: Clerk
+        [Authorize(Roles = "Clerk")]
         public ActionResult Index()
         {
             string token = GetToken();
@@ -58,6 +59,8 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start AM
 
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult ShowActiveSupplierlist()
         {
             string token = GetToken();
@@ -79,6 +82,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult ShowDeActiveSupplierlist()
         {
             string token = GetToken();
@@ -102,6 +107,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult SupllierDetails(int id)
         {
             string token = GetToken();
@@ -129,6 +135,8 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         }
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public JsonResult DeActive(int id)
         {
 
@@ -145,14 +153,14 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public JsonResult Active(int id)
         {
 
@@ -169,17 +177,20 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult CreateSuppandItem()
         {
             return View("CreateSuppandItem");
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public ActionResult csvsupplier(HttpPostedFileBase excelfile)
         {
@@ -226,8 +237,9 @@ namespace LUSSISADTeam10Web.Controllers
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
                         ViewBag.supplierlist = sm;
                         List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
-                       
-                        foreach (SupplierItemModel sim in sm) {
+
+                        foreach (SupplierItemModel sim in sm)
+                        {
                             SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
                             sivm1.ItemId = sim.ItemId;
                             sivm1.SupId = sim.SupId;
@@ -243,7 +255,7 @@ namespace LUSSISADTeam10Web.Controllers
                         workbook.Close();
                         List<String> catname = new List<string>();
 
-                        List <CategoryModel> cm = APICategory.GetAllCategories(token, out error);
+                        List<CategoryModel> cm = APICategory.GetAllCategories(token, out error);
 
                         foreach (CategoryModel c in cm)
                         {
@@ -271,7 +283,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public ActionResult importsupplier(HttpPostedFileBase excelfile)
         {
@@ -342,6 +354,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
         {
@@ -350,11 +363,12 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             SupplierModel sm = new SupplierModel();
-        
+
 
             try
             {
-                foreach (SupplierItemImportViewModel sim in simvm) {
+                foreach (SupplierItemImportViewModel sim in simvm)
+                {
                     ItemModel si = new ItemModel();
                     si.Itemid = sim.ItemId;
                     si.Uom = sim.Uom;
@@ -372,13 +386,14 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-           
+
             return RedirectToAction("ShowActiveSupplierlist");
         }
 
         // End AM
 
         // Start TAZ
+        [Authorize(Roles = "Clerk")]
         public ActionResult ApproveCollectionPoint(int id)
         {
             string token = GetToken();
@@ -393,7 +408,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
 
-                if(dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
+                if (dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
                 {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
@@ -437,6 +452,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        [Authorize(Roles = "Clerk")]
         [HttpPost]
         public ActionResult ApproveCollectionPoint(ApproveCollectionPointViewModel viewmodel)
         {
@@ -471,6 +487,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
         //Manage Items
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult Manage()
         {
             string token = GetToken();
@@ -493,6 +510,8 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         //Edit Item
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
+
         public ActionResult EditItem(int id = 0)
         {
             string token = GetToken();
@@ -511,7 +530,7 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.InventoryModel = invm;
 
                 viewmodel.CatId = itm.Catid;
-               // itm.CatName;
+                // itm.CatName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
@@ -519,13 +538,13 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                List<String> catname = new List<string>();              
+                List<String> catname = new List<string>();
 
                 ViewBag.cat = cm;
 
                 foreach (CategoryModel c in cm)
                 {
-                    catname.Add(c.Name);     
+                    catname.Add(c.Name);
                 }
                 ViewBag.catlist = catname;
 
@@ -539,6 +558,10 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
+
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
 
         [HttpPost]
         public ActionResult EditItem(InventoryViewModel viewmodel)
@@ -571,7 +594,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["noti"] = true;
                 Session["notitype"] = "success";
                 Session["notititle"] = "Update Item";
-                Session["notimessage"] =  it.Description+ "is updated successfully";
+                Session["notimessage"] = it.Description + "is updated successfully";
 
                 return RedirectToAction("Manage");
             }
@@ -582,6 +605,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
 
         public ActionResult SearchByTransDate(DateTime? startdate, DateTime? enddate)
 
@@ -618,6 +642,9 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
+
         public ActionResult ItemTran(DateTime? startdate, DateTime? enddate, int id = 0)
         {
             string token = GetToken();
@@ -661,6 +688,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(viewmodel);
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult RequisitionsComplete()
         {
             string error = "";
@@ -687,105 +715,74 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-       
+
         //Start Mahsu
 
-        //Get All InventoryCheckViewModel
-        public InventoryCheckViewModel GetInvtCheckVM()
-        {
-            string token = GetToken();
-            UserModel user = GetUser();
-            List<InventoryModel> ivmlist = new List<InventoryModel>();
-            List<Inventory> ivclist = new List<Inventory>();
-
-            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
-
-            ivmlist = APIInventory.GetAllInventories(token, out string error);
-
-            foreach (InventoryModel invent in ivmlist)
-            {
-                CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
-                ItemModel item = APIItem.GetItemByItemID(invent.Itemid, token, out error);
-                Inventory ivc = new Inventory(invent.Invid, cat.Name, invent.Itemid, invent.ItemDescription, invent.Stock, item.Uom, cat.Shelflocation, cat.Shelflevel);
-                ivclist.Add(ivc);
-            }
-
-            invcvm.Invs = ivclist;
-            invcvm.InvIDs = new List<int>();
-
-            return invcvm;
-        }
-        //Get Inventory by inventoryID
-        public List<Inventory> GetSelectedInventory(List<int> i)
-        {
-            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
-            List<Inventory> ivm = ivcvm.Invs;
-            List<Inventory> dis = new List<Inventory>();
-            foreach (Inventory iv in ivm)
-            {
-                foreach (int a in i)
-                {
-                    if (iv.InventoryId == a)
-                        dis.Add(iv);
-                }
-            }
-            return dis;
-        }
-        //Display Awaiting Approval Adjustments     //Display All Inventories
+        [Authorize(Roles = "Clerk")]
+       //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
             UserModel user = GetUser();
 
+            List<InventoryDetailModel> invtdetail = new List<InventoryDetailModel>();
             List<AdjustmentModel> adj = new List<AdjustmentModel>();
             List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
 
-            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
-            List<Inventory> inv = new List<Inventory>();
-            try
+            invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+            adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
+
+            foreach (AdjustmentModel ad in adj)
             {
-                invcvm = GetInvtCheckVM();
-
-                adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-
-                foreach (AdjustmentModel ad in adj)
+                foreach (AdjustmentDetailModel add in ad.Adjds)
                 {
-                    foreach (AdjustmentDetailModel adjd in ad.Adjds)
-                    {
-                        foreach (Inventory i in invcvm.Invs)
-                        {
-                            if (adjd.Itemid == i.ItemID)
-                            {
-                                adjd.Stock = i.Stock;
-                                adjd.Adjustedqty = adjd.Adjustedqty + (int)adjd.Stock;
-                            }
-
-                            adjd.IssueDate = ((DateTime)ad.Issueddate);
-
-                        }
-                        adjdetail.Add(adjd);
-                    }
+                    //To display Inventory stock & Counted stock  
+                    add.IssueDate = (DateTime)ad.Issueddate;
+                    add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
+                    add.Adjustedqty += (int)add.Stock;
+                    adjdetail.Add(add);
                 }
-                ViewBag.AdjustmentDetailModel = adjdetail;
+            }
+            ViewBag.AdjustmentDetailModel = adjdetail;
+            TempData["inventories"] = invtdetail;
 
-            }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index", "Error", new { error = e.Message });
-            }
-            return View(invcvm);
+            return View(invtdetail);
         }
+
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(List<int> InvID)
-        {
-            List<Inventory> dis = GetSelectedInventory(InvID);
-            TempData["discrepancy"] = dis;
+        public ActionResult Inventory(int[] Invid)
+        { 
+            string token = GetToken();
+            List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
+
+            if (Invid.Length <1)
+            {
+                RedirectToAction("Inventory");
+            }
+
+            else
+            {
+                List<InventoryDetailModel> ivdm = TempData["inventories"] as List<InventoryDetailModel>;
+                foreach (int i in Invid)
+                {
+                    foreach (InventoryDetailModel ivm in ivdm)
+                    {
+                        if (i == ivm.Invid)
+                        {
+                            selected.Add(ivm);
+                        }
+                    }
+                }
+            }
+            TempData["discrepancy"] = selected;
             return RedirectToAction("Adjustment");
         }
+        [Authorize(Roles = "Clerk")]
         public ActionResult Adjustment()
         {
-            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
+            List<InventoryDetailModel> dis = TempData["discrepancy"] as List<InventoryDetailModel>;
             InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
             try
             {
@@ -799,28 +796,29 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(ivcvm);
         }
+        [Authorize(Roles = "Clerk")]
         [HttpPost]
         public ActionResult Adjustment(List<int> InvID, List<int> Current, List<string> Reason)
         {
             string token = GetToken();
             UserModel user = GetUser();
-            List<Inventory> invent = GetSelectedInventory(InvID);
+            List<InventoryDetailModel> invent = TempData["inventories"] as List<InventoryDetailModel>;
             AdjustmentModel adjust = new AdjustmentModel();
             try
             {
                 for (int i = 0; i < InvID.Count; i++)
                 {
-                    foreach (Inventory inv in invent)
+                    foreach (InventoryDetailModel inv in invent)
                     {
-                        if (InvID[i] == inv.InventoryId)
+                        if (InvID[i] == inv.Invid)
                         {
                             inv.Current = Current[i];
-                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current - (int)inv.Stock), Reason[i]);
+                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                             adjust.Adjds.Add(adjd);
                         }
                     }
                 }
-                adjust.Issueddate = DateTime.Now.Date;
+                adjust.Issueddate = DateTime.Now;
                 adjust.Raisedby = user.Userid;
 
                 adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
@@ -832,15 +830,14 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Adjustment Form";
-            Session["notimessage"] = "Adjustment Form with " +invent.Count+ " items are successfully rasised";
+            Session["notimessage"] = "Adjustment Form with " + invent.Count + " items are successfully rasised";
             return RedirectToAction("Inventory");
         }
-
-
         // End MaHus
 
         // Start ZMH
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult Requisition()
         {
             string token = GetToken();
@@ -853,9 +850,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             ViewBag.Requisitions = reqms;
 
-            return View(new RequisitionViewModel());
+            return View(new Models.Clerk.RequisitionViewModel());
         }
 
+        [Authorize(Roles = "Clerk")]
         [HttpPost]
         public JsonResult ApproveAllRequisitons(int[] reqids)
         {
@@ -872,7 +870,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RequisitionModel req = new RequisitionModel();
                 req = APIRequisition.GetRequisitionByReqid(i, token, out error);
-                if(req != null)
+                if (req != null)
                 {
                     dis.Reqid = req.Reqid;
                     dis.Ackby = um.Userid;
@@ -936,6 +934,7 @@ namespace LUSSISADTeam10Web.Controllers
             return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult RequisitionDetail(int id)
         {
             string token = GetToken();
@@ -946,7 +945,7 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel reqm = new RequisitionModel();
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
 
-            if(reqm.Status != ConRequisition.Status.APPROVED)
+            if (reqm.Status != ConRequisition.Status.APPROVED)
             {
                 return RedirectToAction("Requisition");
             }
@@ -974,6 +973,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Clerk")]
         [HttpPost]
         public ActionResult RequisitionDetail(ProcessRequisitionViewModel viewmodel, List<int> itemids, List<int> ApproveQtys)
         {
@@ -1043,11 +1043,12 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Requision";
-            Session["notimessage"] =  "Reqision is approved ";
+            Session["notimessage"] = "Reqision is approved ";
 
             return RedirectToAction("StationaryRetrievalForm");
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult Outstanding()
         {
             string token = GetToken();
@@ -1084,6 +1085,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult OutstandingDetail(int id)
         {
             string error = "";
@@ -1097,10 +1099,10 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
-            {
-                return RedirectToAction("Outstanding");
-            }
+            //if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
+            //{
+            //    return RedirectToAction("Outstanding");
+            //}
 
             outreqvm.ReqId = outr.ReqId;
             outreqvm.DeptId = reqm.Depid;
@@ -1114,6 +1116,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult ProcessOutstanding(int id)
         {
             string error = "";
@@ -1151,6 +1154,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
         }
 
+        [Authorize(Roles = "Clerk")]
         public JsonResult UpdateToPreparing()
         {
             string token = GetToken();
@@ -1163,13 +1167,14 @@ namespace LUSSISADTeam10Web.Controllers
 
             bool ResultSuccess = false;
 
-            if(error == "" || reqdisms != null)
+            if (error == "" || reqdisms != null)
             {
                 ResultSuccess = true;
             }
             return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult DisbursementLists()
         {
             string token = GetToken();
@@ -1192,6 +1197,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqdisms);
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult ItemDelivered(int id)
         {
             string error = "";
@@ -1214,6 +1220,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult DisbursementDetail(int id)
         {
             string error = "";
@@ -1232,7 +1239,7 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "";
-            Session["notimessage"] ="" ;
+            Session["notimessage"] = "";
             return View(req);
 
         }
@@ -1241,6 +1248,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         // Start Phyo2
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult PurchaseOrder()
         {
             string error = "";
@@ -1300,6 +1308,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(povm);
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult PurchaseOrders()
         {
             string error = "";
@@ -1308,10 +1317,11 @@ namespace LUSSISADTeam10Web.Controllers
 
             List<PurchaseOrderModel> pom = new List<PurchaseOrderModel>();
             pom = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
-            pom = pom.OrderBy(x => x.Status).ThenBy(x => x.Podate).ToList();
+            pom = pom.OrderByDescending(x => x.Podate).ThenByDescending(x => x.Status).ToList();
             return View(pom);
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult PurchaseOrderDetail(int id)
         {
             string error = "";
@@ -1333,6 +1343,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(povm);
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult ProcessPurchaseOrderDetail(int id)
         {
             string error = "";
@@ -1355,6 +1366,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(povm);
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult CancelPurchaseOrder(int id)
         {
             string error = "";
@@ -1387,6 +1399,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public ActionResult ProcessPurchaseOrderDetail(PurchaseOrderViewModel povm)
         {
@@ -1411,7 +1424,7 @@ namespace LUSSISADTeam10Web.Controllers
                 podm = APIPurchaseOrder.UpdatePODetail(podm, token, out error);
             }
 
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+           // pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
 
             pom.Status = ConPurchaseOrder.Status.RECEIVED;
 
@@ -1423,6 +1436,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("PurchaseOrderDetail", new { id = pom.PoId });
         }
 
+        [Authorize(Roles = "Clerk")]
         public PartialViewResult GetSupplierLists(int id)
         {
             string error = "";
@@ -1440,11 +1454,13 @@ namespace LUSSISADTeam10Web.Controllers
             return PartialView();
         }
 
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public ActionResult PurchaseOrder(PurchaseOrderViewModel povm)
         {
 
-            if(povm.podms.Count < 1)
+            if (povm.podms.Count < 1)
             {
                 Session["noti"] = true;
                 Session["notitype"] = "error";
@@ -1508,6 +1524,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("PODetails");
         }
 
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult PODetails()
         {
             List<PurchaseOrderModel> pos = new List<PurchaseOrderModel>();
@@ -1521,6 +1538,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(pos);
         }
 
+        [Authorize(Roles = "Clerk")]
         public ActionResult StationaryRetrievalForm()
         {
             string token = GetToken();

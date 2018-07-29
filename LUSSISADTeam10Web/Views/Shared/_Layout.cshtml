@@ -164,7 +164,7 @@
                                 <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-comments-smiley"></i> Approve Requisitions</a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-package"></i> Approve Requisitions</a>
                             </li>
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
@@ -224,7 +224,7 @@
                                 <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon fa fa-shopping-basket"></i> Stock Cards</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-comments-smiley"></i> Requisitions </a>
+                                <a href="@Url.Action("Requisition", "Clerk")"> <i class="menu-icon ti-package"></i> Requisitions </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("StationaryRetrievalForm", "Clerk")"> <i class="menu-icon fa fa-file-pdf-o"></i> Stationary Retrieval List </a>
@@ -294,6 +294,18 @@
                                 <li>
                                     <a href="@Url.Action("History", "Supervisor")"> <i class="menu-icon fa fa-history"></i> Adjustments History </a>
                                 </li>
+                                <li>
+                                    <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i> Suppliers</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-panel"></i> Inventory </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon fa fa-shopping-basket"></i> Stock Cards</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-shopping-cart"></i>Purchase Orders </a>
+                                </li>
                             }
                             else if (Session["Role"].ToString() == "3")
                             {
@@ -301,13 +313,25 @@
 
 
                                 <li class="active">
-                                    <a href="@Url.Action("Approve","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
+                                    <a href="@Url.Action("Index","Manager")"> <i class="menu-icon ti-dashboard"></i>Dashboard</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Approve", "Manager")"><i class="menu-icon ti-stamp"></i>Approve Adjustment</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("History", "Manager")"> <i class="menu-icon fa fa-history"></i> Adjustment History</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ShowActiveSupplierlist", "Clerk")"> <i class="menu-icon ti-user"></i> Suppliers</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Manage", "Clerk")"> <i class="menu-icon ti-panel"></i> Inventory </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SearchByTransDate", "Clerk")"> <i class="menu-icon fa fa-shopping-basket"></i> Stock Cards</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("PurchaseOrders", "Clerk")"> <i class="menu-icon ti-shopping-cart"></i>Purchase Orders </a>
                                 </li>
                             }
 

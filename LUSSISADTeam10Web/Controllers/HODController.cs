@@ -371,12 +371,12 @@ namespace LUSSISADTeam10Web.Controllers
                     result = true;
                     if (error != "")
                     {
-                      //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                       // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                  //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
                 }
             }
 

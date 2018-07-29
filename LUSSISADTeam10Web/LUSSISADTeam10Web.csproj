@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="APIModels\AdjustmentModel.cs" />
     <Compile Include="APIModels\BreakdownByDepartmentModel.cs" />
@@ -280,7 +281,6 @@
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Models\Report\RequisitionListViewModel.cs" />
-    <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
     <Compile Include="Utilities\Utility.cs" />
@@ -1349,7 +1349,6 @@
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
-    <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />
     <Content Include="Views\HOD\TrackRequisition.cshtml" />
@@ -1413,6 +1412,7 @@
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
+    <Folder Include="Models\Supervisor\" />
     <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>

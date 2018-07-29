@@ -23,6 +23,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
             RecommendedOrderQty = recommendedorderqty;
             ShelfLocation = sl;
             ShelfLevel = sle;
+            Current = 0;
         }
         public InventoryDetailModel() : this(0, 0, "", 0, 0, 0, 0, "", "", "", 0, "", "") { }
         public int Invid { get; set; }
@@ -38,5 +39,6 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public string ShelfLevel { get; set; }
         public string Uom { get; set; }
         public int? RecommendedOrderQty { get; set; }
+        public int Current { get; set; }
     }
 }
