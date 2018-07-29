@@ -1097,10 +1097,10 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
-            {
-                return RedirectToAction("Outstanding");
-            }
+            //if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
+            //{
+            //    return RedirectToAction("Outstanding");
+            //}
 
             outreqvm.ReqId = outr.ReqId;
             outreqvm.DeptId = reqm.Depid;
