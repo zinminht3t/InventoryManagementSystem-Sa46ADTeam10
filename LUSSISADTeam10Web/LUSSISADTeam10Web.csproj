@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="APIModels\AdjustmentModel.cs" />
     <Compile Include="APIModels\BreakdownByDepartmentModel.cs" />
