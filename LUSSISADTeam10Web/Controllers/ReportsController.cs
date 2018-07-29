@@ -43,7 +43,8 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
 
-                ViewBag.SupplierModel = sml;
+                //ViewBag.SupplierModel = APISupplier.GetAllSuppliers(token, out error);
+                ViewBag.count = 0;
                 viewmodel.supplier1 = sm.SupId;
                 viewmodel.supplier2 = sm.SupId;
                 viewmodel.supplier3 = sm.SupId;
@@ -56,6 +57,8 @@ namespace LUSSISADTeam10Web.Controllers
                     suppliername.Add(s.SupId);
 
                 }
+                List<SupplierModel> abc = APISupplier.GetAllSuppliers(token, out  error);
+                ViewBag.slist = abc;
                 ViewBag.supplierlist = suppliername;
 
             }
@@ -96,19 +99,7 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.itd.Add(result);
             }
 
-
-
-            List<int> month = new List<int>();
-                for (int i = 1; i <= 12; i++)
-                {
-                    month.Add(i);
-                }
-
-
-
-
-            ViewBag.monthlist = month;
-            ViewBag.deptlist = viewmodel.itd;
+            ViewBag.deptlist = APIDepartment.GetAllDepartments(token, out error);
             ViewBag.count = 0;
             return View(viewmodel);
         }
@@ -172,7 +163,7 @@ namespace LUSSISADTeam10Web.Controllers
         #region POST Method
 
         [HttpPost]
-        public ActionResult ItemUsageByClerk(MonthlyItemUsageViewModel viewModel)
+        public ActionResult ItemUsageByClerk(int s1, int s2, int s3)
         {
 
             string error = "";
@@ -181,11 +172,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
 
-            int suppliername1 = viewModel.supplier1;
-            int suppliername2 = viewModel.supplier2;
-            int suppliername3 = viewModel.supplier3;
+            
             MonthlyItemUsageViewModel viewmodel = new MonthlyItemUsageViewModel();
-            List<MonthlyItemUsageByClerkModel> mm = APIReport.ItemUsageByClerk(token, out error, suppliername1, suppliername2, suppliername3);
+            List<MonthlyItemUsageByClerkModel> mm = APIReport.ItemUsageByClerk(token, out error, s1, s2, s3);
             viewmodel.mtu = new List<MonthlyItemResultUsageViewModel>();
 
 
@@ -224,7 +213,7 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         [HttpPost]
-        public ActionResult ItemTrendAnalysis(int d1,int d2,int d3)
+        public ActionResult ItemTrendAnalysis(int month, int d1,int d2,int d3)
         {
 
             string error = "";
@@ -232,12 +221,8 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             string token = GetToken();
-
-            ItemTrendAnalysisViewModel viewModel = new ItemTrendAnalysisViewModel();
-            List<ItemTrendDetailViewModel> lm = new List<ItemTrendDetailViewModel>();
            
-          
-            int month = viewModel.month;
+            List<ItemTrendDetailViewModel> lm = new List<ItemTrendDetailViewModel>();
             ItemTrendAnalysisViewModel viewmodel = new ItemTrendAnalysisViewModel();
             List<ItemTrendAnalysisModel> itm = APIReport.ItemTrendAnalysis(token, out error, d1, d2, d3, month);
             viewmodel.itd = new List<ItemTrendDetailViewModel>();
@@ -259,10 +244,10 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
             ViewBag.count = viewmodel.itd.Count;
-
             ViewBag.itd = viewmodel.itd;
 
-
+            ViewBag.deptlist = APIDepartment.GetAllDepartments(token, out error);
+            
             return View(viewmodel);
         }
 
@@ -416,11 +401,11 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
 
-            int deptid = viewModel.Deptid;
-            DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
-            DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
-            //DateTime startdate = viewModel.startdate;
-            //DateTime enddate = viewModel.enddate;
+            int deptid = um.Deptid;
+            //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
+            //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
+            DateTime startdate = viewModel.startdate.Value;
+            DateTime enddate = viewModel.enddate.Value;
 
 
 

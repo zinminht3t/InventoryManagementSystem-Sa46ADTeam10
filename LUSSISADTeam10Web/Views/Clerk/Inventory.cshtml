@@ -60,7 +60,7 @@
                                             <th style="text-align:center">
                                                 IssueDate
                                             </th>
-                                            <th class="hideinmobile" style="text-align:center">
+                                            <th style="text-align:center">
                                                 Category
                                             </th>
                                             <th style="text-align:center">
@@ -72,7 +72,7 @@
                                             <th style="text-align:center">
                                                 Checked Qty
                                             </th>
-                                            <th class="hideinmobile" style="text-align:center">
+                                            <th style="text-align:center">
                                                 UOM
                                             </th>
                                             <th style="text-align:center">
@@ -87,7 +87,7 @@
                                                 <td style="text-align:center">
                                                     @Convert.ToDateTime(@adj.IssueDate).ToString("dd/MM/yyyy")
                                                 </td>
-                                                <td class="hideinmobile" style="text-align:center">
+                                                <td style="text-align:center">
 
                                                     @adj.CategoryName
                                                 </td>
@@ -100,7 +100,7 @@
                                                 <td style="text-align:center">
                                                     @adj.Adjustedqty
                                                 </td>
-                                                <td class="hideinmobile" style="text-align:center">
+                                                <td style="text-align:center">
                                                     @adj.UOM
                                                 </td>
                                                 <td style="text-align:center">
@@ -126,10 +126,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-12">
-                    @using (Html.BeginForm("Inventory", "Clerk", FormMethod.Post))
-                    {
 
-                        <table>
+                        <table id="bootstrap-data-table">
                             <thead class="table-info">
                                 <tr>
                                     <th style="text-align:center">Category</th>
@@ -174,9 +172,8 @@
                                                 }
 
                                             }
-                                            @*@Html.CheckBox("InvID",item.Invid)*@
                                             <div class="form-check">
-                                                <input class="glyphicon-check" name="Invid" type="checkbox" value="@item.Invid" id="checkbox" @Disable>
+                                                <input class="theclass" name="Invid" type="checkbox" onclick="addtoarray(this)" value="@item.Invid" id="checkbox" @Disable>
 
                                             </div>
                                         </td>
@@ -185,5 +182,45 @@
                             </tbody>
                         </table>
                         <br />
-                        <input type="submit" value="Submit" class="btn btn-outline-success pull-right" id="submit" />
+                        <button onclick="Checked()" class="btn btn-outline-success pull-right">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var myArray = new Array();
+
+        function addtoarray(source) {
+            if (source.Checked != "") {
+                console.log(source.Checked);
+
+                if (!myArray.includes(source.val)) {
+                    myArray.push(source.val);
+                }
+            }
+            else {
+                console.log("unchecked");
+                if (myArray.includes(source.val)) {
+                    var index = myArray.indexOf(source.val);
+                    if (index > -1) {
+                        myArray.splice(index, 1);
                     }
+                }
+            }
+
+            console.log(myArray);
+
+        }
+
+
+        function Checked() {
+
+            console.log(myArray);
+                @*$.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Inventory", "Clerk")",
+                    data: { Invid: myArray },
+                })*@
+    }
+    </script>

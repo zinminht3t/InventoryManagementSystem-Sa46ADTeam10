@@ -154,7 +154,7 @@ foreach (var i in item.Adjds)
                                 {
                                     <tr style="height:45px">
                                         <td>
-                                            @Convert.ToDateTime(@Html.DisplayFor(modelItem=> item.Issueddate)).ToString("dd/MM/yyyy")
+                                            @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem=> item.Raisedbyname)

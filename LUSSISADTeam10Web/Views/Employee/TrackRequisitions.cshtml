@@ -106,13 +106,9 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.Status == 0)
+                                                @if (item.Status > 1)
                                                 {
                                                     <a href="@Url.Action("ApproveRequisition", "HOD", new { id = item.Reqid })" class="btn btn-outline-info"><i class="fa fa-check"></i> Approve</a>
-                                                }
-                                                else if (item.Status <= 4)
-                                                {
-                                                    <a href="@Url.Action("TrackRequisition", "HOD", new { id = item.Reqid }, null)" class="btn btn-outline-info"><i class="fa fa-location-arrow"></i> Track</a>
                                                 }
                                             </td>
 

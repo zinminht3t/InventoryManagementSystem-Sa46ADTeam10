@@ -55,7 +55,7 @@
                     <div class="container">
 
                         @{int j = 0; }
-
+                         @{int i = 0;}
                         @foreach (string cpname in ViewBag.CollectionPointNames)
                         {
                             <div class="panel-group" id="accordionp_@j" role="tablist">
@@ -80,7 +80,7 @@
                                         <div class="panel-body">
 
 
-                                            @{int i = 0;}
+                                           
                                             <div class="container">
 
 
@@ -127,6 +127,7 @@
                                                                                         <td>@item.ApprovedQty</td>
                                                                                         <td>@item.UOM</td>
                                                                                     </tr>
+                                                                                   
                                                                                 }
                                                                             </tbody>
                                                                         </table>

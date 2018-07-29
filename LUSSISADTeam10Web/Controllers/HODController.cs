@@ -25,10 +25,9 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        [Authorize(Roles = "HOD")]
+        [Authorize(Roles = "HOD, TempHOD")]
         public ActionResult Index()
         {
-
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
@@ -371,12 +370,12 @@ namespace LUSSISADTeam10Web.Controllers
                     result = true;
                     if (error != "")
                     {
-                      //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                       // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                  //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
                 }
             }
 
