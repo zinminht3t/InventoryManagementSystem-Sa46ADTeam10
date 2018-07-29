@@ -1,6 +1,6 @@
 ﻿@model LUSSISADTeam10Web.Models.APIModels.RequisitionModel
 @{
-    ViewBag.Title = "Chart";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -11,7 +11,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Title Here</h1>
+                <h1>Head of Department</h1>
             </div>
         </div>
     </div>
@@ -20,7 +20,6 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Title Here</li>
                 </ol>
             </div>
         </div>
@@ -28,22 +27,69 @@
 </div>
 <div class="content mt-3">
     <div class="animated fadeIn">
-        <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Title Here </strong>
-            </div>
-            <div class="card-body">
-                <button onclick="test()">Click</button>
-                <div class="row">
-                    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <button onclick="test()">Click</button>
                         <canvas id="myChart" class="m-auto p-3"></canvas>
                     </div>
-                    <div class="col-md-6">
-
-                    </div>
-
                 </div>
+            </div>
+            <div class="col-md-4">
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("RequisitionsList")"><i class="ti-package text-info border-info"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Pending Requisitons</div>
+                                <div class="stat-digit">@ViewBag.ReqCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("AssignDepRep")"><i class="ti-user text-success border-success"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Department Representative</div>
+                                <div class="stat-digit">@ViewBag.Repname</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("CollectionPoint")"><i class="ti-location-pin text-danger border-danger"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Collection Point</div>
+                                <div class="stat-digit">@ViewBag.CollectionPoint</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("SearchPreviousDelegation")"><i class="ti-share text-warning border-warning"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Temporary HOD</div>
+                                <div class="stat-digit">@ViewBag.TempHOD</div>
+                                <em>@ViewBag.TempDate</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
