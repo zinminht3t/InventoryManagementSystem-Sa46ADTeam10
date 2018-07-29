@@ -198,6 +198,7 @@ namespace LUSSISADTeam10API.Repositories
                 //check item price
                 foreach (AdjustmentDetailModel adjd in adjds)
                 {
+                    adj.raisedto = 0;
                     SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.Itemid, out error);
                     double? price = Math.Abs((Int32)adjd.Adjustedqty) * supp.Price;
 
