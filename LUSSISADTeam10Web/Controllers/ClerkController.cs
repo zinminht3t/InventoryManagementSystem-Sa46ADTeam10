@@ -724,7 +724,7 @@ namespace LUSSISADTeam10Web.Controllers
         //Get All checked Inventories
         [HttpPost]
         public ActionResult Inventory(List<int> Invid)
-        { //List<int> Invid
+        { 
             string token = GetToken();
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 
@@ -799,7 +799,7 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Adjustment Form";
-            Session["notimessage"] = "Adjustment Form with " +invent.Count+ " items are successfully rasised";
+            Session["notimessage"] = "Adjustment Form was successfully rasised";
             return RedirectToAction("Inventory");
         }
         // End MaHus

@@ -61,7 +61,7 @@
     {
                                 <tr style="height:40px">
                                     <td>
-                                        @Convert.ToDateTime(Html.DisplayFor(modelItem => item.Issueddate)).ToString("dd/MM/yyyy")
+                                        @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Raisedbyname)
