@@ -1,5 +1,4 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Supervisor.AdjustmentViewModel>
-@using LUSSISADTeam10Web.Constants;
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.AdjustmentModel>
 
 @{
     ViewBag.Title = "History";
@@ -18,7 +17,7 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Supervisor")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Manager")">Dashboard</a></li>
                     <li class="active">History</li>
                 </ol>
             </div>
@@ -28,92 +27,88 @@
 
 <div class="content mt-3">
     <div class="animated fadeIn">
-
-
         <div class="card">
             <div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> History Adjustment List </strong>
+                <strong class="card-title"> Adjustment History List</strong>
             </div>
 
             <div class="card-body">
                 <h5 class="text-sm-center text-info"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table">
-                            <tr>
-                                <th>
-                                    Issued Date
-                                </th>
-                                <th>
-                                    Reported By
-                                </th>
-                                <th>
-                                    Reported To
-                                </th>
-                                <th>
-                                    Total Price
-                                </th>
+                <div class="card card-body">
+                    <table id="bottstrap-data-table">
+                        <tr style="background-color:lightblue;height:45px">
+                            <th>
+                                Issued Date
+                            </th>
+                            <th>
+                                Reported By
+                            </th>
+                            <th>
+                                Reported To
+                            </th>
+                            <th>
+                                Total Price
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr style="height:40px">
+                                <td>
+                                    @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Raisedbyname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Raisedtoname)
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.TotalPrice)
+                                </td>
                             </tr>
-
-                            @foreach (var item in Model)
+                            <tr style="height:40px;background-color:aliceblue">
+                                <th>Category</th>
+                                <th>Item</th>
+                                <th>Adjusted Qty</th>
+                                <th>UOM</th>
+                                <th>Price</th>
+                                <th>Reason</th>
+                            </tr>
+                            foreach (var i in item.Adjds)
                             {
-                                <tr style="background-color:lightblue">
+
+                                <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Issueddate)
+                                        @Html.DisplayFor(modelItem => i.CategoryName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Raisedbyname)
+                                        @Html.DisplayFor(modelItem => i.Itemdescription)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.RaisedTobyname)
+                                        @Html.DisplayFor(modelItem => i.Adjustedqty)
                                     </td>
                                     <td>
-                                        $@Html.DisplayFor(modelItem => item.TotalPrice)
+                                        @Html.DisplayFor(modelItem => i.UOM)
+                                    </td>
+                                    <td>
+                                        $@Html.DisplayFor(modelItem => i.Price)
+                                    </td>
+                                    <td>
+                                        @if (i.Reason == "" || i.Reason == null)
+                                        {
+                                            i.Reason = "_";
+                                        }
+                                        @Html.DisplayFor(modelItem => i.Reason)
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Item</th>
-                                    <th>Adjusted Qty</th>
-                                    <th>UOM</th>
-                                    <th>Price</th>
-                                    <th>Reason</th>
-                                </tr>
-                                foreach (var i in item.adjdvm)
-                                {
-
-                                    <tr style="border:hidden;width:inherit">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => i.CategoryName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => i.Itemdescription)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => i.Adjustedqty)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => i.UOM)
-                                        </td>
-                                        <td>
-                                            $@Html.DisplayFor(modelItem => i.Price)
-                                        </td>
-                                        <td>
-                                            @if (i.Reason == "" || i.Reason == null)
-                                            {
-                                                i.Reason = "_";
-                                            }
-                                            @Html.DisplayFor(modelItem => i.Reason)
-                                        </td>
-                                    </tr>
-                                }
-
                             }
-                        </table>
-                    </div>
+                        }
                 </div>
+                </table>
             </div>
         </div>
     </div>
 </div>
+    </div>
