@@ -46,7 +46,7 @@ namespace LUSSISADTeam10Web
                         e.User = new System.Security.Principal.GenericPrincipal(
                           new System.Security.Principal.GenericIdentity(user.Fullname, "Forms"), roles.Split(';'));
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
                         Response.Redirect(urlHelper.Action("Login", "Account"));

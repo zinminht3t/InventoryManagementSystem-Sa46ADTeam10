@@ -216,12 +216,14 @@
     <Compile Include="Models\APIModels\MonthlyItemUsageByClerkModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
     <Compile Include="Models\APIModels\NumberofRequestModel.cs" />
+    <Compile Include="Models\APIModels\NumberofRequisitionModel.cs" />
     <Compile Include="Models\APIModels\OrderByDepartmentModel.cs" />
     <Compile Include="Models\APIModels\OrderHistoryModel.cs" />
     <Compile Include="Models\APIModels\OutstandingItemModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqDetailModel.cs" />
     <Compile Include="Models\APIModels\OutstandingReqModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderDetailModel.cs" />
+    <Compile Include="Models\APIModels\PurchaseOrderFor5MonthModel.cs" />
     <Compile Include="Models\APIModels\PurchaseOrderModel.cs" />
     <Compile Include="Models\APIModels\ReportModel.cs" />
     <Compile Include="Models\APIModels\ReportsModel.cs" />
@@ -319,6 +321,9 @@
     <Compile Include="Models\DBModels\NumberofRequest.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\NumberofRequsition.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\OrderByDepartmentDarshboard.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -356,6 +361,9 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPNumberofRequest_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPNumberofRequsition_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPOrderByDepartmentDarshboard_Result.cs">

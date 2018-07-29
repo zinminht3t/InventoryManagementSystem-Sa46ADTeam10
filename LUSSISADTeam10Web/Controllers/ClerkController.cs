@@ -3,6 +3,7 @@ using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Clerk;
+using LUSSISADTeam10Web.Models.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,7 +146,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
@@ -169,7 +170,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
@@ -1062,10 +1063,10 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
-            {
-                return RedirectToAction("Outstanding");
-            }
+            //if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
+            //{
+            //    return RedirectToAction("Outstanding");
+            //}
 
             outreqvm.ReqId = outr.ReqId;
             outreqvm.DeptId = reqm.Depid;

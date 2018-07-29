@@ -31,7 +31,7 @@ namespace LUSSISADTeam10Web.Models.Report
         public string d3Name { get; set; }
 
 
-        public int month { get; set; }
+        public string month { get; set; }
         public List<ItemTrendDetailViewModel> itd { get; set; }
 
 

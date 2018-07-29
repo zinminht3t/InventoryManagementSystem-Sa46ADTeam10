@@ -96,19 +96,7 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.itd.Add(result);
             }
 
-
-
-            List<int> month = new List<int>();
-                for (int i = 1; i <= 12; i++)
-                {
-                    month.Add(i);
-                }
-
-
-
-
-            ViewBag.monthlist = month;
-            ViewBag.deptlist = viewmodel.itd;
+            ViewBag.deptlist = APIDepartment.GetAllDepartments(token, out error);
             ViewBag.count = 0;
             return View(viewmodel);
         }
@@ -224,7 +212,7 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         [HttpPost]
-        public ActionResult ItemTrendAnalysis(int d1,int d2,int d3)
+        public ActionResult ItemTrendAnalysis(int month, int d1,int d2,int d3)
         {
 
             string error = "";
@@ -232,12 +220,8 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             string token = GetToken();
-
-            ItemTrendAnalysisViewModel viewModel = new ItemTrendAnalysisViewModel();
-            List<ItemTrendDetailViewModel> lm = new List<ItemTrendDetailViewModel>();
            
-          
-            int month = viewModel.month;
+            List<ItemTrendDetailViewModel> lm = new List<ItemTrendDetailViewModel>();
             ItemTrendAnalysisViewModel viewmodel = new ItemTrendAnalysisViewModel();
             List<ItemTrendAnalysisModel> itm = APIReport.ItemTrendAnalysis(token, out error, d1, d2, d3, month);
             viewmodel.itd = new List<ItemTrendDetailViewModel>();
@@ -259,10 +243,10 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
             ViewBag.count = viewmodel.itd.Count;
-
             ViewBag.itd = viewmodel.itd;
 
-
+            ViewBag.deptlist = APIDepartment.GetAllDepartments(token, out error);
+            
             return View(viewmodel);
         }
 
