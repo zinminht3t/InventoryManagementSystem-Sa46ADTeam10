@@ -1073,6 +1073,9 @@
     <Content Include="Styles\images\logo.png" />
     <Content Include="Styles\images\logo2.png" />
     <Content Include="Styles\images\placeholder.png" />
+    <Content Include="Styles\images\sort_asc.png" />
+    <Content Include="Styles\images\sort_both.png" />
+    <Content Include="Styles\images\sort_desc.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
     <Content Include="Styles\images\user.png" />
