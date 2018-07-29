@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -28,32 +28,28 @@
 <div class="content mt-3">
     <div class="animated fadeIn">
         <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Adjustment History List</strong>
-            </div>
-
             <div class="card-body">
-                <h5 class="text-sm-center text-info"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />               
-                    <div class="card card-body">
-                        <table id="bottstrap-data-table">
-                            <tr style="background-color:lightblue;height:45px" >
-                                <th>
-                                    Issued Date
-                                </th>
-                                <th>
-                                    Reported By
-                                </th>
-                                <th>
-                                    Reported To
-                                </th>
-                                <th>
-                                    Total Price
-                                </th>
-                            </tr>
-                            
-                                @foreach (var item in Model)
-    {
+            <div class="card-body">
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
+                <div class="card card-body" style="border:hidden">
+                    <table id="bottstrap-data-table">
+                        <tr style="background-color:lightblue;height:45px">
+                            <th>
+                                Issued Date
+                            </th>
+                            <th>
+                                Reported By
+                            </th>
+                            <th>
+                                Reported To
+                            </th>
+                            <th>
+                                Total Price
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
                             <tr style="height:40px">
                                 <td>
                                     @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
@@ -76,38 +72,39 @@
                                 <th>Price</th>
                                 <th>Reason</th>
                             </tr>
-foreach (var i in item.Adjds)
-{
+                            foreach (var i in item.Adjds)
+                            {
 
-                            <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.Itemdescription)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.Adjustedqty)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => i.UOM)
-                                </td>
-                                <td>
-                                    $@Html.DisplayFor(modelItem => i.Price)
-                                </td>
-                                <td>
-                                    @if (i.Reason == "" || i.Reason == null)
-        {
-            i.Reason = "_";
-        }
-                                    @Html.DisplayFor(modelItem => i.Reason)
-                                </td>
-                            </tr>
-}
-}
-                                </div>
-</table>
-                    </div>
+                                <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.CategoryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.Itemdescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.Adjustedqty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.UOM)
+                                    </td>
+                                    <td>
+                                        $@Html.DisplayFor(modelItem => i.Price)
+                                    </td>
+                                    <td>
+                                        @if (i.Reason == "" || i.Reason == null)
+                                        {
+                                            i.Reason = "_";
+                                        }
+                                        @Html.DisplayFor(modelItem => i.Reason)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                
+            </div>
                 </div>
             </div>
         </div>

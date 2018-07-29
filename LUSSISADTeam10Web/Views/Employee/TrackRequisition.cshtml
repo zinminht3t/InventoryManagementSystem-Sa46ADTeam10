@@ -61,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -110,7 +110,7 @@
 
                             <div class="card-body">
                                 <div class="mx-auto d-block">
-                                    <h5 class="text-sm-center text-info"> <i class="fa fa-location-arrow fa-3x"></i><br /> @ViewBag.Track </h5><br />
+                                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-location-arrow fa-3x"></i><br /> @ViewBag.Track </h5><br />
                                     <h6>Raised By :  @Model.Rasiedbyname </h6><br />
                                     <h6>Collection Point : @Model.Cpname</h6><br />
                                     <h6>Requested Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
@@ -119,8 +119,8 @@
                                         <table class="table table-bordered table-hover">
                                             <thead class="table-info">
                                                 <tr>
-                                                    <th>Item Name</th>
-                                                    <th>Category Name</th>
+                                                    <th>Item</th>
+                                                    <th class="hideinmobile">Category Name</th>
                                                     <th>Quantity</th>
                                                     <th>UOM</th>
                                                 </tr>
@@ -130,7 +130,7 @@
                                                 {
                                                     <tr>
                                                         <td>@item.Itemname</td>
-                                                        <td>@item.CategoryName</td>
+                                                        <td class="hideinmobile">@item.CategoryName</td>
                                                         <td>@item.Qty</td>
                                                         <td>@item.UOM</td>
                                                     </tr>

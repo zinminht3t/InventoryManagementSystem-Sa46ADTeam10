@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -27,15 +27,11 @@
 </div>
 <div class="card">
     <br/>
-    <h5 class="text-sm-center text-info"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
+    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
     <div class="panel-group" id="accordion">
 
         <div class="animated fadeIn">
             <div class="card">
-                <div class="card-header">
-                    <i class="fa fa-caret-square-o-down" style="font-size:20px"></i>
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="font-weight:600">Adjustments Reported to Supervisor</a>
-                </div>
                 <div id="collapse1" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="card" style="border:hidden">
@@ -122,14 +118,6 @@ foreach (var i in item.Adjds)
 
     <div class="content mt-3">
         <div class="animated fadeIn">
-
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="mr-2 fa fa-align-justify"></i>
-                    <strong class="card-title">Adjustments Reported to Manager </strong>
-                </div>
-
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
