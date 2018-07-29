@@ -2,7 +2,6 @@
 using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
-using LUSSISADTeam10Web.Models.Supervisor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +15,72 @@ namespace LUSSISADTeam10Web.Controllers
 
     public class SupervisorController : Controller
     {
-        // GET: Supervisor
         public ActionResult Index()
         {
-            return View("SupervisorDashboard");
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+
+            List<AdjustmentModel> adjs = new List<AdjustmentModel>();
+
+            List<SupplierModel> sups = new List<SupplierModel>();
+
+            List<PurchaseOrderModel> pos = new List<PurchaseOrderModel>();
+
+            List<InventoryDetailModel> invs = new List<InventoryDetailModel>();
+
+
+            try
+            {
+                reportData = APIReport.FrequentlyItemList(token, out error);
+
+                adjs = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
+                if (adjs == null)
+                {
+                    ViewBag.AdjCount = 0;
+                }
+                else
+                {
+                    ViewBag.AdjCount = adjs.Where(x => x.Raisedto == um.Userid).Count();
+                }
+
+                sups = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out error);
+                if (sups == null)
+                {
+                    ViewBag.SupCount = 0;
+                }
+                else
+                {
+                    ViewBag.SupCount = sups.Count;
+                }
+
+                pos = APIPurchaseOrder.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, token, out error);
+                if (pos == null)
+                {
+                    ViewBag.POCount = 0;
+                }
+                else
+                {
+                    ViewBag.POCount = pos.Count;
+                }
+
+                invs = APIInventory.GetAllInventoryDetails(token, out error);
+                if (invs == null)
+                {
+                    ViewBag.RestockCount = 0;
+                }
+                else
+                {
+                    ViewBag.RestockCount = invs.Where(x => x.RecommendedOrderQty > 0).Count();
+                }
+
+                return View("Index", reportData);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
         public ActionResult Approve()
         {
