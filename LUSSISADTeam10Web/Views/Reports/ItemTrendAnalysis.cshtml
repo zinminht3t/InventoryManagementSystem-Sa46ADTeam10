@@ -3,6 +3,15 @@
 @{
     ViewBag.Title = "ItemTrendAnalysis";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string[] mon = {"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" };
+
+    Dictionary<int, string> months = new Dictionary<int, string>();
+    for (int i = 1; i <= 12; i++)
+    {
+        months.Add(i, mon[i - 1]);
+    }
 }
 
 <h2>ItemTrendAnalysis</h2>
@@ -17,52 +26,56 @@
         <h2>ItemUsageByClerk</h2>
         <div class="row">
 
-            @Html.DropDownListFor(model => model.month, new SelectList(ViewBag.monthlist))
+            <select name="month">
+                @{ foreach (var item in months) {
+                        <option value="@item.Key">@item.Value</option>
+                    } }
+            </select>
 
          </div>
            
-            <select>
+            <select name="d1">
                 @{
 
 
                     foreach (var item in ViewBag.deptlist)
                     {
 
-                        <option asp-for="ItemTrendAnalysis" name="d1"
-                                value="@item.d1" class="ifrm-check-input">
-                            @item.d1Name
+                        <option asp-for="ItemTrendAnalysis"
+                                value="@item.Deptid" class="ifrm-check-input">
+                            @item.Deptname
                         </option>
                     }
 
 
                 }
             </select>
-            <select>
+            <select name="d2">
                 @{
 
 
                     foreach (var item in ViewBag.deptlist)
                     {
 
-                        <option asp-for="ItemTrendAnalysis" name="d2"
-                                value="@item.d2" class="ifrm-check-input">
-                            @item.d2Name
+                        <option asp-for="ItemTrendAnalysis"
+                                value="@item.Deptid" class="ifrm-check-input">
+                            @item.Deptname
                         </option>
                     }
 
 
                 }
             </select>
-            <select>
+            <select name="d3">
                 @{
 
 
                     foreach (var item in ViewBag.deptlist)
                     {
 
-                        <option asp-for="ItemTrendAnalysis" name="d3"
-                                value="@item.d3" class="ifrm-check-input">
-                            @item.d3Name
+                        <option asp-for="ItemTrendAnalysis"
+                                value="@item.Deptid" class="ifrm-check-input">
+                            @item.Deptname
                         </option>
                     }
 
@@ -99,7 +112,7 @@
 
 
     }
-    @*<div class="card-body">
+    <div class="card-body">
 
         @if (ViewBag.Count == 0)
         {
@@ -159,7 +172,7 @@
 
 
 
-    </div>*@
+    </div>
 
 </body>
 </html>
