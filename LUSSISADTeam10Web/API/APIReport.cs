@@ -11,6 +11,13 @@ namespace LUSSISADTeam10Web.API
 {
     public class APIReport
     {
+        // Manager PO report
+        public static List<POCountList> GetPoForfiveMonths(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/poforfivemonths/";
+            List<POCountList> poList = APIHelper.Execute<List<POCountList>>(token, url, out error);
+            return poList;
+        }
 
         public static List<ReportsModel> MonthlyItemUsageReportByHOD(string token, out string error)
         {
@@ -18,7 +25,6 @@ namespace LUSSISADTeam10Web.API
             List<ReportsModel> mtul = APIHelper.Execute<List<ReportsModel>>(token, url, out error);
             return mtul;
         }
-
 
         public static List<RequsitionListReportModel> RequisitionList(string token, out string error)
         {

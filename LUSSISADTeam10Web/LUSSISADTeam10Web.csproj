@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="APIModels\AdjustmentModel.cs" />
     <Compile Include="APIModels\BreakdownByDepartmentModel.cs" />
@@ -1345,7 +1346,6 @@
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
-    <Content Include="Views\Supervisor\SupervisorDashboard.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />
     <Content Include="Views\HOD\TrackRequisition.cshtml" />
