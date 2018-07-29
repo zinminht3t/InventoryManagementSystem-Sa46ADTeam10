@@ -21,80 +21,49 @@ namespace LUSSISADTeam10Web.Controllers
         {
             return View("SupervisorDashboard");
         }
-        public List<AdjustmentViewModel> getViewModel(List<AdjustmentModel> adjlist)
+        public ActionResult Approve()
         {
             string token = GetToken();
-            List<AdjustmentViewModel> advlist = new List<AdjustmentViewModel>();
+            List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
+            List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
             SupplierItemModel supp = new SupplierItemModel();
 
             try
             {
+                //get pending status adjustments
+                adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
                 foreach (AdjustmentModel ad in adjlist)
                 {
-                    AdjustmentViewModel adv = new AdjustmentViewModel();
-                    UserModel user = new UserModel();
-
-                    user = APIUser.GetUserByUserID((int)ad.Raisedto, token, out string error);
-                    adv.Adjid = ad.Adjid;
-                    adv.Issueddate = ad.Issueddate;
-                    adv.Raisedbyname = ad.Raisedbyname;
-                    adv.RaisedToRole = user.Role;
-                    adv.RaisedTobyname = ad.Raisedtoname;
-                    adv.adjdvm = new List<AdjustmentDetailViewModel>();
-
-                    foreach (AdjustmentDetailModel adjdm in ad.Adjds)
+                    //to divide according to raised to user role
+                    ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
+                    foreach (AdjustmentDetailModel adj in ad.Adjds)
                     {
-                        AdjustmentDetailViewModel advdetail = new AdjustmentDetailViewModel();
-                        advdetail.Adjid = ad.Adjid;
-                        advdetail.Adjustedqty = adjdm.Adjustedqty;
-                        advdetail.CategoryName = adjdm.CategoryName;
-                        advdetail.Itemdescription = adjdm.Itemdescription;
-                        advdetail.Reason = adjdm.Reason;
-                        advdetail.UOM = adjdm.UOM;
-
                         try
                         {
-                            //Not all items price in database
-                            supp = APISupplier.GetOneSupplierItemByItemId(adjdm.Itemid, token, out error);
-                            advdetail.Price = supp.Price * Math.Abs(advdetail.Adjustedqty);
-                            adv.TotalPrice += (double)advdetail.Price;
+                            //to show each item adjusted price and total pirce of adjustment form
+                            supp = APISupplier.GetOneSupplierItemByItemId(adj.Itemid, token, out error);
+                            adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
+                            ad.TotalPrice += adj.Price;
                         }
                         catch (Exception e)
                         {
-                            if (supp == null) advdetail.Price = 0.0;
+                            if (supp == null) ad.TotalPrice += 0;
                         }
-                        adv.adjdvm.Add(advdetail);
                     }
-                    advlist.Add(adv);
                 }
             }
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return advlist;
-        }
-        public ActionResult Approve()
-        {
-            string token = GetToken();
-            List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-           
-            try
-            {
-                adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-            }
-            catch (Exception ex)
-            {
-                RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            ViewBag.manager = ConUser.Role.MANAGER;
-                return View(getViewModel(adjlist));
+            ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
+            adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
+            return View(adjlist);
         }
         [HttpPost]
         public ActionResult Approve(int id)
         {
             string token = GetToken();
-
             try
             {
                 AdjustmentModel adj = APIAdjustment.GetAdjustmentbyAdjId(token, id, out string error);
@@ -107,21 +76,33 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("Approve");
         }
+        #region History
         public ActionResult History()
         {
             string token = GetToken();
             List<AdjustmentModel> adjlist = new List<AdjustmentModel>();
-            
+            SupplierItemModel supp = new SupplierItemModel();
             try
             {
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.APPROVED, out string error);
+                foreach (AdjustmentModel ad in adjlist)
+                {
+                    foreach (AdjustmentDetailModel add in ad.Adjds)
+                    {
+                        supp = APISupplier.GetOneSupplierItemByItemId(add.Itemid, token, out error);
+                        add.Price = supp.Price * Math.Abs(add.Adjustedqty);
+                        ad.TotalPrice += add.Price;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return View(getViewModel(adjlist));
+            return View(adjlist);
         }
+        #endregion
+
 
         #region Utilities
         public string GetToken()

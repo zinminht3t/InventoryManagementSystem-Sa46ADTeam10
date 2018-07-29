@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Supervisor.AdjustmentViewModel>
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.AdjustmentModel>
 @using LUSSISADTeam10Web.Constants;
 
 @{
@@ -18,70 +18,61 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Supervisor")">Dashboard</a></li>
-                    <li class="active">Pending Approval</li>
+                    <li class="active"><a href="@Url.Action("Approval","Supervisor")">Pending Approval</a></li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
+<div class="card">
+    <br />
+    <h5 class="text-sm-center text-info"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
+    <div class="panel-group" id="accordion">
 
-<div class="content mt-3">
-    <div class="animated fadeIn">
+        <div class="animated fadeIn">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-caret-square-o-down" style="font-size:20px"></i>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="font-weight:600">Adjustments Reported to Manager</a>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="card" style="border:hidden">
 
-
-        <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Awaiting Approval List </strong>
-            </div>
-
-            <div class="card-body">
-                <h5 class="text-sm-center text-info"> <i class="ti-stamp fa-3x"></i><br /> Approve Adjustment</h5><br />
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table">
-                            <tr>
-                                <th>
-                                    Issued Date
-                                </th>
-                                <th>
-                                    Reported By
-                                </th>
-                                <th>
-                                    Reported To
-                                </th>
-                                <th></th>
-                            </tr>
-
-                            @foreach (var item in Model)
-                            {
-                                <tr style="background-color:lightblue">
+                            <div class="card card-body" style="border:hidden">
+                                <table id="bottstrap-data-table">
+                                    <tr style="background-color:lightblue;height:45px">
+                                        <th>
+                                            Issued Date
+                                        </th>
+                                        <th>
+                                            Reported By
+                                        </th>
+                                        <th>
+                                            Reported To
+                                        </th>
+                                        <th>
+                                            Total Price Adjusted
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var item in ViewBag.manager)
+    {
+                                <tr style="height:40px">
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Issueddate)
+                                        @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Raisedbyname)
+                                        @item.Raisedbyname
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.RaisedTobyname)
+                                        @item.Raisedtoname
                                     </td>
                                     <td>
-                                        @{
-                                            string Disabled = "";
-                                            string color = "";
-                                            if (item.RaisedToRole == ConUser.Role.MANAGER)
-                                            {
-                                                Disabled = "disabled";
-                                                color = "grey";
-                                            }
-                                        }
-                                        @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
-                                        {
-                                            <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" @Disabled style="background-color:@color" />
-                                        }
+                                        $@item.TotalPrice
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="height:40px;background-color:aliceblue">
                                     <th>Category</th>
                                     <th>Item</th>
                                     <th>Adjusted Qty</th>
@@ -89,37 +80,137 @@
                                     <th>Price</th>
                                     <th>Reason</th>
                                 </tr>
-                                foreach (var i in item.adjdvm)
-                                {
+foreach (var i in item.Adjds)
+{
 
-                                    <tr style="border:hidden;width:inherit">
+                                <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
+                                    <td>
+                                        @i.CategoryName
+                                    </td>
+                                    <td>
+                                        @i.Itemdescription
+                                    </td>
+                                    <td>
+                                        @i.Adjustedqty
+                                    </td>
+                                    <td>
+                                        @i.UOM
+                                    </td>
+                                    <td>
+                                        $@i.Price
+                                    </td>
+                                    <td>
+                                        @if (i.Reason == "" || i.Reason == null)
+        {
+            i.Reason = "_";
+        }
+                                        @i.Reason
+                                    </td>
+                                </tr>
+}
+}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title">Adjustments Reported to Supervisor </strong>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <table id="bootstrap-data-table">
+                                <tr style="background-color:lightblue;height:45px">
+                                    <th>
+                                        Issued Date
+                                    </th>
+                                    <th>
+                                        Reported By
+                                    </th>
+                                    <th>
+                                        Reported To
+                                    </th>
+                                    <th>
+                                        Total Price Adjusted
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="height:45px">
                                         <td>
-                                            @Html.DisplayFor(modelItem => i.CategoryName)
+                                            @Convert.ToDateTime(@Html.DisplayFor(modelItem=> item.Issueddate)).ToString("dd/MM/yyyy")
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => i.Itemdescription)
+                                            @Html.DisplayFor(modelItem=> item.Raisedbyname)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => i.Adjustedqty)
+                                            @Html.DisplayFor(modelItem=> item.Raisedtoname)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => i.UOM)
+                                            $@Html.DisplayFor(modelItem=> item.TotalPrice)
                                         </td>
                                         <td>
-                                            $@Html.DisplayFor(modelItem => i.Price)
-                                        </td>
-                                        <td>
-                                            @if (i.Reason == "" || i.Reason == null)
+                                            @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
                                             {
-                                                i.Reason = "_";
+                                                <input type="submit" class="btn-block btn-group-sm btn-primary" value="Approve" />
                                             }
-                                            @Html.DisplayFor(modelItem => i.Reason)
                                         </td>
                                     </tr>
-                                }
+                                    <tr style="background-color:aliceblue">
+                                        <th>Category</th>
+                                        <th>Item</th>
+                                        <th>Adjusted Qty</th>
+                                        <th>UOM</th>
+                                        <th>Price</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                    foreach (var i in item.Adjds)
+                                    {
 
-                            }
-                        </table>
+                                        <tr style="border:hidden;width:inherit;background-color:aliceblue">
+                                            <td>
+                                                @i.CategoryName
+                                            </td>
+                                            <td>
+                                                @i.Itemdescription
+                                            </td>
+                                            <td>
+                                                @i.Adjustedqty
+                                            </td>
+                                            <td>
+                                                @i.UOM
+                                            </td>
+                                            <td>
+                                                $@i.Price
+                                            </td>
+                                            <td>
+                                                @if (i.Reason == "" || i.Reason == null)
+                                                {
+                                                    i.Reason = "_";
+                                                }
+                                                @i.Reason
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

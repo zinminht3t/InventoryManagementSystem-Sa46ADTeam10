@@ -23,7 +23,7 @@ namespace LUSSISADTeam10Web.Constants
             public const int CollectedRequistion = 4;
             public const int RejectedRequistion = 5;
             public const int HODApprovedRequistion = 6;
-            public const int ClerkApprovedRequisiton = 7;
+            public const int ClerkApprovedRequisition = 7;
 
 
             public const int ClerkApprovedCollectionPointChange = 8;
