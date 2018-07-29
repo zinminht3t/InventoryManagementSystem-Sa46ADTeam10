@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierModel>
 
 @{
-    ViewBag.Title = "ShowActiveSupplierlist";
+    ViewBag.Title = "Active Suppliers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -14,7 +14,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-left">
                     <li><a href="@Url.Action("ShowActiveSupplierlist" ,"Clerk")"><b>Active Suppliers</b></a></li>
-                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">OldSuppliers</a></li>
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">Old Suppliers</a></li>
                     <li><a href="@Url.Action("CreateSuppandItem", "Clerk")">Create </a></li>
 
                 </ol>
@@ -25,7 +25,7 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li><a href="@Url.Action("ShowActiveSupplierlist" ,"Clerk")">Active Suppliers</a></li>
                 </ol>
             </div>

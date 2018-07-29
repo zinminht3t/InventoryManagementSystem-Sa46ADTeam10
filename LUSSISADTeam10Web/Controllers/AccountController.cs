@@ -42,12 +42,6 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["role"] = um.Role;
                     Session["department"] = um.Deptname;
 
-
-                    Session["noti"] = true;
-                    Session["notitype"] = "success";
-                    Session["notititle"] = "Login Success";
-                    Session["notimessage"] = "Your Login is Successful";
-
                     switch (um.Role)
                     {
                         case ConUser.Role.CLERK:
