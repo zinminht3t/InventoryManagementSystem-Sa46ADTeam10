@@ -18,7 +18,7 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: Manager
         public ActionResult Index()
         {
-            return View("ManagerDashboard");
+            return View();
         }
 
         public ActionResult Approve()

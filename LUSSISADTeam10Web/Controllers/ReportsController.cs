@@ -77,76 +77,94 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             DepartmentModel dm = new DepartmentModel();
             string error = "";
-
-            UserModel um = GetUser();
-            ViewBag.DepartmnetModel = dm;
             ItemTrendAnalysisViewModel viewmodel = new ItemTrendAnalysisViewModel();
-            List<DepartmentModel> dml = new List<DepartmentModel>();
-            dml = APIDepartment.GetAllDepartments(token, out error);
 
-            try
+            List<DepartmentModel> mm = APIDepartment.GetAllDepartments(token, out error);
+            viewmodel.itd = new List<ItemTrendDetailViewModel>();
+            
+
+
+            foreach (DepartmentModel m in mm)
             {
-
-                ViewBag.DepartmnetModel = dml;
-                viewmodel.d1 = dm.Deptid;
-                viewmodel.d2 = dm.Deptid;
-                viewmodel.d3 = dm.Deptid;
-                viewmodel.d1Name = dm.Deptname;
-                viewmodel.d2Name = dm.Deptname;
-                viewmodel.d3Name = dm.Deptname;
-                // List<int> departmentname = new List<int>();
-                ////List<DepartmentModel> departmentname = new List<DepartmentModel>();
-                //List<string> dname = new List<string>();
-                //ViewBag.departmentname = dml;
-                //ViewBag.dname = dml;
-
-                //foreach (DepartmentModel d in dml)
-                //{
-                //    departmentname.Add(d.Deptid);
-                //    dname.Add(d.Deptname);
-
-                //}
-                //ViewBag.departmentlist = departmentname;
-                //ViewBag.departmentnamelist = dname;
-
-
-                List<String> deptname = new List<string>();
-
-                ViewBag.dept = deptname;
-
-                foreach (DepartmentModel d in dml)
-                {
-                    deptname.Add(d.Deptname);
-                }
-                ViewBag.deptlist = deptname;
+                var result = new ItemTrendDetailViewModel();
+                result.d1 = m.Deptid;
+                result.d2 = m.Deptid;
+                result.d3 = m.Deptid;
+                result.d1Name = m.Deptname;
+                result.d2Name = m.Deptname;
+                result.d3Name = m.Deptname;
+                viewmodel.itd.Add(result);
+            }
 
 
 
-
-                List<int> month = new List<int>();
+            List<int> month = new List<int>();
                 for (int i = 1; i <= 12; i++)
                 {
                     month.Add(i);
                 }
-                ViewBag.monthlist = month;
 
 
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new
-                {
-                    error = ex.Message
-                });
-            }
+
+
+            ViewBag.monthlist = month;
+            ViewBag.deptlist = viewmodel.itd;
             ViewBag.count = 0;
             return View(viewmodel);
         }
 
+        //public ActionResult ItemTrendAnalysis()
+        //{
+
+        //    string token = GetToken();
+        //    DepartmentModel dm = new DepartmentModel();
+        //    string error = "";
+
+        //    UserModel um = GetUser();
+
+        //    ItemTrendAnalysisViewModel viewModel = new ItemTrendAnalysisViewModel();
+        //    viewModel.itd = GetDept();
+        //    ViewBag.Count = 0;
+        //    ViewBag.qq = viewModel.itd;
+        //    List<int> month = new List<int>();
+        //    for (int i = 1; i <= 12; i++)
+        //    {
+        //        month.Add(i);
+        //    }
+        //    ViewBag.monthlist = month;
 
 
 
+        //    return View(viewModel);
+        //}
 
+        public List<ItemTrendDetailViewModel> GetDept()
+        {
+            string token = GetToken();
+            DepartmentModel dm = new DepartmentModel();
+            string error = "";
+            List<ItemTrendDetailViewModel> viewModels = new List<ItemTrendDetailViewModel>();
+            List<DepartmentModel> dept = APIDepartment.GetAllDepartments(token, out error);
+            string text = "";
+            int value = 0;
+            foreach(DepartmentModel d in dept)
+            {
+                 text = d.Deptname;
+                 value = d.Deptid;
+
+                viewModels.Add(new ItemTrendDetailViewModel
+                {
+                    DepartmentName = d.Deptname.ToString(),
+                    Deptid = d.Deptid
+            });
+              
+
+                
+
+            }
+
+            return (viewModels);
+        }
 
         #endregion
 
@@ -206,7 +224,7 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         [HttpPost]
-        public ActionResult ItemTrendAnalysis(ItemTrendAnalysisViewModel viewModel)
+        public ActionResult ItemTrendAnalysis(int d1,int d2,int d3)
         {
 
             string error = "";
@@ -215,9 +233,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
 
-            int d1 = viewModel.d1;
-            int d2 = viewModel.d2;
-            int d3 = viewModel.d3;
+            ItemTrendAnalysisViewModel viewModel = new ItemTrendAnalysisViewModel();
+            List<ItemTrendDetailViewModel> lm = new List<ItemTrendDetailViewModel>();
+           
+          
             int month = viewModel.month;
             ItemTrendAnalysisViewModel viewmodel = new ItemTrendAnalysisViewModel();
             List<ItemTrendAnalysisModel> itm = APIReport.ItemTrendAnalysis(token, out error, d1, d2, d3, month);

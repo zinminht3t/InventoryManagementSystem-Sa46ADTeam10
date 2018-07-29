@@ -48,7 +48,7 @@
                         <button class="btn btn-outline-info pull-right" id="btnApproveAll" onClick="ConfirmDelete()" data-toggle="modal" data-target="#myModal"> Approve Selected </button>
                         <br />
 
-                        <table id="example" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead class="table-info">
                                 <tr>
                                     <th>
@@ -143,9 +143,11 @@
 
 @section Scripts {
 
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script type="text/javascript">
 
-        
+
         function ConfirmDelete () {
             $("#myModal").modal('show');
         }
@@ -174,6 +176,9 @@
             $('.theclass:checkbox:checked').each(function () {
                 myArray.push($(this).val());
             });
+
+            console.log(myArray);
+
             var url1 = '@Url.Action("StationaryRetrievalForm", "Clerk")';
                 $.ajax({
                     type: "POST",
@@ -186,14 +191,6 @@
                     },
                 })
          }
-
-        $(document).ready(function () {
-            $('#example').DataTable({
-                select: {
-                    style: 'multi'
-                }
-            });
-        });
 
 
 

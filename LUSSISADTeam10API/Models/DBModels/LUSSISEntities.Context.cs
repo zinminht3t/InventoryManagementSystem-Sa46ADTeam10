@@ -115,5 +115,20 @@ namespace LUSSISADTeam10API.Models.DBModels
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequistionList1>("GetRequistionList", deptidParameter, fromdateParameter, todateParameter);
         }
+    
+        public virtual ObjectResult<SPMonthlyItemUsageByHOD_Result> SPMonthlyItemUsageByHOD()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPMonthlyItemUsageByHOD_Result>("SPMonthlyItemUsageByHOD");
+        }
+    
+        public virtual ObjectResult<SPNumberofRequest_Result> SPNumberofRequest()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPNumberofRequest_Result>("SPNumberofRequest");
+        }
+    
+        public virtual ObjectResult<SPOrderByDepartmentDarshboard_Result> SPOrderByDepartmentDarshboard()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
+        }
     }
 }
