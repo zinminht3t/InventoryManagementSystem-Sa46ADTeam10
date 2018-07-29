@@ -14,11 +14,14 @@
     <link rel="stylesheet" href="~/styles/css/normalize.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/styles/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Styles/css/style.css" />
     <link rel="stylesheet" href="~/styles/css/themify-icons.css">
     <link rel="stylesheet" href="~/styles/css/flag-icon.min.css">
     <link rel="stylesheet" href="~/styles/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="~/styles/scss/style.css">
     <link rel="stylesheet" href="~/styles/css/lib/datatable/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="~/Styles/css/lib/datatable/buttons.bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Styles/css/lib/datatable/buttons.bootstrap.min.css" />
     <link rel="stylesheet" href="~/styles/css/animate.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap-select.css">
     <link rel="stylesheet" href="~/styles/css/bootstrap.css.map">
@@ -26,6 +29,8 @@
     <link href="~/styles/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <link href="~/styles/css/datatable.min.css" rel="stylesheet">
     <script src="~/Styles/Scripts/sweetalert2.all.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
 
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
@@ -51,6 +56,46 @@
 
         .menutoggle {
             background-color: #3AAFA9 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0px !important;
+        }
+        .dataTables_paginate .pagination li:hover a {
+            background: #3AAFA9;
+            border-color: #344955;
+            color: white;
+        }
+
+        .dataTables_paginate .pagination li.active a {
+            background: #3AAFA9;
+            border-color: #272c33;
+            color: white;
+        }
+        .Table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
+            right: 1em;
+            content: "";
+        }
+        .table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
+            right: 1em;
+            content: "";
+        }
+        .table.dataTable thead .sorting::after, table.dataTable thead .sorting_asc::after, table.dataTable thead .sorting_desc::after, table.dataTable thead .sorting_asc_disabled::after, table.dataTable thead .sorting_desc_disabled::after {
+            right: 0.5em;
+            content: "";
+        }
+
+         @@media only screen and (max-width: 600px) {
+            #logoimg{
+                width: 40px;
+                height: 40px;
+            }
+            .navbar-brand {
+                margin-top: 0px !important;
+            }
+        }
+        table.dataTable tbody tr {
+            background-color: #DAE6E5;
         }
     </style>
 
@@ -90,7 +135,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width=100 height=100></a>
+                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" id="logoimg" alt="Logo" width=100 height=100></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
 
@@ -163,12 +208,11 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("TrackRequisitions", "Employee")"> <i class="menu-icon ti-comments-smiley"></i>Requisitions</a>
+                                <a href="@Url.Action("TrackRequisitions", "Employee")"> <i class="menu-icon ti-package"></i>Requisitions</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i> Previous Requisitions</a>
                             </li>
-
                         </ul>
                     </div>
                 }
@@ -362,6 +406,8 @@
         </div>
 
     </div>
+    <script type="text/javascript" src="~/Styles/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript"  src="~/Styles/js/lib/data-table/jquery.dataTables.min.js"></script>
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>
     <script src="~/styles/js/main.js"></script>
@@ -382,8 +428,8 @@
     <script type="text/javascript" src="~/Styles/js/jquery.qrcode.min.js"></script>
     <script type="text/javascript" src="~/Styles/js/qrcode.js"></script>
     <script src="~/Styles/js/Chart.bundle.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
     <!-- DataTable -->
     @RenderSection("scripts", required: false)

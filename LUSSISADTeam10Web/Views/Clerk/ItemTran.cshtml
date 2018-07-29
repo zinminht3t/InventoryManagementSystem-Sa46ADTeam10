@@ -6,8 +6,15 @@
 }
 
 @section Styles {
-    <style>
-    </style>
+<style>
+    @@media only screen and (max-width: 600px) {
+
+
+        .hideinmobile {
+            display: none;
+        }
+    }
+</style>
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -17,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -56,7 +63,7 @@
 
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="text-sm-center text-info"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
+                                                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
                                                 @if (Model.InvTrans.Count == 0)
                                                 {
 
@@ -68,15 +75,12 @@
                                                         <thead class="table-info">
                                                             <tr>
                                                                 <th>
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].ItemID)
-                                                                </th>
-                                                                <th>
                                                                     @Html.DisplayNameFor(model => model.InvTrans[0].Description)
                                                                 </th>
-                                                                <th>
+                                                                <th class="hideinmobile">
                                                                     @Html.DisplayNameFor(model => model.InvTrans[0].UOM)
                                                                 </th>
-                                                                <th>
+                                                                <th class="hideinmobile">
                                                                     @Html.DisplayNameFor(model => model.InvTrans[0].Transtype)
                                                                 </th>
                                                                 <th>
@@ -95,15 +99,12 @@
                                                             {
                                                                 <tr>
                                                                     <td>
-                                                                        @Html.DisplayFor(modelItem => item.ItemID)
-                                                                    </td>
-                                                                    <td>
                                                                         @Html.DisplayFor(modelItem => item.Description)
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="hideinmobile">
                                                                         @Html.DisplayFor(modelItem => item.UOM)
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="hideinmobile">
                                                                         @if (item.Transtype == 0)
                                                                         {
                                                                             <h6>Adjustment</h6>

@@ -221,11 +221,11 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/NumberofRequisition/{month}")]
-        public IHttpActionResult NumberofRequsition(int month)
+        [Route("api/NumberofRequisition")]
+        public IHttpActionResult NumberofRequsition()
         {
             string error = "";
-            List<NumberofRequsition> nur = ReportRepo.NumberofRequisition(out error,month);
+            List<RequisitionResult> nur = ReportRepo.NumberofRequisition(out error);
             // if the erorr is not blank or the category list is null
             if (error != "" || nur == null)
             {
@@ -238,6 +238,26 @@ namespace LUSSISADTeam10API.Controllers
             // if there is no error
             return Ok(nur);
         }
+
+        [HttpGet]
+        [Route("api/ItemByDepartment")]
+        public IHttpActionResult ItemByDepartment()
+        {
+            string error = "";
+            List<ItemByDepartment> nur = ReportRepo.ItemByDepartment(out error);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || nur == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(nur);
+        }
+
 
 
 

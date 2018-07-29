@@ -7,6 +7,13 @@
 }
 @section Styles {
     <style>
+        @@media only screen and (max-width: 600px) {
+
+
+            .hideinmobile {
+                display: none;
+            }
+        }
     </style>
 }
 
@@ -18,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -42,75 +49,74 @@
 
                     @using (Html.BeginForm())
                     {
-                    <div class="panel-group" id="accordion">
-                        @{ var item = ViewBag.pom; }
+                        <div class="panel-group" id="accordion">
+                            @{ var item = ViewBag.pom; }
 
-                        @{
-                            Model.PoId = item.PoId;
-                            Model.Supid = item.Supid;
+                            @{
+                                Model.PoId = item.PoId;
+                                Model.Supid = item.Supid;
 
-                        }
-                        <input type="hidden" name="PoId" value="@item.PoId" />
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> PO Detail </h5>
-                            </div>
-                            <hr />
-                            <h6>PO ID :  @item.PoId </h6><br />
-                            <h6>Supplier :  @item.SupName </h6><br />
-                            <h6>PO Date : @item.Podate</h6><br />
-                            <div class="text-sm-center">
-
-                                <table class="table table-bordered table-hover">
-                                    <thead class="table-info">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Description</th>
-                                            <th>Ordered Qty</th>
-                                            <th>Price</th>
-                                            <th>Received Qty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            var count = 0;
-                                        }
-
-                                        @foreach (var items in item.podms)
-                                        {
-                                            Model.podms = new List<LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel>();
-
-                                            Model.podms.Add(new LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel());
+                            }
+                            <input type="hidden" name="PoId" value="@item.PoId" />
 
 
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-braille fa-3x"></i><br /> PO Detail </h5>
+                                </div>
+                                <hr />
+                                <h6>PO ID :  @item.PoId </h6><br />
+                                <h6>Supplier :  @item.SupName </h6><br />
+                                <h6>PO Date : @item.Podate</h6><br />
+                                <div class="text-sm-center">
 
-
-                                            <tr id="@items.Itemid">
-                                                <td>@items.Itemid</td>
-                                                <td>@items.ItemDescription</td>
-                                                <td>@items.Qty</td>
-                                                <td class="amount">S$ @items.Price</td>
-                                                <td>
-                                                    <input type="hidden" name="podms[@count].Itemid" value="@items.Itemid" />
-                                                    <input type="number" class="form-control" required name="podms[@count].DelivQty" value="@items.DelivQty" />
-                                                </td>
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-info">
+                                            <tr>   
+                                                <th>Item</th>
+                                                <th>Ordered Qty</th>
+                                                <th>Price</th>
+                                                <th>Received Qty</th>
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var count = 0;
+                                            }
 
-                                            count++;
-                                        }
+                                            @foreach (var items in item.podms)
+                                            {
+                                                Model.podms = new List<LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel>();
+
+                                                Model.podms.Add(new LUSSISADTeam10Web.Models.Clerk.PurchaseOrderDetailViewModel());
 
 
-                                    </tbody>
-                                </table>
 
-                                <a href="@Url.Action("CancelPurchaseOrder", "Clerk", new { id = item.PoId })" onclick="confirm('Are you sure you want to cancel this purchase order?')" class="btn btn-outline-danger btn-sm pull-left"> Cancel PO</a>
 
-                                <input type="submit" value="Change to Received" class="btn btn-outline-info btn-sm pull-right" />
+                                                <tr id="@items.Itemid">
+                                                 
+                                                    <td>@items.ItemDescription</td>
+                                                    <td>@items.Qty</td>
+                                                    <td class="amount">S$ @items.Price</td>
+                                                    <td>
+                                                        <input type="hidden" name="podms[@count].Itemid" value="@items.Itemid" />
+                                                        <input type="number" class="form-control" required name="podms[@count].DelivQty" value="@items.DelivQty" />
+                                                    </td>
+                                                </tr>
+
+                                                count++;
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+
+                                    <a href="@Url.Action("CancelPurchaseOrder", "Clerk", new { id = item.PoId })" onclick="confirm('Are you sure you want to cancel this purchase order?')" class="btn btn-outline-danger btn-sm pull-left"> Cancel PO</a>
+
+                                    <input type="submit" value="Change to Received" class="btn btn-outline-info btn-sm pull-right" />
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
                 </div>
             </div>

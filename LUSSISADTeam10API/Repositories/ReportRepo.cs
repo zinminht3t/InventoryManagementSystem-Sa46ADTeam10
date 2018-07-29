@@ -496,14 +496,14 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
-        public static List<NumberofRequsition> NumberofRequisition(out string error,int month)
+        public static List<RequisitionResult> NumberofRequisition(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
-             error = "";
-            List<NumberofRequsition> nm = new List<NumberofRequsition>();
+            error = "";
+            List<RequisitionResult> nm = new List<RequisitionResult>();
             try
             {
-                nm = entities.GetNumberofRequsition(month).ToList<NumberofRequsition>();
+                nm = entities.GetRequisition().ToList();
             }
             catch (NullReferenceException)
             {
@@ -514,6 +514,28 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return nm;
+
+        }
+
+
+        public static List<ItemByDepartment> ItemByDepartment(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<ItemByDepartment> id = new List<ItemByDepartment>();
+            try
+            {
+                id = entities.GetItemByDepartment().ToList();
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return id;
 
         }
 

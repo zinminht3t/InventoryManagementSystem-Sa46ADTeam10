@@ -6,8 +6,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-    <style>
-    </style>
+<style>
+    @@media only screen and (max-width: 600px) {
+
+        .hideinmobile {
+            display: none;
+        }
+
+        .container *, .card-body {
+            padding-left: 0px;
+            padding-right: 0px;
+            font-size: 12px !important;
+        }
+    }
+</style>
 }
 
 <div class="breadcrumbs">
@@ -18,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -37,13 +49,13 @@
         <div class="card">
             
             <div class="card-body">
-                <div>  <h5 class="text-sm-center text-info"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement List </h5></div><br />
+                <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement List </h5></div><br />
                 @if (ViewBag.ShowItems)
                 {
                     <div class="container">
 
                         @{int j = 0; }
-
+                         @{int i = 0;}
                         @foreach (string cpname in ViewBag.CollectionPointNames)
                         {
                             <div class="panel-group" id="accordionp_@j" role="tablist">
@@ -68,7 +80,7 @@
                                         <div class="panel-body">
 
 
-                                            @{int i = 0;}
+                                           
                                             <div class="container">
 
 
@@ -100,9 +112,9 @@
                                                                         <table class="table table-bordered table-hover">
                                                                             <thead class="table-info">
                                                                                 <tr>
-                                                                                    <th>Item Name</th>
-                                                                                    <th>Category Name</th>
-                                                                                    <th>Quantity</th>
+                                                                                    <th>Item</th>
+                                                                                    <th class="hideinmobile">Category</th>
+                                                                                    <th>Qty</th>
                                                                                     <th>UOM</th>
                                                                                 </tr>
                                                                             </thead>
@@ -111,10 +123,11 @@
                                                                                 {
                                                                                     <tr>
                                                                                         <td>@item.Itemname</td>
-                                                                                        <td>@item.CategoryName</td>
+                                                                                        <td class="hideinmobile">@item.CategoryName</td>
                                                                                         <td>@item.ApprovedQty</td>
                                                                                         <td>@item.UOM</td>
                                                                                     </tr>
+                                                                                   
                                                                                 }
                                                                             </tbody>
                                                                         </table>
