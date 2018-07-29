@@ -753,7 +753,7 @@ namespace LUSSISADTeam10Web.Controllers
         //Get All checked Inventories
         [HttpPost]
         public ActionResult Inventory(List<int> Invid)
-        { //List<int> Invid
+        { 
             string token = GetToken();
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 

@@ -280,7 +280,6 @@
     <Compile Include="Models\HOD\CreateDelegationViewModel.cs" />
     <Compile Include="Models\HOD\EditDelegationViewModel.cs" />
     <Compile Include="Models\Report\RequisitionListViewModel.cs" />
-    <Compile Include="Models\Supervisor\AdjustmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Employee\RequisitionViewModel.cs" />
     <Compile Include="Utilities\Utility.cs" />
@@ -1409,6 +1408,7 @@
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
+    <Folder Include="Models\Supervisor\" />
     <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>

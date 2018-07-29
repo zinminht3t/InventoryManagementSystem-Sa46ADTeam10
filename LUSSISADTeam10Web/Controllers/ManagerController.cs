@@ -2,7 +2,6 @@
 using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
-using LUSSISADTeam10Web.Models.Supervisor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
