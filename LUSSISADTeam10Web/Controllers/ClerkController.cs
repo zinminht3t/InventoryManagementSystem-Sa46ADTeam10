@@ -850,7 +850,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             ViewBag.Requisitions = reqms;
 
-            return View(new RequisitionViewModel());
+            return View(new Models.Clerk.RequisitionViewModel());
         }
 
         [Authorize(Roles = "Clerk")]

@@ -126,6 +126,11 @@ namespace LUSSISADTeam10API.Models.DBModels
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPNumberofRequest_Result>("SPNumberofRequest");
         }
     
+        public virtual ObjectResult<SPOrderByDepartmentDarshboard_Result> SPOrderByDepartmentDarshboard()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
+        }
+    
         public virtual ObjectResult<NumberofRequsition> GetNumberofRequsition(Nullable<int> month)
         {
             var monthParameter = month.HasValue ?
@@ -133,11 +138,6 @@ namespace LUSSISADTeam10API.Models.DBModels
                 new ObjectParameter("month", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NumberofRequsition>("GetNumberofRequsition", monthParameter);
-        }
-    
-        public virtual ObjectResult<SPOrderByDepartmentDarshboard_Result> SPOrderByDepartmentDarshboard()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
         }
     }
 }
