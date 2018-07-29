@@ -6,12 +6,6 @@
 }
 @section Styles {
     <style>
-        @@media only screen and (max-width: 600px) {
-
-            .hideinmobile {
-                display: none;
-            }
-        }
     </style>
 }
 <div class="breadcrumbs">
@@ -94,11 +88,11 @@
                                         <td>
                                             @if (item.Status != 0)
                                             {
-                                                <a href="@Url.Action("PurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info"> <i class="text-info ti-agenda"></i> View</a>
+                                                <a href="@Url.Action("PurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info btn-sm"> View</a>
                                             }
                                             else
                                             {
-                                                <a href="@Url.Action("ProcessPurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info btn-sm"> <i class="text-info ti-pencil"></i> Update</a>
+                                                <a href="@Url.Action("ProcessPurchaseOrderDetail", "Clerk",  new {id = item.PoId }, null)" class="btn btn-outline-info btn-sm">Update</a>
                                             }
                                         </td>
                                     </tr>

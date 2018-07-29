@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -46,13 +46,13 @@
                                         <td>
                                             Date
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             Raised By
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             Approved By
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             Department Name
                                         </td>
                                         <td>
@@ -73,13 +73,13 @@
                                             <td>
                                                 @item.Reqdate.Value.ToString("d")
                                             </td>
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @Html.DisplayFor(modelItem => item.Rasiedbyname)
                                             </td>
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @Html.DisplayFor(modelItem => item.Approvedbyname)
                                             </td>
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @Html.DisplayFor(modelItem => item.Depname)
                                             </td>
                                             <td>

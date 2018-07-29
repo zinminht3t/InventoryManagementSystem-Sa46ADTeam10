@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -37,7 +37,7 @@
                 @using (Html.BeginForm())
                 {
                 <div class="mx-auto d-block">
-                    <h5 class="text-sm-center text-info"> <i class="ti-comments-smiley fa-3x"></i><br /> Raise Requisition </h5><br /><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-comments-smiley fa-3x"></i><br /> Raise Requisition </h5><br />
                     <h6>Raised By :  @User.Identity.Name </h6><br />
                     <h6>Collection Point : @Model.Cpname</h6><br />
                     <h6>Request Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
