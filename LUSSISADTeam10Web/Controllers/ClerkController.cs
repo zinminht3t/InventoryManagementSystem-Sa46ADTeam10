@@ -690,102 +690,69 @@ namespace LUSSISADTeam10Web.Controllers
        
         //Start Mahsu
 
-        //Get All InventoryCheckViewModel
-        public InventoryCheckViewModel GetInvtCheckVM()
-        {
-            string token = GetToken();
-            UserModel user = GetUser();
-            List<InventoryModel> ivmlist = new List<InventoryModel>();
-            List<Inventory> ivclist = new List<Inventory>();
-
-            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
-
-            ivmlist = APIInventory.GetAllInventories(token, out string error);
-
-            foreach (InventoryModel invent in ivmlist)
-            {
-                CategoryModel cat = APICategory.GetCategoryByItemID(token, invent.Itemid, out error);
-                ItemModel item = APIItem.GetItemByItemID(invent.Itemid, token, out error);
-                Inventory ivc = new Inventory(invent.Invid, cat.Name, invent.Itemid, invent.ItemDescription, invent.Stock, item.Uom, cat.Shelflocation, cat.Shelflevel);
-                ivclist.Add(ivc);
-            }
-
-            invcvm.Invs = ivclist;
-            invcvm.InvIDs = new List<int>();
-
-            return invcvm;
-        }
-        //Get Inventory by inventoryID
-        public List<Inventory> GetSelectedInventory(List<int> i)
-        {
-            InventoryCheckViewModel ivcvm = GetInvtCheckVM();
-            List<Inventory> ivm = ivcvm.Invs;
-            List<Inventory> dis = new List<Inventory>();
-            foreach (Inventory iv in ivm)
-            {
-                foreach (int a in i)
-                {
-                    if (iv.InventoryId == a)
-                        dis.Add(iv);
-                }
-            }
-            return dis;
-        }
         //Display Awaiting Approval Adjustments     //Display All Inventories
         public ActionResult Inventory()
         {
             string token = GetToken();
             UserModel user = GetUser();
 
+            List<InventoryDetailModel> invtdetail = new List<InventoryDetailModel>();
             List<AdjustmentModel> adj = new List<AdjustmentModel>();
             List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
 
-            InventoryCheckViewModel invcvm = new InventoryCheckViewModel();
-            List<Inventory> inv = new List<Inventory>();
-            try
+            invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+            adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
+
+            foreach (AdjustmentModel ad in adj)
             {
-                invcvm = GetInvtCheckVM();
-
-                adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-
-                foreach (AdjustmentModel ad in adj)
+                foreach (AdjustmentDetailModel add in ad.Adjds)
                 {
-                    foreach (AdjustmentDetailModel adjd in ad.Adjds)
-                    {
-                        foreach (Inventory i in invcvm.Invs)
-                        {
-                            if (adjd.Itemid == i.ItemID)
-                            {
-                                adjd.Stock = i.Stock;
-                                adjd.Adjustedqty = adjd.Adjustedqty + (int)adjd.Stock;
-                            }
-
-                            adjd.IssueDate = ((DateTime)ad.Issueddate);
-
-                        }
-                        adjdetail.Add(adjd);
-                    }
+                 //To display Inventory stock & Counted stock  
+                    add.IssueDate = (DateTime)ad.Issueddate;
+                    add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
+                    add.Adjustedqty += (int) add.Stock;
+                    adjdetail.Add(add);
                 }
-                ViewBag.AdjustmentDetailModel = adjdetail;
+            }
+            ViewBag.AdjustmentDetailModel = adjdetail;
+            TempData["inventories"] = invtdetail;
 
-            }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index", "Error", new { error = e.Message });
-            }
-            return View(invcvm);
+            return View(invtdetail);
         }
+            
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(List<int> InvID)
-        {
-            List<Inventory> dis = GetSelectedInventory(InvID);
-            TempData["discrepancy"] = dis;
+        public ActionResult Inventory(List<int> Invid)
+        { //List<int> Invid
+            string token = GetToken();
+            List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
+
+            if (Invid.Count < 1)
+            {
+                RedirectToAction("Inventory");
+            }
+
+            else
+            {
+                List<InventoryDetailModel> ivdm = TempData["inventories"] as List<InventoryDetailModel>;
+                foreach (int i in Invid)
+                {
+                    foreach (InventoryDetailModel ivm in ivdm)
+                    {
+                        if (i == ivm.Invid)
+                        {
+                            selected.Add(ivm);
+                        }
+                    }
+                }
+            }
+            TempData["discrepancy"] = selected;
             return RedirectToAction("Adjustment");
         }
         public ActionResult Adjustment()
         {
-            List<Inventory> dis = TempData["discrepancy"] as List<Inventory>;
+            List<InventoryDetailModel> dis = TempData["discrepancy"] as List<InventoryDetailModel>;
             InventoryCheckViewModel ivcvm = new InventoryCheckViewModel();
             try
             {
@@ -804,23 +771,23 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel user = GetUser();
-            List<Inventory> invent = GetSelectedInventory(InvID);
+            List<InventoryDetailModel> invent = TempData["inventories"] as List<InventoryDetailModel>;
             AdjustmentModel adjust = new AdjustmentModel();
             try
             {
                 for (int i = 0; i < InvID.Count; i++)
                 {
-                    foreach (Inventory inv in invent)
+                    foreach (InventoryDetailModel inv in invent)
                     {
-                        if (InvID[i] == inv.InventoryId)
+                        if (InvID[i] == inv.Invid)
                         {
                             inv.Current = Current[i];
-                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.ItemID, (inv.Current - (int)inv.Stock), Reason[i]);
+                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                             adjust.Adjds.Add(adjd);
                         }
                     }
                 }
-                adjust.Issueddate = DateTime.Now.Date;
+                adjust.Issueddate = DateTime.Now;
                 adjust.Raisedby = user.Userid;
 
                 adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
@@ -835,8 +802,6 @@ namespace LUSSISADTeam10Web.Controllers
             Session["notimessage"] = "Adjustment Form with " +invent.Count+ " items are successfully rasised";
             return RedirectToAction("Inventory");
         }
-
-
         // End MaHus
 
         // Start ZMH
@@ -1097,10 +1062,10 @@ namespace LUSSISADTeam10Web.Controllers
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
-            if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
-            {
-                return RedirectToAction("Outstanding");
-            }
+            //if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
+            //{
+            //    return RedirectToAction("Outstanding");
+            //}
 
             outreqvm.ReqId = outr.ReqId;
             outreqvm.DeptId = reqm.Depid;
@@ -1411,7 +1376,7 @@ namespace LUSSISADTeam10Web.Controllers
                 podm = APIPurchaseOrder.UpdatePODetail(podm, token, out error);
             }
 
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+           // pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
 
             pom.Status = ConPurchaseOrder.Status.RECEIVED;
 
