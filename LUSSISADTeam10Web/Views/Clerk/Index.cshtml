@@ -1,4 +1,175 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.FrequentlyTop5ItemsModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Dashboard";
+    int count = Model.Count();
+    var labels = new string[count];
+    var data = new int?[count];
+    labels = Model.Select(x => x.Description).ToArray();
+    data = Model.Select(x => x.Qty).ToArray();
+}
+@section Styles {
+    <style>
+    </style>
 }
 
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-sm-center text-info"> Top 5 Frequently Ordered Items </h5><br />
+                        <canvas id="myChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("Requisition")"><i class="ti-package text-info border-info"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Pending Requisitons</div>
+                                <div class="stat-digit">@ViewBag.ReqCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("Outstanding")"><i class="ti-new-window text-success border-success"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Outstanding Requisitons</div>
+                                <div class="stat-digit">@ViewBag.OutCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("DisbursementLists")"><i class="ti-notepad text-danger border-danger"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Pending Disbursements</div>
+                                <div class="stat-digit">@ViewBag.DisCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("PurchaseOrder")"><i class="ti-shopping-cart text-warning border-warning"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Items Restock Needed</div>
+                                <div class="stat-digit">@ViewBag.RestockCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var lbls = [];
+        var dt = [];
+        @for(int i=0; i<labels.Length; i++){
+            <text>
+        lbls.push((' @labels[i] ').replace(/&quot;/g, '"') );
+            </text>
+        }
+        @for(int i=0; i< data.GetLength(0); i++){
+            <text>
+                dt.push( ' @data[i] ' );
+            </text>
+        }
+        window.onload = dataload;
+        function dataload() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lbls,
+                    datasets: [{
+                        data: dt,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.45)',
+                            'rgba(54, 162, 235, 0.45)',
+                            'rgba(255, 206, 86, 0.45)',
+                            'rgba(75, 192, 192, 0.45)',
+                            'rgba(153, 102, 255, 0.45)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45,
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                borderDash: [2,5]
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+}

@@ -57,8 +57,6 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("RaiseRequisition");
             }
 
-
-            string error = "";
             string token = GetToken();
             UserModel um = GetUser();
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
@@ -69,7 +67,7 @@ namespace LUSSISADTeam10Web.Controllers
             reqm.Reqdate = DateTime.Now;
             reqm.Raisedby = um.Userid;
             reqm.Depid = um.Deptid;
-            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out string error);
             reqm.Cpid = dcpm.CpID;
             reqm.Cpname = dcpm.CpName;
             reqm.Status = ConRequisition.Status.PENDING;
@@ -78,15 +76,14 @@ namespace LUSSISADTeam10Web.Controllers
 
             foreach (var reqd in reqvm.Requisitiondetails)
             {
-                RequisitionDetailsModel reqdm = new RequisitionDetailsModel();
-                reqdm.Reqid = reqm.Reqid;
-                reqdm.Itemid = reqd.Itemid;
-                reqdm.Qty = reqd.Qty;
-
+                RequisitionDetailsModel reqdm = new RequisitionDetailsModel
+                {
+                    Reqid = reqm.Reqid,
+                    Itemid = reqd.Itemid,
+                    Qty = reqd.Qty
+                };
                 reqdms = APIRequisition.CreateRequisitionDetails(reqdm, token, out error);
             }
-
-
             return RedirectToAction("TrackRequisition", "Employee", new { id = reqm.Reqid });
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,14 +9,14 @@ namespace LUSSISADTeam10Web.Models.Report
     public class RequisitionListViewModel
     {
 
-        public int deptid { get; set; }
-        public string status { get; set; }
+        public int Deptid { get; set; }
+        public string Status { get; set; }
 
-        public DateTime? reqdate { get; set; }
-
-        public DateTime startdate { get; set; }
-
-        public DateTime enddate { get; set; }
+        public DateTime? Reqdate { get; set; }
+        [Required]
+        public DateTime? startdate { get; set; }
+        [Required]
+        public DateTime? enddate { get; set; }
 
         public List<RequisitionDetailViewModel> rd { get; set; }
 
@@ -24,10 +25,10 @@ namespace LUSSISADTeam10Web.Models.Report
 
     public class RequisitionDetailViewModel
     {
-        public int deptid { get; set; }
-        public string status { get; set; }
+        public int Deptid { get; set; }
+        public string Status { get; set; }
 
-        public DateTime? reqdate { get; set; }
+        public DateTime? Reqdate { get; set; }
 
         public DateTime startdate { get; set; }
 

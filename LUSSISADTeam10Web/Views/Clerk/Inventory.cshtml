@@ -31,18 +31,31 @@
 </div>
 
 
-<div class="panel-group" id="accordion">
-  
-        <div class="animated fadeIn">
-            <div class="card">
-              
-                <div id="collapse1" class="panel-collapse collapse in">
 
-                    <div class="panel-body">
+
+    <div class="animated fadeIn">
+        <div class="card">
+            
+            <div class="panel-group" id="accordion1" role="tablist">
+                <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                    <div class="panel-heading" role="tab" id="panel">
+                        <h4 class="panel-title">
+                           
+                                <a class="text-info" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne" href="#collapseOne" aria-expanded="true" aria-controls="accordion1">
+                                    Reported Adjustments
+                                </a>
+                                
+                        </h4>
+                    </div>
+
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne">
+                        <div class="panel">
+
+                            <div class="panel-body">
                                 <div class="card">
-                                 
+
                                     <div class="card card-body" style="background-color:aliceblue">
-                              
+
                                         <table>
                                             <thead>
                                                 <tr style="background-color:cadetblue;font-weight:600;color:white;height:50px;">
@@ -105,7 +118,8 @@
                     </div>
                 </div>
             </div>
-        
+            </div>
+        </div>
 <div class="card">
     <div class="card-header">
         <i class="mr-2 fa fa-align-justify"></i>
@@ -167,4 +181,5 @@
 
 @section Scripts {
     <script type="text/javascript"></script>
+    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
 }

@@ -19,15 +19,59 @@ namespace LUSSISADTeam10Web.Controllers
     {
         #region Get Methods
         [Authorize(Roles = "HOD")]
-
         public ActionResult Chart()
         {
             return View();
         }
-        [Authorize(Roles = "HOD")]
 
+
+        [Authorize(Roles = "HOD")]
         public ActionResult Index()
         {
+
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            List<RequisitionModel> reqs = new List<RequisitionModel>();
+            UserModel CurrentRep = new UserModel();
+            DepartmentCollectionPointModel CurrentCP = new DepartmentCollectionPointModel();
+            DelegationModel CurrentTemp = new DelegationModel();
+            UserModel CurrentTempUser = new UserModel();
+
+            reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            ViewBag.ReqCount = 0;
+            ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
+
+
+            CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
+            ViewBag.RepName = CurrentRep.Fullname;
+            if(ViewBag.RepName == null)
+            {
+                ViewBag.RepName = "None";
+            }
+
+
+            CurrentCP = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+            ViewBag.CollectionPoint = CurrentCP.CpName;
+            if (ViewBag.CollectionPoint == null)
+            {
+                ViewBag.CollectionPoint = "None";
+            }
+
+            CurrentTemp = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out error);
+            if(CurrentTemp.Delid != 0)
+            {
+                CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
+                ViewBag.TempHOD = CurrentTempUser.Fullname;
+                ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
+            }
+
+            if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
+            {
+                ViewBag.TempHOD = "None";
+                ViewBag.TempDate = "-";
+            }
             return View();
         }
 
@@ -439,6 +483,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm.Status = ConRequisition.Status.APPROVED;
+                reqm.Approvedby = um.Userid;
 
                 if (!viewmodel.Approve)
                 {

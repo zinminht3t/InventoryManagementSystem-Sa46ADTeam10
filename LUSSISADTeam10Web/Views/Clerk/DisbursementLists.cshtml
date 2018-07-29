@@ -42,20 +42,21 @@
                 {
                     <div class="container">
 
-                        <div class="panel-group" id="accordion">
+                        @{int j = 0; }
 
-                            @foreach (string cpname in ViewBag.CollectionPointNames)
-                            {
+                        @foreach (string cpname in ViewBag.CollectionPointNames)
+                        {
+                            <div class="panel-group" id="accordionp_@j" role="tablist">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" role="tab" id="ppanel_@j">
                                         <h4 class="panel-title">
 
                                             @{
                                                 var modelreqs = Model.Where(x => x.Cpname == cpname).ToList();
                                                 var ReqCount = modelreqs.Count;
                                             }
-                                            <a class="accordion-toggle text-info" data-toggle="collapse" data-parent="#accordion" href="#@cpname.Replace(" ", "")">
-                                                <i class="fa fa-map"></i> @cpname
+                                            <a class="text-info" data-toggle="collapse" data-parent="#accordionp_@j" data-target="#collapseTwo_@j" href="#collapseTwo_@j" aria-expanded="true" aria-controls="accordionp_@j">
+                                                &nbsp @cpname
 
                                                 <em>(@ReqCount Requisitons..)</em>
                                             </a>
@@ -63,30 +64,31 @@
                                         </h4>
                                     </div>
                                     <hr />
-                                    <div id="@cpname.Replace(" ", "")" class="panel-collapse collapse in">
+                                    <div id="collapseTwo_@j" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseTwo_@j">
                                         <div class="panel-body">
 
 
-
+                                            @{int i = 0;}
                                             <div class="container">
-                                                <div class="panel-group" id="accordionforreq">
-                                                    @foreach (var itemreq in modelreqs)
-                                                    {
-                                                        <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                                                            <div class="panel-heading">
-                                                                <h4 class="panel-title">
-                                                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionforreq" href="#@itemreq.Reqid">
 
+
+                                                @foreach (var itemreq in modelreqs)
+                                                {
+                                                    <div class="panel-group" id="accordion_@i" role="tablist">
+                                                        <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                                                            <div class="panel-heading" role="tab" id="panel_@i">
+                                                                <h4 class="panel-title">
+
+                                                                    <a class="text-info" data-toggle="collapse" data-parent="#accordion_@i" data-target="#collapseOne_@i" href="#collapseOne_@i" aria-expanded="true" aria-controls="accordion_@i">
                                                                         Department : @itemreq.Depname
                                                                         -
                                                                         Requistion ID : @itemreq.Reqid
                                                                     </a>
-
-                                                                    <a href="@Url.Action("ItemDelivered", "Clerk", new { id = itemreq.Reqid })" class="btn btn-sm btn-outline-info pull-right"> Item Delivered  <i class="fa fa-arrow-right"> </i> </a>
                                                                 </h4>
                                                             </div>
-                                                            <div id="@itemreq.Reqid" class="panel-collapse collapse in">
-                                                                <div class="panel-body">
+
+                                                            <div id="collapseOne_@i" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne_@i">
+                                                                <div class="panel">
                                                                     <hr />
                                                                     <h6>Raised By :  @itemreq.Rasiedbyname </h6><br />
                                                                     <h6>Approved By :  @itemreq.Approvedbyname </h6><br />
@@ -116,41 +118,37 @@
                                                                                 }
                                                                             </tbody>
                                                                         </table>
+                                                                        <a href="@Url.Action("ItemDelivered", "Clerk", new { id = itemreq.Reqid })" class="btn btn-sm btn-outline-info pull-right"> Item Delivered  <i class="fa fa-arrow-right"> </i> </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <br />
+                                                            <br />
                                                         </div>
-                                                    }
-                                                </div>
+                                                    </div>
+                                                    i++;
+                                                }
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                            j++;
+                        }
+
                     </div>
                 }
                 else
                 {
-
                 }
-
-
-
-
             </div>
         </div>
-
-
-
     </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
 
-        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
-            e.stopPropagation();
-        });
-    </script>
+    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+
 }

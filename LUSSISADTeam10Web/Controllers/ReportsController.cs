@@ -91,16 +91,37 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.d1 = dm.Deptid;
                 viewmodel.d2 = dm.Deptid;
                 viewmodel.d3 = dm.Deptid;
+                viewmodel.d1Name = dm.Deptname;
+                viewmodel.d2Name = dm.Deptname;
+                viewmodel.d3Name = dm.Deptname;
                 List<int> departmentname = new List<int>();
-
+                //List<DepartmentModel> departmentname = new List<DepartmentModel>();
+                List<string> dname = new List<string>();
                 ViewBag.departmentname = dml;
+                ViewBag.dname = dml;
 
                 foreach (DepartmentModel d in dml)
                 {
                     departmentname.Add(d.Deptid);
+                    dname.Add(d.Deptname);
 
                 }
                 ViewBag.departmentlist = departmentname;
+                ViewBag.departmentnamelist = dname;
+
+
+                //List<String> deptname = new List<string>();
+
+                //ViewBag.dept = deptname;
+
+                //foreach (DepartmentModel d in dml)
+                //{
+                //    deptname.Add(d.Deptname);
+                //}
+                //ViewBag.deptlist = deptname;
+
+
+
 
                 List<int> month = new List<int>();
                 for (int i = 1; i <= 12; i++)
@@ -124,46 +145,6 @@ namespace LUSSISADTeam10Web.Controllers
 
 
 
-        public ActionResult RequisitionList()
-        {
-            string token = GetToken();
-            DepartmentModel dm = new DepartmentModel();
-            string error = "";
-
-            UserModel um = GetUser();
-            ViewBag.DepartmnetModel = dm;
-            RequisitionListViewModel viewmodel = new RequisitionListViewModel();
-            List<DepartmentModel> dml = new List<DepartmentModel>();
-            dml = APIDepartment.GetAllDepartments(token, out error);
-
-            try
-            {
-
-                ViewBag.DepartmnetModel = dml;
-                viewmodel.deptid = dm.Deptid;
-
-                List<int> departmentname = new List<int>();
-
-                ViewBag.departmentname = dml;
-
-                foreach (DepartmentModel d in dml)
-                {
-                    departmentname.Add(d.Deptid);
-
-                }
-                ViewBag.departmentlist = departmentname;
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new
-                {
-                    error = ex.Message
-                });
-            }
-            ViewBag.count = 0;
-            return View(viewmodel);
-        }
 
 
 
@@ -269,60 +250,203 @@ namespace LUSSISADTeam10Web.Controllers
 
 
 
-         [HttpPost]
-        public ActionResult RequisitionList(DateTime? startdate, DateTime? enddate, int deptid)
+        //[HttpPost]
+       
+        //public ActionResult RequisitionListPost(RequisitionListViewModel viewmodel)
 
-        {
-            string token = GetToken();
-            string error = "";
-            RequisitionListViewModel viewmodel = new RequisitionListViewModel();
-            List<RequsitionListReportModel> reql = new List<RequsitionListReportModel>();
-           
-            try
-            {
-                
-               deptid = viewmodel.deptid;
-                reql = APIReport.RequsitionList(token,out error,deptid,(DateTime)startdate,(DateTime)enddate);
-                viewmodel.rd = new List<RequisitionDetailViewModel>();
+        //{
+        //    string token = GetToken();
+        //    DateTime startdate = viewmodel.startdate;
+        //    DateTime enddate = viewmodel.enddate;
+        //    string error = "";
+        //    //RequisitionListViewModel viewmodel = new RequisitionListViewModel();
+        //    List<RequsitionListReportModel> reql = new List<RequsitionListReportModel>();
+        //    if (startdate == null)
+        //        startdate = new DateTime(1900, 01, 01);
+        //    if (enddate == null)
+        //        enddate = new DateTime(2900, 01, 01);
+        //    try
+        //    {
 
-                foreach (RequsitionListReportModel i in reql)
-                {
-                    
-                    var result = new RequisitionDetailViewModel();
-                  
+        //       int deptid = viewmodel.deptid;
+        //        reql = APIReport.RequsitionList(token, out error, deptid, (DateTime)startdate, (DateTime)enddate);
+        //        viewmodel.rd = new List<RequisitionDetailViewModel>();
+
+        //        foreach (RequsitionListReportModel i in reql)
+        //        {
+
+        //            var result = new RequisitionDetailViewModel();
 
 
-                    result.deptid = i.Deptid;
-                    result.reqdate = i.Reqdate;
-                    result.status = i.Status;
-                    viewmodel.rd.Add(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
 
-            ViewBag.count = viewmodel.rd.Count;
+        //            result.deptid = i.Deptid;
+        //            result.reqdate = i.Reqdate;
+        //            result.status = i.Status;
+        //            viewmodel.rd.Add(result);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return RedirectToAction("Index", "Error", new { error = ex.Message });
+        //    }
 
-            ViewBag.itd = viewmodel.rd;
-            return View(viewmodel);
-        }
+        //    ViewBag.count = viewmodel.rd.Count;
+
+        //    ViewBag.itd = viewmodel.rd;
+        //    return View(viewmodel);
+        //}
         public ActionResult testingview()
         {
             return View();
         }
 
-    
-           
-    
+
+        //public ActionResult RequisitioListByDept ()
+        //{
+
+        //    string token = GetToken();
+        //    DepartmentModel dm = new DepartmentModel();
+        //    string error = "";
+
+        //    UserModel um = GetUser();
+        //    ViewBag.DepartmnetModel = dm;
+        //    RequisitionListViewModel viewmodel = new RequisitionListViewModel();
+        //    List<DepartmentModel> dml = new List<DepartmentModel>();
+        //    dml = APIDepartment.GetAllDepartments(token, out error);
+
+        //    try
+        //    {
+
+        //        ViewBag.DepartmnetModel = dml;
+        //        viewmodel.deptid = dm.Deptid;
+
+        //        List<int> departmentname = new List<int>();
+
+        //        ViewBag.departmentname = dml;
+
+        //        foreach (DepartmentModel d in dml)
+        //        {
+        //            departmentname.Add(d.Deptid);
+
+        //        }
+        //        ViewBag.departmentlist = departmentname;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return RedirectToAction("Index", "Error", new
+        //        {
+        //            error = ex.Message
+        //        });
+        //    }
+        //    ViewBag.count = 0;
+        //    return View(viewmodel);
+
+        //}
+
+         public ActionResult RequisitionList()
+        {
+            string token = GetToken();
+            DepartmentModel dm = new DepartmentModel();
+            string error = "";
+
+            UserModel um = GetUser();
+            ViewBag.DepartmnetModel = dm;
+            RequisitionListViewModel viewmodel = new RequisitionListViewModel();
+            List<DepartmentModel> dml = new List<DepartmentModel>();
+            dml = APIDepartment.GetAllDepartments(token, out error);
+
+            try
+            {
+
+                ViewBag.DepartmnetModel = dml;
+                viewmodel.Deptid = dm.Deptid;
+
+                List<int> departmentname = new List<int>();
+
+                ViewBag.departmentname = dml;
+
+                foreach (DepartmentModel d in dml)
+                {
+                    departmentname.Add(d.Deptid);
+
+                }
+                ViewBag.departmentlist = departmentname;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+            ViewBag.count = 0;
+            return View(viewmodel);
+        }
 
 
-    #endregion
+        [HttpPost]
+        
+        public ActionResult RequisitionList(RequisitionListViewModel viewModel)
+        {
+
+            string error = "";
+
+            UserModel um = GetUser();
+
+            string token = GetToken();
+
+            int deptid = viewModel.Deptid;
+            //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
+            //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
+            DateTime startdate = viewModel.startdate.Value;
+            DateTime enddate = viewModel.enddate.Value;
+
+            //DateTime startD = new DateTime(startdate.Year, startdate.Month, startdate.Day, 0, 0, 0);
+            //DateTime endD = new DateTime(enddate.Year, enddate.Month, enddate.Day, 0, 0, 0);
+
+            List<RequsitionListReportModel> reql = new List<RequsitionListReportModel>();
+            viewModel.rd = new List<RequisitionDetailViewModel>();
+
+            reql = APIReport.RequsitionList(token, out error, deptid, startdate ,enddate);
+            
 
 
-    #region Utilities
-    public string GetToken()
+            foreach (RequsitionListReportModel i in reql)
+            {
+                var result = new RequisitionDetailViewModel();
+
+
+                result.Deptid = i.Deptid;
+                            result.Reqdate = i.Reqdate;
+                            result.Status = i.Status;
+                            viewModel.rd.Add(result);
+
+            }
+
+
+            ViewBag.count = viewModel.rd.Count;
+
+            viewModel.rd = viewModel.rd;
+
+
+            return View(viewModel);
+        }
+
+
+
+
+
+
+
+
+
+        #endregion
+
+
+        #region Utilities
+        public string GetToken()
         {
             string token = "";
             token = (string)Session["token"];
