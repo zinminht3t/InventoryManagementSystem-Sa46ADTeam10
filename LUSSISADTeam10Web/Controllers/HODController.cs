@@ -374,7 +374,7 @@ namespace LUSSISADTeam10Web.Controllers
                        // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
                 }

@@ -44,7 +44,7 @@ namespace LUSSISADTeam10Web.Controllers
                             adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
                             ad.TotalPrice += adj.Price;
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             if (supp == null) ad.TotalPrice += 0;
                         }

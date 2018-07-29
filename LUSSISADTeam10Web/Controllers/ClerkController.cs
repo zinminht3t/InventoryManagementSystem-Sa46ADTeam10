@@ -146,7 +146,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
@@ -170,7 +170,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
