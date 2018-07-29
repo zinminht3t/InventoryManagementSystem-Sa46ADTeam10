@@ -30,7 +30,7 @@ namespace LUSSISADTeam10Web.Controllers
                     return RedirectToAction("Approve", "Supervisor");
                 case ConNotification.NotiType.ClerkApprovedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
-                case ConNotification.NotiType.ClerkApprovedRequisiton:
+                case ConNotification.NotiType.ClerkApprovedRequisition:
                     return RedirectToAction("CollectionPoint", "HOD");
                 case ConNotification.NotiType.ClerkRejectedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");

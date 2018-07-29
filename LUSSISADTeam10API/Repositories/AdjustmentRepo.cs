@@ -231,7 +231,9 @@ namespace LUSSISADTeam10API.Repositories
                 {
                     SupplierItemModel supp = SupplierItemRepo.GetSupplierItemByItemId(adjd.Itemid, out error);
                     double? price = Math.Abs((Int32)adjd.Adjustedqty) * supp.Price;
-                    if (price >= (double?)250)
+
+                    //Check total price of each item to consider who to report to
+                    if (price >= ConAdjustment.Active.REPORTMANAGER)
                     {
                         user user = entities.users.Where(u => u.role == ConUser.Role.MANAGER).First();
                         adj.raisedto = user.userid;
