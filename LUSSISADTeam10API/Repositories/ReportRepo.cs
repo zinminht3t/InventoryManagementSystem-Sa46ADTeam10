@@ -56,6 +56,8 @@ namespace LUSSISADTeam10API.Repositories
             return odm;
         }
 
+       
+
 
 
 
@@ -428,7 +430,26 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
+        public static List<NumberofRequsition> NumberofRequisition(out string error,int month)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+             error = "";
+            List<NumberofRequsition> nm = new List<NumberofRequsition>();
+            try
+            {
+                nm = entities.GetNumberofRequsition(month).ToList<NumberofRequsition>();
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return nm;
 
+        }
 
         public static List<ItemTrendAnalysis> ItemTrendAnalysis(out string error, int d1, int d2, int d3, int month)
         {
@@ -455,6 +476,8 @@ namespace LUSSISADTeam10API.Repositories
 
             return ita;
         }
+
+      
 
 
 
