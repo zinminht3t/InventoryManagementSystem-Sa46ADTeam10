@@ -718,17 +718,46 @@ namespace LUSSISADTeam10Web.Controllers
 
         //Start Mahsu
 
-        //Get All InventoryCheckViewModel
         [Authorize(Roles = "Clerk")]
-            
+       //Display All Inventories
+        public ActionResult Inventory()
+        {
+            string token = GetToken();
+            UserModel user = GetUser();
+
+            List<InventoryDetailModel> invtdetail = new List<InventoryDetailModel>();
+            List<AdjustmentModel> adj = new List<AdjustmentModel>();
+            List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
+
+            invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+            adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
+
+            foreach (AdjustmentModel ad in adj)
+            {
+                foreach (AdjustmentDetailModel add in ad.Adjds)
+                {
+                    //To display Inventory stock & Counted stock  
+                    add.IssueDate = (DateTime)ad.Issueddate;
+                    add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
+                    add.Adjustedqty += (int)add.Stock;
+                    adjdetail.Add(add);
+                }
+            }
+            ViewBag.AdjustmentDetailModel = adjdetail;
+            TempData["inventories"] = invtdetail;
+
+            return View(invtdetail);
+        }
+
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(List<int> Invid)
+        public ActionResult Inventory(int[] Invid)
         { 
             string token = GetToken();
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 
-            if (Invid.Count < 1)
+            if (Invid.Length <1)
             {
                 RedirectToAction("Inventory");
             }

@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.InventoryDetailModel>
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "InventoryCheck";
-                Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "InventoryCheck";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="breadcrumbs">
@@ -29,152 +29,188 @@
 <div class="card">
     <h5 class="text-sm-center text-info"> <i class="ti-marker-alt fa-3x"></i><br /> Inventories </h5><br />
 
-<div class="panel-group" id="accordion">
+    <div class="panel-group" id="accordion">
 
-    <div class="animated fadeIn">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa fa-caret-square-o-down" style="font-size:20px"></i>
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Reported Adjustments</a>
-            </div>
-            <div id="collapse1" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="card">
-                        
-                        <div class="card card-body">
+        <div class="animated fadeIn">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-caret-square-o-down" style="font-size:20px"></i>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Reported Adjustments</a>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="card">
+
+                            <div class="card card-body">
 
 
-                            <table class="table-striped table-bordered">
-                                <thead style="background-color:lightblue">
-                                    <tr style="font-weight:600;color:black;height:50px;">
-                                        <th style="text-align:center">
-                                            IssueDate
-                                        </th>
-                                        <th style="text-align:center">
-                                            Category
-                                        </th>
-                                        <th style="text-align:center">
-                                            Item
-                                        </th>
-                                        <th style="text-align:center">
-                                            Stock
-                                        </th>
-                                        <th style="text-align:center">
-                                            Checked Qty
-                                        </th>
-                                        <th style="text-align:center">
-                                            UOM
-                                        </th>
-                                        <th style="text-align:center">
-                                            Reason
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody style="background-color:white">
-                                    @foreach (var adj in ViewBag.AdjustmentDetailModel)
-                {
-                    <tr style="height:30px">
-                        <td style="text-align:center">
-                            @Convert.ToDateTime(@adj.IssueDate).ToString("dd/MM/yyyy")
-                        </td>
-                        <td style="text-align:center">
+                                <table class="table-striped table-bordered">
+                                    <thead style="background-color:lightblue">
+                                        <tr style="font-weight:600;color:black;height:50px;">
+                                            <th style="text-align:center">
+                                                IssueDate
+                                            </th>
+                                            <th style="text-align:center">
+                                                Category
+                                            </th>
+                                            <th style="text-align:center">
+                                                Item
+                                            </th>
+                                            <th style="text-align:center">
+                                                Stock
+                                            </th>
+                                            <th style="text-align:center">
+                                                Checked Qty
+                                            </th>
+                                            <th style="text-align:center">
+                                                UOM
+                                            </th>
+                                            <th style="text-align:center">
+                                                Reason
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="background-color:white">
+                                        @foreach (var adj in ViewBag.AdjustmentDetailModel)
+                                        {
+                                            <tr style="height:30px">
+                                                <td style="text-align:center">
+                                                    @Convert.ToDateTime(@adj.IssueDate).ToString("dd/MM/yyyy")
+                                                </td>
+                                                <td style="text-align:center">
 
-                            @adj.CategoryName
-                        </td>
-                        <td style="text-align:center">
-                            @adj.Itemdescription
-                        </td>
-                        <td style="text-align:center">
-                            @adj.Stock
-                        </td>
-                        <td style="text-align:center">
-                            @adj.Adjustedqty
-                        </td>
-                        <td style="text-align:center">
-                            @adj.UOM
-                        </td>
-                        <td style="text-align:center">
-                            @adj.Reason
-                        </td>
-                    </tr>
-}
-                                </tbody>
-                            </table>
+                                                    @adj.CategoryName
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @adj.Itemdescription
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @adj.Stock
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @adj.Adjustedqty
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @adj.UOM
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @adj.Reason
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="card">
-    <div class="card-header">
-        <i class="mr-2 fa fa-align-justify"></i>
-        <strong class="card-title"> Inventories </strong>
+    <div class="card">
+        <div class="card-header">
+            <i class="mr-2 fa fa-align-justify"></i>
+            <strong class="card-title"> Inventories </strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+
+                        <table id="bootstrap-data-table">
+                            <thead class="table-info">
+                                <tr>
+                                    <th style="text-align:center">Category</th>
+                                    <th style="text-align:center">Items</th>
+                                    <th style="text-align:center">Stock</th>
+                                    <th style="text-align:center">UOM</th>
+                                    <th style="text-align:center">Location</th>
+                                    <th style="text-align:center">Discrepancy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CatName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Uom)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShelfLocation)
+                                            @Html.DisplayFor(modelItem => item.ShelfLevel)
+
+                                        </td>
+                                        <td style="text-align:center">
+                                            @{
+                                                string Disable = "";
+                                                foreach (var i in ViewBag.AdjustmentDetailModel)
+                                                {
+                                                    if (i.Itemid == item.Itemid)
+                                                    {
+                                                        Disable = "disabled";
+                                                    }
+                                                }
+
+                                            }
+                                            <div class="form-check">
+                                                <input class="theclass" name="Invid" type="checkbox" onclick="addtoarray(this)" value="@item.Invid" id="checkbox" @Disable>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <button onclick="Checked()" class="btn btn-outline-success pull-right">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-sm-12">
-                @using (Html.BeginForm("Inventory", "Clerk", FormMethod.Post))
-    {
-           
-            <table>
-                <thead class="table-info">
-                    <tr>
-                        <th style="text-align:center">Category</th>
-                        <th style="text-align:center">Items</th>
-                        <th style="text-align:center">Stock</th>
-                        <th style="text-align:center">UOM</th>
-                        <th style="text-align:center">Location</th>
-                        <th style="text-align:center">Discrepancy</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CatName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ItemDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Uom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShelfLocation)
-                    @Html.DisplayFor(modelItem => item.ShelfLevel)
+    <script type="text/javascript">
+        var myArray = new Array();
 
-                </td>
-                <td style="text-align:center">
-                    @{
-            string Disable = "";
-            foreach (var i in ViewBag.AdjustmentDetailModel)
-            {
-                if (i.Itemid == item.Itemid)
-                {
-                    Disable = "disabled";
+        function addtoarray(source) {
+            if (source.Checked != "") {
+                console.log(source.Checked);
+
+                if (!myArray.includes(source.val)) {
+                    myArray.push(source.val);
+                }
+            }
+            else {
+                console.log("unchecked");
+                if (myArray.includes(source.val)) {
+                    var index = myArray.indexOf(source.val);
+                    if (index > -1) {
+                        myArray.splice(index, 1);
+                    }
                 }
             }
 
-                    }
-                    @*@Html.CheckBox("InvID",item.Invid)*@
-                    <div class="form-check">
-                        <input class="glyphicon-check" name="Invid" type="checkbox" value="@item.Invid" id="checkbox" @Disable>
-                        
-                    </div>
-                </td>
-            </tr>
-}
-                </tbody>
-            </table>
-            <br />
-            <input type="submit" value="Submit" class="btn btn-outline-success pull-right" id="submit" />
-}
-           
+            console.log(myArray);
+
+        }
+
+
+        function Checked() {
+
+            console.log(myArray);
+                @*$.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Inventory", "Clerk")",
+                    data: { Invid: myArray },
+                })*@
+    }
+    </script>
