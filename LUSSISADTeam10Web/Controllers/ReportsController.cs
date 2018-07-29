@@ -401,10 +401,10 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
 
             int deptid = viewModel.Deptid;
-            DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
-            DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
-            //DateTime startdate = viewModel.startdate;
-            //DateTime enddate = viewModel.enddate;
+            //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
+            //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
+            DateTime startdate = viewModel.startdate.Value;
+            DateTime enddate = viewModel.enddate.Value;
 
 
 
