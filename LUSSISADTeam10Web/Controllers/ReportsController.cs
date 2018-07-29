@@ -43,7 +43,8 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
 
-                ViewBag.SupplierModel = sml;
+                //ViewBag.SupplierModel = APISupplier.GetAllSuppliers(token, out error);
+                ViewBag.count = 0;
                 viewmodel.supplier1 = sm.SupId;
                 viewmodel.supplier2 = sm.SupId;
                 viewmodel.supplier3 = sm.SupId;
@@ -56,6 +57,8 @@ namespace LUSSISADTeam10Web.Controllers
                     suppliername.Add(s.SupId);
 
                 }
+                List<SupplierModel> abc = APISupplier.GetAllSuppliers(token, out  error);
+                ViewBag.slist = abc;
                 ViewBag.supplierlist = suppliername;
 
             }
@@ -160,7 +163,7 @@ namespace LUSSISADTeam10Web.Controllers
         #region POST Method
 
         [HttpPost]
-        public ActionResult ItemUsageByClerk(MonthlyItemUsageViewModel viewModel)
+        public ActionResult ItemUsageByClerk(int s1, int s2, int s3)
         {
 
             string error = "";
@@ -169,11 +172,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
 
-            int suppliername1 = viewModel.supplier1;
-            int suppliername2 = viewModel.supplier2;
-            int suppliername3 = viewModel.supplier3;
+            
             MonthlyItemUsageViewModel viewmodel = new MonthlyItemUsageViewModel();
-            List<MonthlyItemUsageByClerkModel> mm = APIReport.ItemUsageByClerk(token, out error, suppliername1, suppliername2, suppliername3);
+            List<MonthlyItemUsageByClerkModel> mm = APIReport.ItemUsageByClerk(token, out error, s1, s2, s3);
             viewmodel.mtu = new List<MonthlyItemResultUsageViewModel>();
 
 
@@ -400,11 +401,11 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
 
-            int deptid = viewModel.Deptid;
-            DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
-            DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
-            //DateTime startdate = viewModel.startdate;
-            //DateTime enddate = viewModel.enddate;
+            int deptid = um.Deptid;
+            //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
+            //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
+            DateTime startdate = viewModel.startdate.Value;
+            DateTime enddate = viewModel.enddate.Value;
 
 
 
