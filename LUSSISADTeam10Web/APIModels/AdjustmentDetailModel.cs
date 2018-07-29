@@ -33,6 +33,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public string Reason { get; set; }
         public int? Stock { get; set; } = 0;
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime IssueDate { get; set; } = new DateTime();
+        public DateTime IssueDate { get; set; } = new DateTime();     
+        public double Price { get; set; }
     }
 }

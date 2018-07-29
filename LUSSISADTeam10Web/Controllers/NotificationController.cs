@@ -36,8 +36,8 @@ namespace LUSSISADTeam10Web.Controllers
 
                 case ConNotification.NotiType.ClerkApprovedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
-                case ConNotification.NotiType.ClerkApprovedRequisiton:
-                    return RedirectToAction("TrackRequisition", "HOD", new { id = notim.ResID });
+                //case ConNotification.NotiType.ClerkApprovedRequisiton:
+                //    return RedirectToAction("TrackRequisition", "HOD", new { id = notim.ResID });
                 case ConNotification.NotiType.ClerkRejectedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
                 case ConNotification.NotiType.CollectedRequistion:

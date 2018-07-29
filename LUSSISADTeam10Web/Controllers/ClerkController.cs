@@ -723,31 +723,31 @@ namespace LUSSISADTeam10Web.Controllers
             
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(List<InventoryDetailModel> InvID)
+        public ActionResult Inventory(List<int> Invid)
         { //List<int> Invid
             string token = GetToken();
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 
-            //if (Invid.Count < 1)
-            //{
-            //    RedirectToAction("Inventory");
-            //}
+            if (Invid.Count < 1)
+            {
+                RedirectToAction("Inventory");
+            }
 
-            //else
-            //{
-            //    List<InventoryDetailModel> ivdm = TempData["inventories"] as List<InventoryDetailModel>;
-            //    foreach(int i in Invid)
-            //    {
-            //        foreach(InventoryDetailModel ivm in ivdm)
-            //        {
-            //            if (i == ivm.Invid)
-            //            {
-            //                selected.Add(ivm);
-            //            }
-            //        }
-            //    }
-            //}            
-            //TempData["discrepancy"] = selected;
+            else
+            {
+                List<InventoryDetailModel> ivdm = TempData["inventories"] as List<InventoryDetailModel>;
+                foreach (int i in Invid)
+                {
+                    foreach (InventoryDetailModel ivm in ivdm)
+                    {
+                        if (i == ivm.Invid)
+                        {
+                            selected.Add(ivm);
+                        }
+                    }
+                }
+            }
+            TempData["discrepancy"] = selected;
             return RedirectToAction("Adjustment");
         }
         public ActionResult Adjustment()

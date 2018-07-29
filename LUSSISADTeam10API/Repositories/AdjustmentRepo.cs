@@ -80,38 +80,7 @@ namespace LUSSISADTeam10API.Repositories
             }
             return adjm;
         }
-        //get adjustment greaterprice
-        //public static List<AdjustmentModel> GetAdjustmentGreaterPrice(double price, out string error)
-        //{
-        //    LUSSISEntities entities = new LUSSISEntities();
-        //    error = "";
-        //    List<AdjustmentModel> greater = new List<AdjustmentModel>();
-        //    try
-        //    {                
-        //        List<AdjustmentModel> alladj = GetAllAdjustments(out error);
-
-        //        foreach (AdjustmentModel adj in alladj)
-        //        {
-        //            List<AdjustmentDetailModel> adjds = AdjustmentDetailRepo.GetAdjustmentDetailByAdjID(adj.adjid,out error);
-        //            foreach(AdjustmentDetailModel adjd in adjds)
-        //            {
-        //                SupplierItemModel supp = SupplierItemRepo.
-        //                double price = supplieritem.
-        //                supplieritem.itemid
-        //                    adjd.itemid
-        //            }
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        error = ConError.Status.NOTFOUND;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-        //    return greater;           
-        //}
+  
         //find Adjustment by raisedby id
         public static List<AdjustmentModel> GetAdjustmentByRaisedById(int raisedby, out string error)
         {

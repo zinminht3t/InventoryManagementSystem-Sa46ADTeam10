@@ -118,8 +118,8 @@
             <div class="col-sm-12">
                 @using (Html.BeginForm("Inventory", "Clerk", FormMethod.Post))
     {
-            @*<form asp-action="Inventory" asp-controller="Clerk" method="post">*@
-            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+           
+            <table>
                 <thead class="table-info">
                     <tr>
                         <th style="text-align:center">Category</th>
@@ -164,11 +164,11 @@
             }
 
                     }
-                    @Html.CheckBox("InvID",item.Invid)
-                    @*<div class="form-check">
-                        <input class="glyphicon-check" name="InvID" type="checkbox" value="@item.Invid" id="checkbox" @Disable>
+                    @*@Html.CheckBox("InvID",item.Invid)*@
+                    <div class="form-check">
+                        <input class="glyphicon-check" name="Invid" type="checkbox" value="@item.Invid" id="checkbox" @Disable>
                         
-                    </div>*@
+                    </div>
                 </td>
             </tr>
 }
