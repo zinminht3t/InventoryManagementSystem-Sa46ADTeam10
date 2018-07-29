@@ -4,148 +4,184 @@
     ViewBag.Title = "ItemUsageByClerk";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<html>
-<body>
-    <div class="jumbotron">
-        <h2  >Purchase Order Trend</h2>
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Title Here</h1>
+            </div>
+        </div>
     </div>
-    @if (ViewBag.Count == 0)
-
-    {
-        <h2>Purchase Order Trend</h2>
-        <form asp-action="ItemUsageByClerk" asp-controller="Reports" method="post">
-
-            <div class="row">
-
-                <select name="s1">
-                    @{
-
-
-                        foreach (var item in ViewBag.slist)
-                        {
-
-                            <option asp-for="ItemUsageByClerk"
-                                    value="@item.SupId" class="ifrm-check-input">
-                                @item.SupName
-                            </option>
-                        }
-
-
-                    }
-                </select>
-                <select name="s2">
-                    @{
-
-                        foreach (var item in ViewBag.slist)
-                        {
-
-                            <option asp-for="ItemUsageByClerk"
-                                    value="@item.SupId" class="ifrm-check-input">
-                                @item.SupName
-                            </option>
-                        }
-
-
-                    }
-                </select>
-                <select name="s3">
-                    @{
-
-
-                        foreach (var item in ViewBag.slist)
-                        {
-
-                            <option asp-for="ItemUsageByClerk"
-                                    value="@item.SupId" class="ifrm-check-input">
-                                @item.SupName
-                            </option>
-                        }
-
-
-                    }
-                </select>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li class="active">Title Here</li>
+                </ol>
             </div>
-            <br />
-            <div>
+        </div>
+    </div>
+</div>
 
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Title Here </strong>
             </div>
+            <div class="card-body">
 
-            <input type="hidden" name="supplier1" asp-for="model.supplier1" value="@Model.supplier1" />
-            <input type="hidden" name="supplier2" asp-for="model.supplier2" value="@Model.supplier2" />
-            <input type="hidden" name="supplier3" asp-for="model.supplier3" value="@Model.supplier3" />
+                @if (ViewBag.Count == 0)
 
-            <input type="submit" formmethod="post" value="Submit" />
+                {
+                    <h2>Purchase Order Trend</h2>
+                    <form asp-action="ItemUsageByClerk" asp-controller="Reports" method="post">
+
+                        <div class="row">
+
+                            <select name="s1">
+                                @{
 
 
-        </form>
+                                    foreach (var item in ViewBag.slist)
+                                    {
+
+                                        <option asp-for="ItemUsageByClerk"
+                                                value="@item.SupId" class="ifrm-check-input">
+                                            @item.SupName
+                                        </option>
+                                    }
 
 
-    }
+                                }
+                            </select>
+                            <select name="s2">
+                                @{
 
-    <div class="card-body">
+                                    foreach (var item in ViewBag.slist)
+                                    {
 
-        @if (ViewBag.Count == 0)
-        {
+                                        <option asp-for="ItemUsageByClerk"
+                                                value="@item.SupId" class="ifrm-check-input">
+                                            @item.SupName
+                                        </option>
+                                    }
 
-            <h1>There is no transaction for this item </h1>
-        }
-        else
-        {
 
-            <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                <thead class="table-info">
-                    <tr>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Item)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UsageItem)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MonthName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.year)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.supname)
-                        </th>
+                                }
+                            </select>
+                            <select name="s3">
+                                @{
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.mtu)
+
+                                    foreach (var item in ViewBag.slist)
+                                    {
+
+                                        <option asp-for="ItemUsageByClerk"
+                                                value="@item.SupId" class="ifrm-check-input">
+                                            @item.SupName
+                                        </option>
+                                    }
+
+
+                                }
+                            </select>
+                        </div>
+                        <br />
+                        <div>
+
+                        </div>
+
+                        <input type="hidden" name="supplier1" asp-for="model.supplier1" value="@Model.supplier1" />
+                        <input type="hidden" name="supplier2" asp-for="model.supplier2" value="@Model.supplier2" />
+                        <input type="hidden" name="supplier3" asp-for="model.supplier3" value="@Model.supplier3" />
+
+                        <input type="submit" formmethod="post" value="Submit" />
+
+
+                    </form>
+
+
+                }
+
+                <div class="card-body">
+
+                    @if (ViewBag.Count == 0)
                     {
-                        <tr>
-                            <td>
-                                @item.Item_
-                            </td>
-                            <td>
-                                @item.UsageItem
 
-                            </td>
-                            <td>
-                                @item.MonthName
-                            </td>
-                            <td>
-                                @item.year
-                            </td>
-                            <td>
-                                @item.supname
-                            </td>
-                        </tr>
+                        
                     }
-                </tbody>
-            </table>
-        }
+                    else
+                    {
+
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead class="table-info">
+                                <tr>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Item)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UsageItem)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MonthName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.year)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.supname)
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.mtu)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Item_
+                                        </td>
+                                        <td>
+                                            @item.UsageItem
+
+                                        </td>
+                                        <td>
+                                            @item.MonthName
+                                        </td>
+                                        <td>
+                                            @item.year
+                                        </td>
+                                        <td>
+                                            @item.supname
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+
+
+                </div>
+
+
+            </div>
+        </div>
 
 
 
     </div>
+</div>
 
-</body>
-</html>
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript"></script>
 }
