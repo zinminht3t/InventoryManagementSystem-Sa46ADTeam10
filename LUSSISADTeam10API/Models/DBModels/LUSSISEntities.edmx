@@ -2162,7 +2162,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <FunctionImport Name="SPMonthlyItemUsageByHOD" ReturnType="Collection(SA46ADTeam10Model.SPMonthlyItemUsageByHOD_Result)" />
           <FunctionImport Name="SPNumberofRequest" ReturnType="Collection(SA46ADTeam10Model.SPNumberofRequest_Result)" />
           <FunctionImport Name="GetNumberofRequsition" ReturnType="Collection(SA46ADTeam10Model.NumberofRequsition)" >
-            <Parameter Name="month" Mode="In" Type="Int32" />
+          <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SPOrderByDepartmentDarshboard" ReturnType="Collection(SA46ADTeam10Model.SPOrderByDepartmentDarshboard_Result)" />
         </EntityContainer>
