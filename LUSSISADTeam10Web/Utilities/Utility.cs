@@ -107,7 +107,7 @@ namespace LUSSISADTeam10Web.Utilities
 
                     var whole = head + htmlbody + tablebody + tablefooter + end;
 
-                    var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(whole, PdfSharp.PageSize.A4);
+                  var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(whole, PdfSharp.PageSize.A4);
                     var ms = new MemoryStream();
                     pdf.Save(ms, false);
                     ms.Position = 0;

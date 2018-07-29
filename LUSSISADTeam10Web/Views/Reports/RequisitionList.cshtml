@@ -14,41 +14,35 @@
 {
 
 
-<form asp-action="RequisitionList" asp-controller="Reports" method="post">
-    <div class="row">
-        <div class="col-md-4">
-            @Html.DropDownListFor(model => model.Deptid, new SelectList(ViewBag.departmentlist))
+    <form asp-action="RequisitionList" asp-controller="Reports" method="post" autocomplete="off">
+        <div class="row">
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.Deptid, new SelectList(ViewBag.departmentlist))
 
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-md-4"><b>@Html.LabelFor(model => model.startdate)</b> </div>
-        <div class="col-md-5">@Html.TextBoxFor(model => model.startdate, new { id = "datepicker" })</div>
-    </div><br />
-    <div class="row">
-        <div class="col-md-4"><b> @Html.LabelFor(model => model.enddate)</b> </div>
-        <div class="col-md-5">@Html.TextBoxFor(model => model.enddate, new { id = "datepicker1" })</div>
         <br />
-        <br />
-    </div>
-
-  
-
-
-    <input type="hidden" name="deptid" asp-for="model.Deptid" value="@Model.Deptid" />
-    <input type="hidden" name="startdate" asp-for="model.startdate" value="@Model.startdate" />
-    <input type="hidden" name="enddate" asp-for="model.enddate" value="@Model.enddate" />
-
-
-
-
-
-    <input type="submit" value="submit" />
+        <div class="row">
+            <div class="col-md-4"><b>@Html.LabelFor(model => model.startdate)</b> </div>
+            <div class="col-md-5">@Html.TextBoxFor(model => model.startdate, new { id = "datepicker"})</div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-4"><b> @Html.LabelFor(model => model.enddate)</b> </div>
+            <div class="col-md-5">@Html.TextBoxFor(model => model.enddate, new { id = "datepicker1"})</div>
+            <br />
+            <br />
+        </div>
 
 
 
-</form>
+
+        <input type="hidden" name="deptid" asp-for="model.Deptid" value="@Model.Deptid" />
+        <input type="hidden" name="startdate" asp-for="model.startdate" value="@Model.startdate" />
+        <input type="hidden" name="enddate" asp-for="model.enddate" value="@Model.enddate" />
+
+
+        <input type="submit" value="submit" class="cancel" />
+    </form>
 
 }
 
@@ -99,40 +93,34 @@
             </tbody>
         </table>
     }
-
-
-
-
 </div>
 
 
 
 @section Scripts {
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(function () {
-            $("#datepicker").datepicker();
-            $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('setDate', 'today')
-            $("#datepicker1").datepicker();
-            $("#datepicker1").datepicker('option', "showAnim", 'slide');
-            $("#datepicker1").datepicker('setDate', 'today')
+            $("#datepicker1").datepicker({
+                dateFormat: 'dd/mm/yy',
+                showAnim: 'slide',
+                disabled: true
+            });
+            $("#datepicker1").datepicker('setDate', null);
+            $("#datepicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                showAnim: 'slide',
+                onSelect: function (date) {
 
+                    $('#datepicker1').datepicker("option", "disabled", false);
+                    $("#datepicker1").datepicker("option", "minDate", date);
+                    $('#datepicker1').datepicker('setDate', date);
+                    $("#datepicker1").datepicker("option", "maxDate", '+2y');
+
+                }
+            });
+            $("#datepicker").datepicker('setDate', 'today');
         });
     </script>
-
-    <script>
-        $(function () {
-          
-            $("#datepicker1").datepicker();
-            $("#datepicker1").datepicker('option', "showAnim", 'slide');
-            $("#datepicker1").datepicker('setDate', 'today')
-
-        });
-    </script>
-
-
 }

@@ -33,10 +33,7 @@
 
 
         <div class="card">
-            <div class="card-header">
-                <i class="mr-2 fa fa-align-justify"></i>
-                <strong class="card-title"> Approve CollectionPoint </strong>
-            </div>
+      
             <div class="card-body">
                 <h5 class="text-sm-center text-info"> <i class="ti-location-pin fa-3x"></i><br /> Approve Collection Point </h5>
                 <dl class="dl-horizontal"></dl>
@@ -98,6 +95,10 @@
 @section Scripts {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8UpozIrTb-kqTx2K8zydcLiNbi6YDaEY" type="text/javascript"></script>
     <script type="text/javascript">
+
+        var approve = document.getElementById("inline-radio1");
+        var checkedApprove = approve.checked;
+
         var mapcode;
         var loc = [];
 
