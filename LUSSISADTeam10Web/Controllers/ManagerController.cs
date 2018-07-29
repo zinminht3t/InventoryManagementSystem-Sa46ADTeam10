@@ -19,7 +19,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
-            List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+            List<POCountList> reportData = new List<POCountList>();
 
             List<AdjustmentModel> adjs = new List<AdjustmentModel>();
 
@@ -29,10 +29,9 @@ namespace LUSSISADTeam10Web.Controllers
 
             List<InventoryDetailModel> invs = new List<InventoryDetailModel>();
 
-
             try
             {
-                reportData = APIReport.FrequentlyItemList(token, out error);
+                reportData = APIReport.GetPoForfiveMonths(token, out error);
 
                 adjs = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
                 if(adjs == null)
@@ -73,7 +72,6 @@ namespace LUSSISADTeam10Web.Controllers
                 {
                     ViewBag.RestockCount = invs.Where(x => x.RecommendedOrderQty > 0).Count();
                 }
-
                 return View("Index", reportData);
             }
             catch (Exception ex)

@@ -400,8 +400,8 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             string token = GetToken();
-
             int deptid = um.Deptid;
+
             //DateTime startdate = new DateTime(2018, 07, 01, 0, 0, 0);
             //DateTime enddate = new DateTime(2018, 07, 31, 0, 0, 0);
             DateTime startdate = viewModel.startdate.Value;

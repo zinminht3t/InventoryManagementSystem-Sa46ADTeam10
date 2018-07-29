@@ -752,9 +752,10 @@ namespace LUSSISADTeam10Web.Controllers
 
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(int[] Invid)
+        public JsonResult Inventory(int[] Invid)
         { 
             string token = GetToken();
+            bool ResultSuccess = true;
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 
             if (Invid.Length <1)
@@ -777,7 +778,7 @@ namespace LUSSISADTeam10Web.Controllers
                 }
             }
             TempData["discrepancy"] = selected;
-            return RedirectToAction("Adjustment");
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
         [Authorize(Roles = "Clerk")]
         public ActionResult Adjustment()

@@ -121,62 +121,61 @@
             <div class="row">
                 <div class="col-sm-12">
 
-                        <table id="bootstrap-data-table">
-                            <thead class="table-info">
+                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <thead class="table-info">
+                            <tr>
+                                <th style="text-align:center">Category</th>
+                                <th style="text-align:center">Items</th>
+                                <th style="text-align:center">Stock</th>
+                                <th style="text-align:center">UOM</th>
+                                <th style="text-align:center">Location</th>
+                                <th style="text-align:center">Discrepancy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th style="text-align:center">Category</th>
-                                    <th style="text-align:center">Items</th>
-                                    <th style="text-align:center">Stock</th>
-                                    <th style="text-align:center">UOM</th>
-                                    <th style="text-align:center">Location</th>
-                                    <th style="text-align:center">Discrepancy</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CatName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Stock)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Uom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ShelfLocation)
+                                        @Html.DisplayFor(modelItem => item.ShelfLevel)
 
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CatName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ItemDescription)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Stock)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Uom)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ShelfLocation)
-                                            @Html.DisplayFor(modelItem => item.ShelfLevel)
-
-                                        </td>
-                                        <td style="text-align:center">
-                                            @{
-                                                string Disable = "";
-                                                foreach (var i in ViewBag.AdjustmentDetailModel)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @{
+                                            string Disable = "";
+                                            foreach (var i in ViewBag.AdjustmentDetailModel)
+                                            {
+                                                if (i.Itemid == item.Itemid)
                                                 {
-                                                    if (i.Itemid == item.Itemid)
-                                                    {
-                                                        Disable = "disabled";
-                                                    }
+                                                    Disable = "disabled";
                                                 }
-
                                             }
-                                            <div class="form-check">
-                                                <input class="theclass" name="Invid" type="checkbox" onclick="addtoarray(this)" value="@item.Invid" id="checkbox" @Disable>
 
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                        <br />
-                        <button onclick="Checked()" class="btn btn-outline-success pull-right">Submit</button>
+                                        }
+                                        <div class="form-check">
+                                            <input id="checkbox-@item.Invid" name="Invid" type="checkbox" onclick="addtoarray(@item.Invid)" value="@item.Invid" class="checkboxf" @Disable>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    <button onclick="Checked()" class="btn btn-outline-success pull-right">Submit</button>
                 </div>
             </div>
         </div>
@@ -186,35 +185,39 @@
         var myArray = new Array();
 
         function addtoarray(source) {
-            if (source.Checked != "") {
-                console.log(source.Checked);
 
-                if (!myArray.includes(source.val)) {
-                    myArray.push(source.val);
+
+            var checkboxname = "checkbox-" + source;
+            console.log(checkboxname);
+
+            selectedcheckbox = document.getElementById(checkboxname);
+
+            if (selectedcheckbox.checked) {
+                if (!myArray.includes(source)) {
+                    myArray.push(source);
                 }
             }
             else {
-                console.log("unchecked");
-                if (myArray.includes(source.val)) {
-                    var index = myArray.indexOf(source.val);
+                if (myArray.includes(source)) {
+                    var index = myArray.indexOf(source);
                     if (index > -1) {
                         myArray.splice(index, 1);
                     }
                 }
             }
-
-            console.log(myArray);
-
         }
 
 
         function Checked() {
+                var url1 = '@Url.Action("Adjustment", "Clerk")';
 
-            console.log(myArray);
-                @*$.ajax({
+                $.ajax({
                     type: "POST",
                     url: "@Url.Action("Inventory", "Clerk")",
                     data: { Invid: myArray },
-                })*@
-    }
+                    success: function (ResultSuccess) {
+                        window.location.href = url1;
+                    },
+                })
+        }
     </script>
