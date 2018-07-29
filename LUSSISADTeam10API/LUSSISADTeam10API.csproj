@@ -324,6 +324,9 @@
     <Compile Include="Models\DBModels\NumberofRequsition.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\NumberofRequsitions.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\OrderByDepartmentDarshboard.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -363,7 +366,13 @@
     <Compile Include="Models\DBModels\SPNumberofRequest_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\SPNumberofRequsitions_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\SPNumberofRequsition_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPNumberofRequsition_Result1.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPOrderByDepartmentDarshboard_Result.cs">

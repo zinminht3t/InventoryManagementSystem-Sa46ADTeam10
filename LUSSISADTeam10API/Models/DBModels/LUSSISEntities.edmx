@@ -839,7 +839,7 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
         </Function>
         <Function Name="SPMonthlyItemUsageByHOD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SPNumberofRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SPNumberofRequsition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="SPNumberofRequsitions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="month" Type="int" Mode="In" />
         </Function>
         <Function Name="SPOrderByDepartmentDarshboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -2161,10 +2161,10 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           </FunctionImport>
           <FunctionImport Name="SPMonthlyItemUsageByHOD" ReturnType="Collection(SA46ADTeam10Model.SPMonthlyItemUsageByHOD_Result)" />
           <FunctionImport Name="SPNumberofRequest" ReturnType="Collection(SA46ADTeam10Model.SPNumberofRequest_Result)" />
-          <FunctionImport Name="GetNumberofRequsition" ReturnType="Collection(SA46ADTeam10Model.NumberofRequsition)" >
-          <Parameter Name="month" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="SPOrderByDepartmentDarshboard" ReturnType="Collection(SA46ADTeam10Model.SPOrderByDepartmentDarshboard_Result)" />
+          <FunctionImport Name="GetNumberofRequsitions" ReturnType="Collection(SA46ADTeam10Model.NumberofRequsitions)">
+            <Parameter Name="month" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -2265,6 +2265,27 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Type="Int32" Name="NumberofReq" Nullable="true" />
           <Property Type="Int32" Name="reqid" Nullable="false" />
           <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SPNumberofRequsition_Result1">
+          <Property Type="Int32" Name="NumberofReq" Nullable="true" />
+          <Property Type="Int32" Name="reqid" Nullable="false" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ProceduceMonth" Nullable="true" />
+          <Property Type="Int32" Name="ProceduceYear" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPNumberofRequsitions_Result">
+          <Property Type="Int32" Name="NumberofReq" Nullable="true" />
+          <Property Type="Int32" Name="reqid" Nullable="false" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ProceduceMonth" Nullable="true" />
+          <Property Type="Int32" Name="ProceduceYear" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="NumberofRequsitions">
+          <Property Type="Int32" Name="NumberofReq" Nullable="true" />
+          <Property Type="Int32" Name="reqid" Nullable="false" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ProceduceMonth" Nullable="true" />
+          <Property Type="Int32" Name="ProceduceYear" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2692,20 +2713,22 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetNumberofRequsition" FunctionName="SA46ADTeam10Model.Store.SPNumberofRequsition">
-          <ResultMapping>
-              <ComplexTypeMapping TypeName="SA46ADTeam10Model.NumberofRequsition">
-                <ScalarProperty Name="NumberofReq" ColumnName="NumberofReq" />
-                <ScalarProperty Name="reqid" ColumnName="reqid" />
-                <ScalarProperty Name="deptname" ColumnName="deptname" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SPOrderByDepartmentDarshboard" FunctionName="SA46ADTeam10Model.Store.SPOrderByDepartmentDarshboard">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPOrderByDepartmentDarshboard_Result">
                 <ScalarProperty Name="Total_Order_Qty" ColumnName="Total Order Qty" />
                 <ScalarProperty Name="deptname" ColumnName="deptname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNumberofRequsitions" FunctionName="SA46ADTeam10Model.Store.SPNumberofRequsitions">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.NumberofRequsitions">
+                <ScalarProperty Name="NumberofReq" ColumnName="NumberofReq" />
+                <ScalarProperty Name="reqid" ColumnName="reqid" />
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
+                <ScalarProperty Name="ProceduceMonth" ColumnName="ProceduceMonth" />
+                <ScalarProperty Name="ProceduceYear" ColumnName="ProceduceYear" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -496,14 +496,14 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
-        public static List<NumberofRequsition> NumberofRequisition(out string error,int month)
+        public static List<NumberofRequsitions> NumberofRequisition(out string error,int month)
         {
             LUSSISEntities entities = new LUSSISEntities();
              error = "";
-            List<NumberofRequsition> nm = new List<NumberofRequsition>();
+            List<NumberofRequsitions> nm = new List<NumberofRequsitions>();
             try
             {
-                nm = entities.GetNumberofRequsition(month).ToList<NumberofRequsition>();
+                nm = entities.GetNumberofRequsitions(month).ToList<NumberofRequsitions>();
             }
             catch (NullReferenceException)
             {

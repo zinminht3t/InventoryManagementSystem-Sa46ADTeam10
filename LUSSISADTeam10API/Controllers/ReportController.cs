@@ -225,7 +225,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult NumberofRequsition(int month)
         {
             string error = "";
-            List<NumberofRequsition> nur = ReportRepo.NumberofRequisition(out error,month);
+            List<NumberofRequsitions> nur = ReportRepo.NumberofRequisition(out error,month);
             // if the erorr is not blank or the category list is null
             if (error != "" || nur == null)
             {
