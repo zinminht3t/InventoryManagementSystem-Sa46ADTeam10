@@ -130,5 +130,15 @@ namespace LUSSISADTeam10API.Models.DBModels
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
         }
+    
+        public virtual ObjectResult<ItemByDepartment> GetItemByDepartment()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ItemByDepartment>("GetItemByDepartment");
+        }
+    
+        public virtual ObjectResult<RequisitionResult> GetRequisition()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequisitionResult>("GetRequisition");
+        }
     }
 }

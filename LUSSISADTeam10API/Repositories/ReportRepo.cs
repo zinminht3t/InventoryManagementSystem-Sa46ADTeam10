@@ -496,26 +496,48 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
-        //public static List<NumberofRequsitions> NumberofRequisition(out string error)
-        //{
-        //    LUSSISEntities entities = new LUSSISEntities();
-        //     error = "";
-        //    List<NumberofRequsitions> nm = new List<NumberofRequsitions>();
-        //    try
-        //    {
-        //        nm = entities.GetNumberofRequsitions().ToList<NumberofRequsitions>();
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        error = ConError.Status.NOTFOUND;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-        //    return nm;
+        public static List<RequisitionResult> NumberofRequisition(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<RequisitionResult> nm = new List<RequisitionResult>();
+            try
+            {
+                nm = entities.GetRequisition().ToList();
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return nm;
 
-        //}
+        }
+
+
+        public static List<ItemByDepartment> ItemByDepartment(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<ItemByDepartment> id = new List<ItemByDepartment>();
+            try
+            {
+                id = entities.GetItemByDepartment().ToList();
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return id;
+
+        }
 
         public static List<ItemTrendAnalysis> ItemTrendAnalysis(out string error, int d1, int d2, int d3, int month)
         {
