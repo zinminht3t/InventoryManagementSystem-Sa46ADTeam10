@@ -30,9 +30,13 @@
 
 
         <div class="card">
-           
+            <div class="card-header">
+                <i class="mr-2 fa fa-align-justify"></i>
+                <strong class="card-title"> Adjustment Form </strong>
+            </div>
+
             <div class="card-body">
-                <div>  <h5 class="text-sm-center text-info"> <i class="ti-marker-alt fa-3x"></i><br /> Adjustment Form </h5></div><br />
+
                 <div class="row">
                     <div class="col-sm-12">
 
@@ -53,41 +57,39 @@
                                 </tr>
 
                                 @foreach (var item in Model.Invs)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Category)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ItemDescription)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Stock)
-                                        </td>
-                                        <td style="column-width:inherit">
-                                            <input type="number" name="Current" asp-for="Current" value="@item.Current" class="form-control" />
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UOM)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Shelf)
-                                            @Html.DisplayFor(modelItem => item.Level)
-                                        </td>
-                                        <td>
-                                            <textarea name="Reason" id="textarea-input" rows="2" placeholder="Reason for Discrepancy..." class="form-control"></textarea>
+        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CatName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td style="column-width:inherit">
+                                <input type="number" name="Current" asp-for="Current" value="@item.Current" class="form-control" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Uom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ShelfLocation)
+                                @Html.DisplayFor(modelItem => item.ShelfLevel)
+                            </td>
+                            <td>
+                                <textarea name="Reason" id="textarea-input" rows="2" placeholder="Reason for Discrepancy..." class="form-control" style="font-size"></textarea>
 
-                                        </td>
-                                    </tr>
-                                    <input type="hidden" name="InvID" asp-for="@Model.InvIDs" value="@item.InventoryId" />
-                                }
-                                <tr style="border-bottom:hidden; border-right:hidden; border-left:hidden">
-                                    <td colspan="100%">
-                                        <input type="submit" value="Submit" class="btn btn-success btn pull-right" />
-                                    </td>
-                                </tr>
+                            </td>
+                        </tr>
+                        <input type="hidden" name="InvID" asp-for="@Model.InvIDs" value="@item.Invid" />
+}
+
+                            </table>
+                            <br/>
+                            <input type="submit" value="Submit" class="btn btn-outline-success pull-right" />
                         </form>
-                        </table>
                     </div>
                 </div>
             </div>

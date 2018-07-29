@@ -349,7 +349,16 @@
     <Compile Include="Models\DBModels\SPItemTrendAnalysis_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBModels\SPMonthlyItemUsageByHOD_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DBModels\SPMonthlyItemUsage_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPNumberofRequest_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPOrderByDepartmentDarshboard_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPRequistionList_Result.cs">

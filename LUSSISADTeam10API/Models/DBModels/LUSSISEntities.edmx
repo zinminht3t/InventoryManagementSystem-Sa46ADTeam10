@@ -837,6 +837,9 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Parameter Name="suppliertwo" Type="int" Mode="In" />
           <Parameter Name="supplierthree" Type="int" Mode="In" />
         </Function>
+        <Function Name="SPMonthlyItemUsageByHOD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SPNumberofRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SPOrderByDepartmentDarshboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SPRequistionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="deptid" Type="int" Mode="In" />
           <Parameter Name="fromdate" Type="datetime" Mode="In" />
@@ -2153,6 +2156,9 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
             <Parameter Name="fromdate" Mode="In" Type="DateTime" />
             <Parameter Name="todate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SPMonthlyItemUsageByHOD" ReturnType="Collection(SA46ADTeam10Model.SPMonthlyItemUsageByHOD_Result)" />
+          <FunctionImport Name="SPNumberofRequest" ReturnType="Collection(SA46ADTeam10Model.SPNumberofRequest_Result)" />
+          <FunctionImport Name="SPOrderByDepartmentDarshboard" ReturnType="Collection(SA46ADTeam10Model.SPOrderByDepartmentDarshboard_Result)" />
         </EntityContainer>
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -2224,6 +2230,25 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
           <Property Type="DateTime" Name="reqdate" Nullable="true" Precision="23" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="29" />
           <Property Type="Int32" Name="deptid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SPMonthlyItemUsageByHOD_Result">
+          <Property Type="String" Name="Item" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Unit_of_Measurement" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SPNumberofRequest_Result">
+          <Property Type="Int32" Name="deptid" Nullable="false" />
+          <Property Type="Int32" Name="noofrequest" Nullable="true" />
+          <Property Type="Int32" Name="produceyear" Nullable="true" />
+          <Property Type="Int32" Name="producemonth" Nullable="true" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SPOrderByDepartmentDarshboard_Result">
+          <Property Type="Int32" Name="Total_Order_Qty" Nullable="true" />
+          <Property Type="String" Name="deptname" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2625,6 +2650,37 @@ warning 6002: The table/view 'SA46ADTeam10.sys.database_firewall_rules' does not
                 <ScalarProperty Name="reqdate" ColumnName="reqdate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="deptid" ColumnName="deptid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPMonthlyItemUsageByHOD" FunctionName="SA46ADTeam10Model.Store.SPMonthlyItemUsageByHOD">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPMonthlyItemUsageByHOD_Result">
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Unit_of_Measurement" ColumnName="Unit of Measurement" />
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPNumberofRequest" FunctionName="SA46ADTeam10Model.Store.SPNumberofRequest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPNumberofRequest_Result">
+                <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="noofrequest" ColumnName="noofrequest" />
+                <ScalarProperty Name="produceyear" ColumnName="produceyear" />
+                <ScalarProperty Name="producemonth" ColumnName="producemonth" />
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPOrderByDepartmentDarshboard" FunctionName="SA46ADTeam10Model.Store.SPOrderByDepartmentDarshboard">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPOrderByDepartmentDarshboard_Result">
+                <ScalarProperty Name="Total_Order_Qty" ColumnName="Total Order Qty" />
+                <ScalarProperty Name="deptname" ColumnName="deptname" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

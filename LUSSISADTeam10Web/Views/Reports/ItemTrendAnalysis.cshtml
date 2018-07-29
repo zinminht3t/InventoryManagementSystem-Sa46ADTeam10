@@ -16,54 +16,90 @@
     <form asp-action="ItemTrendAnalysis" asp-controller="Reports" method="post">
         <h2>ItemUsageByClerk</h2>
         <div class="row">
-            <div class="col-md-4">
-                @Html.DropDownListFor(model => model.d1, new SelectList(ViewBag.departmentlist))
 
-            </div>
-            <div class="col-md-4">
-                @Html.DropDownListFor(model => model.d2, new SelectList(ViewBag.departmentlist))
-
-            </div>
-            <div class="col-md-4">
-                @Html.DropDownListFor(model => model.d3, new SelectList(ViewBag.departmentlist))
-
-
-            </div>
             @Html.DropDownListFor(model => model.month, new SelectList(ViewBag.monthlist))
 
-        </div>
-
-        @*@Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))
-        <br />*@
-        <div>
-
-        </div>
+         </div>
+           
+            <select>
+                @{
 
 
+                    foreach (var item in ViewBag.deptlist)
+                    {
+
+                        <option asp-for="ItemTrendAnalysis" name="d1"
+                                value="@item.d1" class="ifrm-check-input">
+                            @item.d1Name
+                        </option>
+                    }
 
 
-        @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
+                }
+            </select>
+            <select>
+                @{
+
+
+                    foreach (var item in ViewBag.deptlist)
+                    {
+
+                        <option asp-for="ItemTrendAnalysis" name="d2"
+                                value="@item.d2" class="ifrm-check-input">
+                            @item.d2Name
+                        </option>
+                    }
+
+
+                }
+            </select>
+            <select>
+                @{
+
+
+                    foreach (var item in ViewBag.deptlist)
+                    {
+
+                        <option asp-for="ItemTrendAnalysis" name="d3"
+                                value="@item.d3" class="ifrm-check-input">
+                            @item.d3Name
+                        </option>
+                    }
+
+
+                }
+            </select>
+            @*  @Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))*@
+            <br />
+            <div>
+
+            </div>
+
+
+
+
+            @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
         <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
         <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
 
 
 
 
-        <input type="hidden" name="d1" asp-for="model.d1" value="@Model.d1" />
-        <input type="hidden" name="d2" asp-for="model.d2" value="@Model.d2" />
-        <input type="hidden" name="d3" asp-for="model.d3" value="@Model.d3" />
-        <input type="hidden" name="month" asp-for="model.month" value="@Model.month" />
+            <input type="hidden" name="d1" asp-for="model.d1" value="@Model.d1" />
+            <input type="hidden" name="d2" asp-for="model.d2" value="@Model.d2" />
+            <input type="hidden" name="d3" asp-for="model.d3" value="@Model.d3" />
+            <input type="hidden" name="month" asp-for="model.month" value="@Model.month" />
 
 
 
-        <input type="submit" formmethod="post" value="Submit" />
+            <input type="submit" formmethod="post" value="Submit" />
 
 
-    </form>
+</form>
 
 
     }
-    <div class="card-body">
+    @*<div class="card-body">
 
         @if (ViewBag.Count == 0)
         {
@@ -123,7 +159,7 @@
 
 
 
-    </div>
+    </div>*@
 
 </body>
 </html>
