@@ -1227,22 +1227,13 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
-
-
             RequisitionWithDisbursementModel req = new RequisitionWithDisbursementModel();
-
             req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
-
             if (req.Status != ConRequisition.Status.DELIVERED)
             {
                 RedirectToAction("DisbursementLists");
             }
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "";
-            Session["notimessage"] = "";
             return View(req);
-
         }
 
         // End ZMH
@@ -1467,6 +1458,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["notitype"] = "error";
                 Session["notititle"] = "Purchase Order";
                 Session["notimessage"] = "You cannot create purchase order with items!";
+                return RedirectToAction("PurchaseOrder");
             }
             string error = "";
             string token = GetToken();
