@@ -26,8 +26,11 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public string Raisedbyname { get; set; }
         public int? Raisedto { get; set; } = 0;
         public string Raisedtoname { get; set; }
+        public int RaiseToRole { get; set; }
         public DateTime? Issueddate { get; set; }
         public int Status { get; set; } = 0;
         public List<AdjustmentDetailModel> Adjds { get; set; }
+        public double TotalPrice { get; set; }
+      
     }
 }

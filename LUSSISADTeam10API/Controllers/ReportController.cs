@@ -220,6 +220,26 @@ namespace LUSSISADTeam10API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/NumberofRequisition/{month}")]
+        public IHttpActionResult NumberofRequsition(int month)
+        {
+            string error = "";
+            List<NumberofRequsition> nur = ReportRepo.NumberofRequisition(out error,month);
+            // if the erorr is not blank or the category list is null
+            if (error != "" || nur == null)
+            {
+                // if the error is 404
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                // if the error is other one
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            // if there is no error
+            return Ok(nur);
+        }
+
+
 
         [HttpGet]
         [Route("api/ItemUsageByClerk/{suppliername1}/{suppliername2}/{suppliername3}")]
@@ -280,6 +300,21 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             // if there is no error
+            return Ok(rl);
+        }
+
+        [HttpGet]
+        [Route("api/poforfivemonths")]
+        public IHttpActionResult GetPOFor5Months()
+        {
+            string error = "";
+            List<PurchaseOrderFor5MonthModel> rl = ReportRepo.GetPOFor5Months(out error);
+            if (error != "" || rl == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
             return Ok(rl);
         }
 

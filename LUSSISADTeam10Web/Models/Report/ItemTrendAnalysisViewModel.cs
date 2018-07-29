@@ -31,10 +31,13 @@ namespace LUSSISADTeam10Web.Models.Report
         public string d3Name { get; set; }
 
 
-        public int month { get; set; }
+        public string month { get; set; }
         public List<ItemTrendDetailViewModel> itd { get; set; }
 
 
+        public int[] deptlist { get; set; }
+
+        
 
         public class ItemTrendDetailViewModel
         {
@@ -48,6 +51,16 @@ namespace LUSSISADTeam10Web.Models.Report
             public int? Monthofreq { get; set; }
 
             public int? Yearofreq { get; set; }
+            public int d1 { get; set; }
+
+            public int d2 { get; set; }
+            public int d3 { get; set; }
+
+            public string d1Name { get; set; }
+
+            public string d2Name { get; set; }
+
+            public string d3Name { get; set; }
         }
     }
 }
