@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class PurchaseOrderController : ApiController
     {
         // to show purchase order list
@@ -144,7 +145,7 @@ namespace LUSSISADTeam10API.Controllers
             po = PurchaseOrderRepo.GetPurchaseOrderByID(po.PoId, out error);
 
             // if the staff has already updated the status to "received"
-            if(po.Status == ConPurchaseOrder.Status.RECEIVED)
+            if (po.Status == ConPurchaseOrder.Status.RECEIVED)
             {
                 return Ok(po);
             }
@@ -153,8 +154,8 @@ namespace LUSSISADTeam10API.Controllers
             List<PurchaseOrderDetailModel> podms = PurchaseOrderDetailRepo.GetPurchaseOrderDetailByID(po.PoId, out error);
 
             // if the purchase order is completed, the stock must be updated according to deliver qty.
-            foreach(PurchaseOrderDetailModel podm in podms)
-            { 
+            foreach (PurchaseOrderDetailModel podm in podms)
+            {
                 // get the inventory using the item id from purchaseorder detail model
                 InventoryModel invm = InventoryRepo.GetInventoryByItemid(podm.Itemid, out error);
 

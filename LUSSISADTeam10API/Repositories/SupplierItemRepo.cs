@@ -32,7 +32,7 @@ namespace LUSSISADTeam10API.Repositories
             List<SupplierItemModel> sims = new List<SupplierItemModel>();
             try
             {
-                List<supplieritem> supplieritems = entities.supplieritems.ToList();
+                List<supplieritem> supplieritems = entities.supplieritems.Where(x => x.supplier.active == ConSupplier.Active.ACTIVE).ToList();
                 sims = new List<SupplierItemModel>();
                 foreach (supplieritem si in supplieritems)
                 {

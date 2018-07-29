@@ -23,11 +23,31 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             string error = "";
             List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+
+            List<RequisitionModel> reqs = new List<RequisitionModel>();
+
+            List<OutstandingReqModel> outs = new List<OutstandingReqModel>();
+
+            List<InventoryDetailModel> invs = new List<InventoryDetailModel>();
+
+
             try
             {
                 reportData = APIReport.FrequentlyItemList(token, out error);
-                return View("ClerkDashboard", reportData);
 
+                reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
+                ViewBag.ReqCount = reqs.Count;
+
+                outs = APIOutstandingReq.GetAllOutReqs(token, out error);
+                ViewBag.OutCount = outs.Where(x => x.Status == ConOutstandingsRequisition.Status.PENDING).Count();
+
+                reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PREPARING, token, out error);
+                ViewBag.DisCount = reqs.Count;
+
+                invs = APIInventory.GetAllInventoryDetails(token, out error);
+                ViewBag.RestockCount = invs.Where(x => x.RecommendedOrderQty > 0).Count();
+
+                return View("Index", reportData);
             }
             catch (Exception ex)
             {
@@ -109,12 +129,12 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         }
-        public ActionResult DeActive(int id)
+        public JsonResult DeActive(int id)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
             sm = APISupplier.GetSupplierById(id, token, out string superror);
 
@@ -123,22 +143,22 @@ namespace LUSSISADTeam10Web.Controllers
 
                 APISupplier.DeactivateSupplier(sm, token, out string error);
 
-
+                result = true;
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return RedirectToAction("ShowDeActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
-        public ActionResult Active(int id)
+        public JsonResult Active(int id)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
             sm = APISupplier.GetSupplierById(id, token, out string superror);
 
@@ -147,13 +167,13 @@ namespace LUSSISADTeam10Web.Controllers
 
                 APISupplier.ActivateSupplier(sm, token, out string error);
 
-
+                result = true;
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                //return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            return RedirectToAction("ShowActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult CreateSuppandItem()
         {
@@ -280,7 +300,7 @@ namespace LUSSISADTeam10Web.Controllers
                         Excel.Workbook workbook = application.Workbooks.Open(path);
                         Excel.Worksheet worksheet = workbook.ActiveSheet;
                         Excel.Range range = worksheet.UsedRange;
-                        List<SupplierModel> SuppItem = new List<SupplierModel>();
+                        List<SupplierModel> Supp = new List<SupplierModel>();
                         for (int row = 2; row <= range.Rows.Count; row++)
                         {
 
@@ -291,13 +311,16 @@ namespace LUSSISADTeam10Web.Controllers
                             p.ContactName = ((Excel.Range)range.Cells[row, 4]).Text;
                             p.GstRegNo = ((Excel.Range)range.Cells[row, 5]).Text;
 
-                            SuppItem.Add(p);
+                            Supp.Add(p);
 
 
                         }
+                        Session["noti"] = true;
+                        Session["notitype"] = "success";
+                        Session["notititle"] = "Import Supplier";
+                        Session["notimessage"] = Supp.Count + "Suppliers are successfully created";
 
-
-                        List<SupplierModel> sm = APISupplier.importsupplier(token, SuppItem, out string error);
+                        List<SupplierModel> sm = APISupplier.importsupplier(token, Supp, out string error);
                         workbook.Close();
 
                         return RedirectToAction("ShowActiveSupplierlist");
@@ -349,7 +372,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-
+           
             return RedirectToAction("ShowActiveSupplierlist");
         }
 
@@ -359,6 +382,8 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult ApproveCollectionPoint(int id)
         {
             string token = GetToken();
+
+
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
             ViewBag.DepartmentCollectionPointModel = dcpm;
             ApproveCollectionPointViewModel viewmodel = new ApproveCollectionPointViewModel();
@@ -367,6 +392,17 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+
+                if(dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
+                {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Change Request Expired";
+                    Session["notimessage"] = "This collection point request has already been cancelled or approved!";
+                    return RedirectToAction("Index");
+                }
+
+
                 st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 1, out error);
 
                 DepartmentCollectionPointModel active =
@@ -531,6 +567,12 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Update Item";
+                Session["notimessage"] =  it.Description+ "is updated successfully";
+
                 return RedirectToAction("Manage");
             }
             catch (Exception ex)
@@ -754,7 +796,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = e.Message });
             }
-
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Adjustment Form";
+            Session["notimessage"] = "Adjustment Form with " +invent.Count+ " items are successfully rasised";
             return RedirectToAction("Inventory");
         }
         // End MaHus
@@ -773,7 +818,87 @@ namespace LUSSISADTeam10Web.Controllers
 
             ViewBag.Requisitions = reqms;
 
-            return View();
+            return View(new RequisitionViewModel());
+        }
+
+        [HttpPost]
+        public JsonResult ApproveAllRequisitons(int[] reqids)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            string error = "";
+            bool ResultSuccess = false;
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            DisbursementModel dis = new DisbursementModel();
+            OutstandingReqModel outr = new OutstandingReqModel();
+            bool IsNeededOutstanding = false;
+
+            foreach (int i in reqids)
+            {
+                RequisitionModel req = new RequisitionModel();
+                req = APIRequisition.GetRequisitionByReqid(i, token, out error);
+                if(req != null)
+                {
+                    dis.Reqid = req.Reqid;
+                    dis.Ackby = um.Userid;
+                    dis = APIDisbursement.Createdisbursement(dis, token, out error);
+
+                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                    {
+                        if (reqd.Stock < reqd.Qty)
+                        {
+                            IsNeededOutstanding = true;
+                        }
+                        else
+                        {
+                            IsNeededOutstanding = false;
+                        }
+                    }
+
+                    if (IsNeededOutstanding)
+                    {
+                        outr.ReqId = req.Reqid;
+                        outr.Reason = "Not Enough Stock";
+                        outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                        outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
+                    }
+
+                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                    {
+                        DisbursementDetailsModel disdm = new DisbursementDetailsModel
+                        {
+                            Disid = dis.Disid,
+                            Itemid = reqd.Itemid
+                        };
+                        if (IsNeededOutstanding)
+                        {
+                            disdm.Qty = reqd.Stock;
+                        }
+                        else
+                        {
+                            disdm.Qty = reqd.Qty;
+                        }
+                        disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+
+
+                        if (IsNeededOutstanding)
+                        {
+                            OutstandingReqDetailModel outreq = new OutstandingReqDetailModel
+                            {
+                                OutReqId = outr.OutReqId,
+                                ItemId = reqd.Itemid,
+                                Qty = reqd.Qty - reqd.Stock
+                            };
+                            outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                        }
+                    }
+
+                }
+                req = APIRequisition.UpdateRequisitionStatusToPending(req, token, out error);
+                ResultSuccess = true;
+            }
+
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult RequisitionDetail(int id)
@@ -781,8 +906,16 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
+
+
             RequisitionModel reqm = new RequisitionModel();
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+
+            if(reqm.Status != ConRequisition.Status.APPROVED)
+            {
+                return RedirectToAction("Requisition");
+            }
+
             ViewBag.Requisition = reqm;
             ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
             {
@@ -872,6 +1005,10 @@ namespace LUSSISADTeam10Web.Controllers
             }
             reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
 
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Requision";
+            Session["notimessage"] =  "Reqision is approved ";
 
             return RedirectToAction("StationaryRetrievalForm");
         }
@@ -901,7 +1038,7 @@ namespace LUSSISADTeam10Web.Controllers
                 outreqvm.Reason = outr.Reason;
                 outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
                 outreqvm.OutReqDetails = outr.OutReqDetails;
-                if (reqm.Status == ConRequisition.Status.OUTSTANDINGREQUISITION)
+                if (reqm.Status >= ConRequisition.Status.REQUESTPENDING)
                 {
                     outreqvms.Add(outreqvm);
                 }
@@ -1057,7 +1194,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 RedirectToAction("DisbursementLists");
             }
-
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "";
+            Session["notimessage"] ="" ;
             return View(req);
 
         }
@@ -1109,6 +1249,7 @@ namespace LUSSISADTeam10Web.Controllers
                         Qty = ivndm.RecommendedOrderQty ?? default(int),
                         Prices = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).ToList(),
                         SupplierIDs = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.SupId).ToList(),
+                        SupplierNames = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.SupName).ToList(),
                         LowestPrice = SupItems.Where(x => x.ItemId == ivndm.Itemid).Select(x => x.Price).Min()
                     };
                     poview.Add(podvm);
@@ -1267,6 +1408,14 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult PurchaseOrder(PurchaseOrderViewModel povm)
         {
+
+            if(povm.podms.Count < 1)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "You cannot create purchase order with items!";
+            }
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
@@ -1308,6 +1457,9 @@ namespace LUSSISADTeam10Web.Controllers
                     pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
 
                     POIDs.Add(pom);
+
+                    SupplierModel sup = APISupplier.GetSupplierById(pom.Supid, token, out error);
+                    bool result = Utilities.Utility.SendPurchaseOrdersPDF(sup, pom);
                 }
             }
 

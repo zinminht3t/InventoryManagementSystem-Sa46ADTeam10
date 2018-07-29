@@ -82,7 +82,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 invts = entities.inventorytransactions.Where(p => p.invid == invid).ToList<inventorytransaction>();
-                foreach(inventorytransaction invt in invts)
+                foreach (inventorytransaction invt in invts)
                 {
                     invtms.Add(ConvertDBModeltoAPIModel(invt));
                 }

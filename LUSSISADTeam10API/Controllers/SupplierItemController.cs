@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class SupplierItemController : ApiController
     {
         // get all items with related supplier and price

@@ -14,6 +14,8 @@ namespace LUSSISADTeam10API.Models.APIModels
             this.Status = status;
             this.Deptid = deptid;
         }
+
+        public  RequsitionListReportModel() :this (null,"",0) {}
         public DateTime? Reqdate { get; set; }
 
         public string Status { get; set; }

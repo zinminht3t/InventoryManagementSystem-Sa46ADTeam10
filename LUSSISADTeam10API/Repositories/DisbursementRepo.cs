@@ -10,8 +10,6 @@ namespace LUSSISADTeam10API.Repositories
 {
     public class DisbursementRepo
     {
-
-
         // Convert From Auto Generated DB Model to APIModel for Requsition with Requisition Details data
         private static DisbursementModel CovertDBDisbursementtoAPIDisbursementwithDetails(disbursement disb)
         {
@@ -20,9 +18,9 @@ namespace LUSSISADTeam10API.Repositories
             {
                 reqdm.Add(new DisbursementDetailsModel(rqdm.disid, rqdm.itemid, rqdm.item.description, rqdm.qty, rqdm.item.category.name, rqdm.item.uom));
             }
-            DisbursementModel reqm = new DisbursementModel(disb.disid , disb.reqid , disb.ackby , disb.requisition.reqdate ,
-                disb.requisition.status, disb.requisition.collectionpoint.cpname, disb.user.username , 
-                disb.user.department.deptname ,reqdm );
+            DisbursementModel reqm = new DisbursementModel(disb.disid, disb.reqid, disb.ackby, disb.requisition.reqdate,
+                disb.requisition.status, disb.requisition.collectionpoint.cpname, disb.user.username,
+                disb.user.department.deptname, reqdm);
             return reqm;
         }
 
@@ -73,7 +71,7 @@ namespace LUSSISADTeam10API.Repositories
             return reqm;
         }
         // Get the list of all disbursement  with Details
-    
+
         public static List<DisbursementModel> GetAllDisbursementwithDetails(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -255,12 +253,12 @@ namespace LUSSISADTeam10API.Repositories
                 ndism.disid = dism.Disid;
                 ndism.reqid = dism.Reqid;
                 ndism.ackby = dism.Ackby;
-              
+
                 // saving the update
                 entities.SaveChanges();
 
                 // return the updated model 
-                dism = GetDisbursementByDisbursementId(ndism.disid , out error);
+                dism = GetDisbursementByDisbursementId(ndism.disid, out error);
             }
             catch (NullReferenceException)
             {
@@ -297,9 +295,9 @@ namespace LUSSISADTeam10API.Repositories
                     disbursementdetail dbm = new disbursementdetail
                     {
                         disid = dis.disid,
-                        itemid= dbdm.Itemid,
+                        itemid = dbdm.Itemid,
                         qty = dbdm.Qty
-                       
+
                     };
                     dbm = entities.disbursementdetails.Add(dbm);
                     entities.SaveChanges();

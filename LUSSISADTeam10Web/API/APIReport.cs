@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+
 using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using RestSharp;
@@ -42,8 +43,13 @@ namespace LUSSISADTeam10Web.API
         }
 
 
-
-
+        public static List<RequsitionListReportModel> RequsitionList(string token ,out string error,int deptid,DateTime startdate,DateTime enddate)
+        {
+            string url = APIHelper.Baseurl + "/requistionalist/"+deptid+"/"+startdate.ToString("yyyy-MM-dd")+"/"+enddate.ToString("yyyy-MM-dd");
+            var a = startdate.Date;
+            List<RequsitionListReportModel> micl = APIHelper.Execute<List<RequsitionListReportModel>>(token, url, out error);
+            return micl;
+        }
         
 
         //public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error)
@@ -55,7 +61,7 @@ namespace LUSSISADTeam10Web.API
 
 
 
-        public static List<ItemTrendAnalysisModel> GetItemTrendAnalysis(string token, out string error, int d1, int d2, int d3,int month)
+        public static List<ItemTrendAnalysisModel> ItemTrendAnalysis(string token, out string error, int d1, int d2, int d3,int month)
         {
             string url = APIHelper.Baseurl + "/ItemTrendAnalysis/" + d1 + "/" + d2 + "/" + d3 + "/" + month;
             List<ItemTrendAnalysisModel> micl = APIHelper.Execute<List<ItemTrendAnalysisModel>>(token, url, out error);

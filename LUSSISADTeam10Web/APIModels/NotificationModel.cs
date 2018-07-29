@@ -38,6 +38,7 @@ namespace LUSSISADTeam10Web.Models.APIModels
         public bool Isread { get; set; }
         public int NotiType { get; set; }
         public int ResID { get; set; }
+        public string RelativeTime { get; set; }
 
     }
 }

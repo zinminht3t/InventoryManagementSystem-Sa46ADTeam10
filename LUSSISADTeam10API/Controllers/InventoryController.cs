@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace LUSSISADTeam10API.Controllers
 {
+    [Authorize]
     public class InventoryController : ApiController
     {
         // to show inventory list
@@ -36,7 +37,7 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(dms);
 
         }
-        
+
         // to get inventory by inventory id
         [HttpGet]
         [Route("api/inventory/{invid}")]
@@ -54,7 +55,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(dm);
         }
-        
+
         // to get inventory by item id
         [HttpGet]
         [Route("api/inventory/item/{itemid}")]
@@ -72,7 +73,7 @@ namespace LUSSISADTeam10API.Controllers
             }
             return Ok(dm);
         }
-        
+
         // to show inventory detail list
         [HttpGet]
         [Route("api/inventorydetails")]
@@ -94,6 +95,24 @@ namespace LUSSISADTeam10API.Controllers
                 return Content(HttpStatusCode.BadRequest, error);
             }
             // if there is no error
+            return Ok(dms);
+
+        }
+
+        // to show inventory detail list with status
+        [HttpGet]
+        [Route("api/inventorydetailswithstatus")]
+        public IHttpActionResult GetInventoryDetailWithStatus()
+        {
+            string error = "";
+            List<InventoryDetailWithStatus> dms = InventoryRepo.GetInventoryDetailWithStatus(out error);
+
+            if (error != "" || dms == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Inventory Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
             return Ok(dms);
 
         }
@@ -165,7 +184,7 @@ namespace LUSSISADTeam10API.Controllers
             InventoryModel dm = InventoryRepo.CreateInventory(inv, out error);
             if (error != "" || dm == null)
             {
-                if(error == ConError.Status.NOTFOUND)
+                if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Item Not Found");
                 return Content(HttpStatusCode.BadRequest, error);
             }

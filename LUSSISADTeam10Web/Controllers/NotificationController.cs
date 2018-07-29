@@ -27,11 +27,17 @@ namespace LUSSISADTeam10Web.Controllers
             switch (notim.NotiType)
             {
                 case ConNotification.NotiType.Adjustment:
-                    return RedirectToAction("Approve", "Supervisor");
+                    if(notim.Role == ConUser.Role.SUPERVISOR)
+                    {
+                        return RedirectToAction("Approve", "Supervisor");
+                    }
+                    else
+                    return RedirectToAction("Approve", "Manager");
+
                 case ConNotification.NotiType.ClerkApprovedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
-                case ConNotification.NotiType.ClerkApprovedRequisition:
-                    return RedirectToAction("CollectionPoint", "HOD");
+                case ConNotification.NotiType.ClerkApprovedRequisiton:
+                    return RedirectToAction("TrackRequisition", "HOD", new { id = notim.ResID });
                 case ConNotification.NotiType.ClerkRejectedCollectionPointChange:
                     return RedirectToAction("CollectionPoint", "HOD");
                 case ConNotification.NotiType.CollectedRequistion:
@@ -47,6 +53,10 @@ namespace LUSSISADTeam10Web.Controllers
                 case ConNotification.NotiType.DeptRepAssigned:
                     return RedirectToAction("Index", "Home");
                 case ConNotification.NotiType.HODApprovedRequistion:
+                    if(notim.Role == ConUser.Role.EMPLOYEE)
+                    {
+                        return RedirectToAction("TrackRequisition", "Employee", new { id = notim.ResID });
+                    }
                     return RedirectToAction("RequisitionDetail", "Clerk", new { id = notim.ResID });
                 case ConNotification.NotiType.OutstandingItemsCollected:
                     return RedirectToAction("OutstandingDetail", "Clerk", new { id = notim.ResID });
