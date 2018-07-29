@@ -283,6 +283,21 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(rl);
         }
 
+        [HttpGet]
+        [Route("api/poforfivemonths")]
+        public IHttpActionResult GetPOFor5Months()
+        {
+            string error = "";
+            List<PurchaseOrderFor5MonthModel> rl = ReportRepo.GetPOFor5Months(out error);
+            if (error != "" || rl == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rl);
+        }
+
 
 
     }

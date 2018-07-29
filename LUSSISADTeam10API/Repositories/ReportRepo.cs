@@ -56,6 +56,74 @@ namespace LUSSISADTeam10API.Repositories
             return odm;
         }
 
+        public static List<PurchaseOrderFor5MonthModel> GetPOFor5Months(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            List<PurchaseOrderFor5MonthModel> pomfs = new List<PurchaseOrderFor5MonthModel>();
+            List<PurchaseOrderModel> poms = new List<PurchaseOrderModel>();
+            List<PurchaseOrderModel> FilteredPoms = new List<PurchaseOrderModel>();
+            int count = 0;
+            try
+            {
+                poms = PurchaseOrderRepo.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.RECEIVED, out error);
+
+                if(poms == null)
+                {
+                    count = 5;
+                }
+
+                while(count < 5)
+                {
+                    PurchaseOrderFor5MonthModel po5m = new PurchaseOrderFor5MonthModel();
+
+                    FilteredPoms = poms.Where(x => x.Podate.Value.Month == (DateTime.Today.Month - count)).ToList();
+                    if(FilteredPoms == null || FilteredPoms.Count < 1)
+                    {
+                        po5m.Month = DateTime.Today.AddMonths((count) * -1).ToString("MMMM");
+                        pomfs.Add(po5m);
+                    }
+                    else
+                    {
+                        double AllPOTotal = 0;
+
+                        foreach (PurchaseOrderModel pom in FilteredPoms)
+                        {
+                            double total = 0;
+                            foreach (PurchaseOrderDetailModel podm in pom.podms)
+                            {
+                                double amount = 0;
+
+                                amount = podm.Qty * podm.Price ?? default(double);
+
+                                total += amount;
+                            }
+                            AllPOTotal += total;
+                        }
+                        po5m.PurchaseOrderCount = FilteredPoms.Count;
+                        po5m.Total = AllPOTotal;
+                        po5m.Month = DateTime.Today.AddMonths((count) * -1).ToString("MMMM");
+                        pomfs.Add(po5m);
+                    }
+                    count++;
+                }
+            }
+
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+                pomfs = new List<PurchaseOrderFor5MonthModel>();
+            }
+
+            catch (Exception e)
+            {
+                error = e.Message;
+                pomfs = new List<PurchaseOrderFor5MonthModel>();
+            }
+
+            return pomfs;
+        }
+
+
 
 
 
