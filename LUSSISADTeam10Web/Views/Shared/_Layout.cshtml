@@ -52,6 +52,16 @@
         .menutoggle {
             background-color: #3AAFA9 !important;
         }
+
+        @@media only screen and (max-width: 600px) {
+            #logoimg{
+                width: 40px;
+                height: 40px;
+            }
+            .navbar-brand {
+                margin-top: 0px !important;
+            }
+        }
     </style>
 
 </head>
@@ -90,7 +100,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" alt="Logo" width=100 height=100></a>
+                <a class="navbar-brand" href="./"><img src="~/styles/images/logo.png" id="logoimg" alt="Logo" width=100 height=100></a>
                 <a class="navbar-brand hidden" href="./"><img src="~/styles/images/logo2.png" alt="Logo"></a>
             </div>
 
@@ -163,7 +173,7 @@
                                 <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("TrackRequisitions", "Employee")"> <i class="menu-icon ti-comments-smiley"></i>Requisitions</a>
+                                <a href="@Url.Action("TrackRequisitions", "Employee")"> <i class="menu-icon ti-package"></i>Requisitions</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i> Previous Requisitions</a>
