@@ -30,32 +30,31 @@
     <div class="content mt-3">
         <div class="animated fadeIn">
             <div class="card">
+                <div class="card-header">
 
-                <div class="card-body">
-
-                    <href class="icon"><i class="fa fa-search text-info" style="font-size:40px"></i> Search by Date </href>
+                    <href class="icon"><i class="fa fa-search" style="font-size:24px"></i> Search by Date... </href>
 
                     <div id="div1">
 
                         <br />
                         <div class="row">
                             <div class="col-md-4"><b>@Html.LabelFor(model => model.StartDate)</b> </div>
-                            <div class="col-md-5">@Html.TextBoxFor(model => model.StartDate, new { id = "datepicker" , @class = "form-control" })</div>
+                            <div class="col-md-5">@Html.TextBoxFor(model => model.StartDate, new { id = "datepicker" })</div>
                         </div><br />
                         <div class="row">
                             <div class="col-md-4"><b> @Html.LabelFor(model => model.EndDate)</b> </div>
-                            <div class="col-md-5">@Html.TextBoxFor(model => model.EndDate, new { id = "datepicker1",  @class = "form-control" })</div>
+                            <div class="col-md-5">@Html.TextBoxFor(model => model.EndDate, new { id = "datepicker1" })</div>
                             <br />
                             <br />
                         </div>
-                        <div class="row">
+                        <div>
                             <br />
-                            <div class="col-md-6 col-md-offset-6"><input type="Submit" class="btn btn-outline-success  " style="height:40px;width:100px; margin-left:465px" value="Search"></div>
+                            <div><input type="Submit" class="btn btn-outline-success  " style="height:40px;width:100px; margin-left:465px" value="Search"></div><div></div>
                         </div><br />
                     </div>
+                </div>
 
-                    <hr />
-
+                <div class="card-body">
                     <div>  <h5 class="text-sm-center text-info"> <i class="fa fa-shopping-basket fa-3x"></i><br /> Stock Cards </h5></div>
                     @if (Model.InvTrans.Count == 0)
                     {
