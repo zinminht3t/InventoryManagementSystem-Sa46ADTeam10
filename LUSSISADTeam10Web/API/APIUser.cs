@@ -56,8 +56,7 @@ namespace LUSSISADTeam10Web.API
         {
             error = "";
             string url = APIHelper.Baseurl + "/user/assigndepreplist/" + id;
-            string objectstring = JsonConvert.SerializeObject(id);
-            List<UserModel> um = APIHelper.Execute<List<UserModel>>(token, objectstring, url, out error);
+            List<UserModel> um = APIHelper.Execute<List<UserModel>>(token,  url, out error);
             return um;
         }
     }
