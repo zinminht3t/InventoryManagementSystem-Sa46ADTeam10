@@ -157,6 +157,37 @@ namespace LUSSISADTeam10API.Repositories
             return urm;
 
         }
+        public static List<UserModel> GetAssignRepUserList(int deptid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+
+            List<department> dept = new List<department>();
+            List<user> ums = new List<user>();
+            List<UserModel> urm = new List<UserModel>();
+            try
+            {
+                List<user> users = entities.users.Where(x => x.userid != (x.delegations.Where(p => p.userid == x.userid && p.active == ConDelegation.Active.ACTIVE).Select(q => q.userid)).FirstOrDefault()).ToList();
+                users = users.Where(x => x.deptid == deptid && x.role == ConUser.Role.EMPLOYEEREP ).ToList();
+
+
+                foreach (user u in users)
+                {
+                    urm.Add(CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return urm;
+
+        }
+
 
 
 
