@@ -1,0 +1,70 @@
+﻿@model LUSSISADTeam10Web.Models.Clerk.PendingCollectionPointViewModel
+@{
+    ViewBag.Title = "PendingCollectionPoint";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h4>Collection Point</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 hideinmobile">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("PendingCollectionPoint", "Clerk")">Dashboard</a></li>
+                    <li class="active">CollectionPoint</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.pCP.Count == 0)
+{
+    <h4 class="text-info"> There is no collection point requests! </h4>
+}
+else
+{
+    foreach (var item in Model.pCP)
+    {
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+               <br />
+                <div class="card">
+                    <div class="card-header">
+                        <h4><strong class="card-title text-info"> @Html.DisplayFor(modelItem => item.DepName)</strong></h4>
+
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
+                            <div class="row">
+                                <div class="col-md-4"><b>Change Collection Point:</b> </div>
+                                <div class="col-md-4">@Html.DisplayFor(modelItem => item.CpName)</div>
+                                <input type="hidden" name="CpName" asp-for="@item.CpName" value="@item.CpName" />
+                            </div><br />
+                            <div class="form-check-inline form-check pull-left">
+                                <label for="inline-radio1" class="form-check-label ">
+                                    <input type="hidden" name="CpID" asp-for="@item.CpID" value="@item.CpID" />
+                                    <input type="hidden" name="DepName" asp-for="@item.DepName" value="@item.DepName" />
+                                    <input type="hidden" name="DepID" asp-for="@item.DepID" value="@item.DepID" />
+                                    <input type="hidden" name="DepCpID" asp-for="@item.DepCpID" value="@item.DepCpID" />
+                                    <input type="radio" id="inline-radio1" name="approve" asp-for="@item.Approve" value="true" checked class="form-check-input"> Approve &nbsp;&nbsp;&nbsp;
+                                </label>
+                                <label for="inline-radio2" class="form-check-label ">
+                                    <input type="radio" id="inline-radio2" name="approve" asp-for="@item.Approve" value="false" class="form-check-input"> Reject
+                                </label>
+                            </div>
+                            <input type="Submit" class="btn btn-outline-success pull-right btn-flat m-b-30 m-t-30" value="Confirm">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+

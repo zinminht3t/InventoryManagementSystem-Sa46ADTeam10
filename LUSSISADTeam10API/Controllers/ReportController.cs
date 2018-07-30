@@ -44,6 +44,21 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(rl);
         }
 
+        [HttpGet]
+        [Route("api/itemusage/{s1}/{s2}/{s3}/{item}")]
+        public IHttpActionResult ItemUsage(int s1, int s2, int s3, int item)
+        {
+            string error = "";
+            List<ItemUsageModel> rl = ReportRepo.ItemUsage(s1, s2, s3, item, out error);
+            if (error != "" || rl == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rl);
+        }
+
         // end zmh
 
         // start hwy
