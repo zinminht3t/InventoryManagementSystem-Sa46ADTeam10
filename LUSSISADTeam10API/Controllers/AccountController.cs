@@ -26,6 +26,7 @@ namespace LUSSISADTeam10API.Controllers
 
             dm = DelegationRepo.GetDelegationByUserId(um.Userid, out string error);
 
+
             if (dm.Count > 0)
             {
                 List<DelegationModel> ActiveDM = dm.Where(x => x.Startdate.Value.Date <= DateTime.Today.Date && x.Enddate.Value.Date >= DateTime.Today.Date && x.Active == ConDelegation.Active.ACTIVE).ToList();
