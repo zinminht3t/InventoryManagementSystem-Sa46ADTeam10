@@ -5,15 +5,6 @@
 }
 @section Styles {
 <style>
-    @@media only screen and (max-width: 600px) {
-
-
-        .hideinmobile {
-            display: none;
-        }
-
-      
-    }
 </style>
 }
 <div class="breadcrumbs">
@@ -28,8 +19,9 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
-
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li><a href="@Url.Action("ShowActiveSupplierlist", "Clerk")">Dashboard</a></li>
+                    <li><a href="#">Supplier's Item Details</a></li>
                 </ol>
             </div>
         </div>

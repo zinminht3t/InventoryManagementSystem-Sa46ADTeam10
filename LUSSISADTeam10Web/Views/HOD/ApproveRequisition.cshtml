@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -35,7 +35,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mx-auto d-block">
-                    <h5 class="text-sm-center text-info"> <i class="fa fa-check fa-3x"></i><br /> Approve / Reject Requisition </h5><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-check fa-3x"></i><br /> Approve / Reject Requisition </h5><br />
                     <h6>Raised By :  @ViewBag.RequisitionModel.Rasiedbyname </h6><br />
                     <h6>Collection Point : @ViewBag.RequisitionModel.Cpname</h6><br />
                     <h6>Requested Date :  @ViewBag.RequisitionModel.Reqdate</h6><br />
@@ -47,7 +47,7 @@
                                     <th>Item Name</th>
                                     <th>Category Name</th>
                                     <th>Quantity</th>
-                                    <th>UOM</th>
+                                    <th class="hideinmobile">UOM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +57,7 @@
                                         <td>@item.Itemname</td>
                                         <td>@item.CategoryName</td>
                                         <td>@item.Qty</td>
-                                        <td>@item.UOM</td>
+                                        <td class="hideinmobile">@item.UOM</td>
                                     </tr>
                                 }
                             </tbody>

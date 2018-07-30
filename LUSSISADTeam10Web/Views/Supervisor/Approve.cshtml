@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -26,7 +26,7 @@
 </div>
 <div class="card">
     <br />
-    <h5 class="text-sm-center text-info"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
+    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
     <div class="panel-group" id="accordion">
 
         <div class="animated fadeIn">
@@ -45,10 +45,10 @@
                                         <th>
                                             Issued Date
                                         </th>
-                                        <th>
+                                        <th class="hideinmobile">
                                             Reported By
                                         </th>
-                                        <th>
+                                        <th class="hideinmobile">
                                             Reported To
                                         </th>
                                         <th>
@@ -62,10 +62,10 @@
                                     <td>
                                         @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @item.Raisedbyname
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @item.Raisedtoname
                                     </td>
                                     <td>
@@ -73,18 +73,18 @@
                                     </td>
                                 </tr>
                                 <tr style="height:40px;background-color:aliceblue">
-                                    <th>Category</th>
+                                    <th class="hideinmobile">Category</th>
                                     <th>Item</th>
                                     <th>Adjusted Qty</th>
-                                    <th>UOM</th>
+                                    <th class="hideinmobile">UOM</th>
                                     <th>Price</th>
-                                    <th>Reason</th>
+                                    <th class="hideinmobile">Reason</th>
                                 </tr>
 foreach (var i in item.Adjds)
 {
 
                                 <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
-                                    <td>
+                                    <td class="hideinmobile">
                                         @i.CategoryName
                                     </td>
                                     <td>
@@ -93,13 +93,13 @@ foreach (var i in item.Adjds)
                                     <td>
                                         @i.Adjustedqty
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @i.UOM
                                     </td>
                                     <td>
                                         $@i.Price
                                     </td>
-                                    <td>
+                                    <td class="hideinmobile">
                                         @if (i.Reason == "" || i.Reason == null)
         {
             i.Reason = "_";
@@ -124,10 +124,6 @@ foreach (var i in item.Adjds)
 
 
             <div class="card">
-                <div class="card-header">
-                    <i class="mr-2 fa fa-align-justify"></i>
-                    <strong class="card-title">Adjustments Reported to Supervisor </strong>
-                </div>
 
                 <div class="card-body">
                     <div class="row">
@@ -138,10 +134,10 @@ foreach (var i in item.Adjds)
                                     <th>
                                         Issued Date
                                     </th>
-                                    <th>
+                                    <th class="hideinmobile">
                                         Reported By
                                     </th>
-                                    <th>
+                                    <th class="hideinmobile">
                                         Reported To
                                     </th>
                                     <th>
@@ -156,10 +152,10 @@ foreach (var i in item.Adjds)
                                         <td>
                                             @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             @Html.DisplayFor(modelItem=> item.Raisedbyname)
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             @Html.DisplayFor(modelItem=> item.Raisedtoname)
                                         </td>
                                         <td>
@@ -173,18 +169,18 @@ foreach (var i in item.Adjds)
                                         </td>
                                     </tr>
                                     <tr style="background-color:aliceblue">
-                                        <th>Category</th>
+                                        <th class="hideinmobile">Category</th>
                                         <th>Item</th>
                                         <th>Adjusted Qty</th>
-                                        <th>UOM</th>
+                                        <th class="hideinmobile">UOM</th>
                                         <th>Price</th>
-                                        <th>Reason</th>
+                                        <th class="hideinmobile">Reason</th>
                                     </tr>
                                     foreach (var i in item.Adjds)
                                     {
 
                                         <tr style="border:hidden;width:inherit;background-color:aliceblue">
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @i.CategoryName
                                             </td>
                                             <td>
@@ -193,13 +189,13 @@ foreach (var i in item.Adjds)
                                             <td>
                                                 @i.Adjustedqty
                                             </td>
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @i.UOM
                                             </td>
                                             <td>
                                                 $@i.Price
                                             </td>
-                                            <td>
+                                            <td class="hideinmobile">
                                                 @if (i.Reason == "" || i.Reason == null)
                                                 {
                                                     i.Reason = "_";

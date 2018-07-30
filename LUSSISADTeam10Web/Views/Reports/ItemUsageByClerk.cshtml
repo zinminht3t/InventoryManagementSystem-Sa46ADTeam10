@@ -148,6 +148,10 @@
                                         Item Usage
                                     </th>
                                     @*<th>
+                                    <th class="hideinmobile">
+                                        @Html.DisplayNameFor(model => model.UsageItem)
+                                    </th>
+                                    <th class="hideinmobile">
                                         @Html.DisplayNameFor(model => model.MonthName)
 
                                     </th>
@@ -173,9 +177,10 @@
 
                                         </td>
                                         @*<td>
+                                        <td class="hideinmobile">
                                             @item.MonthName
                                         </td>
-                                        <td>
+                                        <td class="hideinmobile">
                                             @item.year
                                         </td>*@
                                         <td>

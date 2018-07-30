@@ -1,127 +1,121 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryViewModel
 
 @{
-    ViewBag.Title = "EditItem";
+    ViewBag.Title = "Manage Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
-<style>
-    @@media only screen and (max-width: 600px) {
-
-
-        .hideinmobile {
-            display: none;
-        }
-    }
-</style>
+    <style>
+    </style>
 }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>Edit Item</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-8 hideinmobile">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action(" Index", "Clerk" )">Dashboard</a></li>
-                    <li class="active">Edit Item</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content mt-3">
-    <div class="animated fadeIn">
-
-
-        <div class="card">
-       
-            <div class="card-body">
-
-                <form asp-action="EditItem" asp-controller="Clerk" method="post">
-                    <div class="form-horizontal">
-                        <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-edit fa-3x"></i><br /> Edit Item </h5><br />
-                        
-                        <div class="row">
-                            <div class="col-md-4"> @Html.LabelFor(model => model.ItemDescription) </div>
-                            <div class="col-md-6">
-                                @Html.DisplayFor(model => model.ItemDescription)
-                                @Html.HiddenFor(model => model.ItemDescription)
-                            </div>
-                        </div><br />
-                        <div class="row">
-                            <div class="col-md-4"> @Html.LabelFor(model => model.CategoryName) </div>
-                            <div class="col-md-6">
-
-                                @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist))
-
-                            </div>
-                        </div>
-
-                        <br />
-                        <div class="row">
-                            <div class="col-md-4">@Html.LabelFor(model => model.Stock) </div>
-                            <div class="col-md-6">
-                                @Html.DisplayFor(model => model.Stock)
-                                @Html.HiddenFor(model => model.Stock)
-                            </div>
-
-                        </div><br />
-                        <div class="row">
-                            <div class="col-md-4">@Html.LabelFor(model => model.ReorderLevel)</div>
-                            <div class="col-md-6">
-                                @Html.EditorFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control" } })
-
-                            </div>
-                        </div><br />
-                        <div class="row">
-                            <div class="col-md-4"> @Html.LabelFor(model => model.ReorderQty)</div>
-                            <div class="col-md-6">
-                                @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control" } })
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-
-                                <input type="hidden" name="Invid" asp-for="@Model.Invid" value="@Model.Invid" />
-                                <input type="hidden" name="Itemid" asp-for="@Model.Itemid" value="@Model.Itemid" />
-                                <input type="hidden" name="UOM" asp-for="@Model.UOM" value="@Model.UOM" />
-                                <input type="hidden" name="CategoryName" asp-for="@Model.CategoryName" value="@Model.CategoryName" />
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-                <div>
-                    <a href="@Url.Action("Manage", "Clerk" )" ><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
-                    <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Save">
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Manage Item</h1>
                 </div>
             </div>
-
-            <br />
-
-
-
+        </div>
+        <div class="col-sm-8 hideinmobile">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="@Url.Action("Index", "Clerk" )">Dashboard</a></li>
+                        <li><a href="@Url.Action("Manage", "Clerk" )">Inventory</a></li>
+                        <li class="active">Manage Item</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="content mt-3">
+        <div class="animated fadeIn">
 
 
-</div>
+            <div class="card">
+
+                <div class="card-body">
+
+                    <form asp-action="EditItem" asp-controller="Clerk" method="post">
+                        <div class="form-horizontal">
+                            <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-edit fa-3x"></i><br /> Edit Item </h5><br />
+
+                            <div class="row">
+                                <div class="col-md-4"> Item :  </div>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.ItemDescription)
+                                    @Html.HiddenFor(model => model.ItemDescription)
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-4"> Category : </div>
+                                <div class="col-md-6">
+
+                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist), new { @class = "form-control" } )
+
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4"> Stock : </div>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.Stock)
+                                    @Html.HiddenFor(model => model.Stock)
+                                </div>
+
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-4"> Reorder Level :</div>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control", required = "required", min = "1" } })
+
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-4"> Reorder Qty : </div>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control", required = "required", min = "1" } })
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    <input type="hidden" name="Invid" asp-for="@Model.Invid" value="@Model.Invid" />
+                                    <input type="hidden" name="Itemid" asp-for="@Model.Itemid" value="@Model.Itemid" />
+                                    <input type="hidden" name="UOM" asp-for="@Model.UOM" value="@Model.UOM" />
+                                    <input type="hidden" name="CategoryName" asp-for="@Model.CategoryName" value="@Model.CategoryName" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                    <div>
+                        <a href="@Url.Action("Manage", "Clerk" )"><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
+                        <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Update">
+                    </div>
+                </div>
+
+                <br />
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
 
 
 

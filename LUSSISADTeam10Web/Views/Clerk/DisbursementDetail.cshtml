@@ -6,6 +6,7 @@
 }
 @section Styles {
     <style>
+      
     </style>
 }
 
@@ -17,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -39,7 +40,7 @@
             <div class="card-body">
 
                 <div class="mx-auto d-block">
-                    <div>  <h5 class="text-sm-center text-info"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement Detail </h5></div>                    <h6>Raised By :  @Model.Rasiedbyname </h6><br />
+                    <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement Detail </h5></div>                    <h6>Raised By :  @Model.Rasiedbyname </h6><br />
                     <h6>Approved By :  @Model.Approvedbyname </h6><br />
                     <h6>Collection Point : @Model.Cpname</h6><br />
                     <h6>Locker Name : @Model.LockerName</h6><br />
@@ -51,10 +52,10 @@
                             <thead class="table-info">
                                 <tr>
                                     <th>Item</th>
-                                    <th>Category</th>
+                                    <th class="hideinmobile">Category</th>
                                     <th>Request Qty</th>
                                     <th>Approved Qty</th>
-                                    <th>UOM</th>
+                                    <th class="hideinmobile">UOM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,10 +63,10 @@
                                 {
                                     <tr>
                                         <td>@item.Itemname</td>
-                                        <td>@item.CategoryName</td>
+                                        <td class="hideinmobile">@item.CategoryName</td>
                                         <td>@item.RequestQty</td>
                                         <td>@item.ApprovedQty</td>
-                                        <td>@item.UOM</td>
+                                        <td class="hideinmobile">@item.UOM</td>
                                     </tr>
                                 }
                             </tbody>
@@ -106,5 +107,5 @@
         }
 
 
-</script>
+    </script>
 }
