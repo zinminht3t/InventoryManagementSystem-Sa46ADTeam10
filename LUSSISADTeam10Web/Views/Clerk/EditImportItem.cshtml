@@ -58,7 +58,7 @@
                                 <div class="col-md-4"> Category : </div>
                                 <div class="col-md-6">
 
-                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist), new { @class = "form-control" } )
+                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist), new { @class = "form-control" })
 
                                 </div>
                             </div>
@@ -101,18 +101,11 @@
                         </div>
                     </form>
                     <div>
-                        @if (ViewBag.check == "ture")
-                        {
+                      
                             <a href="@Url.Action("csvsupplier", "Clerk")"><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
                             <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Update">
-                        }
-                        else
-                        {
+                        
 
-                            <a href="@Url.Action("Manage", "Clerk")"><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
-                            <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Update">
-
-                        }
                     </div>
                 </div>
 

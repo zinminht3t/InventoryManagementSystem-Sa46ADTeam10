@@ -1211,6 +1211,7 @@
     <Content Include="Styles\scss\style.css" />
     <Content Include="Styles\scss\variables.css" />
     <Content Include="Styles\scss\widgets.css" />
+    <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1379,7 +1380,6 @@
     <Content Include="Views\Supervisor\Approve.cshtml" />
     <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
     <Content Include="Views\Manager\Approve.cshtml" />
-    <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\CreateSuppandItem.cshtml" />
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
@@ -1405,7 +1405,7 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
-    <Content Include="Views\Clerk\aa.cshtml" />
+    <Content Include="Views\Clerk\EditImportItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
