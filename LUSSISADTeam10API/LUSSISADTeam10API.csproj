@@ -212,6 +212,7 @@
     <Compile Include="Models\APIModels\InventoryTransactionModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\ItemTrendAnalysisModel.cs" />
+    <Compile Include="Models\APIModels\ItemUsageModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\MonthlyItemUsageByClerkModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
@@ -316,6 +317,12 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPItemTrendAnalysis_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPItemUsageReport_Result.cs">
+      <DependentUpon>LUSSISEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBModels\SPRequistionList_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\supplier.cs">

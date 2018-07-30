@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SA46ADTeam10Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SA46ADTeam10Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="adjustment">
           <Key>
             <PropertyRef Name="adjid" />
@@ -723,6 +723,10 @@
           <Parameter Name="month" Type="int" Mode="In" />
           <Parameter Name="category" Type="int" Mode="In" />
         </Function>
+        <Function Name="SPItemUsageReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="month" Type="int" Mode="In" />
+          <Parameter Name="item" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="SA46ADTeam10ModelStoreContainer">
           <EntitySet Name="adjustment" EntityType="Self.adjustment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="adjustmentdetail" EntityType="Self.adjustmentdetail" Schema="dbo" store:Type="Tables" />
@@ -902,8 +906,7 @@
             <End Role="user" EntitySet="user" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SA46ADTeam10Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1879,10 +1882,28 @@
             <Parameter Name="month" Mode="In" Type="Int32" />
             <Parameter Name="category" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SPItemUsageReport" ReturnType="Collection(SA46ADTeam10Model.SPItemUsageReport_Result)">
+            <Parameter Name="month" Mode="In" Type="Int32" />
+            <Parameter Name="item" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SPRequistionList" ReturnType="Collection(SA46ADTeam10Model.SPRequistionList_Result)">
+            <Parameter Name="deptid" Mode="In" Type="Int32" />
+            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="todate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SPItemTrendAnalysis_Result">
           <Property Type="Int32" Name="deptid" Nullable="false" />
           <Property Type="Int32" Name="usage" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPItemUsageReport_Result">
+          <Property Type="Int32" Name="supid" Nullable="false" />
+          <Property Type="Int32" Name="usage" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPRequistionList_Result">
+          <Property Type="DateTime" Name="reqdate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="29" />
+          <Property Type="Int32" Name="deptid" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2169,6 +2190,14 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPItemTrendAnalysis_Result">
                 <ScalarProperty Name="deptid" ColumnName="deptid" />
+                <ScalarProperty Name="usage" ColumnName="usage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPItemUsageReport" FunctionName="SA46ADTeam10Model.Store.SPItemUsageReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SA46ADTeam10Model.SPItemUsageReport_Result">
+                <ScalarProperty Name="supid" ColumnName="supid" />
                 <ScalarProperty Name="usage" ColumnName="usage" />
               </ComplexTypeMapping>
             </ResultMapping>
