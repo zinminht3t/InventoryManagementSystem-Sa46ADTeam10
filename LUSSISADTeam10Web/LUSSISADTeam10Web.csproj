@@ -1200,6 +1200,7 @@
     <Content Include="Styles\js\vendor\jquery-2.1.4.min.js" />
     <Content Include="Styles\js\vendor\modernizr-2.8.3.min.js" />
     <Content Include="Styles\js\widgets.js" />
+    <Content Include="Styles\Scripts\pagination.js" />
     <Content Include="Styles\Scripts\sweetalert2.all.min.js" />
     <Content Include="Styles\scss\bootstrap\bootstrap-grid.css" />
     <Content Include="Styles\scss\bootstrap\bootstrap-reboot.css" />

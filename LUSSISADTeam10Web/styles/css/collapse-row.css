@@ -1,20 +1,28 @@
 ﻿
-table, tr, td, th {   
-}   
-tr.header {
-        cursor: pointer;
-    }
-
 .header .sign:after {
     font-family: FontAwesome;
-    content: "\f056";
     font-size: large;
     color: teal;
+    content: "\f055";
 }
 
 .header.expand .sign:after {
     width: 20px;
     font-size: large;
-    font-weight: 700;    
-    content: "\f055";
+    font-weight: 700;
+    content: "\f056";
+}
+
+.focus {
+    line-height: 100px;
+    border: 2px 2px 2px 2px;
+    background-color: black;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pageNumber {
+    line-height: 100px;
+    padding: 20px;
 }
