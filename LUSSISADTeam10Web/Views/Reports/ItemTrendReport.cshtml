@@ -193,11 +193,14 @@
                     }
                 }
             });
+            ctx.style.display = "none";
 
+            $("#btnGenerate").click(function () {
+                chartData(2, 4, 6, 3, 'dept1', 'dept2', 'dept3');
+            });
 
-
-            $(document).on('click', "#btnGenerate", function data () {
-                var req = { d1: 1, d2: 2, d3: 3, catid: 3};
+            function chartData (d1, d2, d3, catid, deptlbl1, deptlbl2, deptlbl3) {
+                var req = { d1: d1, d2: d2, d3: d3, catid: catid};
 
                 var urls = '@Url.Action("GetItemTrendData", "Reports")';
 
@@ -211,6 +214,7 @@
                         alert('Error: ' + err.statusText);
                     },
                     success: function (result) {
+                        myBarChart.data.labels = [deptlbl1, deptlbl2, deptlbl3];
                         myBarChart.data.datasets[0].data = result["d1"];
                         myBarChart.data.datasets[1].data = result["d2"];
                         myBarChart.data.datasets[2].data = result["d3"];
@@ -218,8 +222,9 @@
                     async: false,
                     processData: false
                 });
+                ctx.style.display = "block";
                 myBarChart.update();
-            });
+            };
         });
     </script>
 }
