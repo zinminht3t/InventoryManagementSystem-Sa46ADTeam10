@@ -206,6 +206,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Models\Clerk\RequisitionViewModel.cs" />
+    <Compile Include="Models\Clerk\SuppItemViewModelList.cs" />
     <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
@@ -1405,6 +1406,7 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
+    <Content Include="Views\Clerk\aa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

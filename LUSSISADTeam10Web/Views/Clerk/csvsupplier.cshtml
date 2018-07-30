@@ -58,33 +58,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ( var item in ViewBag.supplierlist)
+                                    @foreach (var item in ViewBag.supplierlist)
                                     {
                                         <tr>
                                             <td>
                                                 <h6> @item.SupName </h6>
-                                              
+
                                             </td>
                                             <td>
-                                              
+
                                                 @Html.DropDownList("CategoryName", new SelectList(ViewBag.catlist))
 
                                             </td>
                                             <td>
-                                              @item.Description
+                                                @item.Description
                                             </td>
                                             <td>
                                                 @item.Price
                                             </td>
                                             <td>
-                                              <h6>@item.Uom</h6>
+                                                <h6>@item.Uom</h6>
                                             </td>
-                                           
+
                                         </tr>
                                     }
                                 </tbody>
                             </table>
-                            
+                            @{
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    <tr>
+                                        <td> @Html.TextBox("[" + i + "].DepartmentCode") </td>
+                                        <td> @Html.TextBox("[" + i + "].DepartmentName")</td>
+                                    </tr>
+                                }
+                            }
+
 
                             <input type="Submit" class="btn btn-outline-success pull-right" value="Create">
                         }

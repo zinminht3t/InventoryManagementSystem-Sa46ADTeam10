@@ -356,12 +356,12 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
-        public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
+        public JsonResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
 
 
@@ -380,6 +380,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                     APIItem.UpdateItem(token, si, out string itemerror);
                     List<SupplierModel> sm2 = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error2);
+                    result = true;
                 }
             }
             catch (Exception ex)
@@ -387,12 +388,12 @@ namespace LUSSISADTeam10Web.Controllers
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return RedirectToAction("ShowActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // End AM
 
-        // Start TAZ
+            // Start TAZ
         [Authorize(Roles = "Clerk")]
         public ActionResult ApproveCollectionPoint(int id)
         {

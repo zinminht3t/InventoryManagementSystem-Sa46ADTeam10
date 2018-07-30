@@ -203,7 +203,7 @@ namespace LUSSISADTeam10API.Repositories
                 d.assignedby = dele.AssignedbyId;
                 d = entities.delegations.Add(d);
                 entities.SaveChanges();
-                UserRepo.delegateuser(dele.Userid);
+                
                 dele = GetDelegationByDelegationID(d.delid, out error);
 
 
