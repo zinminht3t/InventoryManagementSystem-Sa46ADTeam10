@@ -14,6 +14,22 @@
         .hideatstart {
             visibility: hidden;
         }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printpdf, #printpdf * {
+                visibility: visible;
+            }
+
+            #printpdf {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+        }
     </style>
 }
 
@@ -121,7 +137,7 @@
                         <br />
                         <canvas id="myChart" class="center-block"></canvas>
                         <br />
-                        <table class="table table-bordered hideatstart">
+                        <table class="table table-bordered table-hover hideatstart">
                             <thead>
                                 <tr>
                                     <th>Months</th>
@@ -182,7 +198,6 @@
             if (cv != "" && d1v != "" && d2v != "" && d3v != "") {
 
                 document.getElementById("reporttitle").style.display = "block";
-
                 var x = document.getElementsByClassName("hideatstart");
                 var i;
                 for (i = 0; i < x.length; i++) {
@@ -297,10 +312,6 @@
                             tds += "<td>" + result["d3"][row] +"</td>"
                         }
                         $('#row3').html(tds);
-
-
-
-
                     },
                     async: false,
                     processData: false
