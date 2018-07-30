@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.SupplierModel>
 
 @{
-    ViewBag.Title = "ShowActiveSupplierlist";
+    ViewBag.Title = "Active Suppliers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -14,25 +14,25 @@
             <div class="page-title">
                 <ol class="breadcrumb text-left">
                     <li><a href="@Url.Action("ShowActiveSupplierlist" ,"Clerk")"><b>Active Suppliers</b></a></li>
-                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">OldSuppliers</a></li>
+                    <li><a href="@Url.Action("ShowDeActiveSupplierlist", "Clerk")">Old Suppliers</a></li>
                     <li><a href="@Url.Action("CreateSuppandItem", "Clerk")">Create </a></li>
 
                 </ol>
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li><a href="@Url.Action("ShowActiveSupplierlist" ,"Clerk")">Active Suppliers</a></li>
                 </ol>
             </div>
         </div>
     </div>
 </div><br />
-<div>  <h5 class="text-sm-center text-info"> <i class="fa fa-group fa-3x"></i><br /> Active Suppliers </h5></div>
+<div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-group fa-3x"></i><br /> Active Suppliers </h5></div>
 @foreach (var item in Model)
 {
     <div class="content mt-3">
@@ -58,7 +58,7 @@
                         <a href="@Url.Action("SupllierDetails","Clerk" , new { id = item.SupId })" class="btn btn-link pull-right ">Details</a>
                         @*<a href="@Url.Action("DeActive", "Clerk" ,  new { id = item.SupId })" style="color: #ff0000;" class="btn btn-link pull-right ">Deactivate</a>*@
                         <button type="button" onclick="ConfirmDelete(@item.SupId)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
-                            DeActive
+                            Inactive
                         </button>
                     </form>
                 </div>
@@ -104,14 +104,10 @@
 
 
 @section Scripts {
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+  
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="~/Styles/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="~/Styles/js/popper.min.js"></script>
-    <script src="~/Styles/js/plugins.js"></script>
-    <script src="~/Styles/js/main.js"></script>
+ 
     <script>
 
         var ConfirmDelete = function (SupId) {

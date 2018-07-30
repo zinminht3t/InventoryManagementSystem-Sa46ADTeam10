@@ -25,10 +25,9 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        [Authorize(Roles = "HOD")]
+        [Authorize(Roles = "HOD, TempHOD")]
         public ActionResult Index()
         {
-
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();

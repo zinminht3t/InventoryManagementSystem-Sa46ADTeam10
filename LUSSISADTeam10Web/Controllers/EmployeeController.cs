@@ -19,6 +19,26 @@ namespace LUSSISADTeam10Web.Controllers
         // GET: Employee
         public ActionResult Index()
         {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<RequisitionModel> reqs = new List<RequisitionModel>();
+
+
+            reqs = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out error);
+
+            if(reqs != null)
+            {
+                ViewBag.ReqCount = reqs.Where(x => x.Status == ConRequisition.Status.PENDING).Count();
+                ViewBag.InProReqCount = reqs.Where(x => x.Status > ConRequisition.Status.PENDING && x.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
+                ViewBag.OldReqCount = reqs.Where(x => x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
+            }
+            else
+            {
+                ViewBag.ReqCount = 0;
+                ViewBag.InProReqCount = 0;
+                ViewBag.OldReqCount = 0;
+            }
             return View();
         }
 
@@ -98,6 +118,12 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
 
+                if(reqms != null)
+                {
+                    reqms = reqms.Where(x => x.Status >= ConRequisition.Status.APPROVED).ToList();
+                }
+
+
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -122,7 +148,7 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.Preparing = "btn-danger";
             ViewBag.Ready = "btn-danger";
             ViewBag.Collected = "btn-danger";
-            ViewBag.Track = "";
+            ViewBag.Track = "Waiting for Approval";
 
             try
             {

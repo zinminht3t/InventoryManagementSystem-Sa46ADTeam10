@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -36,89 +36,89 @@
 
 
         <div class="card">
-           
-    
 
 
 
-                <div class="card">
 
 
-                    <div class="card-body">
-                        <form method="post">
+            <div class="card">
 
-                            <div class="mx-auto d-block">
-                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Process Outstanding </h5><br />
-                                <h6>Department :  @Model.DeptName </h6><br />
-                                <h6>Collection Point : @ViewBag.ColectionPoint</h6><br />
-                                <h6>Requested Date :  @Convert.ToDateTime(Model.ReqDate).ToShortDateString()</h6><br />
-                                <h6>Reason : <strong>@Model.Reason</strong></h6><br />
 
-                                <div class="text-sm-center">
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="table-info">
+                <div class="card-body">
+                    <form method="post">
+
+                        <div class="mx-auto d-block">
+                            <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-braille fa-3x"></i><br /> Process Outstanding </h5><br />
+                            <h6>Department :  @Model.DeptName </h6><br />
+                            <h6>Collection Point : @ViewBag.ColectionPoint</h6><br />
+                            <h6>Requested Date :  @Convert.ToDateTime(Model.ReqDate).ToShortDateString()</h6><br />
+                            <h6>Reason : <strong>@Model.Reason</strong></h6><br />
+
+                            <div class="text-sm-center">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Category Name</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.OutReqDetails)
+                                        {
                                             <tr>
-                                                <th>Item Name</th>
-                                                <th>Category Name</th>
-                                                <th>Quantity</th>
+
+                                                <td>@item.Description</td>
+                                                <td>@item.CategoryName</td>
+                                                <td>@item.Qty</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.OutReqDetails)
-                                            {
-                                                <tr>
+                                        }
+                                    </tbody>
+                                </table>
 
-                                                    <td>@item.Description</td>
-                                                    <td>@item.CategoryName</td>
-                                                    <td>@item.Qty</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                            </div>
-
-
-                            <hr>
-
-
-                            <div class="card-text text-sm-right">
-                                @if (Model.Status == 0)
-                                {
-                                    <a href="@Url.Action("ProcessOutstanding", new { id = Model.ReqId })" class="btn btn-outline-info"> Delivered</a>
-                                }
-                                else
-                                {
-                                    <div class="btn btn-outline-dark" onclick="generate()">Generate QR</div>
-
-                                }
 
                             </div>
-
-                            <div id="dialog" title="Basic dialog">
-                                <div id="qrgenerate" class="center-block"></div>
-                            </div>
+                        </div>
 
 
-                        </form>
+                        <hr>
 
-                    </div>
+
+                        <div class="card-text text-sm-right">
+                            @if (Model.Status == 0)
+                            {
+                                <a href="@Url.Action("ProcessOutstanding", new { id = Model.ReqId })" class="btn btn-outline-info"> Delivered</a>
+                            }
+                            else
+                            {
+                                <div class="btn btn-outline-dark" onclick="generate()">Generate QR</div>
+
+                            }
+
+                        </div>
+
+                        <div id="dialog" title="Basic dialog">
+                            <div id="qrgenerate" class="center-block"></div>
+                        </div>
+
+
+                    </form>
+
                 </div>
+            </div>
 
 
-          
 
 
+
+        </div>
     </div>
-</div>
 
-@section Scripts {
-
+    @section Scripts {
 
 
-    <script type="text/javascript">
+
+        <script type="text/javascript">
         var count = 0;
         function generate() {
             if (count == 0)
@@ -129,9 +129,9 @@
         }
 
 
-    </script>
+        </script>
 
-}
+    }
 
 
 

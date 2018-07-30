@@ -42,12 +42,6 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["role"] = um.Role;
                     Session["department"] = um.Deptname;
 
-
-                    Session["noti"] = true;
-                    Session["notitype"] = "success";
-                    Session["notititle"] = "Login Success";
-                    Session["notimessage"] = "Your Login is Successful";
-
                     switch (um.Role)
                     {
                         case ConUser.Role.CLERK:
@@ -55,7 +49,7 @@ namespace LUSSISADTeam10Web.Controllers
                         case ConUser.Role.SUPERVISOR:
                             return RedirectToAction("Index", "Supervisor");
                         case ConUser.Role.DEPARTMENTREP:
-                            return RedirectToAction("Index", "DepartmentRep");
+                            return RedirectToAction("Index", "Employee");
                         case ConUser.Role.EMPLOYEE:
                             return RedirectToAction("Index", "Employee");
                         case ConUser.Role.HOD:
@@ -63,7 +57,7 @@ namespace LUSSISADTeam10Web.Controllers
                         case ConUser.Role.MANAGER:
                             return RedirectToAction("Index", "Manager");
                         case ConUser.Role.TEMPHOD:
-                            return RedirectToAction("Index", "Employee");
+                            return RedirectToAction("Index", "HOD");
                     }
                     return RedirectToAction("Login", "Account");
                 }

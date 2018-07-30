@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-    <style>
-    </style>
+<style>
+</style>
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -15,12 +15,13 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
-               
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li><a href="@Url.Action("ShowActiveSupplierlist", "Clerk")">Dashboard</a></li>
+                    <li><a href="#">Supplier's Item Details</a></li>
                 </ol>
             </div>
         </div>
@@ -35,11 +36,11 @@
                         <strong class="card-title">@ViewBag.suppliername</strong>
                     </div>
                     <div class="card-body">
-                        <h5 class="text-sm-center text-info"> <i class="fa fa-shopping-basket fa-3x"></i><br /><br /> Supplier's Item Details </h5><br />
+                        <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-shopping-basket fa-3x"></i><br /><br /> Supplier's Item Details </h5><br />
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead class="table-info">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                                    <th>Category</th>
                                     <th>@Html.DisplayNameFor(model => model.Description)</th>
                                     <th>@Html.DisplayNameFor(model => model.Price)</th>
                                 </tr>

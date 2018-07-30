@@ -356,12 +356,12 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
-        public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
+        public JsonResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
 
 
@@ -380,6 +380,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                     APIItem.UpdateItem(token, si, out string itemerror);
                     List<SupplierModel> sm2 = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error2);
+                    result = true;
                 }
             }
             catch (Exception ex)
@@ -387,12 +388,12 @@ namespace LUSSISADTeam10Web.Controllers
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return RedirectToAction("ShowActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // End AM
 
-        // Start TAZ
+            // Start TAZ
         [Authorize(Roles = "Clerk")]
         public ActionResult ApproveCollectionPoint(int id)
         {
@@ -752,9 +753,10 @@ namespace LUSSISADTeam10Web.Controllers
 
         //Get All checked Inventories
         [HttpPost]
-        public ActionResult Inventory(int[] Invid)
+        public JsonResult Inventory(int[] Invid)
         { 
             string token = GetToken();
+            bool ResultSuccess = true;
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
 
             if (Invid.Length <1)
@@ -777,7 +779,7 @@ namespace LUSSISADTeam10Web.Controllers
                 }
             }
             TempData["discrepancy"] = selected;
-            return RedirectToAction("Adjustment");
+            return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
         }
         [Authorize(Roles = "Clerk")]
         public ActionResult Adjustment()
@@ -1226,22 +1228,13 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
-
-
             RequisitionWithDisbursementModel req = new RequisitionWithDisbursementModel();
-
             req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
-
             if (req.Status != ConRequisition.Status.DELIVERED)
             {
                 RedirectToAction("DisbursementLists");
             }
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "";
-            Session["notimessage"] = "";
             return View(req);
-
         }
 
         // End ZMH
@@ -1466,6 +1459,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["notitype"] = "error";
                 Session["notititle"] = "Purchase Order";
                 Session["notimessage"] = "You cannot create purchase order with items!";
+                return RedirectToAction("PurchaseOrder");
             }
             string error = "";
             string token = GetToken();

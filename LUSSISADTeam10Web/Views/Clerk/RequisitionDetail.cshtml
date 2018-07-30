@@ -6,6 +6,7 @@
 }
 @section Styles {
     <style>
+
     </style>
 }
 
@@ -17,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -35,7 +36,7 @@
 
 
         <div class="card">
-         
+
             <div class="card-body">
 
                 <div class="card">
@@ -44,7 +45,7 @@
                         <form method="post">
 
                             <div class="mx-auto d-block">
-                                <h5 class="text-sm-center text-info"> <i class="fa fa-braille fa-3x"></i><br /> Process Requisition </h5><br />
+                                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-braille fa-3x"></i><br /> Process Requisition </h5><br />
                                 <h6>Raised By :  @ViewBag.Requisition.Rasiedbyname </h6><br />
                                 <h6>Collection Point : @ViewBag.Requisition.Cpname</h6><br />
                                 <h6>Requested Date :  @Convert.ToDateTime(ViewBag.Requisition.Reqdate).ToShortDateString()</h6><br />
@@ -55,36 +56,36 @@
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-info">
                                             <tr>
-                                                <th>Item Name</th>
-                                                <th>Category Name</th>
-                                                <th>Quantity</th>
+                                                <th>Item</th>
+                                                <th class="hideinmobile">Category Name</th>
+                                                <th>Qty</th>
                                                 <th>Stock</th>
                                                 <th>Approve Qty</th>
-                                                <th>UOM</th>
+                                                <th class="hideinmobile">UOM</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (var item in Model.ReqItems)
                                             {
-                                            <tr>
+                                                <tr>
 
-                                                <td>@item.ItemName</td>
-                                                <td>@item.CategoryName</td>
+                                                    <td>@item.ItemName</td>
+                                                    <td class="hideinmobile">@item.CategoryName</td>
 
-                                                @{ var style = "text-danger"; var approveqty = item.Stock; }
-                                                @if (item.Qty < item.Stock)
-                                                {
-                                                    style = "text-info";
-                                                    approveqty = item.Qty;
-                                                }
-                                                <td class="@style">@item.Qty</td>
-                                                <td class="@style">@item.Stock</td>
-                                                <td>
-                                                    <input type="hidden" value="@item.ItemID" name="ItemIDs" />
-                                                    <input type="number" required value="@approveqty" name="ApproveQtys" min="0" max="@approveqty" class="form-control form-control-sm" />
-                                                </td>
-                                                <td>@item.UOM</td>
-                                            </tr>
+                                                    @{ var style = "text-danger"; var approveqty = item.Stock; }
+                                                    @if (item.Qty < item.Stock)
+                                                    {
+                                                        style = "text-info";
+                                                        approveqty = item.Qty;
+                                                    }
+                                                    <td class="@style">@item.Qty</td>
+                                                    <td class="@style">@item.Stock</td>
+                                                    <td>
+                                                        <input type="hidden" value="@item.ItemID" name="ItemIDs" />
+                                                        <input type="number" required value="@approveqty" name="ApproveQtys" min="0" max="@approveqty" class="form-control form-control-sm" />
+                                                    </td>
+                                                    <td class="hideinmobile">@item.UOM</td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>

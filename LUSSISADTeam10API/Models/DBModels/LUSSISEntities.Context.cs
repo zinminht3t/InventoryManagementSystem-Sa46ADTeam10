@@ -131,13 +131,14 @@ namespace LUSSISADTeam10API.Models.DBModels
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
         }
     
-        public virtual ObjectResult<NumberofRequsitions> GetNumberofRequsitions(Nullable<int> month)
+        public virtual ObjectResult<ItemByDepartment> GetItemByDepartment()
         {
-            var monthParameter = month.HasValue ?
-                new ObjectParameter("month", month) :
-                new ObjectParameter("month", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ItemByDepartment>("GetItemByDepartment");
+        }
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NumberofRequsitions>("GetNumberofRequsitions", monthParameter);
+        public virtual ObjectResult<RequisitionResult> GetRequisition()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequisitionResult>("GetRequisition");
         }
     }
 }

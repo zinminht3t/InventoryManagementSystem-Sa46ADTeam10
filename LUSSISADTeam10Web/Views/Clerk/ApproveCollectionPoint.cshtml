@@ -1,10 +1,11 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.ApproveCollectionPointViewModel
 @{
-    ViewBag.Title = "ApproveCollectionPoint";
+    ViewBag.Title = "Collection Point";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
     <style>
+     
     </style>
 }
 
@@ -12,16 +13,16 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h4>ApproveCollectionPoint</h4>
+                <h4>Collection Point</h4>
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Approve CollectionPoint</li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li class="active">Collection Point</li>
                 </ol>
             </div>
         </div>
@@ -33,9 +34,9 @@
 
 
         <div class="card">
-      
+
             <div class="card-body">
-                <h5 class="text-sm-center text-info"> <i class="ti-location-pin fa-3x"></i><br /> Approve Collection Point </h5>
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-location-pin fa-3x"></i><br /> Approve Collection Point </h5>
                 <dl class="dl-horizontal"></dl>
                 <div class="col-md-2"><h4><b>Department: </b></h4> </div>
                 <div class="col-md-4"><h4>@Html.DisplayFor(model => model.DepName)</h4></div>
@@ -43,8 +44,8 @@
             <div class="row">
                 <div class="col-md-5 card mx-auto">
                     <div class="row p-2">
-                        <h4><b>Previous CollectionPoint :&nbsp; </b></h4>
-                        <h4>@Html.DisplayFor(model => model.OldCpName)</h4> 
+                        <h4><b>Previous Collection Point :&nbsp; </b></h4>
+                        <h4>@Html.DisplayFor(model => model.OldCpName)</h4>
                     </div>
                     <div class="row p-2">
                         <div id="mapOld" style="width:100%; height:200px;"></div>
@@ -52,7 +53,7 @@
                 </div>
                 <div class="col-md-5 card mx-auto">
                     <div class="row p-2">
-                        <h4><b>Change CollectionPoint :&nbsp; </b></h4>
+                        <h4><b>Requested Collection Point :&nbsp; </b></h4>
                         <h4>@Html.DisplayFor(model => model.CpName)</h4>
                     </div>
                     <div class="row p-2">
@@ -62,9 +63,7 @@
             </div>
             <div class="card-text text-sm-center">
                 <form asp-action="ApproveCollectionPoint" asp-controller="Clerk" method="post">
-                    <div class="col-md-6">
-                        <br />
-                        <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
+                    <div class="col-md-12">
                         <br />
                         <div class="form-check-inline form-check pull-left">
                             <label for="inline-radio1" class="form-check-label ">
@@ -76,14 +75,14 @@
                             </label>
                         </div>
 
-
-
                         <br /><br />
                         <div>
-                            <input type="Submit" class="btn btn-outline-success pull-left btn-flat m-b-30 m-t-30" value="Approve">
+                            <input type="Submit" class="btn btn-outline-success pull-right btn-flat m-b-30 m-t-30" value="Update">
+
+                            <br /><br />
+                            <br /><br />
 
                         </div>
-                        <br /><br /> <br />
                     </div>
 
                 </form>

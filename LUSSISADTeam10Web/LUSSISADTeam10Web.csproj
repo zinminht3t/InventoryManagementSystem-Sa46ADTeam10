@@ -206,6 +206,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Models\Clerk\RequisitionViewModel.cs" />
+    <Compile Include="Models\Clerk\SuppItemViewModelList.cs" />
     <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
     <Compile Include="Models\Clerk\InventoryTransactionViewModel.cs" />
@@ -1074,6 +1075,9 @@
     <Content Include="Styles\images\logo.png" />
     <Content Include="Styles\images\logo2.png" />
     <Content Include="Styles\images\placeholder.png" />
+    <Content Include="Styles\images\sort_asc.png" />
+    <Content Include="Styles\images\sort_both.png" />
+    <Content Include="Styles\images\sort_desc.png" />
     <Content Include="Styles\images\twitter_corner_black.png" />
     <Content Include="Styles\images\twitter_corner_blue.png" />
     <Content Include="Styles\images\user.png" />
@@ -1346,7 +1350,6 @@
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
     <Content Include="Views\Employee\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
-    <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />
@@ -1403,6 +1406,7 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
+    <Content Include="Views\Clerk\aa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
