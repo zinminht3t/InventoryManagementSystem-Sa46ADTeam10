@@ -212,6 +212,7 @@
     <Compile Include="Models\APIModels\InventoryTransactionModel.cs" />
     <Compile Include="Models\APIModels\ItemModel.cs" />
     <Compile Include="Models\APIModels\ItemTrendAnalysisModel.cs" />
+    <Compile Include="Models\APIModels\ItemUsageModel.cs" />
     <Compile Include="Models\APIModels\LockerCollectionPointModel.cs" />
     <Compile Include="Models\APIModels\MonthlyItemUsageByClerkModel.cs" />
     <Compile Include="Models\APIModels\NotificationModel.cs" />
@@ -249,9 +250,6 @@
     <Compile Include="Models\DBModels\collectionpoint.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModels\database_firewall_rules.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DBModels\delegation.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -270,9 +268,6 @@
     <Compile Include="Models\DBModels\disbursementlocker.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModels\FrequentlyTop5ItemsDashboard.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DBModels\inventory.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
@@ -280,15 +275,6 @@
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\item.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\ItemByDepartment.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\ItemTrendAnalysi.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\ItemTrendAnalysis.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\lockercollectionpoint.cs">
@@ -309,28 +295,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LUSSISEntities.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModels\MonthItemUsage.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\MonthlyItemUsage.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\MonthlyItemUsageByHOD.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DBModels\notification.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\NumberofRequest.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\NumberofRequsition.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\NumberofRequsitions.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\OrderByDepartmentDarshboard.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\outstandingrequisition.cs">
@@ -351,46 +316,10 @@
     <Compile Include="Models\DBModels\requisitiondetail.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModels\RequisitionResult.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\RequistionList.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\RequistionList1.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPItemByDepartment_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DBModels\SPItemTrendAnalysis_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModels\SPMonthlyItemUsageByHOD_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPMonthlyItemUsage_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPNumberofRequest_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPNumberofRequsitions_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPNumberofrequsitions_Result1.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPNumberofRequsition_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPNumberofRequsition_Result1.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPOrderByDepartmentDarshboard_Result.cs">
-      <DependentUpon>LUSSISEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBModels\SPRequisition_Result.cs">
+    <Compile Include="Models\DBModels\SPItemUsageReport_Result.cs">
       <DependentUpon>LUSSISEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DBModels\SPRequistionList_Result.cs">

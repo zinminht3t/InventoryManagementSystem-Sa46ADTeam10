@@ -420,7 +420,7 @@ namespace LUSSISADTeam10Web.Controllers
             AssignDepRepViewModel viewModel = new AssignDepRepViewModel();
             try
             {
-                newum = APIUser.GetUserByRoleAndDeptID(5, um.Deptid, token, out string error);
+                newum = APIUser.GetAssignRepUserList(token, um.Deptid , out string error);
                 ViewBag.userlist = newum;
                 List<UserModel> um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
                 foreach (UserModel um1 in um23)

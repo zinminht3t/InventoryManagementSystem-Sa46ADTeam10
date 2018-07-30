@@ -11,12 +11,9 @@ namespace LUSSISADTeam10API.Models.DBModels
 {
     using System;
     
-    public partial class SPNumberofRequsitions_Result
+    public partial class SPItemUsageReport_Result
     {
-        public Nullable<int> NumberofReq { get; set; }
-        public int reqid { get; set; }
-        public string deptname { get; set; }
-        public Nullable<int> ProceduceMonth { get; set; }
-        public Nullable<int> ProceduceYear { get; set; }
+        public int supid { get; set; }
+        public Nullable<int> usage { get; set; }
     }
 }

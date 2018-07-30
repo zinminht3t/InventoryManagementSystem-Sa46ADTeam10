@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using LUSSISADTeam10Web.APIModels;
 using LUSSISADTeam10Web.Models.APIModels;
-using Newtonsoft.Json;
-using RestSharp;
 
 namespace LUSSISADTeam10Web.API
 {
@@ -18,6 +16,15 @@ namespace LUSSISADTeam10Web.API
             List<POCountList> poList = APIHelper.Execute<List<POCountList>>(token, url, out error);
             return poList;
         }
+
+        // Item Trend report
+        public static List<TrendAnalysisModel> GetItemTrendsByDeptCategory(string token, int d1, int d2, int d3, int catid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/itemtrendanalysis/" + d1 + "/" + d2 + "/" + d3 + "/" + catid;
+            List<TrendAnalysisModel> tams = APIHelper.Execute<List<TrendAnalysisModel>>(token, url, out error);
+            return tams;
+        }
+
 
         public static List<ReportsModel> MonthlyItemUsageReportByHOD(string token, out string error)
         {

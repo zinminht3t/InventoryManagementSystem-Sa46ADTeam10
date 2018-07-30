@@ -52,54 +52,34 @@ namespace LUSSISADTeam10API.Models.DBModels
         public virtual DbSet<supplieritem> supplieritems { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<user> users { get; set; }
-        public virtual DbSet<FrequentlyTop5ItemsDashboard> FrequentlyTop5ItemsDashboard { get; set; }
-        public virtual DbSet<ItemTrendAnalysi> ItemTrendAnalysis { get; set; }
-        public virtual DbSet<MonthItemUsage> MonthItemUsages { get; set; }
-        public virtual DbSet<MonthlyItemUsageByHOD> MonthlyItemUsageByHODs { get; set; }
-        public virtual DbSet<OrderByDepartmentDarshboard> OrderByDepartmentDarshboards { get; set; }
-        public virtual DbSet<RequistionList> RequistionLists { get; set; }
-        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
-        public virtual DbSet<NumberofRequest> NumberofRequests { get; set; }
     
-        public virtual ObjectResult<MonthlyItemUsage> GetMonthlyItemUsage(Nullable<int> supplierone, Nullable<int> suppliertwo, Nullable<int> supplierthree)
+        public virtual ObjectResult<SPItemTrendAnalysis_Result> SPItemTrendAnalysis(Nullable<int> month, Nullable<int> category)
         {
-            var supplieroneParameter = supplierone.HasValue ?
-                new ObjectParameter("supplierone", supplierone) :
-                new ObjectParameter("supplierone", typeof(int));
-    
-            var suppliertwoParameter = suppliertwo.HasValue ?
-                new ObjectParameter("suppliertwo", suppliertwo) :
-                new ObjectParameter("suppliertwo", typeof(int));
-    
-            var supplierthreeParameter = supplierthree.HasValue ?
-                new ObjectParameter("supplierthree", supplierthree) :
-                new ObjectParameter("supplierthree", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MonthlyItemUsage>("GetMonthlyItemUsage", supplieroneParameter, suppliertwoParameter, supplierthreeParameter);
-        }
-    
-        public virtual ObjectResult<ItemTrendAnalysis> GetItemTrendAnalysis(Nullable<int> fristdept, Nullable<int> seconddept, Nullable<int> thirddept, Nullable<int> month)
-        {
-            var fristdeptParameter = fristdept.HasValue ?
-                new ObjectParameter("fristdept", fristdept) :
-                new ObjectParameter("fristdept", typeof(int));
-    
-            var seconddeptParameter = seconddept.HasValue ?
-                new ObjectParameter("seconddept", seconddept) :
-                new ObjectParameter("seconddept", typeof(int));
-    
-            var thirddeptParameter = thirddept.HasValue ?
-                new ObjectParameter("thirddept", thirddept) :
-                new ObjectParameter("thirddept", typeof(int));
-    
             var monthParameter = month.HasValue ?
                 new ObjectParameter("month", month) :
                 new ObjectParameter("month", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ItemTrendAnalysis>("GetItemTrendAnalysis", fristdeptParameter, seconddeptParameter, thirddeptParameter, monthParameter);
+            var categoryParameter = category.HasValue ?
+                new ObjectParameter("category", category) :
+                new ObjectParameter("category", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPItemTrendAnalysis_Result>("SPItemTrendAnalysis", monthParameter, categoryParameter);
         }
     
-        public virtual ObjectResult<RequistionList1> GetRequistionList(Nullable<int> deptid, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
+        public virtual ObjectResult<SPItemUsageReport_Result> SPItemUsageReport(Nullable<int> month, Nullable<int> item)
+        {
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("month", month) :
+                new ObjectParameter("month", typeof(int));
+    
+            var itemParameter = item.HasValue ?
+                new ObjectParameter("item", item) :
+                new ObjectParameter("item", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPItemUsageReport_Result>("SPItemUsageReport", monthParameter, itemParameter);
+        }
+    
+        public virtual ObjectResult<SPRequistionList_Result> SPRequistionList(Nullable<int> deptid, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
         {
             var deptidParameter = deptid.HasValue ?
                 new ObjectParameter("deptid", deptid) :
@@ -113,32 +93,7 @@ namespace LUSSISADTeam10API.Models.DBModels
                 new ObjectParameter("todate", todate) :
                 new ObjectParameter("todate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequistionList1>("GetRequistionList", deptidParameter, fromdateParameter, todateParameter);
-        }
-    
-        public virtual ObjectResult<SPMonthlyItemUsageByHOD_Result> SPMonthlyItemUsageByHOD()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPMonthlyItemUsageByHOD_Result>("SPMonthlyItemUsageByHOD");
-        }
-    
-        public virtual ObjectResult<SPNumberofRequest_Result> SPNumberofRequest()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPNumberofRequest_Result>("SPNumberofRequest");
-        }
-    
-        public virtual ObjectResult<SPOrderByDepartmentDarshboard_Result> SPOrderByDepartmentDarshboard()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPOrderByDepartmentDarshboard_Result>("SPOrderByDepartmentDarshboard");
-        }
-    
-        public virtual ObjectResult<ItemByDepartment> GetItemByDepartment()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ItemByDepartment>("GetItemByDepartment");
-        }
-    
-        public virtual ObjectResult<RequisitionResult> GetRequisition()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequisitionResult>("GetRequisition");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPRequistionList_Result>("SPRequistionList", deptidParameter, fromdateParameter, todateParameter);
         }
     }
 }
