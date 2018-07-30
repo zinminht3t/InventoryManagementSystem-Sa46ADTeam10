@@ -45,7 +45,22 @@
                     <h6>Collection Point : @Model.Cpname</h6><br />
                     <h6>Locker Name : @Model.LockerName</h6><br />
                     <h6>Requested Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
-                    <h6>Status : @Model.Status</h6><br />
+                    <h6>
+                        Status :
+                        @if (Model.Status == 4)
+                        {
+                            <span> Delivered </span>
+                        }
+                        else if (Model.Status == 5)
+                        {
+                            <span> Outstanding </span>
+                        }
+                        else if (Model.Status == 6)
+                        {
+                            <span> Completed </span>
+                        }
+                    </h6><br />
+
                     <div class="text-sm-center">
 
                         <table class="table table-bordered table-hover">
