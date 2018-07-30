@@ -1405,7 +1405,6 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
-    <Content Include="Views\Clerk\aa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
