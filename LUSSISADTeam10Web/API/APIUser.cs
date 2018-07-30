@@ -52,5 +52,13 @@ namespace LUSSISADTeam10Web.API
             UserModel um = APIHelper.Execute<UserModel>(token, objectstring, url, out error);
             return um;
         }
+        public static List<UserModel> GetAssignRepUserList(string token, int id, out string error)
+        {
+            error = "";
+            string url = APIHelper.Baseurl + "/user/assigndepreplist/" + id;
+            string objectstring = JsonConvert.SerializeObject(id);
+            List<UserModel> um = APIHelper.Execute<List<UserModel>>(token, objectstring, url, out error);
+            return um;
+        }
     }
 }

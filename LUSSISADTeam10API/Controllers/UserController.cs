@@ -63,7 +63,7 @@ namespace LUSSISADTeam10API.Controllers
 
 
         [HttpGet]
-        [Route("api/assigndepreplist/{deptid}")]
+        [Route("api/user/assigndepreplist/{deptid}")]
         public IHttpActionResult GetAssignRepUserList(int deptid)
         {
             string error = "";
