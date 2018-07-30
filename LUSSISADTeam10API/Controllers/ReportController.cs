@@ -105,7 +105,7 @@ namespace LUSSISADTeam10API.Controllers
             List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
             List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error)
                 .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
-                (x.Reqdate.Value >= DateTime.Today.AddMonths(-2) &&
+                (x.Reqdate.Value >= DateTime.Today.AddMonths(-3) &&
                 x.Reqdate.Value <= DateTime.Today)).ToList();
             foreach (RequisitionModel x in rm)
             {
