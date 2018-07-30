@@ -75,7 +75,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        public ActionResult ItemTrendReport()
+        public ActionResult ItemTrendAnalysisReport()
         {
 
             string token = GetToken();
