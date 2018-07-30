@@ -8,7 +8,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Title Here</h1>
+                <h1><b>Purchase Order Trend</b></h1>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Title Here</li>
+                    <li class="active">Purchase Order Trend</li>
                 </ol>
             </div>
         </div>
@@ -29,67 +29,84 @@
 
 
         <div class="card">
-            <div class="card-header">
+            @*<div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
                 <strong class="card-title"> Title Here </strong>
-            </div>
+            </div>*@
             <div class="card-body">
 
                 @if (ViewBag.Count == 0)
 
                 {
-                    <h2>Purchase Order Trend</h2>
+                    
+                 
+                    <br />
                     <form asp-action="ItemUsageByClerk" asp-controller="Reports" method="post">
 
                         <div class="row">
+                            <div class="col-3"> Supplier One</div>
+                            <div class="col-6">
+                                <select name="s1" class="form-control">
+                                    @{
 
-                            <select name="s1">
-                                @{
+
+                                        foreach (var item in ViewBag.slist)
+                                        {
+
+                                            <option asp-for="ItemUsageByClerk"
+                                                    value="@item.SupId" class="ifrm-check-input">
+                                                @item.SupName
+                                            </option>
+                                        }
 
 
-                                    foreach (var item in ViewBag.slist)
-                                    {
-
-                                        <option asp-for="ItemUsageByClerk"
-                                                value="@item.SupId" class="ifrm-check-input">
-                                            @item.SupName
-                                        </option>
                                     }
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-3"> Supplier One</div>
+                            <div class="col-6">
+                                <select name="s2" class="form-control">
+                                    @{
+
+                                        foreach (var item in ViewBag.slist)
+                                        {
+
+                                            <option asp-for="ItemUsageByClerk"
+                                                    value="@item.SupId" class="ifrm-check-input">
+                                                @item.SupName
+                                            </option>
+                                        }
 
 
-                                }
-                            </select>
-                            <select name="s2">
-                                @{
-
-                                    foreach (var item in ViewBag.slist)
-                                    {
-
-                                        <option asp-for="ItemUsageByClerk"
-                                                value="@item.SupId" class="ifrm-check-input">
-                                            @item.SupName
-                                        </option>
                                     }
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-3"> Supplier One</div>
+                            <div class="col-6">
+                                <select name="s3" class="form-control">
+
+                                    @{
 
 
-                                }
-                            </select>
-                            <select name="s3">
-                                @{
+                                        foreach (var item in ViewBag.slist)
+                                        {
+
+                                            <option asp-for="ItemUsageByClerk"
+                                                    value="@item.SupId" class="ifrm-check-input">
+                                                @item.SupName
+                                            </option>
+                                        }
 
 
-                                    foreach (var item in ViewBag.slist)
-                                    {
-
-                                        <option asp-for="ItemUsageByClerk"
-                                                value="@item.SupId" class="ifrm-check-input">
-                                            @item.SupName
-                                        </option>
                                     }
-
-
-                                }
-                            </select>
+                                </select>
+                            </div>
                         </div>
                         <br />
                         <div>
@@ -100,7 +117,7 @@
                         <input type="hidden" name="supplier2" asp-for="model.supplier2" value="@Model.supplier2" />
                         <input type="hidden" name="supplier3" asp-for="model.supplier3" value="@Model.supplier3" />
 
-                        <input type="submit" formmethod="post" value="Submit" />
+                        <input type="submit" formmethod="post" value="Submit" class="btn btn-outline-success pull-left col-md-2 btn-flat m-b-30 m-t-30" />
 
 
                     </form>
@@ -113,7 +130,7 @@
                     @if (ViewBag.Count == 0)
                     {
 
-                        
+
                     }
                     else
                     {
@@ -123,19 +140,23 @@
                                 <tr>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Item)
+                                        @*@Html.DisplayNameFor(model => model.Item)*@
+                                        Item Name
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.UsageItem)
+                                        @*@Html.DisplayNameFor(model => model.UsageItem)*@
+                                        Item Usage
                                     </th>
-                                    <th>
+                                    @*<th>
                                         @Html.DisplayNameFor(model => model.MonthName)
+
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.year)
-                                    </th>
+                                    </th>*@
                                     <th>
-                                        @Html.DisplayNameFor(model => model.supname)
+                                        @*@Html.DisplayNameFor(model => model.supname)*@
+                                        Supplier Name
                                     </th>
 
                                 </tr>
@@ -151,12 +172,12 @@
                                             @item.UsageItem
 
                                         </td>
-                                        <td>
+                                        @*<td>
                                             @item.MonthName
                                         </td>
                                         <td>
                                             @item.year
-                                        </td>
+                                        </td>*@
                                         <td>
                                             @item.supname
                                         </td>
