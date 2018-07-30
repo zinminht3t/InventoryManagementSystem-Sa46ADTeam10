@@ -1410,6 +1410,7 @@
     <Content Include="Views\Reports\RequisitionList.cshtml" />
     <Content Include="Views\Clerk\EditImportItem.cshtml" />
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
+    <Content Include="Views\Reports\ItemTrendReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
