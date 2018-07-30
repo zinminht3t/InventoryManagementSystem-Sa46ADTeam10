@@ -296,6 +296,7 @@
     <Content Include="Styles\Content\Site.css" />
     <Content Include="Styles\css\accordion.css" />
     <Content Include="Styles\css\btn.css" />
+    <Content Include="Styles\css\collapse-row.css" />
     <Content Include="Styles\css\datatable.min.css" />
     <Content Include="Styles\images\admin.jpg" />
     <Content Include="Styles\images\avatar\1.jpg" />
@@ -1203,6 +1204,7 @@
     <Content Include="Styles\js\vendor\jquery-2.1.4.min.js" />
     <Content Include="Styles\js\vendor\modernizr-2.8.3.min.js" />
     <Content Include="Styles\js\widgets.js" />
+    <Content Include="Styles\Scripts\pagination.js" />
     <Content Include="Styles\Scripts\sweetalert2.all.min.js" />
     <Content Include="Styles\scss\bootstrap\bootstrap-grid.css" />
     <Content Include="Styles\scss\bootstrap\bootstrap-reboot.css" />
@@ -1211,7 +1213,6 @@
     <Content Include="Styles\scss\style.css" />
     <Content Include="Styles\scss\variables.css" />
     <Content Include="Styles\scss\widgets.css" />
-    <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1380,12 +1381,12 @@
     <Content Include="Views\Supervisor\Approve.cshtml" />
     <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
     <Content Include="Views\Manager\Approve.cshtml" />
+    <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\CreateSuppandItem.cshtml" />
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
     <Content Include="Views\HOD\Chart.cshtml" />
-    <Content Include="Views\Manager\History.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
@@ -1405,7 +1406,6 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
-    <Content Include="Views\Clerk\EditImportItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
