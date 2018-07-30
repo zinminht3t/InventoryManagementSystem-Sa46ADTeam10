@@ -205,6 +205,7 @@
     <Compile Include="Constants\ConNotification.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Models\Clerk\PendingCollectionPointViewModel.cs" />
     <Compile Include="Models\Clerk\RequisitionViewModel.cs" />
     <Compile Include="Models\Report\ItemTrendAnalysisViewModel.cs" />
     <Compile Include="Models\Report\MonthlyItemUsageViewModel.cs" />
@@ -1404,6 +1405,7 @@
     <Content Include="Views\Reports\testing.cshtml" />
     <Content Include="Views\Reports\testingview.cshtml" />
     <Content Include="Views\Reports\RequisitionList.cshtml" />
+    <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
