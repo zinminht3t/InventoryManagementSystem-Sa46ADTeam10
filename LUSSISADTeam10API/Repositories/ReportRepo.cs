@@ -97,7 +97,7 @@ namespace LUSSISADTeam10API.Repositories
                     if (itar.Count > 0)
                     {
                         List<SPItemTrendAnalysis_Result> itard1 = itar.Where(x => x.deptid == d1).ToList();
-                        if(itard1.Count > 0)
+                        if (itard1.Count > 0)
                         {
                             itm.Dept1Data = itard1.FirstOrDefault().usage ?? default(int);
                         }
@@ -117,7 +117,7 @@ namespace LUSSISADTeam10API.Repositories
                         }
 
                         List<SPItemTrendAnalysis_Result> itard3 = itar.Where(x => x.deptid == d3).ToList();
-                        if (itard1.Count > 0)
+                        if (itard3.Count > 0)
                         {
                             itm.Dept3Data = itard3.FirstOrDefault().usage ?? default(int);
                         }
@@ -146,6 +146,76 @@ namespace LUSSISADTeam10API.Repositories
                 error = e.Message;
             }
             return itms;
+        }
+        public static List<ItemUsageModel> ItemUsage(int s1, int s2, int s3, int itemid, out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<ItemUsageModel> isms = new List<ItemUsageModel>();
+            List<SPItemUsageReport_Result> isurr = new List<SPItemUsageReport_Result>();
+            int count = 0;
+
+            try
+            {
+                while (count < 3)
+                {
+                    ItemUsageModel ism = new ItemUsageModel();
+                    isurr = entities.SPItemUsageReport(DateTime.Today.Month - count, itemid).ToList();
+                    ism.Month = DateTime.Today.AddMonths((count) * -1).ToString("MMMM");
+
+                    if(isurr.Count > 0)
+                    {
+                        List<SPItemUsageReport_Result> isurrsup1 = isurr.Where(x => x.supid == s1).ToList();
+                        if (isurrsup1.Count > 0)
+                        {
+                            ism.Sup1Data = isurrsup1.First().usage ?? default(int);
+                        }
+                        else
+                        {
+                            ism.Sup1Data = 0;
+                        }
+
+                        List<SPItemUsageReport_Result> isurrsup2 = isurr.Where(x => x.supid == s2).ToList();
+                        if (isurrsup2.Count > 0)
+                        {
+                            ism.Sup2Data = isurrsup2.First().usage ?? default(int);
+                        }
+                        else
+                        {
+                            ism.Sup2Data = 0;
+                        }
+
+                        List<SPItemUsageReport_Result> isurrsup3 = isurr.Where(x => x.supid == s3).ToList();
+                        if (isurrsup3.Count > 0)
+                        {
+                            ism.Sup3Data = isurrsup3.First().usage ?? default(int);
+                        }
+                        else
+                        {
+                            ism.Sup3Data = 0;
+                        }
+
+                    }
+                    else
+                    {
+                        ism.Sup1Data = 0;
+                        ism.Sup2Data = 0;
+                        ism.Sup3Data = 0;
+                    }
+                    isms.Add(ism);
+                    count++;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return isms;
+
         }
 
         // end zmh
