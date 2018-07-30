@@ -1,4 +1,5 @@
 ﻿using LUSSISADTeam10Web.API;
+using LUSSISADTeam10Web.APIModels;
 using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
@@ -74,7 +75,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        public ActionResult ItemTrendAnalysis()
+        public ActionResult ItemTrendReport()
         {
 
             string token = GetToken();
@@ -98,7 +99,7 @@ namespace LUSSISADTeam10Web.Controllers
                 result.d3Name = m.Deptname;
                 viewmodel.itd.Add(result);
             }
-
+            ViewBag.catlist = APICategory.GetAllCategories(token, out error);
             ViewBag.deptlist = APIDepartment.GetAllDepartments(token, out error);
             ViewBag.count = 0;
             return View(viewmodel);
@@ -161,6 +162,23 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         #region POST Method
+
+        [HttpPost]
+        public JsonResult GetItemTrendData(int d1, int d2, int d3, int catid)
+        {
+            string error = "";
+            UserModel um = GetUser();
+            string token = GetToken();
+
+            List<TrendAnalysisModel> result = APIReport.GetItemTrendsByDeptCategory(token, d1, d2, d3, catid, out error);
+            int[] D1 = result.Select(x => x.Dept1Data).ToArray();
+            int[] D2 = result.Select(x => x.Dept2Data).ToArray();
+            int[] D3 = result.Select(x => x.Dept3Data).ToArray();
+
+            return Json(new {
+                d1 = D1, d2 = D2, d3 = D3
+            }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult ItemUsageByClerk(int s1, int s2, int s3)
