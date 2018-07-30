@@ -25,154 +25,77 @@
         </div>
     </div>
 </div>
-<div class="card">
-    <br/>
-    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
-    <div class="panel-group" id="accordion">
+<div class="content mt-3">
+    <div class="animated fadeIn">
 
-        <div class="animated fadeIn">
+        <div class="container">
             <div class="card">
-                <div id="collapse1" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="card" style="border:hidden">
+                <br />
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stamp fa-3x"></i><br /> Pending Approval Adjustments</h5><br />
+                <br />
+                <div class="panel-group" id="accordion">
+                    <div class="panel" style="border: 1px dotted skyblue;margin: 10px; padding:10px;">
+                        <div class="panel-heading" id="panel">
+                            <h4 class="panel-title">
 
-                            <div class="card card-body" style="border:hidden">
-                                <table id="bottstrap-data-table">
-                                    <tr style="background-color:lightblue;height:45px">
-                                        <th>
-                                            Issued Date
-                                        </th>
-                                        <th class="hideinmobile">
-                                            Reported By
-                                        </th>
-                                        <th class="hideinmobile">
-                                            Reported To
-                                        </th>
-                                        <th>
-                                            Total Price Adjusted
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                    @foreach (var item in Model)
-    {
-                                <tr style="height:40px">
-                                    <td>
-                                        @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
-                                    </td>
-                                    <td class="hideinmobile">
-                                        @Html.DisplayFor(modelItem => item.Raisedbyname)
-                                    </td>
-                                    <td class="hideinmobile">
-                                        @Html.DisplayFor(modelItem => item.Raisedtoname)
-                                    </td>
-                                    <td>
-                                        $@item.TotalPrice
-                                    </td>
-                                </tr>
-                                <tr style="background-color:aliceblue">
-                                    <th class="hideinmobile">Category</th>
-                                    <th>Item</th>
-                                    <th>Adjusted Qty</th>
-                                    <th class="hideinmobile">UOM</th>
-                                    <th>Price</th>
-                                    <th class="hideinmobile">Reason</th>
-                                </tr>
-foreach (var i in item.Adjds)
-{
-
-                                <tr style="height:40px;background-color:aliceblue">
-                                    <td class="hideinmobile">
-                                        @i.CategoryName
-                                    </td>
-                                    <td>
-                                        @i.Itemdescription
-                                    </td>
-                                    <td>
-                                        @i.Adjustedqty
-                                    </td>
-                                    <td class="hideinmobile">
-                                        @i.UOM
-                                    </td>
-                                    <td>
-                                        $@i.Price
-                                    </td>
-                                    <td class="hideinmobile">
-                                        @if (i.Reason == "" || i.Reason == null)
-        {
-            i.Reason = "_";
-        }
-                                        @i.Reason
-                                    </td>
-                                </tr>
-}
-}
-                                </table>
-                            </div>
+                                <a class="text-info" data-toggle="collapse" data-parent="#accordion" data-target="#collapse1" href="#collapse1" aria-expanded="true" aria-controls="accordion">
+                                    Adjustments Reported to Supervisor
+                                </a>
+                            </h4>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="content mt-3">
-        <div class="animated fadeIn">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-
-                            <table id="bootstrap-data-table">
-                                <tr style="background-color:lightblue">
-                                    <th>
-                                        Issued Date
-                                    </th>
-                                    <th class="hideinmobile">
-                                        Reported By
-                                    </th>
-                                    <th class="hideinmobile">
-                                        Reported To
-                                    </th>
-                                    <th>
-                                        Total Price Adjusted
-                                    </th>
-                                    <th></th>
-                                </tr>
-
-                                @foreach (var item in ViewBag.manager)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy") 
-                                        </td>
-                                        <td class="hideinmobile">
-                                            @item.Raisedbyname
-                                        </td>
-                                        <td class="hideinmobile">
-                                            @item.Raisedtoname
-                                        </td>
-                                        <td>
-                                            $@item.TotalPrice
-                                        </td>
-                                        <td>
-                                            @using (Html.BeginForm("Approve", "Manager", new { id = item.Adjid }))
-                                            {
-                                                <input type="submit" class="btn-block btn-group-sm btn-outline-info" value="Approve" />
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr style="background-color:aliceblue">
-                                        <th class="hideinmobile">Category</th>
-                                        <th>Item</th>
-                                        <th>Adjusted Qty</th>
-                                        <th class="hideinmobile">UOM</th>
-                                        <th>Price</th>
-                                        <th class="hideinmobile">Reason</th>
-                                    </tr>
+                        <br />
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel">
+                                <div class="card card-body">
+                                    <table id="table" class="paginated ">
+                                        <thead>
+                                            <tr style="background-color:lightblue;height:45px">
+                                                <th></th>
+                                                <th>
+                                                    Issued Date
+                                                </th>
+                                                <th class="hideinmobile">
+                                                    Reported By
+                                                </th>
+                                                <th class="hideinmobile">
+                                                    Reported To
+                                                </th>
+                                                <th>
+                                                    Total Price Adjusted
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                    {
+                                        <tr style="height:40px" class="header">
+                                            <td id="sign1"><span class="sign"></span></td>
+                                            <td>
+                                                @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td class="hideinmobile">
+                                                @Html.DisplayFor(modelItem => item.Raisedbyname)
+                                            </td>
+                                            <td class="hideinmobile">
+                                                @Html.DisplayFor(modelItem => item.Raisedtoname)
+                                            </td>
+                                            <td>
+                                                $@item.TotalPrice
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr style="background-color:aliceblue">
+                                            <th class="hideinmobile">Category</th>
+                                            <th>Item</th>
+                                            <th>Adjusted Qty</th>
+                                            <th class="hideinmobile">UOM</th>
+                                            <th>Price</th>
+                                            <th class="hideinmobile">Reason</th>
+                                        </tr>
                                     foreach (var i in item.Adjds)
                                     {
 
-                                        <tr style="border:hidden;width:inherit;background-color:aliceblue">
+                                        <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
                                             <td class="hideinmobile">
                                                 @i.CategoryName
                                             </td>
@@ -190,19 +113,130 @@ foreach (var i in item.Adjds)
                                             </td>
                                             <td class="hideinmobile">
                                                 @if (i.Reason == "" || i.Reason == null)
-                                                {
-                                                    i.Reason = "_";
-                                                }
+                                            {
+                                                i.Reason = "_";
+                                            }
                                                 @i.Reason
                                             </td>
                                         </tr>
-                                    }
                                 }
-                            </table>
+                            }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <div class="panel" style="margin: 10px; padding:10px;">
+                    <div class="card card-body" style="border:hidden">
+                        <div class="panel-heading" id="panel">
+                            <h4 class="panel-title text-info"> >> Pending Approvals Adjustments </h4>
+                        </div>
+                        <br />
+                        <div class="panel">
+                            <div class="card card-body">
+                                <table id="table" class="paginated">
+                                    <thead id="thead">
+                                        <tr style="background-color:lightblue;height:45px">
+                                            <th></th>
+                                            <th>
+                                                Issued Date
+                                            </th>
+                                            <th class="hideinmobile">
+                                                Reported By
+                                            </th>
+                                            <th class="hideinmobile">
+                                                Reported To
+                                            </th>
+                                            <th>
+                                                Total Price Adjusted
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in ViewBag.manager)
+                                {
+                                    <tr style="height:40px" class="header">
+                                        <td id="sign2"><span class="sign"></span></td>
+                                        <td>
+                                            @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @item.Raisedbyname
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @item.Raisedtoname
+                                        </td>
+                                        <td>
+                                            $@item.TotalPrice
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:aliceblue">
+                                        <th class="hideinmobile">Category</th>
+                                        <th>Item</th>
+                                        <th>Adjusted Qty</th>
+                                        <th class="hideinmobile">UOM</th>
+                                        <th>Price</th>
+                                        <th class="hideinmobile">Reason</th>
+                                        <th>
+                                            @using (Html.BeginForm("Approve", "Manager", new { id = item.Adjid }))
+                                        {
+                                            <input type="submit" class="btn-block btn-outline-success" value="Approve" />
+                                    }
+                                        </th>
+                                    </tr>
+                                foreach (var i in item.Adjds)
+                                {
+
+                                    <tr style="border:hidden;width:inherit;background-color:aliceblue">
+                                        <td class="hideinmobile">
+                                            @i.CategoryName
+                                        </td>
+                                        <td>
+                                            @i.Itemdescription
+                                        </td>
+                                        <td>
+                                            @i.Adjustedqty
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @i.UOM
+                                        </td>
+                                        <td>
+                                            $@i.Price
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @if (i.Reason == "" || i.Reason == null)
+                                        {
+                                            i.Reason = "_";
+                                        }
+                                            @i.Reason
+                                        </td>
+                                    </tr>
+                            }
+                        }
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
+        @section Scripts{
+            <link href="~/Styles/css/collapse-row.css" rel="stylesheet" />
+            <script src="~/Styles/Scripts/pagination.js"></script>
+            <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+
+            <script src="jquery.min.js"></script>
+            <script src="eFreezeTable.js"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.header').click(function () {
+                        $(this).toggleClass('expand ').nextUntil('tr.header').slideToggle();
+                    });
+                });
+            </script>
+        }
