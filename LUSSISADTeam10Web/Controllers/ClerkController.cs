@@ -804,26 +804,24 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel user = GetUser();
-            List<InventoryDetailModel> invent = TempData["inventories"] as List<InventoryDetailModel>;
+            List<InventoryDetailModel> invent = APIInventory.GetAllInventoryDetails(token, out string error);
             AdjustmentModel adjust = new AdjustmentModel();
             try
             {
                 for (int i = 0; i < InvID.Count; i++)
                 {
-                    foreach (InventoryDetailModel inv in invent)
-                    {
-                        if (InvID[i] == inv.Invid)
-                        {
-                            inv.Current = Current[i];
-                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
+                    InventoryDetailModel inv = new InventoryDetailModel();
+                    inv = invent.Where(x => x.Invid == InvID[i]).FirstOrDefault();
+                    inv.Current = Current[i];
+                    if ((inv.Current - (int)inv.Stock) > 0) {
+                     AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                             adjust.Adjds.Add(adjd);
-                        }
                     }
                 }
                 adjust.Issueddate = DateTime.Now;
                 adjust.Raisedby = user.Userid;
 
-                adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
+                adjust = APIAdjustment.CreateAdjustment(token, adjust, out error);
             }
             catch (Exception e)
             {
@@ -832,7 +830,7 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Adjustment Form";
-            Session["notimessage"] = "Adjustment Form with " + invent.Count + " items are successfully rasised";
+            Session["notimessage"] = "Adjustment Form was successfully rasised";
             return RedirectToAction("Inventory");
         }
         // End MaHus

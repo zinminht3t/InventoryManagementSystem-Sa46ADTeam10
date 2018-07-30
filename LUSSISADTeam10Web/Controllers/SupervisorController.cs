@@ -11,10 +11,11 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "Supervisor")]
+    
 
     public class SupervisorController : Controller
     {
+        [Authorize(Roles = "Supervisor")]
         public ActionResult Index()
         {
             string token = GetToken();
@@ -82,6 +83,7 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
         }
+        [Authorize(Roles = "Supervisor")]
         public ActionResult Approve()
         {
             string token = GetToken();
@@ -121,6 +123,7 @@ namespace LUSSISADTeam10Web.Controllers
             adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
             return View(adjlist);
         }
+        [Authorize(Roles = "Supervisor")]
         [HttpPost]
         public ActionResult Approve(int id)
         {
@@ -138,6 +141,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("Approve");
         }
         #region History
+        [Authorize(Roles = "Manager, Supervisor")]
         public ActionResult History()
         {
             string token = GetToken();
