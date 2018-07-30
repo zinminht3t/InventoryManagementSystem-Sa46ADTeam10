@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "CreateSuppandItem";
+    ViewBag.Title = "Add Supplier";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +24,8 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active"></li>
+                    <li><a href="@Url.Action("ShowActiveSupplierList", "Clerk")">Suppliers</a></li>
+                    <li class="active">Add Suppliers and Items</li>
                 </ol>
             </div>
         </div>
@@ -60,7 +61,7 @@
                                         <br />
                                         @Html.Raw(ViewBag.Error)
 
-                                        <input type="file" name="excelfile" />
+                                        <input type="file" required name="excelfile" />
                                         <br />
                                         <br />
                                         <input type="submit" value="Import" class="btn btn-outline-info" />
@@ -92,7 +93,7 @@
                                         <br />
                                         @Html.Raw(ViewBag.Error)
 
-                                        <input type="file" name="excelfile" />
+                                        <input type="file" required name="excelfile" />
                                         <br />
                                         <br />
                                         <input type="submit" value="Import" class="btn btn-outline-info" />

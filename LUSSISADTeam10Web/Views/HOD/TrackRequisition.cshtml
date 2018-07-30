@@ -79,7 +79,7 @@
 
 
         <div class="card">
-           
+
             <div class="card-body">
 
                 <h5 class="text-sm-center text-info hideinmobile"> <i class=" fa fa-location-arrow fa-3x"></i><br /> Track Requisition </h5><br /><br />
@@ -122,9 +122,9 @@
                                             <thead class="table-info">
                                                 <tr>
                                                     <th>Item Name</th>
-                                                    <th>Category Name</th>
+                                                    <th>Category</th>
                                                     <th>Quantity</th>
-                                                    <th>UOM</th>
+                                                    <th class="hideinmobile">UOM</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -134,7 +134,7 @@
                                                         <td>@item.Itemname</td>
                                                         <td>@item.CategoryName</td>
                                                         <td>@item.Qty</td>
-                                                        <td>@item.UOM</td>
+                                                        <td class="hideinmobile">@item.UOM</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -148,7 +148,11 @@
 
 
                                 <div class="card-text text-sm-right">
-                                    Approved By : <strong>@Model.Approvedbyname</strong>
+                                    @if (Model.Status > 2)
+                                    {
+                                        Approved By : <strong>@Model.Approvedbyname</strong>
+
+                                    }
                                 </div>
                             </div>
                         </div>

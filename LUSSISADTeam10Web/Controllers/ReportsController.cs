@@ -191,20 +191,16 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
 
-
-
             ViewBag.count = viewmodel.mtu.Count;
 
             ViewBag.mtu = viewmodel.mtu;
 
+            if(ViewBag.mtu == null)
+            {
+                ViewBag.mtu = new List<MonthlyItemResultUsageViewModel>();
+            }
 
             return View(viewmodel);
-
-
-
-
-
-
 
 
         }

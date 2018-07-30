@@ -146,7 +146,11 @@
 
 
                                 <div class="card-text text-sm-right">
-                                    Approved By : <strong>@Model.Approvedbyname</strong>
+                                    @if (Model.Status > 2)
+                                    {
+                                        Approved By : <strong>@Model.Approvedbyname</strong>
+
+                                    }
                                 </div>
                             </div>
                         </div>

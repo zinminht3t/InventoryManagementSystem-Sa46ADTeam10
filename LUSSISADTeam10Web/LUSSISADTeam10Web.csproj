@@ -1348,7 +1348,6 @@
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
     <Content Include="Views\Employee\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
-    <Content Include="Views\Employee\Test.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />

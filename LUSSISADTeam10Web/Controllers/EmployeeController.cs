@@ -148,7 +148,7 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.Preparing = "btn-danger";
             ViewBag.Ready = "btn-danger";
             ViewBag.Collected = "btn-danger";
-            ViewBag.Track = "";
+            ViewBag.Track = "Waiting for Approval";
 
             try
             {

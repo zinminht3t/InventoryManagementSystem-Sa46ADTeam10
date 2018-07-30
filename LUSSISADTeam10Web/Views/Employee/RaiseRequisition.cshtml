@@ -10,7 +10,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Dashboard</h1>
+                <h1>Rasied Requisition</h1>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Track Requisiton</li>
+                    <li class="active">Raise Requisiton</li>
                 </ol>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 @using (Html.BeginForm())
                 {
                 <div class="mx-auto d-block">
-                    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-comments-smiley fa-3x"></i><br /> Raise Requisition </h5><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-package fa-3x"></i><br /> Raise Requisition </h5><br />
                     <h6>Raised By :  @User.Identity.Name </h6><br />
                     <h6>Collection Point : @Model.Cpname</h6><br />
                     <h6>Request Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
@@ -46,6 +46,7 @@
                     <div>
 
                         <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
+                        <br />
                         <br />
                         <br />
                         <table class="table table-bordered table-hover">
