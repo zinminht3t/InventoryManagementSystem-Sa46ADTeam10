@@ -60,6 +60,26 @@ namespace LUSSISADTeam10API.Controllers
         }
 
 
+
+
+        [HttpGet]
+        [Route("api/user/assigndepreplist/{deptid}")]
+        public IHttpActionResult GetAssignRepUserList(int deptid)
+        {
+            string error = "";
+           List< UserModel> usr = UserRepo.GetAssignRepUserList(deptid , out string error2);
+            if (error != "" || usr == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                {
+                    return Content(HttpStatusCode.NotFound, "User Not Found");
+                }
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(usr);
+        }
+
+
         [HttpGet]
         [Route("api/user/role/{role}/{deptid}")]
         public IHttpActionResult GetUserByRole(int role,int deptid)

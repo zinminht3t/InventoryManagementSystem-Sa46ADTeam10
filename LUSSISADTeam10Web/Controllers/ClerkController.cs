@@ -237,10 +237,11 @@ namespace LUSSISADTeam10Web.Controllers
                         List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
                         ViewBag.supplierlist = sm;
                         List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
-
+                        List<InventoryModel> invm = new List<InventoryModel>();
                         foreach (SupplierItemModel sim in sm)
                         {
                             SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
+                            InventoryModel im = new InventoryModel();
                             sivm1.ItemId = sim.ItemId;
                             sivm1.SupId = sim.SupId;
                             sivm1.SupName = sim.SupName;
@@ -249,23 +250,28 @@ namespace LUSSISADTeam10Web.Controllers
                             sivm1.CategoryName = sim.CategoryName;
                             sivm1.Description = sim.Description;
 
+                            im = APIInventory.GetInventoryByItemid(sim.ItemId, token, out String error2);
 
                             sivm.Add(sivm1);
+                            invm.Add(im);
+
+
                         }
                         workbook.Close();
-                        List<String> catname = new List<string>();
-
-                        List<CategoryModel> cm = APICategory.GetAllCategories(token, out error);
-
-                        foreach (CategoryModel c in cm)
-                        {
-                            catname.Add(c.Name);
-
-
+                        
+                        List<int> itemidlist = new List<int>();
+                      foreach(SupplierItemImportViewModel spim in sivm) {
+                            itemidlist.Add(spim.ItemId);
                         }
-                        ViewBag.catlist = catname;
 
-                        return View(sivm);
+
+                        Session["id"] = itemidlist;
+
+                        
+                        ViewBag.check = true;
+                        TempData["import"] = invm;
+
+                        return View(invm);
                     }
                     else
                     {
@@ -287,6 +293,8 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult importsupplier(HttpPostedFileBase excelfile)
         {
+
+            
             string token = GetToken();
             UserModel um = GetUser();
             try
@@ -356,12 +364,12 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
-        public ActionResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
+        public JsonResult CreateSupplierItem(List<SupplierItemImportViewModel> simvm)
         {
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            bool result = false;
             SupplierModel sm = new SupplierModel();
 
 
@@ -380,6 +388,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                     APIItem.UpdateItem(token, si, out string itemerror);
                     List<SupplierModel> sm2 = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error2);
+                    result = true;
                 }
             }
             catch (Exception ex)
@@ -387,12 +396,12 @@ namespace LUSSISADTeam10Web.Controllers
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
 
-            return RedirectToAction("ShowActiveSupplierlist");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // End AM
 
-        // Start TAZ
+            // Start TAZ
         [Authorize(Roles = "Clerk")]
         public ActionResult ApproveCollectionPoint(int id)
         {
@@ -683,6 +692,107 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
+
+        [HttpPost]
+        public ActionResult EditImportItem(InventoryViewModel viewmodel)
+        {
+
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel it = new ItemModel();
+            CategoryModel c = new CategoryModel();
+
+            invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
+            it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
+            string name = viewmodel.CategoryName;
+            c = APICategory.GetCategoryByCatName(token, name, out error);
+
+            it.Catid = c.Catid;
+            invm.Invid = viewmodel.Invid;
+            invm.Itemid = viewmodel.Itemid;
+            invm.Stock = viewmodel.Stock;
+            invm.ReorderLevel = viewmodel.ReorderLevel;
+            invm.ReorderQty = viewmodel.ReorderQty;
+            it.Description = viewmodel.ItemDescription;
+            it.Uom = viewmodel.UOM;
+
+            try
+            {
+                invm = APIInventory.UpdateInventory(token, invm, out error);
+                it = APIItem.UpdateItem(token, it, out error);
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Update Item";
+                Session["notimessage"] = it.Description + "is updated successfully";
+                List<InventoryModel> im = new List<InventoryModel>();
+                InventoryModel im1 = new InventoryModel();
+                List<int> ids = (List<int>)Session["id"];
+
+                for (int i = 0; i < ids.Count; i++) {
+                    im1 = APIInventory.GetInventoryByItemid(ids[i], token, out string error3);
+                    im.Add(im1);
+
+                }
+
+                return View("csvsupplier", im);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+        }
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
+
+        public ActionResult EditImportItem(int id = 0)
+        {
+            string token = GetToken();
+            InventoryModel invm = new InventoryModel();
+            ItemModel itm = new ItemModel();
+            ViewBag.InventoryModel = invm;
+            InventoryViewModel viewmodel = new InventoryViewModel();
+            List<CategoryModel> cm = new List<CategoryModel>();
+            invm = APIInventory.GetInventoryByInvid(id, token, out string error);
+
+            try
+            {
+                cm = APICategory.GetAllCategories(token, out error);
+
+
+                ViewBag.InventoryModel = invm;
+
+                viewmodel.CatId = itm.Catid;
+                // itm.CatName;
+                viewmodel.ItemDescription = invm.ItemDescription;
+                viewmodel.Stock = invm.Stock;
+                viewmodel.ReorderLevel = invm.ReorderLevel;
+                viewmodel.ReorderQty = invm.ReorderQty;
+                viewmodel.Itemid = invm.Itemid;
+                viewmodel.Invid = invm.Invid;
+                viewmodel.UOM = invm.UOM;
+                List<String> catname = new List<string>();
+
+                ViewBag.cat = cm;
+
+                foreach (CategoryModel c in cm)
+                {
+                    catname.Add(c.Name);
+                }
+                ViewBag.catlist = catname;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+            return View(viewmodel);
+        }
+
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
 
@@ -882,26 +992,24 @@ namespace LUSSISADTeam10Web.Controllers
         {
             string token = GetToken();
             UserModel user = GetUser();
-            List<InventoryDetailModel> invent = TempData["inventories"] as List<InventoryDetailModel>;
+            List<InventoryDetailModel> invent = APIInventory.GetAllInventoryDetails(token, out string error);
             AdjustmentModel adjust = new AdjustmentModel();
             try
             {
                 for (int i = 0; i < InvID.Count; i++)
                 {
-                    foreach (InventoryDetailModel inv in invent)
-                    {
-                        if (InvID[i] == inv.Invid)
-                        {
-                            inv.Current = Current[i];
-                            AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
+                    InventoryDetailModel inv = new InventoryDetailModel();
+                    inv = invent.Where(x => x.Invid == InvID[i]).FirstOrDefault();
+                    inv.Current = Current[i];
+                    if ((inv.Current - (int)inv.Stock) > 0) {
+                     AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                             adjust.Adjds.Add(adjd);
-                        }
                     }
                 }
                 adjust.Issueddate = DateTime.Now;
                 adjust.Raisedby = user.Userid;
 
-                adjust = APIAdjustment.CreateAdjustment(token, adjust, out string error);
+                adjust = APIAdjustment.CreateAdjustment(token, adjust, out error);
             }
             catch (Exception e)
             {
@@ -910,7 +1018,7 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Adjustment Form";
-            Session["notimessage"] = "Adjustment Form with " + invent.Count + " items are successfully rasised";
+            Session["notimessage"] = "Adjustment Form was successfully rasised";
             return RedirectToAction("Inventory");
         }
         // End MaHus

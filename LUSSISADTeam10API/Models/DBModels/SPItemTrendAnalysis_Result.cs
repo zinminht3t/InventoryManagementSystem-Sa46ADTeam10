@@ -13,12 +13,7 @@ namespace LUSSISADTeam10API.Models.DBModels
     
     public partial class SPItemTrendAnalysis_Result
     {
-        public string DepartmentName { get; set; }
-        public string Item_Name { get; set; }
-        public Nullable<int> Item_Usage { get; set; }
         public int deptid { get; set; }
-        public int itemid { get; set; }
-        public Nullable<int> Monthofreq { get; set; }
-        public Nullable<int> Yearofreq { get; set; }
+        public Nullable<int> usage { get; set; }
     }
 }

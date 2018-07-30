@@ -23,7 +23,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Title Here</h1>
+                <h1><b>Item Trend Analysis</b></h1>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action(" Index", "HOD" )">Dashboard</a></li>
-                    <li class="active">Title Here</li>
+                    <li class="active">Item Trend Analysis</li>
                 </ol>
             </div>
         </div>
@@ -44,20 +44,24 @@
 
 
         <div class="card">
-            <div class="card-header">
+            @*<div class="card-header">
                 <i class="mr-2 fa fa-align-justify"></i>
                 <strong class="card-title"> Title Here </strong>
-            </div>
+            </div>*@
             <div class="card-body">
 
                 @if (ViewBag.Count == 0)
                 {
 
-                    <form asp-action="ItemTrendAnalysis" asp-controller="Reports" method="post">
-                        <h2>ItemUsageByClerk</h2>
-                        <div class="row">
+                <form asp-action="ItemTrendAnalysis" asp-controller="Reports" method="post">
+                   
 
-                            <select name="month">
+                    <br />
+
+                    <div class="row">
+                        <div class="col-3">Select Your Month</div>
+                        <div class="col-6">
+                            <select name="month" class="form-control">
                                 @{ foreach (var item in months)
                                     {
                                         <option value="@item.Key">@item.Value</option>
@@ -65,82 +69,102 @@
                             </select>
 
                         </div>
+                    </div>
 
-                        <select name="d1">
-                            @{
+                    <br />
+                    <div class="row">
+                        <div class="col-3">Select 1<sup>st</sup> Supplier </div>
+                        <div class="col-6">
+                            <select name="d1" class="form-control">
+
+                                @{
 
 
-                                foreach (var item in ViewBag.deptlist)
-                                {
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
 
-                                    <option asp-for="ItemTrendAnalysis"
-                                            value="@item.Deptid" class="ifrm-check-input">
-                                        @item.Deptname
-                                    </option>
+                                        <option asp-for="ItemTrendAnalysis"
+                                                value="@item.Deptid" class="ifrm-check-input">
+                                            @item.Deptname
+                                        </option>
+                                    }
+
+
                                 }
-
-
-                            }
-                        </select>
-                        <select name="d2">
-                            @{
-
-
-                                foreach (var item in ViewBag.deptlist)
-                                {
-
-                                    <option asp-for="ItemTrendAnalysis"
-                                            value="@item.Deptid" class="ifrm-check-input">
-                                        @item.Deptname
-                                    </option>
-                                }
-
-
-                            }
-                        </select>
-                        <select name="d3">
-                            @{
-
-
-                                foreach (var item in ViewBag.deptlist)
-                                {
-
-                                    <option asp-for="ItemTrendAnalysis"
-                                            value="@item.Deptid" class="ifrm-check-input">
-                                        @item.Deptname
-                                    </option>
-                                }
-
-
-                            }
-                        </select>
-                        @*  @Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))*@
-                        <br />
-                        <div>
-
+                            </select>
                         </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">Select 2<sup>st</sup> Supplier </div>
+                        <div class="col-6">
+                            <select name="d2" class="form-control">
+                                @{
+
+
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
+
+                                        <option asp-for="ItemTrendAnalysis"
+                                                value="@item.Deptid" class="ifrm-check-input">
+                                            @item.Deptname
+                                        </option>
+                                    }
+
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">Select 2<sup>st</sup> Supplier </div>
+                        <div class="col-6">
+                            <select name="d3" class="form-control">
+                                @{
+
+
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
+
+                                        <option asp-for="ItemTrendAnalysis"
+                                                value="@item.Deptid" class="ifrm-check-input">
+                                            @item.Deptname
+                                        </option>
+                                    }
+
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    @*  @Html.DropDownListFor(model => model.DepartmentName, new SelectList(ViewBag.deptlist))*@
+                    <br />
+                    <div>
+
+                    </div>
 
 
 
 
-                        @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
-                            <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
-                            <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
+                    @*<input type="hidden" name="supplier1" asp-for="@Model.supplier1" value="@Model.supplier1" />
+        <input type="hidden" name="supplier2" asp-for="@Model.supplier2" value="@Model.supplier2" />
+        <input type="hidden" name="supplier3" asp-for="@Model.supplier3" value="@Model.supplier3" />*@
 
 
 
 
-                        <input type="hidden" name="d1" asp-for="model.d1" value="@Model.d1" />
-                        <input type="hidden" name="d2" asp-for="model.d2" value="@Model.d2" />
-                        <input type="hidden" name="d3" asp-for="model.d3" value="@Model.d3" />
-                        <input type="hidden" name="month" asp-for="model.month" value="@Model.month" />
+                    <input type="hidden" name="d1" asp-for="model.d1" value="@Model.d1" />
+                    <input type="hidden" name="d2" asp-for="model.d2" value="@Model.d2" />
+                    <input type="hidden" name="d3" asp-for="model.d3" value="@Model.d3" />
+                    <input type="hidden" name="month" asp-for="model.month" value="@Model.month" />
 
 
 
-                        <input type="submit" formmethod="post" value="Submit" />
+                    <input type="submit" formmethod="post" value="Submit" class="btn btn-outline-success pull-left col-md-2 btn-flat m-b-30 m-t-30"/>
 
 
-                    </form>
+                </form>
 
 
                 }
@@ -149,7 +173,7 @@
                     @if (ViewBag.Count == 0)
                     {
 
-                        <h1>There is no transaction for this item </h1>
+                      
                     }
                     else
                     {
@@ -159,19 +183,24 @@
                                 <tr>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.DepartmentName)
+                                        @*@Html.DisplayNameFor(model => model.DepartmentName)*@
+                                        Department Name
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Item_Name)
+                                        @*@Html.DisplayNameFor(model => model.Item_Name)*@
+                                        Item Name
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Item_Usage)
+                                        @*@Html.DisplayNameFor(model => model.Item_Usage)*@
+                                        Item Usage
                                     </th>
-                                    <th>
+                                    @*<th>
                                         @Html.DisplayNameFor(model => model.Monthofreq)
-                                    </th>
+                                    </th>*@
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Yearofreq)
+                                      @*  @Html.DisplayNameFor(model => model.Yearofreq)*@
+                                        Year of Requisition
+
                                     </th>
 
                                 </tr>
@@ -190,9 +219,10 @@
                                         <td>
                                             @item.Item_Usage
                                         </td>
-                                        <td>
+                                        @*<td>
+                                        
                                             @item.Monthofreq
-                                        </td>
+                                        </td>*@
                                         <td>
                                             @item.Yearofreq
                                         </td>

@@ -10,7 +10,7 @@ namespace LUSSISADTeam10API.Models.APIModels
     public class InventoryDetailWithStatus
     {
         public InventoryDetailWithStatus(int invid, int itemid, string itemDescription, int? stock, int? reorderLevel, int? reorderQty,
-           int catid, string catName, string description, string uom, bool recommendedorderqty, string sl, string sle)
+           int catid, string catName, string description, string uom, bool recommendedorderqty, string sl, string sle, int currentstock, string reason)
         {
             Invid = invid;
             Itemid = itemid;
@@ -25,8 +25,10 @@ namespace LUSSISADTeam10API.Models.APIModels
             IsPending = recommendedorderqty;
             ShelfLocation = sl;
             ShelfLevel = sle;
+            CurrentStock = currentstock;
+            Reason = reason;
         }
-        public InventoryDetailWithStatus() : this(0, 0, "", 0, 0, 0, 0, "", "", "", false, "", "") { }
+        public InventoryDetailWithStatus() : this(0, 0, "", 0, 0, 0, 0, "", "", "", false, "", "", 0, "") { }
         public int Invid { get; set; }
         public int Itemid { get; set; }
         public string ItemDescription { get; set; }
@@ -40,5 +42,7 @@ namespace LUSSISADTeam10API.Models.APIModels
         public string ShelfLevel { get; set; }
         public string Uom { get; set; }
         public bool IsPending { get; set; }
+        public int CurrentStock { get; set; }
+        public string Reason { get; set; }
     }
 }

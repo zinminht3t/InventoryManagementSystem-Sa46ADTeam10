@@ -1,99 +1,107 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.Clerk.SupplierItemImportViewModel>
-
-@{
-    ViewBag.Title = "csvsupplier";
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.InventoryModel>
+    @{
+    ViewBag.Title = "Inventory";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section Styles {
+    }
+    @section Styles {
     <style>
     </style>
-}
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>Employeelist</h1>
+    }
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Inventory</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 hideinmobile">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="@Url.Action(" Index", "Clerk" )">Dashboard</a></li>
+                        <li class="active">Inventory</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Employeelist</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="content mt-3">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                   
-                    <div class="card-body">
-                        @using (Html.BeginForm("CreateSupplierItem", "Clerk"))
-                        {
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-panel fa-3x"></i><br /> Inventory </h5><br />
                             <table id="bootstrap-data-table" class="table table-striped table-bordered">
                                 <thead class="table-info">
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.SupName)
+                                            <h6><b>Item</b></h6>
+                                        </th>
+                                        <th class="hideinmobile">
+                                            <h6><b>Category</b></h6>
+                                        </th>
+                                        <th class="hideinmobile">
+                                            @Html.DisplayNameFor(model => model.UOM)
+                                        </th>
+                                        <th class="hideinmobile">
+                                            @Html.DisplayNameFor(model => model.Stock)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.CategoryName)
+                                            Reorder Level
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Description)
+                                            Reorder Qty
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Price)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Uom)
-                                        </th>
+
+                                        <th></th>
 
                                     </tr>
+
                                 </thead>
                                 <tbody>
-                                    @foreach ( var item in ViewBag.supplierlist)
+                                    @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                <h6> @item.SupName </h6>
-                                              
-                                            </td>
-                                            <td>
-                                              
-                                                @Html.DropDownList("CategoryName", new SelectList(ViewBag.catlist))
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @Html.DisplayFor(modelItem => item.UOM)
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @Html.DisplayFor(modelItem => item.Stock)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReorderLevel)
+                                        </td>
+                                        <td>                                            
+                                            @Html.DisplayFor(modelItem => item.ReorderQty)                                            
+                                        </td>
 
-                                            </td>
-                                            <td>
-                                              @item.Description
-                                            </td>
-                                            <td>
-                                                @item.Price
-                                            </td>
-                                            <td>
-                                              <h6>@item.Uom</h6>
-                                            </td>
-                                           
-                                        </tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <h5 class="text-sm-center text-info"></h5>
+                                                    <a href="@Url.Action("EditImportItem", new { id=item.Invid })">
+                                                        <span class="ti-pencil-alt text-info fa-2x"></span>
+                                                    </a><br />
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
-                            
-
-                            <input type="Submit" class="btn btn-outline-success pull-right" value="Create">
-                        }
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
