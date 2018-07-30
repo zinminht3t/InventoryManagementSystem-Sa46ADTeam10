@@ -96,6 +96,32 @@ namespace LUSSISADTeam10API.Controllers
                 return Ok(result.Take(5));
         }
 
+        [HttpGet]
+        [Route("api/FrequentlyItemList")]
+        public IHttpActionResult GetFreqOrderedItems()
+        {
+            string error = "";
+            List<FrequentlyTop5ItemsModel> fim = new List<FrequentlyTop5ItemsModel>();
+            List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
+            List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error);
+                //.Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
+                //x.Reqdate.Value.Month ).ToList();
+            foreach (RequisitionModel x in rm)
+            {
+                foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
+                {
+                    rdms.Add(xx);
+                }
+            }
+
+            if (error != "" || fim == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(fim);
+        }
 
         // end hwy
 
