@@ -355,11 +355,18 @@ namespace LUSSISADTeam10API.Repositories
                     bool IsPending = false;
                     int count = adjds.Where(x => x.itemid == inv.itemid).Count();
                     InventoryDetailWithStatus invdm = new InventoryDetailWithStatus();
-                    if(count > 0)
+                    int CurrentStock = inv.stock;
+                    string Reason = "";
+                    if (count > 0)
                     {
+                        adjustmentdetail adj = adjds.Where(x => x.itemid == inv.itemid).FirstOrDefault();
                         IsPending = true;
+                        CurrentStock = adj.adjustedqty + inv.stock;
+                        Reason = adj.reason;
                     }
-                    invdm = new InventoryDetailWithStatus(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name, inv.item.description, inv.item.uom, IsPending, inv.item.category.shelflocation, inv.item.category.shelflevel);
+                    invdm = new InventoryDetailWithStatus(inv.invid, inv.itemid, inv.item.description, inv.stock, inv.reorderlevel, inv.reorderqty, inv.item.catid, inv.item.category.name,
+                        inv.item.description, inv.item.uom, IsPending, inv.item.category.shelflocation,
+                        inv.item.category.shelflevel, CurrentStock, Reason);
                     invdms.Add(invdm);
                 }
 
