@@ -32,7 +32,7 @@
             <div class="card-body">
                 <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
                 <div class="card card-body">
-                    <table id="table">
+                    <table id="table" class="paginated">
                         <tr style="background-color:lightblue;height:45px">
                             <th></th>
                             <th>
@@ -46,12 +46,12 @@
                             </th>
                             <th>
                                 Total
-                                </th>
+                            </th>
                             <th></th>
                         </tr>
                         @foreach (var item in Model)
                         {
-                            <tr style="height:40px" class="header" >
+                            <tr style="height:40px" class="header">
                                 <td><span class="sign"></span></td>
                                 <td>
                                     @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
@@ -105,16 +105,25 @@
                         }
 
                     </table>
+                    <div class="col-sm-12 col-md-7">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $('.header').click(function () {
-        $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
-    });;
-</script>
-<link href="~/Styles/css/collapse-row.css" rel="stylesheet" />
-<script src="~/Styles/Scripts/pagination.js"></script>
+@section Scripts {
+    <link href="~/Styles/css/collapse-row.css" rel="stylesheet" />
+    <script src="~/Styles/Scripts/pagination.js"></script>
+    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+
+    <script src="jquery.min.js"></script>
+    <script src="eFreezeTable.js"></script>
+
+    <script>
+        $('.header').click(function () {
+            $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
+        });;
+    </script>
+}

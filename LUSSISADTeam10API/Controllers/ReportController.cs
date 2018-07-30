@@ -44,9 +44,84 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(rl);
         }
 
+        [HttpGet]
+        [Route("api/itemusage/{s1}/{s2}/{s3}/{item}")]
+        public IHttpActionResult ItemUsage(int s1, int s2, int s3, int item)
+        {
+            string error = "";
+            List<ItemUsageModel> rl = ReportRepo.ItemUsage(s1, s2, s3, item, out error);
+            if (error != "" || rl == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(rl);
+        }
+
         // end zmh
 
         // start hwy
+
+        [HttpGet]
+        [Route("api/frequentlyordered5hod/{id}")]
+        public IHttpActionResult GetFreqOrdered5ItemHod(int id)
+        {
+            string error = "";
+            List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
+            List<RequisitionModel> rm = RequisitionRepo.GetRequisitionByDepid(id, out error)
+                .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year).ToList();
+            foreach (RequisitionModel x in rm)
+            {
+                foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
+                {
+                    rdms.Add(xx);
+                }
+            }
+            var result = rdms.GroupBy(x => new { x.Itemid, x.Itemname })
+                .Select(xx => new {
+                    Quantity = xx.Sum(y => y.Qty),
+                    description = xx.Key.Itemname
+                }).OrderByDescending(x => x.Quantity);
+
+            if (error != "" || rm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            if (result.Count() < 6)
+                return Ok(result);
+            else
+                return Ok(result.Take(5));
+        }
+
+        [HttpGet]
+        [Route("api/FrequentlyItemList")]
+        public IHttpActionResult GetFreqOrderedItems()
+        {
+            string error = "";
+            List<FrequentlyTop5ItemsModel> fim = new List<FrequentlyTop5ItemsModel>();
+            List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
+            List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error);
+                //.Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
+                //x.Reqdate.Value.Month ).ToList();
+            foreach (RequisitionModel x in rm)
+            {
+                foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
+                {
+                    rdms.Add(xx);
+                }
+            }
+
+            if (error != "" || fim == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            return Ok(fim);
+        }
 
         // end hwy
 

@@ -495,6 +495,87 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
         }
+     //Pending CollectionPoint//
+        [Authorize(Roles = "Clerk")]
+        public ActionResult PendingCollectionPoint()
+        {
+            string token = GetToken();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            ViewBag.DepartmentCollectionPointModel = dcpm;
+            PendingCollectionPointViewModel viewmodel = new PendingCollectionPointViewModel();
+            List<DepartmentCollectionPointModel> st = new List<DepartmentCollectionPointModel>();
+
+            try
+            {
+                if (dcpm.Status != ConDepartmentCollectionPoint.Status.PENDING)
+                {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Change Request Expired";
+                    Session["notimessage"] = "This collection point request has already been cancelled or approved!";
+                    return RedirectToAction("Index");
+                }
+                st = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, 0, out string error);
+                viewmodel.pCP = new List<PendingCP>();
+                foreach (DepartmentCollectionPointModel s in st)
+                {
+                    PendingCP p = new PendingCP();
+                    {
+                        p.DepName = s.DeptName;
+                        p.CpID = s.CpID;
+                        p.CpName = s.CpName;
+                        p.DepID=s.DeptID;
+                        p.DepCpID = s.DeptCpID;
+                    };
+                    viewmodel.pCP.Add(p);
+                }         
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return View(viewmodel);
+        }
+
+
+        [Authorize(Roles = "Clerk")]
+        [HttpPost]
+        public ActionResult PendingCollectionPoint(ApproveCollectionPointViewModel viewmodel)
+        {
+            string token = GetToken();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            List<DepartmentCollectionPointModel> dcpms = new List<DepartmentCollectionPointModel>();
+            
+
+            try
+            {
+                dcpms = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, ConDepartmentCollectionPoint.Status.PENDING, out string error);
+                if (dcpms.Count > 0)
+                {
+                    dcpm = dcpms.Where(x => x.DeptID == viewmodel.DepID && x.CpID == viewmodel.CpID).FirstOrDefault();
+                }
+
+                if (!viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+
+                }
+
+                else if (viewmodel.Approve)
+                {
+                    dcpm = APICollectionPoint.ConfirmDepartmentCollectionPoint(token, dcpm, out error);
+
+                }
+
+                return RedirectToAction("PendingCollectionPoint");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("PendingCollectionPoint", "Error", new { error = ex.Message });
+            }
+
+        }
+       
         //Manage Items
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult Manage()
@@ -537,9 +618,7 @@ namespace LUSSISADTeam10Web.Controllers
 
 
                 ViewBag.InventoryModel = invm;
-
                 viewmodel.CatId = itm.Catid;
-                // itm.CatName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;

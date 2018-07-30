@@ -3,26 +3,33 @@
     font-family: FontAwesome;
     font-size: large;
     color: teal;
-    content: "\f055";
+    content: "\f056";
 }
 
 .header.expand .sign:after {
     width: 20px;
     font-size: large;
     font-weight: 700;
-    content: "\f056";
+    content: "\f055";
+}
+div.pager {
+    text-align: right;
+    margin: 2em 0;
 }
 
-.focus {
-    line-height: 100px;
-    border: 2px 2px 2px 2px;
-    background-color: black;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-}
+    div.pager span {
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2;
+        text-align: center;
+        cursor: pointer;
+        background: #fff;
+        color: #000;
+        margin-left: 2em;
+        border: 2px solid;
+    }
 
-.pageNumber {
-    line-height: 100px;
-    padding: 20px;
-}
+        div.pager span.active {
+            background: teal;
+        }

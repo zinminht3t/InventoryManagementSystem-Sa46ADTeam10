@@ -65,5 +65,35 @@ namespace LUSSISADTeam10API.Models.DBModels
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPItemTrendAnalysis_Result>("SPItemTrendAnalysis", monthParameter, categoryParameter);
         }
+    
+        public virtual ObjectResult<SPItemUsageReport_Result> SPItemUsageReport(Nullable<int> month, Nullable<int> item)
+        {
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("month", month) :
+                new ObjectParameter("month", typeof(int));
+    
+            var itemParameter = item.HasValue ?
+                new ObjectParameter("item", item) :
+                new ObjectParameter("item", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPItemUsageReport_Result>("SPItemUsageReport", monthParameter, itemParameter);
+        }
+    
+        public virtual ObjectResult<SPRequistionList_Result> SPRequistionList(Nullable<int> deptid, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
+        {
+            var deptidParameter = deptid.HasValue ?
+                new ObjectParameter("deptid", deptid) :
+                new ObjectParameter("deptid", typeof(int));
+    
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPRequistionList_Result>("SPRequistionList", deptidParameter, fromdateParameter, todateParameter);
+        }
     }
 }
