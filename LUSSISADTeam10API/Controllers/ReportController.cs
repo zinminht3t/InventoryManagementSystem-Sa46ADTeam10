@@ -48,6 +48,40 @@ namespace LUSSISADTeam10API.Controllers
 
         // start hwy
 
+        [HttpGet]
+        [Route("api/frequentlyordered5hod/{id}")]
+        public IHttpActionResult GetFreqOrdered5ItemHod(int id)
+        {
+            string error = "";
+            List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
+            List<RequisitionModel> rm = RequisitionRepo.GetRequisitionByDepid(id, out error)
+                .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year).ToList();
+            foreach (RequisitionModel x in rm)
+            {
+                foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
+                {
+                    rdms.Add(xx);
+                }
+            }
+            var result = rdms.GroupBy(x => new { x.Itemid, x.Itemname })
+                .Select(xx => new {
+                    Quantity = xx.Sum(y => y.Qty),
+                    description = xx.Key.Itemname
+                }).OrderByDescending(x => x.Quantity);
+
+            if (error != "" || rm == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Report Is Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
+            if (result.Count() < 6)
+                return Ok(result);
+            else
+                return Ok(result.Take(5));
+        }
+
+
         // end hwy
 
 

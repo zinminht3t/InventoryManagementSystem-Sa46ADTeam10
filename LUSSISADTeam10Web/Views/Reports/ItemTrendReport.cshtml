@@ -1,0 +1,225 @@
+﻿@model LUSSISADTeam10Web.Models.Report.ItemTrendAnalysisViewModel
+
+@{
+    ViewBag.Title = "ItemTrendAnalysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1><b>Item Trend Analysis</b></h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action(" Index", "HOD" )">Dashboard</a></li>
+                    <li class="active">Item Trend Analysis</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            @*<div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title"> Title Here </strong>
+                </div>*@
+            <div class="card-body">
+
+                <br />
+
+                <div class="row">
+                    <div class="col-3">Select Your Month</div>
+                    <div class="col-6">
+                        <select name="month" class="form-control">
+                            @{ foreach (var item in ViewBag.catlist)
+                                    {
+                                <option value="@item.Catid">@item.Name</option>
+                                    } }
+                        </select>
+
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-3">Select 1<sup>st</sup> Department </div>
+                    <div class="col-6">
+                        <select name="d1" class="form-control">
+
+                            @{
+
+
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
+
+                                <option asp-for="ItemTrendAnalysis"
+                                        value="@item.Deptid" class="ifrm-check-input">
+                                    @item.Deptname
+                                </option>
+                                    }
+
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-3">Select 2<sup>nd</sup> Department </div>
+                    <div class="col-6">
+                        <select name="d2" class="form-control">
+                            @{
+
+
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
+
+                                <option asp-for="ItemTrendAnalysis"
+                                        value="@item.Deptid" class="ifrm-check-input">
+                                    @item.Deptname
+                                </option>
+                                    }
+
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-3">Select 3<sup>rd</sup> Department </div>
+                    <div class="col-6">
+                        <select name="d3" class="form-control">
+                            @{
+                                    foreach (var item in ViewBag.deptlist)
+                                    {
+
+                                <option asp-for="ItemTrendAnalysis"
+                                        value="@item.Deptid" class="ifrm-check-input">
+                                    @item.Deptname
+                                </option>
+                                    }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <button id="btnGenerate">Generate</button>
+                </div>
+                <div>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // to built plain chart
+            var datasets = [0, 0, 0];
+            var lbls = ['1<sup>st</sup> Department', '2<sup>nd</sup> Department', '3<sup>rd</sup> Department'];
+
+            var months = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
+            var ctx = document.getElementById("myChart");
+            var data = {
+                labels: lbls,
+                datasets: [
+                    {
+                        label: months[ @DateTime.Today.Month-3 ],
+                        backgroundColor: 'rgba(247, 55, 42, 0.45)',
+                        borderColor: 'rgba(247, 55, 42, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    },
+                    {
+                        label: months[ @DateTime.Today.Month-2 ],
+                        backgroundColor: 'rgba(58, 175, 169, 0.45)',
+                        borderColor: 'rgba(58, 175, 169, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    },
+                    {
+                        label: months[ @DateTime.Today.Month-1 ],
+                        backgroundColor: 'rgba(77, 31, 132, 0.45)',
+                        borderColor: 'rgba(77, 31, 132, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    }
+                ]
+            };
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    barValueSpacing: 20,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                minRotation: 0,
+                                maxRotation: 0
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+            $(document).on('click', "#btnGenerate", function data () {
+                var req = { d1: 1, d2: 2, d3: 3, catid: 3};
+
+                var urls = '@Url.Action("GetItemTrendData", "Reports")';
+
+                $.ajax({
+                    type: "POST",
+                    url: urls,
+                    data: JSON.stringify(req),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (err) {
+                        alert('Error: ' + err.statusText);
+                    },
+                    success: function (result) {
+                        myBarChart.data.datasets[0].data = result["d1"];
+                        myBarChart.data.datasets[1].data = result["d2"];
+                        myBarChart.data.datasets[2].data = result["d3"];
+                    },
+                    async: false,
+                    processData: false
+                });
+                myBarChart.update();
+            });
+        });
+    </script>
+}
