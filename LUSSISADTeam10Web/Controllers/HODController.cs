@@ -305,6 +305,17 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
+                
+                if(reqm.Status == ConRequisition.Status.APPROVED)
+                {
+
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Already Approved Requisiton!";
+                    Session["notimessage"] = "This requisition has already been approved!";
+                    return RedirectToAction("Index", "Home");
+                }
+
                 ViewBag.RequisitionModel = reqm;
                 viewmodel.ReqID = reqm.Reqid;
             }
