@@ -921,16 +921,18 @@ namespace LUSSISADTeam10Web.Controllers
             invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
 
             adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
-
-            foreach (AdjustmentModel ad in adj)
+            if (adj != null)
             {
-                foreach (AdjustmentDetailModel add in ad.Adjds)
+                foreach (AdjustmentModel ad in adj)
                 {
-                    //To display Inventory stock & Counted stock  
-                    add.IssueDate = (DateTime)ad.Issueddate;
-                    add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
-                    add.Adjustedqty += (int)add.Stock;
-                    adjdetail.Add(add);
+                    foreach (AdjustmentDetailModel add in ad.Adjds)
+                    {
+                        //To display Inventory stock & Counted stock  
+                        add.IssueDate = (DateTime)ad.Issueddate;
+                        add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
+                        add.Adjustedqty += (int)add.Stock;
+                        adjdetail.Add(add);
+                    }
                 }
             }
             ViewBag.AdjustmentDetailModel = adjdetail;
