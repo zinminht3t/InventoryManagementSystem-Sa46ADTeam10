@@ -95,32 +95,42 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 //get pending status adjustments
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-                foreach (AdjustmentModel ad in adjlist)
+                if (adjlist != null)
                 {
-                    //to divide according to raised to user role
-                    ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
-                    foreach (AdjustmentDetailModel adj in ad.Adjds)
+                    foreach (AdjustmentModel ad in adjlist)
                     {
-                        try
+                        //to divide according to raised to user role
+                        ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
+                        foreach (AdjustmentDetailModel adj in ad.Adjds)
                         {
-                            //to show each item adjusted price and total pirce of adjustment form
-                            supp = APISupplier.GetOneSupplierItemByItemId(adj.Itemid, token, out error);
-                            adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
-                            ad.TotalPrice += adj.Price;
-                        }
-                        catch (Exception)
-                        {
-                            if (supp == null) ad.TotalPrice += 0;
+                            try
+                            {
+                                //to show each item adjusted price and total pirce of adjustment form
+                                supp = APISupplier.GetOneSupplierItemByItemId(adj.Itemid, token, out error);
+                                adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
+                                ad.TotalPrice += adj.Price;
+                            }
+                            catch (Exception)
+                            {
+                                if (supp == null) ad.TotalPrice += 0;
+                            }
                         }
                     }
+                    ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
+                    adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
                 }
+                else
+                {
+                    adjlist = new List<AdjustmentModel>();
+                    ViewBag.manager = adjlist;
+                }
+
             }
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
-            ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
-            adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
+                   
             return View(adjlist);
         }
         [Authorize(Roles = "Supervisor")]
