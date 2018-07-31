@@ -934,8 +934,13 @@ namespace LUSSISADTeam10Web.Controllers
                         adjdetail.Add(add);
                     }
                 }
+                ViewBag.AdjustmentDetailModel = adjdetail;
             }
-            ViewBag.AdjustmentDetailModel = adjdetail;
+            else
+            {
+                ViewBag.AdjustmentDetailModel = new List<AdjustmentDetailModel>();
+            }
+            
             TempData["inventories"] = invtdetail;
 
             return View(invtdetail);
@@ -1003,7 +1008,7 @@ namespace LUSSISADTeam10Web.Controllers
                     InventoryDetailModel inv = new InventoryDetailModel();
                     inv = invent.Where(x => x.Invid == InvID[i]).FirstOrDefault();
                     inv.Current = Current[i];
-                    if ((inv.Current - (int)inv.Stock) > 0) {
+                    if ((inv.Current - (int)inv.Stock) != 0) {
                      AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                             adjust.Adjds.Add(adjd);
                     }

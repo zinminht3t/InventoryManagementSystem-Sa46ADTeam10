@@ -160,6 +160,7 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.APPROVED, out string error);
+                if(adjlist != null) { 
                 foreach (AdjustmentModel ad in adjlist)
                 {
                     foreach (AdjustmentDetailModel add in ad.Adjds)
@@ -168,13 +169,25 @@ namespace LUSSISADTeam10Web.Controllers
                         add.Price = supp.Price * Math.Abs(add.Adjustedqty);
                         ad.TotalPrice += add.Price;
                     }
+                }                   
                 }
+                TempData["history"] = adjlist;
             }
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+
+            
             return View(adjlist);
+        }
+        [Authorize(Roles = "Manager, Supervisor")]
+        public ActionResult HistoryDetail(int id)
+        {
+            List<AdjustmentModel> adjlist = TempData["history"] as List<AdjustmentModel>;
+            AdjustmentModel ajm = adjlist.Where(x => x.Adjid == id).FirstOrDefault();
+            ViewBag.adjustment = ajm;
+            return View(ajm.Adjds);
         }
         #endregion
 

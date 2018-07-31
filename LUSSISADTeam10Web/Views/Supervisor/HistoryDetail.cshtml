@@ -1,0 +1,98 @@
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.AdjustmentDetailModel>
+
+@{
+    ViewBag.Title = "HistoryDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Adjustment History Detail Form</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 hideinmobile">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li class="active">Adjustment History Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History Detail</h5><br /><br/>
+                <table style="border:hidden;" class="col-lg-4">
+                    <tr style="height:40px">
+                        <td style="font-weight:600">Issued Date</td><td>:</td>
+                        <td>
+                            @Convert.ToDateTime(@ViewBag.adjustment.Issueddate).ToString("dd/MM/yyyy")
+                        </td>
+                    </tr>
+                    <tr style="height:40px">
+                        <td style="font-weight:600">Reported By</td><td>:</td>
+                        <td>@ViewBag.adjustment.Raisedbyname</td>
+                    </tr>
+                      <tr style="height:40px">
+                        <td style="font-weight:600">Reported To</td><td>:</td>
+                        <td>@ViewBag.adjustment.Raisedtoname</td>
+                    </tr>
+                    <tr style="height:40px">
+                        <td style="font-weight:600">Total Price </td><td>:</td>
+                        <td>$@ViewBag.adjustment.TotalPrice</td>
+                    </tr>
+                </table>
+                <br/><br/>
+
+                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                    <thead class="table-info">
+                        <tr>
+                            <th>Category</th>
+                            <th>Item</th>
+                            <th>Adjusted Qty</th>
+                            <th>UOM</th>
+                            <th>Price</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Itemdescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adjustedqty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        $@Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reason)
+                    </td>
+                </tr>
+}
+                    </tbody>
+                </table>
+                <br />
+                @Html.ActionLink("Back", "History")
+            </div>
+            </div>
+        </div>
+    </div>

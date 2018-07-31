@@ -9,7 +9,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Adjustment Form</h1>
+                <h1>Adjustments History Form</h1>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Manager")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li class="active">History</li>
                 </ol>
             </div>
@@ -30,100 +30,55 @@
         <div class="card">
 
             <div class="card-body">
-                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustment History </h5><br />
-                <div class="card card-body">
-                    <table id="table" class="paginated">
-                        <tr style="background-color:lightblue;height:45px">
-                            <th></th>
-                            <th>
-                                Issued Date
-                            </th>
-                            <th>
-                                Reported By
-                            </th>
-                            <th>
-                                Reported To
-                            </th>
-                            <th>
-                                Total
-                            </th>
-                            <th></th>
-                        </tr>
-                        @foreach (var item in Model)
-                        {
-                            <tr style="height:40px" class="header">
-                                <td><span class="sign"></span></td>
-                                <td>
-                                    @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Raisedbyname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Raisedtoname)
-                                </td>
-                                <td>
-                                    $@Html.DisplayFor(modelItem => item.TotalPrice)
-                                </td>
-                                <td></td>
+                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-history fa-3x"></i><br /> Adjustments History </h5><br />
+                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <thead class="table-info">
+                            <tr>
+                                <th>
+                                    Issued Date
+                                </th>
+                                <th>
+                                    Reported By
+                                </th>
+                                <th>
+                                    Reported To
+                                </th>
+                                <th>
+                                    Total Price
+                                </th>
+                                <th>
+                                    Detail
+                                </th>
                             </tr>
-                            <tr style="height:40px;background-color:aliceblue">
-                                <th class="hideinmobile">Category</th>
-                                <th>Item</th>
-                                <th>Adjusted Qty</th>
-                                <th class="hideinmobile">UOM</th>
-                                <th>Price</th>
-                                <th class="hideinmobile">Reason</th>
-                            </tr>
-                            foreach (var i in item.Adjds)
-                            {
-                                <tr style="border:hidden;width:inherit;height:40px;background-color:aliceblue">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => i.CategoryName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => i.Itemdescription)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => i.Adjustedqty)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => i.UOM)
-                                    </td>
-                                    <td>
-                                        $@Html.DisplayFor(modelItem => i.Price)
-                                    </td>
-                                    <td>
-                                        @if (i.Reason == "" || i.Reason == null)
-                                        {
-                                            i.Reason = "_";
-                                        }
-                                        @Html.DisplayFor(modelItem => i.Reason)
-                                    </td>
-                                </tr>
-                            }
-                        }
-
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+        {
+                    <tr>
+                        <td>
+                            @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Raisedbyname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Raisedtoname)
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.TotalPrice)
+                        </td>
+                        <td>
+                            <div class="col-md-3">
+                                <a href="@Url.Action("HistoryDetail", new {id= item.Adjid})">
+                                        <span class="ti-notepad text-info fa-2x" align="center"></span>
+                                    </a>
+                            </div>
+                        </td>
+                    </tr>
+}
+                        </tbody>
                     </table>
-                    <div class="col-sm-12 col-md-7">
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-@section Scripts {
-    <link href="~/Styles/css/collapse-row.css" rel="stylesheet" />
-    <script src="~/Styles/Scripts/pagination.js"></script>
-    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
-
-    <script src="jquery.min.js"></script>
-    <script src="eFreezeTable.js"></script>
-
-    <script>
-        $('.header').click(function () {
-            $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
-        });;
-    </script>
-}

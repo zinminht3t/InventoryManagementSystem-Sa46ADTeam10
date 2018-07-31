@@ -120,7 +120,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 if(reqms != null)
                 {
-                    reqms = reqms.Where(x => x.Status >= ConRequisition.Status.APPROVED).ToList();
+                    reqms = reqms.Where(x => x.Status >= ConRequisition.Status.APPROVED && x.Status <= ConRequisition.Status.DELIVERED).ToList();
                 }
 
 
