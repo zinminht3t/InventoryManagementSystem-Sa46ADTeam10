@@ -55,33 +55,33 @@
 
                                         @{int k = 0;}
                                         @{int l = 0;}
-                                        <div class="panel-group" id="accordionp_@l" role="tablist">
+                                        <div class="panel-group" id="accordionp1_@l" role="tablist">
                                             <div class="panel panel-default">
-                                                <div class="panel-heading" role="tab" id="ppanel_@l">
+                                                <div class="panel-heading" role="tab" id="ppanel1_@l">
                                                     <h4 class="panel-title">
-                                                        <a class="text-info" data-toggle="collapse" data-parent="#accordionp_@l" data-target="#collapseTwo_@l" href="#collapseTwo_@l" aria-expanded="true" aria-controls="accordionp_@j">
-                                                            Pending Approvals Adjustments
+                                                        <a class="text-info" data-toggle="collapse" data-parent="#accordionp1_@l" data-target="#collapseTwo1_@l" href="#collapseTwo1_@l" aria-expanded="true" aria-controls="accordionp1_@l">
+                                                            Adjustments Repoted to Manager  
                                                         </a>
                                                     </h4>
                                                 </div>
                                                 <hr />
-                                                <div id="collapseTwo_@l" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseTwo_@l">
+                                                <div id="collapseTwo1_@l" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseTwo1_@l">
                                                     <div class="panel-body">
                                                         <div class="container">
                                                             @foreach (var item in ViewBag.manager)
                                                             {
-                                                                <div class="panel-group" id="accordion_@k" role="tablist">
+                                                                <div class="panel-group" id="accordion2_@k" role="tablist">
                                                                     <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                                                                        <div class="panel-heading" role="tab" id="panel_@k">
+                                                                        <div class="panel-heading" role="tab" id="panel2_@k">
                                                                             <h4 class="panel-title">
 
-                                                                                <a class="text-info" data-toggle="collapse" data-parent="#accordion_@k" data-target="#collapseOne_@k" href="#collapseOne_@k" aria-expanded="true" aria-controls="accordion_@i">
+                                                                                <a class="text-info" data-toggle="collapse" data-parent="#accordion2_@k" data-target="#collapseOne2_@k" href="#collapseOne2_@k" aria-expanded="true" aria-controls="accordion2_@k">
                                                                                     Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                                                                 </a>
                                                                             </h4>
                                                                         </div>
 
-                                                                        <div id="collapseOne_@k" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne_@k">
+                                                                        <div id="collapseOne2_@k" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne2_@k">
                                                                             <div class="panel">
                                                                                 <hr />
                                                                                 <h6>Reported By :  @item.Raisedbyname </h6><br />
