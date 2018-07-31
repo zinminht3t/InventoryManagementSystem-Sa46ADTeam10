@@ -1,0 +1,323 @@
+﻿@model LUSSISADTeam10Web.Models.Report.ItemTrendAnalysisViewModel
+
+@{
+    ViewBag.Title = "ItemTrendAnalysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        #report-form select {
+            font-size: 12px !important;
+        }
+
+        .hideatstart {
+            visibility: hidden;
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printpdf, #printpdf * {
+                visibility: visible;
+            }
+
+            #printpdf {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+        }
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1><b>Item Trend Analysis</b></h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="@Url.Action(" Index", "HOD" )">Dashboard</a></li>
+                    <li class="active">Item Trend Analysis</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="card">
+            @*<div class="card-header">
+                    <i class="mr-2 fa fa-align-justify"></i>
+                    <strong class="card-title"> Title Here </strong>
+                </div>*@
+            <div class="card-body">
+
+                <div class="row" id="report-form">
+                    <div class="col-3">
+                        <label for="category" class="text-info">Category : </label>
+                        <select name="category" autofocus id="catselect" onchange="CallChart()" class="form-control">
+                            <option value="">Select Category</option>
+                            @{ foreach (var item in ViewBag.catlist)
+                                {
+                                    <option value="@item.Catid">@item.Name</option>
+                                } }
+                        </select>
+
+
+                    </div>
+
+                    <div class="col-3">
+                        <label for="d1" class="text-info">1<sup>st</sup> Department : </label>
+                        <select name="d1" id="d1select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 1st Department</option>
+                            @{
+                                foreach (var item in ViewBag.deptlist)
+                                {
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.Deptid" class="ifrm-check-input">
+                                        @item.Deptname
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-3">
+                        <label for="d2" class="text-info">2<sup>nd</sup> Department : </label>
+                        <select name="d2" id="d2select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 2nd Department</option>
+                            @{
+                                foreach (var item in ViewBag.deptlist)
+                                {
+
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.Deptid" class="ifrm-check-input">
+                                        @item.Deptname
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label for="d3" class="text-info">3<sup>rd</sup> Department : </label>
+                        <select name="d3" id="d3select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 3rd Department</option>
+                            @{
+                                foreach (var item in ViewBag.deptlist)
+                                {
+
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.Deptid" class="ifrm-check-input">
+                                        @item.Deptname
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <hr />
+
+
+                <div class="row" id="printpdf">
+                    <div class="col-md-12">
+                        <h4 class="hideatstart text-info text-center" id="reporttitle"> </h4>
+                        <br />
+                        <canvas id="myChart" class="center-block"></canvas>
+                        <br />
+                        <table class="table table-bordered table-hover hideatstart">
+                            <thead>
+                                <tr>
+                                    <th>Months</th>
+                                    <th id="dept1"></th>
+                                    <th id="dept2"></th>
+                                    <th id="dept3"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr id="row1"></tr>
+                                <tr id="row2"></tr>
+                                <tr id="row3"></tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+
+        $('select').on('change', function (event) {
+            var prevValue = $(this).data('previous');
+            $('select').not(this).find('option[value="' + prevValue + '"]').show();
+            var value = $(this).val();
+            $(this).data('previous', value);
+            $('select').not(this).find('option[value="' + value + '"]').hide();
+        });
+
+
+        function CallChart() {
+            var cv = $("#catselect").val();
+            var ct = $("#catselect :selected").text();
+            var d1v = $("#d1select").val();
+            d1t = $("#d1select :selected").text();
+            var d2v = $("#d2select").val();
+            d2t = $("#d2select :selected").text();
+            var d3v = $("#d3select").val();
+            d3t = $("#d3select :selected").text();
+
+            if (cv != "" && d1v != "" && d2v != "" && d3v != "") {
+
+                document.getElementById("reporttitle").style.display = "block";
+                var x = document.getElementsByClassName("hideatstart");
+                var i;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.visibility = 'visible';
+                }
+                $('#reporttitle').html("Item Trend Analysis for " + ct + " Category between " + d1t + "," + d2t + " and " + d3t);
+                $('#dept1').html(d1t);
+                $('#dept2').html(d2t);
+                $('#dept3').html(d3t);
+
+                chartData(d1v, d2v, d3v, cv, $.trim(d1t), $.trim(d2t), $.trim(d3t));
+            }
+        }
+
+            $("#btnGenerate").click(function () {
+                chartData(2, 4, 6, 3, 'dept1', 'dept2', 'dept3');
+            });
+
+            // to built plain chart
+            var datasets = [0, 0, 0];
+            var lbls = ['1<sup>st</sup> Department', '2<sup>nd</sup> Department', '3<sup>rd</sup> Department'];
+
+            var months = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
+            var ctx = document.getElementById("myChart");
+            var data = {
+                labels: lbls,
+                datasets: [
+                    {
+                        label: months[ @DateTime.Today.Month-3 ],
+                        backgroundColor: 'rgba(247, 55, 42, 0.45)',
+                        borderColor: 'rgba(247, 55, 42, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    },
+                    {
+                        label: months[ @DateTime.Today.Month-2 ],
+                        backgroundColor: 'rgba(58, 175, 169, 0.45)',
+                        borderColor: 'rgba(58, 175, 169, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    },
+                    {
+                        label: months[ @DateTime.Today.Month-1 ],
+                        backgroundColor: 'rgba(77, 31, 132, 0.45)',
+                        borderColor: 'rgba(77, 31, 132, 1)',
+                        borderWidth: 1,
+                        data: datasets
+                    }
+                ]
+            };
+
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    barValueSpacing: 20,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                minRotation: 0,
+                                maxRotation: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            ctx.style.display = "none";
+
+
+
+            function chartData (d1, d2, d3, catid, deptlbl1, deptlbl2, deptlbl3) {
+                var req = { d1: d1, d2: d2, d3: d3, catid: catid};
+
+                var urls = '@Url.Action("GetItemTrendData", "Reports")';
+
+                $.ajax({
+                    type: "POST",
+                    url: urls,
+                    data: JSON.stringify(req),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (err) {
+                        alert('Error: ' + err.statusText);
+                    },
+                    success: function (result) {
+                        myBarChart.data.labels = [deptlbl1, deptlbl2, deptlbl3];
+                        myBarChart.data.datasets[0].data = result["d1"];
+                        myBarChart.data.datasets[1].data = result["d2"];
+                        myBarChart.data.datasets[2].data = result["d3"];
+
+                        var tds = "<td>" + "@DateTime.Today.AddMonths(-2).ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["d1"].length; row++) {
+                            tds += "<td>" + result["d1"][row] +"</td>"
+                        }
+                        $('#row1').html(tds);
+
+                        var tds = "<td>" + "@DateTime.Today.AddMonths(-1).ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["d2"].length; row++) {
+                            tds += "<td>" + result["d2"][row] +"</td>"
+                        }
+                        $('#row2').html(tds);
+
+                        var tds = "<td>" + "@DateTime.Today.ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["d3"].length; row++) {
+                            tds += "<td>" + result["d3"][row] +"</td>"
+                        }
+                        $('#row3').html(tds);
+                    },
+                    async: false,
+                    processData: false
+                });
+                ctx.style.display = "block";
+                myBarChart.update();
+            };
+    </script>
+}
