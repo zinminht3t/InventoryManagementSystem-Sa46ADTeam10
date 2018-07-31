@@ -206,8 +206,7 @@ namespace LUSSISADTeam10API.Repositories
                     if (price >= ConAdjustment.Active.REPORTMANAGER)
                     {
                         user user = entities.users.Where(u => u.role == ConUser.Role.MANAGER).First();
-                        adj.raisedto = user.userid;
-                        break;
+                        adj.raisedto = user.userid;                       
                     }
                     else
                     {
