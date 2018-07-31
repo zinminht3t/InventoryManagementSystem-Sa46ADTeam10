@@ -111,6 +111,7 @@ namespace LUSSISADTeam10Web.Controllers
                     }
                    
                 }
+                    //separate adjustment pending list by reported to roles (supervisor/manager)
                     ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
                     adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
                 }

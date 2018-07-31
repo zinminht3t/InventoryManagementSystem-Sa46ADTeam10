@@ -32,13 +32,14 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "Supervisor")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li class="active"><a href="@Url.Action("Approval","Supervisor")">Pending Approval</a></li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
+
 <div class="content mt-3">
     <div class="animated fadeIn">
 
@@ -246,6 +247,7 @@
                                                                                     </tr>
                                                                                 </table>
                                                                                 <br /><br />
+
                                                                                 <div class="text-sm-center">
 
                                                                                     <table class="table table-bordered table-hover">
@@ -320,22 +322,6 @@
             </div>
         </div>
     </div>
-
-    @section Scripts {
+    </div>
 
         <link href="~/Styles/css/accordion.css" rel="stylesheet" />
-
-        <link href="~/Styles/css/collapse-row.css" rel="stylesheet" />
-        <script src="~/Styles/Scripts/pagination.js"></script>
-        <link href="~/Styles/css/accordion.css" rel="stylesheet" />
-
-        <script src="jquery.min.js"></script>
-        <script src="eFreezeTable.js"></script>
-
-        <script>
-            $('.header').click(function () {
-                $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
-            });;
-        </script>
-
-    }
