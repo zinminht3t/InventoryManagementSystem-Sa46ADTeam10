@@ -42,7 +42,6 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
 
-
             CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
             ViewBag.RepName = CurrentRep.Fullname;
             if(ViewBag.RepName == null)
@@ -617,6 +616,20 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return RedirectToAction("SearchPreviousDelegation");
+        }
+
+        [HttpPost]
+        public JsonResult GetChartData()
+        {
+            string error = "";
+            string token = GetToken();
+            UserModel um = GetUser();
+            var result = APIReport.GetFrequentItemsHod(token, um.Deptid, out error);
+            return Json(new
+            {
+                labels = result.Select(x => x.description).ToArray(),
+                data = result.Select(x => x.Quantity).ToArray()
+            }, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

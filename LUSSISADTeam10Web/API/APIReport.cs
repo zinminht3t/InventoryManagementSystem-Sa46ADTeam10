@@ -48,7 +48,12 @@ namespace LUSSISADTeam10Web.API
             return rlm;
         }
 
-
+        public static List<FrequentItemHodModel> GetFrequentItemsHod(string token, int deptid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/frequentlyordered5hod/" + deptid;
+            List<FrequentItemHodModel> fihms = APIHelper.Execute<List<FrequentItemHodModel>>(token, url, out error);
+            return fihms;
+        }
         public static List<MonthlyItemUsageByClerkModel> ItemUsageByClerk(string token, out string error, int suppliername1, int suppliername2, int suppliername3)
         {
             string url = APIHelper.Baseurl + "/ItemUsageByClerk/"+suppliername1+"/"+suppliername2+"/"+suppliername3;

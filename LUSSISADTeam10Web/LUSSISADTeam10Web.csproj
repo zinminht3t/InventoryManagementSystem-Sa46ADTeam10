@@ -171,6 +171,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\FrequentItemHodModel.cs" />
     <Compile Include="APIModels\ItemUsageModel.cs" />
     <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
