@@ -180,7 +180,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 // get inventory list from database
-                List<inventory> invs = entities.inventories.ToList<inventory>();
+                List<inventory> invs = entities.inventories.Where(x => x.item.itemid == (x.item.supplieritems.FirstOrDefault().itemid)).ToList<inventory>();
                 staticcount = 1;
                 staticpoms = PurchaseOrderRepo.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, out error);
                 // convert the DB Model list to API Model list for inv detail
