@@ -31,7 +31,7 @@ namespace LUSSISADTeam10Web.Controllers
                     {
                         return RedirectToAction("Approve", "Supervisor");
                     }
-                    else if (notim.Role == ConUser.Role.SUPERVISOR)
+                    else if (notim.Role == ConUser.Role.MANAGER)
                     {
                         return RedirectToAction("Approve", "Manager");
                     }

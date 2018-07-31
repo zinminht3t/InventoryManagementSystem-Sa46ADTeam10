@@ -104,12 +104,18 @@
                                                     case 4:
                                                         <span>Ready to Collect</span>
                                                         break;
+                                                    case 5:
+                                                        <span>Completed</span>
+                                                        break;
+                                                    case 6:
+                                                        <span>Completed</span>
+                                                        break;
                                                 }
                                             </td>
                                             <td>
                                                 @if (item.Status > 1)
                                                 {
-                                                    <a href="@Url.Action("ApproveRequisition", "HOD", new { id = item.Reqid })" class="btn btn-outline-info"><i class="fa fa-check"></i> Approve</a>
+                                                    <a href="@Url.Action("TrackRequisition", "Employee", new { id = item.Reqid }, null)" class="btn btn-outline-info"><i class="fa fa-location-arrow"></i> Track</a>
                                                 }
                                             </td>
 

@@ -1234,7 +1234,6 @@
     <Content Include="Views\Supervisor\Index.cshtml" />
     <Content Include="Views\HOD\Index.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\DepartmentRep\Index.cshtml" />
     <Content Include="Styles\css\bootstrap.css.map" />
     <Content Include="Styles\css\bootstrap.min.css.map" />
     <Content Include="Styles\css\style.css.map" />
@@ -1351,14 +1350,12 @@
     <Content Include="Styles\scss\_switches.scss" />
     <Content Include="Styles\scss\_widgets.scss" />
     <Content Include="Views\Employee\EmpDashboard.cshtml" />
-    <Content Include="Views\Employee\DepartmentRep\DeptRepDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\HOD\RequisitionsList.cshtml" />
     <Content Include="Views\HOD\TrackRequisition.cshtml" />
     <Content Include="Views\HOD\CollectionPoint.cshtml" />
-    <Content Include="Views\HOD\ToCopy.cshtml" />
     <Content Include="Views\HOD\OrderHistory.cshtml" />
     <Content Include="Views\HOD\RequisitionDetail.cshtml" />
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
@@ -1389,7 +1386,6 @@
     <Content Include="Views\Clerk\DisbursementDetail.cshtml" />
     <Content Include="Views\Clerk\ItemTran.cshtml" />
     <Content Include="Views\Clerk\SearchByTransDate.cshtml" />
-    <Content Include="Views\HOD\Chart.cshtml" />
     <Content Include="Views\Supervisor\History.cshtml" />
     <Content Include="Views\Clerk\GetSupplierLists.cshtml" />
     <Content Include="Views\Clerk\PurchaseOrder.cshtml" />
@@ -1404,15 +1400,9 @@
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
     <Content Include="Views\Clerk\Test.cshtml" />
     <Content Include="Views\Home\GetNotifications.cshtml" />
-    <Content Include="Views\Reports\ItemTrendAnalysis.cshtml" />
-    <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
-    <Content Include="Views\Reports\testing.cshtml" />
-    <Content Include="Views\Reports\testingview.cshtml" />
-    <Content Include="Views\Reports\RequisitionList.cshtml" />
     <Content Include="Views\Clerk\EditImportItem.cshtml" />
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
     <Content Include="Views\Reports\ItemTrendAnalysisReport.cshtml" />
-    <Content Include="Views\Reports\ItemTrendReport.cshtml" />
     <Content Include="Views\Reports\ItemUsageReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1422,7 +1412,6 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
-    <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
