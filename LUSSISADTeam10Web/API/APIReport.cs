@@ -17,6 +17,14 @@ namespace LUSSISADTeam10Web.API
             return poList;
         }
 
+        // Item Usage Report
+        public static List<ItemUsageModel> GetItemUsage(string token, int s1, int s2, int s3, int itemid, out string error)
+        {
+            string url = APIHelper.Baseurl + "/itemusage/" + s1 + "/" + s2 + "/" + s3 + "/" + itemid; 
+            List<ItemUsageModel> iums = APIHelper.Execute<List<ItemUsageModel>>(token, url, out error);
+            return iums;
+        }
+
         // Item Trend report
         public static List<TrendAnalysisModel> GetItemTrendsByDeptCategory(string token, int d1, int d2, int d3, int catid, out string error)
         {
@@ -88,7 +96,6 @@ namespace LUSSISADTeam10Web.API
             List<FrequentlyTop5ItemsModel> ftopit = APIHelper.Execute<List<FrequentlyTop5ItemsModel>>(token, url, out error);
             return ftopit;
         }
-
 
         public static List<OrderByDepartmentModel> OrderByDepartment(string token, out string error)
         {
