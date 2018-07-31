@@ -7,6 +7,29 @@
 
 @section Styles {
     <style>
+        #report-form select {
+            font-size: 12px !important;
+        }
+
+        .hideatstart {
+            visibility: hidden;
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printpdf, #printpdf * {
+                visibility: visible;
+            }
+
+            #printpdf {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+        }
     </style>
 }
 
@@ -14,7 +37,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1><b>Item Trend Analysis</b></h1>
+                <h1><b>Item Usage Report</b></h1>
             </div>
         </div>
     </div>
@@ -22,8 +45,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action(" Index", "Clerk" )">Dashboard</a></li>
-                    <li class="active">Item Trend Analysis</li>
+                    <li><a href="@Url.Action(" Index", "Home" )">Dashboard</a></li>
+                    <li class="active">Item Usage Report</li>
                 </ol>
             </div>
         </div>
@@ -35,81 +58,60 @@
 
 
         <div class="card">
-            @*<div class="card-header">
-                    <i class="mr-2 fa fa-align-justify"></i>
-                    <strong class="card-title"> Title Here </strong>
-                </div>*@
             <div class="card-body">
 
-                <br />
-
-                <div class="row">
-                    <div class="col-3">Select Your Month</div>
-                    <div class="col-6">
-                        <select name="month" class="form-control">
+                <div class="row" id="report-form">
+                    <div class="col-3">
+                        <label for="category" class="text-info">Item : </label>
+                        <select name="category" autofocus id="catselect" onchange="CallChart()" class="form-control">
+                            <option value="">Select Item</option>
                             @{ foreach (var item in ViewBag.ilist)
                                 {
                                     <option value="@item.Itemid">@item.Description</option>
                                 } }
                         </select>
 
+
                     </div>
-                </div>
 
-                <br />
-                <div class="row">
-                    <div class="col-3">Select 1<sup>st</sup> Supplier </div>
-                    <div class="col-6">
-                        <select name="d1" class="form-control">
-
+                    <div class="col-3">
+                        <label for="d1" class="text-info">1<sup>st</sup> Supplier : </label>
+                        <select name="d1" id="d1select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 1st Supplier</option>
                             @{
-
-
                                 foreach (var item in ViewBag.slist)
                                 {
-
                                     <option asp-for="ItemTrendAnalysis"
                                             value="@item.SupId" class="ifrm-check-input">
                                         @item.SupName
                                     </option>
                                 }
-
-
                             }
                         </select>
                     </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-3">Select 2<sup>nd</sup> Supplier </div>
-                    <div class="col-6">
-                        <select name="d2" class="form-control">
+
+                    <div class="col-3">
+                        <label for="d2" class="text-info">2<sup>nd</sup> Supplier : </label>
+                        <select name="d2" id="d2select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 2nd Supplier</option>
                             @{
-
-
                                 foreach (var item in ViewBag.slist)
                                 {
-
                                     <option asp-for="ItemTrendAnalysis"
                                             value="@item.SupId" class="ifrm-check-input">
                                         @item.SupName
                                     </option>
                                 }
-
-
                             }
                         </select>
                     </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-3">Select 3<sup>rd</sup> Supplier </div>
-                    <div class="col-6">
-                        <select name="d3" class="form-control">
+                    <div class="col-3">
+                        <label for="d3" class="text-info">3<sup>rd</sup> Supplier : </label>
+                        <select name="d3" id="d3select" onchange="CallChart()" class="form-control">
+                            <option value="" selected>Select 3rd Supplier</option>
                             @{
                                 foreach (var item in ViewBag.slist)
                                 {
-
                                     <option asp-for="ItemTrendAnalysis"
                                             value="@item.SupId" class="ifrm-check-input">
                                         @item.SupName
@@ -119,11 +121,41 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <button id="btnGenerate">Generate</button>
+                <br />
+                <hr />
+
+                <div class="row hideatstart">
+                    <div class="col-md-12">
+                        <button id="printbtn" class="btn btn-outline-info btn-sm pull-right"> <i class="ti-printer"></i> </button>
+                    </div>
                 </div>
-                <div>
-                    <canvas id="myChart"></canvas>
+
+
+                <div class="row" id="printpdf">
+                    <div class="col-md-12">
+                        <h4 class="hideatstart text-info text-center" id="reporttitle"> </h4>
+                        <br />
+                        <canvas id="myChart" class="center-block"></canvas>
+                        <br />
+                        <table class="table table-bordered table-hover hideatstart">
+                            <thead>
+                                <tr>
+                                    <th>Months</th>
+                                    <th id="dept1"></th>
+                                    <th id="dept2"></th>
+                                    <th id="dept3"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr id="row1"></tr>
+                                <tr id="row2"></tr>
+                                <tr id="row3"></tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,13 +167,57 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+
     <script type="text/javascript">
-        $(document).ready(function () {
+
+        $('#printbtn').click(function () {
+            window.print();
+        });
+
+
+        $('select').on('change', function (event) {
+            var prevValue = $(this).data('previous');
+            $('select').not(this).find('option[value="' + prevValue + '"]').show();
+            var value = $(this).val();
+            $(this).data('previous', value);
+            $('select').not(this).find('option[value="' + value + '"]').hide();
+        });
+
+
+        function CallChart() {
+            var cv = $("#catselect").val();
+            var ct = $("#catselect :selected").text();
+            var d1v = $("#d1select").val();
+            d1t = $("#d1select :selected").text();
+            var d2v = $("#d2select").val();
+            d2t = $("#d2select :selected").text();
+            var d3v = $("#d3select").val();
+            d3t = $("#d3select :selected").text();
+
+            if (cv != "" && d1v != "" && d2v != "" && d3v != "") {
+
+                document.getElementById("reporttitle").style.display = "block";
+                var x = document.getElementsByClassName("hideatstart");
+                var i;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.visibility = 'visible';
+                }
+                $('#reporttitle').html("Item Usage Report for " + ct + " Category between " + d1t + "," + d2t + " and " + d3t);
+                $('#dept1').html(d1t);
+                $('#dept2').html(d2t);
+                $('#dept3').html(d3t);
+
+                chartData(d1v, d2v, d3v, cv, $.trim(d1t), $.trim(d2t), $.trim(d3t));
+            }
+        }
+
+            $("#btnGenerate").click(function () {
+                chartData(2, 4, 6, 3, 'dept1', 'dept2', 'dept3');
+            });
 
             // to built plain chart
             var datasets = [0, 0, 0];
-            var lbls = ['Supplier1', 'Supplier2', 'Supplier3'];
+            var lbls = ['1<sup>st</sup> Department', '2<sup>nd</sup> Department', '3<sup>rd</sup> Department'];
 
             var months = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -152,27 +228,28 @@
                 datasets: [
                     {
                         label: months[ @DateTime.Today.Month-3 ],
-                        backgroundColor: 'rgba(128,201,190, 0.45)',
-                        borderColor: 'rgba(128,201,190, 1)',
+                        backgroundColor: 'rgba(247, 55, 42, 0.45)',
+                        borderColor: 'rgba(247, 55, 42, 1)',
                         borderWidth: 1,
                         data: datasets
                     },
                     {
                         label: months[ @DateTime.Today.Month-2 ],
-                        backgroundColor: 'rgba(72,105,127, 0.45)',
-                        borderColor: 'rgba(72,105,127, 1)',
+                        backgroundColor: 'rgba(58, 175, 169, 0.45)',
+                        borderColor: 'rgba(58, 175, 169, 1)',
                         borderWidth: 1,
                         data: datasets
                     },
                     {
                         label: months[ @DateTime.Today.Month-1 ],
-                        backgroundColor: 'rgba(233,151,144, 0.45)',
-                        borderColor: 'rgba(233,151,144, 1)',
+                        backgroundColor: 'rgba(77, 31, 132, 0.45)',
+                        borderColor: 'rgba(77, 31, 132, 1)',
                         borderWidth: 1,
                         data: datasets
                     }
                 ]
             };
+
             var myBarChart = new Chart(ctx, {
                 type: 'bar',
                 data: data,
@@ -195,14 +272,13 @@
             });
             ctx.style.display = "none";
 
-            $("#btnGenerate").click(function () {
-                chartData(2, 4, 6, 3, 'sup1', 'sup2', 'sup3');
-            });
 
-            function chartData (s1, s2, s3, itemid, suplbl1, suplbl2, suplbl3) {
-                var req = { s1: s1, s2: s2, s3: s3, item: itemid};
+
+            function chartData (s1, s2, s3, item, deptlbl1, deptlbl2, deptlbl3) {
+                var req = { s1: s1, s2: s2, s3: s3, item: item};
 
                 var urls = '@Url.Action("GetItemUsageData", "Reports")';
+
 
                 $.ajax({
                     type: "POST",
@@ -214,10 +290,28 @@
                         alert('Error: ' + err.statusText);
                     },
                     success: function (result) {
-                        myBarChart.data.labels = [suplbl1, suplbl2, suplbl3];
+                        myBarChart.data.labels = [deptlbl1, deptlbl2, deptlbl3];
                         myBarChart.data.datasets[0].data = result["s1"];
                         myBarChart.data.datasets[1].data = result["s2"];
                         myBarChart.data.datasets[2].data = result["s3"];
+
+                        var tds = "<td>" + "@DateTime.Today.AddMonths(-2).ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["s1"].length; row++) {
+                            tds += "<td>" + result["s1"][row] +"</td>"
+                        }
+                        $('#row1').html(tds);
+
+                        var tds = "<td>" + "@DateTime.Today.AddMonths(-1).ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["s2"].length; row++) {
+                            tds += "<td>" + result["s2"][row] +"</td>"
+                        }
+                        $('#row2').html(tds);
+
+                        var tds = "<td>" + "@DateTime.Today.ToString("MMMM")" + "</td>";
+                        for (row = 0; row < result["s3"].length; row++) {
+                            tds += "<td>" + result["s3"][row] +"</td>"
+                        }
+                        $('#row3').html(tds);
                     },
                     async: false,
                     processData: false
@@ -225,6 +319,5 @@
                 ctx.style.display = "block";
                 myBarChart.update();
             };
-        });
     </script>
 }
