@@ -91,6 +91,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 //get pending status adjustments
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
+                if(adjlist != null) { 
                 foreach(AdjustmentModel ad in adjlist)
                 {
                     //to divide according to raised to user role
@@ -109,6 +110,12 @@ namespace LUSSISADTeam10Web.Controllers
                         }
                     }
                    
+                }
+                }
+                else
+                {
+                    adjlist = new List<AdjustmentModel>();
+                    ViewBag.manager = adjlist;
                 }
             }
             catch (Exception ex)
