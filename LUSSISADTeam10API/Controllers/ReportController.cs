@@ -104,9 +104,8 @@ namespace LUSSISADTeam10API.Controllers
             List<FrequentlyTop5ItemsModel> fim = new List<FrequentlyTop5ItemsModel>();
             List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
             List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error)
-                .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
-                (x.Reqdate.Value >= DateTime.Today.AddMonths(-3) &&
-                x.Reqdate.Value <= DateTime.Today)).ToList();
+                .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year)
+                .Where(x => x.Reqdate.Value >= DateTime.Today.AddMonths(-3)).ToList();
             foreach (RequisitionModel x in rm)
             {
                 foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
