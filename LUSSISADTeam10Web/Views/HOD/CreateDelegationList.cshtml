@@ -137,16 +137,26 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(function () {
-            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker({
+                dateFormat: 'dd/mm/yy',
+                showAnim: 'slide',
+                disabled: true
+            });
+            $("#datepicker1").datepicker('setDate', null);
+            $("#datepicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                showAnim: 'slide',
+                onSelect: function (date) {
+                       $("#datepicker1").datepicker("option", "minDate", date);
+                    $('#datepicker1').datepicker("option", "disabled", false);
+                    $("#datepicker1").datepicker("option", "minDate", date);
+                    $('#datepicker1').datepicker('setDate', date);
+                    $("#datepicker1").datepicker("option", "maxDate", '+2y');
 
-            $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('option', { minDate: +0 });
-            $("#datepicker").datepicker('setDate', 'today')
-            $("#datepicker1").datepicker();
-            $("#datepicker1").datepicker('option', "showAnim", 'slide');
-            $("#datepicker1").datepicker('option', { minDate: +1 });
-            $("#datepicker1").datepicker('setDate', 'today + 1')
-
+                }
+            });
+            $("#datepicker").datepicker('setDate', 'today');
+            $("#datepicker").datepicker("option", { minDate: +0 });
         });
     </script>
 }

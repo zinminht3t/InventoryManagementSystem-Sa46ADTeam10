@@ -34,7 +34,7 @@
         @if (ViewBag.name == "")
         {
             <h5 class="text-info"> There is no previous delegation! </h5>
-        <br />
+            <br />
             <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  ">Create</a>
         }
         @if (ViewBag.name != "")
@@ -43,7 +43,7 @@
             {
 
                 <div class="card">
-                  
+
                     <div class="card-body">
                         <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a><br /><br />
                         <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Previous Delegation </h5><br />
@@ -77,9 +77,9 @@
                                 </td>
                             </tr>
                         </table>
-                        @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate });
-                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid });
-                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid });
+                        @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate })  
+                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid })
+                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
                         <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
                             Delete
                         </button>
@@ -96,11 +96,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
-</div>
+                </div>
                 <div class="modal-body">
                     <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
 
@@ -125,27 +125,27 @@
     <input type="hidden" id="HiddenDeleid" />
 
 </div>
-   
-
-    @section Scripts {
-     
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-       
 
 
-        <script>
+@section Scripts {
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+    <script>
         $(function () {
             $("#datepicker").datepicker();
 
             $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('option', { minDate: +0 });
+            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate');
             $("#datepicker").datepicker('setDate', '@ViewBag.Enddate')
 
 
         });
-        </script>
-        <script>
+    </script>
+    <script>
 
             var ConfirmDelete = function (Deleid) {
 
@@ -174,5 +174,5 @@
                 })
 
             }
-        </script>
-    }
+    </script>
+}
