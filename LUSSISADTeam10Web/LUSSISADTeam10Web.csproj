@@ -1404,15 +1404,9 @@
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
     <Content Include="Views\Clerk\Test.cshtml" />
     <Content Include="Views\Home\GetNotifications.cshtml" />
-    <Content Include="Views\Reports\ItemTrendAnalysis.cshtml" />
-    <Content Include="Views\Reports\ItemUsageByClerk.cshtml" />
-    <Content Include="Views\Reports\testing.cshtml" />
-    <Content Include="Views\Reports\testingview.cshtml" />
-    <Content Include="Views\Reports\RequisitionList.cshtml" />
     <Content Include="Views\Clerk\EditImportItem.cshtml" />
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
     <Content Include="Views\Reports\ItemTrendAnalysisReport.cshtml" />
-    <Content Include="Views\Reports\ItemTrendReport.cshtml" />
     <Content Include="Views\Reports\ItemUsageReport.cshtml" />
   </ItemGroup>
   <ItemGroup>

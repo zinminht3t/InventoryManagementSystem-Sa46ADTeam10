@@ -1,7 +1,7 @@
 ﻿@model LUSSISADTeam10Web.Models.Report.MonthlyItemUsageViewModel
 
 @{
-    ViewBag.Title = "Item Usage";
+    ViewBag.Title = "Item Usage Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -48,9 +48,9 @@
                     <div class="col-6">
                         <select name="month" class="form-control">
                             @{ foreach (var item in ViewBag.ilist)
-                                    {
-                                <option value="@item.Itemid">@item.Description</option>
-                                    } }
+                                {
+                                    <option value="@item.Itemid">@item.Description</option>
+                                } }
                         </select>
 
                     </div>
@@ -65,14 +65,14 @@
                             @{
 
 
-                                    foreach (var item in ViewBag.slist)
-                                    {
+                                foreach (var item in ViewBag.slist)
+                                {
 
-                                <option asp-for="ItemTrendAnalysis"
-                                        value="@item.SupId" class="ifrm-check-input">
-                                    @item.SupName
-                                </option>
-                                    }
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.SupId" class="ifrm-check-input">
+                                        @item.SupName
+                                    </option>
+                                }
 
 
                             }
@@ -87,14 +87,14 @@
                             @{
 
 
-                                    foreach (var item in ViewBag.slist)
-                                    {
+                                foreach (var item in ViewBag.slist)
+                                {
 
-                                <option asp-for="ItemTrendAnalysis"
-                                        value="@item.SupId" class="ifrm-check-input">
-                                    @item.SupName
-                                </option>
-                                    }
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.SupId" class="ifrm-check-input">
+                                        @item.SupName
+                                    </option>
+                                }
 
 
                             }
@@ -107,14 +107,14 @@
                     <div class="col-6">
                         <select name="d3" class="form-control">
                             @{
-                                    foreach (var item in ViewBag.slist)
-                                    {
+                                foreach (var item in ViewBag.slist)
+                                {
 
-                                <option asp-for="ItemTrendAnalysis"
-                                        value="@item.SupId" class="ifrm-check-input">
-                                    @item.SupName
-                                </option>
-                                    }
+                                    <option asp-for="ItemTrendAnalysis"
+                                            value="@item.SupId" class="ifrm-check-input">
+                                        @item.SupName
+                                    </option>
+                                }
                             }
                         </select>
                     </div>
