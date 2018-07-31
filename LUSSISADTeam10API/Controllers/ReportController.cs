@@ -84,7 +84,7 @@ namespace LUSSISADTeam10API.Controllers
                     description = xx.Key.Itemname
                 }).OrderByDescending(x => x.Quantity);
 
-            if (error != "" || rm == null)
+            if (error != "" || result == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Report Is Not Found");
@@ -103,9 +103,10 @@ namespace LUSSISADTeam10API.Controllers
             string error = "";
             List<FrequentlyTop5ItemsModel> fim = new List<FrequentlyTop5ItemsModel>();
             List<RequisitionDetailsModel> rdms = new List<RequisitionDetailsModel>();
-            List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error);
-                //.Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
-                //x.Reqdate.Value.Month ).ToList();
+            List<RequisitionModel> rm = RequisitionRepo.GetAllRequisitionwithDetails(out error)
+                .Where(x => x.Reqdate.Value.Year == DateTime.Today.Year &&
+                (x.Reqdate.Value >= DateTime.Today.AddMonths(-3) &&
+                x.Reqdate.Value <= DateTime.Today)).ToList();
             foreach (RequisitionModel x in rm)
             {
                 foreach (RequisitionDetailsModel xx in x.Requisitiondetails)
@@ -113,14 +114,24 @@ namespace LUSSISADTeam10API.Controllers
                     rdms.Add(xx);
                 }
             }
+            var result =
+                rdms.GroupBy(x => new { x.Itemid, x.Itemname })
+                .Select(xx => new FrequentlyTop5ItemsModel {
+                    Itemid = xx.Key.Itemid,
+                    Description = xx.Key.Itemname,
+                    Qty = xx.Sum(y => y.Qty)
+                }).OrderByDescending(x => x.Qty);
 
-            if (error != "" || fim == null)
+            if (error != "" || result == null)
             {
                 if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Report Is Not Found");
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            return Ok(fim);
+            if (result.Count() < 6)
+                return Ok(result);
+            else
+                return Ok(result.Take(5));
         }
 
         // end hwy

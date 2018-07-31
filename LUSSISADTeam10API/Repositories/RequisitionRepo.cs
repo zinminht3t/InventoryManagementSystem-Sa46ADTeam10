@@ -555,7 +555,7 @@ namespace LUSSISADTeam10API.Repositories
 
                     nom.Deptid = 11;
                     nom.Role = ConUser.Role.CLERK;
-                    nom.Title = "HOD Requisition";
+                    nom.Title = "New Requisition";
                     nom.NotiType = ConNotification.NotiType.HODApprovedRequistion;
                     nom.ResID = reqm.Reqid;
                     nom.Remark = "The new requisition has been rasied by " + reqm.Depname;

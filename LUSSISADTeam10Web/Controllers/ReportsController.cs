@@ -28,7 +28,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
-        public ActionResult ItemUsageByClerk()
+        public ActionResult ItemUsageReport()
         {
 
             string token = GetToken();
@@ -58,9 +58,9 @@ namespace LUSSISADTeam10Web.Controllers
                     suppliername.Add(s.SupId);
 
                 }
-                List<SupplierModel> abc = APISupplier.GetAllSuppliers(token, out  error);
-                ViewBag.slist = abc;
-                ViewBag.supplierlist = suppliername;
+                List<SupplierModel> sups = APISupplier.GetAllSuppliers(token, out  error);
+                ViewBag.slist = sups;
+                ViewBag.ilist = APIItem.GetAllItems(token, out error);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
 
-        public ActionResult ItemTrendReport()
+        public ActionResult ItemTrendAnalysisReport()
         {
 
             string token = GetToken();
@@ -162,6 +162,26 @@ namespace LUSSISADTeam10Web.Controllers
 
 
         #region POST Method
+
+        [HttpPost]
+        public JsonResult GetItemUsageData(int s1, int s2, int s3, int item)
+        {
+            string error = "";
+            UserModel um = GetUser();
+            string token = GetToken();
+
+            List<ItemUsageModel> result = APIReport.GetItemUsage(token, s1, s2, s3, item, out error);
+            int[] S1 = result.Select(x => x.Sup1Data).ToArray();
+            int[] S2 = result.Select(x => x.Sup2Data).ToArray();
+            int[] S3 = result.Select(x => x.Sup3Data).ToArray();
+
+            return Json(new
+            {
+                s1 = S1,
+                s2 = S2,
+                s3 = S3
+            }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public JsonResult GetItemTrendData(int d1, int d2, int d3, int catid)

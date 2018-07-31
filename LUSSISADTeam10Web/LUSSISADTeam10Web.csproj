@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\ItemUsageModel.cs" />
     <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
     <Compile Include="APIModels\AdjustmentModel.cs" />
@@ -1410,6 +1411,9 @@
     <Content Include="Views\Reports\RequisitionList.cshtml" />
     <Content Include="Views\Clerk\EditImportItem.cshtml" />
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
+    <Content Include="Views\Reports\ItemTrendAnalysisReport.cshtml" />
+    <Content Include="Views\Reports\ItemTrendReport.cshtml" />
+    <Content Include="Views\Reports\ItemUsageReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

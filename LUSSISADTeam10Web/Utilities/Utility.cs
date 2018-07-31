@@ -18,12 +18,12 @@ namespace LUSSISADTeam10Web.Utilities
 
         public static bool SendPurchaseOrdersPDF(SupplierModel sup, PurchaseOrderModel po)
         {
-            var fromAddress = new MailAddress("fty.fateezy@gmail.com");
+            var fromAddress = new MailAddress("logicuniversity10@gmail.com");
 
-            var toAddress = new MailAddress("zinminht3t@gmail.com"); //todo
-            const string fromPassword = "chitchitlay";
-            string subject = "Hello";
-            string body = "Blah Blha";
+            var toAddress = new MailAddress(sup.SupEmail); 
+            const string fromPassword = "Needcoffee315";
+            string subject = "Purchase Order - Logic University";
+            string body = "Dear " + sup.ContactName + ", Please find the attached file to refer the purchase order from our university";
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -61,16 +61,16 @@ namespace LUSSISADTeam10Web.Utilities
                     var head = "<html><head><style>table {border-collapse: collapse;}table, th, td { border: 1px solid black;} </style></head><body>";
                     var htmlbody = "<div style='width: 100%; height: 50px;'>" +
                                         "<p align='center' style='font-size: 25px;'>" +
-                                        "Purchase order" +
+                                        "Logic University" +
+                                        "</p>" +
+                                        "<p align='center' style='font-size: 25px;'>" +
+                                        "Stationary Purchase order" +
                                         "</p>" +
                                     "</div>" +
                                     "<div style='width:100%'>" +
                                             "<p align='right' > PO-" + po.PoId + "</p>" +
+                                            "<p align='right' >" + DateTime.Today.ToShortDateString() + "</p>" +
                                     "</div>" +
-                                        "<div  style='width: 50%; float:left;'>" +
-                                            "<p align='left' style='font-size: 25px;'>Logic University</p>" +
-                                            "<p align='left' >Bukit Batok , Singapore</p>" +
-                                        "</div>" +
                                      "<div>" +
                                        "<div width=50%>" +
                                            "<p align='left' >"
@@ -88,7 +88,7 @@ namespace LUSSISADTeam10Web.Utilities
                                        "</div>" +
                                      "</div>" +
                                      "<div style='width:100%; height:50px; float:clear;'></div>" +
-                                        "<table style='width:100%'>" +
+                                        "<table style='width:100%;' cellpadding='10'>" +
                                             "<tr>" +
                                                 "<th>Item</th>" +
                                                 "<th>Category</th>" +
@@ -98,11 +98,7 @@ namespace LUSSISADTeam10Web.Utilities
                                                 "<th>Amount</th>" +
                                             "</tr>" + table;
                     var tablebody = "</table>";
-                    var tablefooter = "<div style='width:100%; height:100px; float:clear;'></div>" +
-                        "<div style='width:100%;'>" +
-                        "<p align='right' >" + DateTime.Today.ToShortDateString() + "</p>" +
-                        "<p align='right' >Date</p>" +
-                        "</div>";
+                    var tablefooter = "<div style='width:100%; height:100px; float:clear;'></div>";
                     var end = "</body></html>";
 
                     var whole = head + htmlbody + tablebody + tablefooter + end;
