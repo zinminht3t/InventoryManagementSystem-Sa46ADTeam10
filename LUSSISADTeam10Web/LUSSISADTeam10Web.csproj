@@ -1408,6 +1408,7 @@
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
     <Content Include="Views\Reports\ItemTrendAnalysisReport.cshtml" />
     <Content Include="Views\Reports\ItemUsageReport.cshtml" />
+    <Content Include="Views\Supervisor\HistoryDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
