@@ -17,7 +17,7 @@ using static LUSSISADTeam10Web.Models.Report.ItemTrendAnalysisViewModel;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    [Authorize(Roles = "Clerk")]
+    [Authorize(Roles = "Clerk, Supervisor, Manager")]
     public class ReportsController : Controller
     {
 
