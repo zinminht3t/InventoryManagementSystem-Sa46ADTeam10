@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 hideinmobile">
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
@@ -35,7 +35,7 @@
 
         <div class="card">
             <div class="card-body">
-                <div>  <h5 class="text-sm-center text-info"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Orders </h5></div><br />
+                <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Orders </h5></div><br />
                 <div class="container">
 
                   
@@ -63,11 +63,11 @@
                                             <table class="table table-bordered table-hover">
                                                 <thead class="table-info">
                                                     <tr>
-                                                        <th>Item</th>
+                                                        <th class="hideinmobile">Item</th>
                                                         <th>Description</th>
-                                                        <th>Quantity</th>
-                                                        <th>Price</th>
-                                                        <th>Amount</th>
+                                                        <th>Qty</th>
+                                                        <th class="hideinmobile">Price</th>
+                                                        <th>Amt</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -77,10 +77,10 @@
                                                         total += (items.Qty * items.Price as double?);
                                                         var amount = items.Qty * items.Price;
                                                         <tr>
-                                                            <td>@items.Itemid</td>
-                                                            <td>@items.ItemDescription</td>
+                                                            <td class="hideinmobile">@items.Itemid</td>
+                                                            <td >@items.ItemDescription</td>
                                                             <td>@items.Qty</td>
-                                                            <td>S$ @items.Price</td>
+                                                            <td class="hideinmobile">S$ @items.Price</td>
                                                             <td>S$ @amount</td>
                                                         </tr>
                                                     }
