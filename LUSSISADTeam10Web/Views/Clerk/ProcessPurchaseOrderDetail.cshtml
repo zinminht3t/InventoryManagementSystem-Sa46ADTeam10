@@ -1,4 +1,4 @@
-﻿@model LUSSISADTeam10Web.Models.Clerk.PurchaseOrderViewModel
+﻿    @model LUSSISADTeam10Web.Models.Clerk.PurchaseOrderViewModel
 
 
 @{
@@ -67,7 +67,7 @@
                                         <thead class="table-info">
                                             <tr>   
                                                 <th>Item</th>
-                                                <th>Ordered Qty</th>
+                                                <th class="hideinmobile">Ordered Qty</th>
                                                 <th>Price</th>
                                                 <th>Received Qty</th>
                                             </tr>
@@ -89,7 +89,7 @@
                                                 <tr id="@items.Itemid">
                                                  
                                                     <td>@items.ItemDescription</td>
-                                                    <td>@items.Qty</td>
+                                                    <td class="hideinmobile">@items.Qty</td>
                                                     <td class="amount">S$ @items.Price</td>
                                                     <td>
                                                         <input type="hidden" name="podms[@count].Itemid" value="@items.Itemid" />

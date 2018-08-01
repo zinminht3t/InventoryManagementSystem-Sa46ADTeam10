@@ -86,12 +86,15 @@ namespace LUSSISADTeam10Web.Controllers
 
             reqm.Reqdate = DateTime.Now;
             reqm.Raisedby = um.Userid;
+            if(um.Role == ConUser.Role.TEMPHOD)
+            {
+                reqm.Approvedby = um.Userid;
+            }
             reqm.Depid = um.Deptid;
             dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out string error);
             reqm.Cpid = dcpm.CpID;
             reqm.Cpname = dcpm.CpName;
             reqm.Status = ConRequisition.Status.PENDING;
-
             reqm = APIRequisition.CreateRequisition(reqm, token, out error);
 
             foreach (var reqd in reqvm.Requisitiondetails)
@@ -120,9 +123,8 @@ namespace LUSSISADTeam10Web.Controllers
 
                 if(reqms != null)
                 {
-                    reqms = reqms.Where(x => x.Status >= ConRequisition.Status.APPROVED && x.Status <= ConRequisition.Status.DELIVERED).ToList();
+                    reqms = reqms.Where(x => x.Status <= ConRequisition.Status.DELIVERED).ToList();
                 }
-
 
                 if (error != "")
                 {

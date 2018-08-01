@@ -15,6 +15,12 @@ namespace LUSSISADTeam10Web.API
             List<ItemModel> invm = APIHelper.Execute<List<ItemModel>>(token, url, out error);
             return invm;
         }
+        public static List<ItemModel> GetAllActiveSupplierItems(string token, out string error)
+        {
+            string url = APIHelper.Baseurl + "/activesupplieritems/";
+            List<ItemModel> invm = APIHelper.Execute<List<ItemModel>>(token, url, out error);
+            return invm;
+        }
 
         public static ItemModel GetItemByItemID(int itemid, string token, out string error)
         {
