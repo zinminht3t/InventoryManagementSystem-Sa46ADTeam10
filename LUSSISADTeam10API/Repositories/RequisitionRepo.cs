@@ -466,12 +466,17 @@ namespace LUSSISADTeam10API.Repositories
         public static RequisitionModel CreateRequisition(RequisitionModel req, out string error)
         {
             error = "";
+            bool RaisedByTempHOD = true;
             LUSSISEntities entities = new LUSSISEntities();
             requisition reqn = new requisition();
             try
             {
                 reqn.raisedby = req.Raisedby;
-                reqn.approvedby = req.Raisedby;
+                if (reqn.approvedby == null || reqn.approvedby == 0)
+                {
+                    reqn.approvedby = req.Raisedby;
+                    RaisedByTempHOD = false;
+                }
                 reqn.deptid = req.Depid;
                 reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
@@ -480,15 +485,22 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
                 req = GetRequisitionByRequisitionId(reqn.reqid, out error);
 
-
-                NotificationModel nom = new NotificationModel();
-                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
-                nom.Role = ConUser.Role.HOD;
-                nom.Title = "Requisition Approval";
-                nom.NotiType = ConNotification.NotiType.RequisitionApproval;
-                nom.ResID = reqn.reqid;
-                nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
-                nom = NotificationRepo.CreatNotification(nom, out error);
+                if (!RaisedByTempHOD)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Requisition Approval";
+                    nom.NotiType = ConNotification.NotiType.RequisitionApproval;
+                    nom.ResID = reqn.reqid;
+                    nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else
+                {
+                    req.Status = ConRequisition.Status.APPROVED;
+                    req = UpdateRequisition(req, out error);
+                }
             }
             catch (NullReferenceException)
             {
