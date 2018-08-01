@@ -91,9 +91,9 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 //get pending status adjustments
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-                if(adjlist != null) { 
-                foreach(AdjustmentModel ad in adjlist)
-                {
+                if(adjlist != null) {
+                    foreach (AdjustmentModel ad in adjlist)
+                    {
                     //to divide according to raised to user role
                     ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
                     foreach (AdjustmentDetailModel adj in ad.Adjds) {
@@ -111,6 +111,9 @@ namespace LUSSISADTeam10Web.Controllers
                     }
                    
                 }
+                    //separate adjustment pending list by reported to roles (supervisor/manager)
+                    ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
+                    adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
                 }
                 else
                 {
@@ -121,9 +124,7 @@ namespace LUSSISADTeam10Web.Controllers
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
-            adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
+            }           
             return View(adjlist);
         }
         [HttpPost]

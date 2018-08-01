@@ -292,25 +292,25 @@
                     },
                     success: function (result) {
                         myBarChart.data.labels = [deptlbl1, deptlbl2, deptlbl3];
-                        myBarChart.data.datasets[0].data = result["d1"];
-                        myBarChart.data.datasets[1].data = result["d2"];
-                        myBarChart.data.datasets[2].data = result["d3"];
+                        myBarChart.data.datasets[0].data = result["p2"];
+                        myBarChart.data.datasets[1].data = result["p1"];
+                        myBarChart.data.datasets[2].data = result["cur"];
 
                         var tds = "<td>" + "@DateTime.Today.AddMonths(-2).ToString("MMMM")" + "</td>";
-                        for (row = 0; row < result["d1"].length; row++) {
-                            tds += "<td>" + result["d1"][row] +"</td>"
+                        for (row = 0; row < result["p2"].length; row++) {
+                            tds += "<td>" + result["p2"][row] +"</td>"
                         }
                         $('#row1').html(tds);
 
                         var tds = "<td>" + "@DateTime.Today.AddMonths(-1).ToString("MMMM")" + "</td>";
-                        for (row = 0; row < result["d2"].length; row++) {
-                            tds += "<td>" + result["d2"][row] +"</td>"
+                        for (row = 0; row < result["p1"].length; row++) {
+                            tds += "<td>" + result["p1"][row] +"</td>"
                         }
                         $('#row2').html(tds);
 
                         var tds = "<td>" + "@DateTime.Today.ToString("MMMM")" + "</td>";
-                        for (row = 0; row < result["d3"].length; row++) {
-                            tds += "<td>" + result["d3"][row] +"</td>"
+                        for (row = 0; row < result["cur"].length; row++) {
+                            tds += "<td>" + result["cur"][row] +"</td>"
                         }
                         $('#row3').html(tds);
                     },

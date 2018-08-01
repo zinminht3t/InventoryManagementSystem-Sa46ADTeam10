@@ -171,15 +171,15 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
 
             List<ItemUsageModel> result = APIReport.GetItemUsage(token, s1, s2, s3, item, out error);
-            int[] S1 = result.Select(x => x.Sup1Data).ToArray();
-            int[] S2 = result.Select(x => x.Sup2Data).ToArray();
-            int[] S3 = result.Select(x => x.Sup3Data).ToArray();
+            int[] past2mon = new int[] { result[2].Sup1Data, result[2].Sup2Data, result[2].Sup3Data };
+            int[] past1mon = new int[] { result[1].Sup1Data, result[1].Sup2Data, result[1].Sup3Data };
+            int[] current = new int[] { result[0].Sup1Data, result[0].Sup2Data, result[0].Sup3Data };
 
             return Json(new
             {
-                s1 = S1,
-                s2 = S2,
-                s3 = S3
+                p2 = past2mon,
+                p1 = past1mon,
+                cur = current
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -191,12 +191,13 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
 
             List<TrendAnalysisModel> result = APIReport.GetItemTrendsByDeptCategory(token, d1, d2, d3, catid, out error);
-            int[] D1 = result.Select(x => x.Dept1Data).ToArray();
-            int[] D2 = result.Select(x => x.Dept2Data).ToArray();
-            int[] D3 = result.Select(x => x.Dept3Data).ToArray();
+
+            int[] past2mon = new int[] { result[2].Dept1Data, result[2].Dept2Data, result[2].Dept3Data };
+            int[] past1mon = new int[] { result[1].Dept1Data, result[1].Dept2Data, result[1].Dept3Data };
+            int[] current = new int[] { result[0].Dept1Data, result[0].Dept2Data, result[0].Dept3Data };
 
             return Json(new {
-                d1 = D1, d2 = D2, d3 = D3
+                p2 = past2mon, p1 = past1mon, cur = current
             }, JsonRequestBehavior.AllowGet);
         }
 

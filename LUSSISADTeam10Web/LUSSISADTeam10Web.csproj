@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
@@ -170,6 +171,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIModels\FrequentItemHodModel.cs" />
     <Compile Include="APIModels\ItemUsageModel.cs" />
     <Compile Include="APIModels\POCountList.cs" />
     <Compile Include="APIModels\AdjustmentDetailModel.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Utilities\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\gif\InternetSlowdown_Day.gif" />
     <Content Include="Styles\Content\bootstrap-theme.css" />
     <Content Include="Styles\Content\bootstrap-theme.min.css" />
     <Content Include="Styles\Content\bootstrap.css" />
@@ -1096,6 +1099,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Styles\images\.gitignore" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISTeam10 - Web Deploy.pubxml" />
     <None Include="Styles\Scripts\jquery-3.3.1.intellisense.js" />
@@ -1361,7 +1365,6 @@
     <Content Include="Views\HOD\ApproveRequisition.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Clerk\ApproveCollectionPoint.cshtml" />
-    <Content Include="Views\Clerk\View.cshtml" />
     <Content Include="Views\Clerk\Inventory.cshtml" />
     <Content Include="Views\HOD\CreateDelegationList.cshtml" />
     <Content Include="Views\HOD\SearchPreviousDelegation.cshtml" />
@@ -1398,16 +1401,15 @@
     <Content Include="Views\Clerk\ProcessPurchaseOrderDetail.cshtml" />
     <Content Include="Views\Clerk\OutstandingDetail.cshtml" />
     <Content Include="Views\Clerk\RequisitionsComplete.cshtml" />
-    <Content Include="Views\Clerk\Test.cshtml" />
     <Content Include="Views\Home\GetNotifications.cshtml" />
     <Content Include="Views\Clerk\EditImportItem.cshtml" />
     <Content Include="Views\Clerk\PendingCollectionPoint.cshtml" />
     <Content Include="Views\Reports\ItemTrendAnalysisReport.cshtml" />
     <Content Include="Views\Reports\ItemUsageReport.cshtml" />
+    <Content Include="Views\Supervisor\HistoryDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Models\DepartmentRep\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
