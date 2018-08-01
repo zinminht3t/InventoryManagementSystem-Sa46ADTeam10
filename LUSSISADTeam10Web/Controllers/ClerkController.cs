@@ -1289,15 +1289,18 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel reqm = new RequisitionModel();
             OutReqViewModel outreqvm = new OutReqViewModel();
             OutstandingReqModel outr = new OutstandingReqModel();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
 
             outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
             reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, reqm.Depid, out error);
             outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
 
             //if (reqm.Status != ConRequisition.Status.OUTSTANDINGREQUISITION ||outreqvm.CanFullFill == false)
             //{
             //    return RedirectToAction("Outstanding");
             //}
+
 
             outreqvm.ReqId = outr.ReqId;
             outreqvm.DeptId = reqm.Depid;
@@ -1307,6 +1310,7 @@ namespace LUSSISADTeam10Web.Controllers
             outreqvm.Status = outr.Status;
             outreqvm.Reason = outr.Reason;
             outreqvm.OutReqDetails = outr.OutReqDetails;
+            ViewBag.ColectionPoint = dcpm.CpLocation;
             return View(outreqvm);
 
         }
