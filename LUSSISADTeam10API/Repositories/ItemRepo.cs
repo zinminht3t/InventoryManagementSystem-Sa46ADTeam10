@@ -52,6 +52,34 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return ims;
         }
+
+
+        public static List<ItemModel> GetAllSupplierItems(out string error)
+        {
+            LUSSISEntities entities = new LUSSISEntities();
+            error = "";
+            List<ItemModel> ims = new List<ItemModel>();
+            try
+            {
+                List<item> items = entities.items.Where(x => x.itemid == (x.supplieritems.Where(p => p.supplier.active == ConSupplier.Active.ACTIVE).FirstOrDefault().itemid)).ToList<item>();
+
+                foreach (item item in items)
+                {
+                    ims.Add(CovertDBItemtoAPIItem(item));
+                }
+            }
+
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return ims;
+        }
         public static ItemModel GetItemByItemid(int itemid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
