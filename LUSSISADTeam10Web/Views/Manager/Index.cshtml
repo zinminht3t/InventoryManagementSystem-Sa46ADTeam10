@@ -2,9 +2,9 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Dashboard";
-    var labels = Model.Select(x => x.Month).ToArray();
-    var data = Model.Select(x => x.Total).ToArray();
-    var tooltips = Model.Select(x => x.PurchaseOrderCount).ToArray();
+    var labels = Model.Select(x => x.Month).Reverse().ToArray();
+    var data = Model.Select(x => x.Total).Reverse().ToArray();
+    var tooltips = Model.Select(x => x.PurchaseOrderCount).Reverse().ToArray();
 }
 @section Styles {
     <style>
