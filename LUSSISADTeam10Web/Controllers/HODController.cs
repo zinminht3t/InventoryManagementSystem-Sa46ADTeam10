@@ -531,8 +531,8 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel dm = new DelegationModel();
 
             dm.Userid = userid;
-            dm.Enddate = viewmodel.EndDate;
-            dm.Startdate = viewmodel.StartDate;
+            dm.Enddate = (DateTime)viewmodel.EndDate;
+            dm.Startdate = (DateTime)viewmodel.StartDate; 
             dm.AssignedbyId = viewmodel.assignedby;
 
             try
