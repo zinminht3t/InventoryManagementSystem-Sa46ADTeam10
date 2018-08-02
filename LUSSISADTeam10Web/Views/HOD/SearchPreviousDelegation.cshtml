@@ -184,15 +184,35 @@
                                         <p>Start Date</p>
                                     </th>
                                     <td>
-                                        @Convert.ToDateTime(@ViewBag.StartDate).ToString("MM/dd/yyyy")
+                                        @Convert.ToDateTime(@ViewBag.StartDate).ToString("dd/MM/yyyy")
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
                                         <p>End Date</p>
                                     </th>
+                                    @{ 
+                                        var todaydate = DateTime.Today;
+
+                                        var startdate = ViewBag.StartDate;
+
+                                        var mindate = ViewBag.StartDate;
+
+                                        if(todaydate >= startdate)
+                                        {
+                                            mindate = todaydate;
+                                        }
+
+
+                                    }
+
+
                                     <td>
-                                        @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })
+                                        <input type="date" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
+                                       @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
+
+
+
                                     </td>
                                 </tr>
                             </table>

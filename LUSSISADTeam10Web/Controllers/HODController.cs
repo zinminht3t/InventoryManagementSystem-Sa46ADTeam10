@@ -593,7 +593,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (viewmodel != null)
                 {
-                    APIDelegation.CreateDelegation(token, dm, out string error);
+                   dm = APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
             }
@@ -601,6 +601,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Delegation";
+            Session["notimessage"] = dm.Username + " is Delegated as Head of Department";
             return RedirectToAction("SearchPreviousDelegation");
         }
         [Authorize(Roles = "HOD")]
@@ -611,20 +615,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            UserModel upum = new UserModel();
 
             try
             {
                 if (viewmodel != null)
                 {
 
-                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
+                    upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Assign Department Representative";
+            Session["notimessage"] = upum.Fullname + " is assigned as Department Representative";
             return RedirectToAction("AssignDepRep");
 
         }
@@ -659,6 +667,11 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Update Delegation";
+            Session["notimessage"] = "Delegation is updated successfully"; 
+
             return RedirectToAction("SearchPreviousDelegation");
         }
 
