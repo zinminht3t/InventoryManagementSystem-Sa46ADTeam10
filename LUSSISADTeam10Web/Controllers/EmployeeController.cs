@@ -133,7 +133,11 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
 
-                if(reqms != null)
+                if (reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
                 {
                     reqms = reqms.Where(x => x.Status <= ConRequisition.Status.DELIVERED).OrderByDescending(x => x.Reqdate).ToList();
                 }
