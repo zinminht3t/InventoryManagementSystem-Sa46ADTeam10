@@ -472,7 +472,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqn.raisedby = req.Raisedby;
-                if (reqn.approvedby == null || reqn.approvedby == 0)
+                if (req.Approvedby == null || req.Approvedby == 0)
                 {
                     reqn.approvedby = req.Raisedby;
                     RaisedByTempHOD = false;
