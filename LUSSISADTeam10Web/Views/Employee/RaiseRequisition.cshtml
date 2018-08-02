@@ -1,7 +1,7 @@
 ﻿@model LUSSISADTeam10Web.Models.Employee.RequisitionViewModel
 
 @{
-    ViewBag.Title = "Rasied Requisition";
+    ViewBag.Title = "Rasie Requisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Rasied Requisition</h1>
+                <h1>Rasie Requisition</h1>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li class="active">Raise Requisiton</li>
                 </ol>
             </div>
@@ -101,6 +101,7 @@
 @section Scripts {
 
     <script language="javascript" type="text/javascript">
+
         function addRow() {
 
             @{

@@ -1353,7 +1353,6 @@
     <Content Include="Styles\scss\_gauge.scss" />
     <Content Include="Styles\scss\_switches.scss" />
     <Content Include="Styles\scss\_widgets.scss" />
-    <Content Include="Views\Employee\EmpDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />

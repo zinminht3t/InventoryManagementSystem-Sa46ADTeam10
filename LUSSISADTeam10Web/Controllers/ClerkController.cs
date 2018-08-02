@@ -16,7 +16,6 @@ namespace LUSSISADTeam10Web.Controllers
 {
     public class ClerkController : Controller
     {
-        // GET: Clerk
         [Authorize(Roles = "Clerk")]
         public ActionResult Index()
         {
@@ -55,10 +54,6 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
         }
-
-
-        // Start AM
-
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         public ActionResult ShowActiveSupplierlist()
@@ -192,7 +187,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
-        public ActionResult csvsupplier(HttpPostedFileBase excelfile)
+        public ActionResult Csvsupplier(HttpPostedFileBase excelfile)
         {
             string token = GetToken();
             UserModel um = GetUser();
@@ -292,7 +287,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
-        public ActionResult importsupplier(HttpPostedFileBase excelfile)
+        public ActionResult Importsupplier(HttpPostedFileBase excelfile)
         {
 
 
@@ -400,9 +395,6 @@ namespace LUSSISADTeam10Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        // End AM
-
-        // Start TAZ
         [Authorize(Roles = "Clerk")]
         public ActionResult ApproveCollectionPoint(int id)
         {
@@ -909,7 +901,7 @@ namespace LUSSISADTeam10Web.Controllers
 
         //Start Mahsu
 
-        [Authorize(Roles = "Clerk")]
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         //Display All Inventories
         public ActionResult Inventory()
         {
@@ -948,7 +940,8 @@ namespace LUSSISADTeam10Web.Controllers
             return View(invtdetail);
         }
 
-        //Get All checked Inventories
+
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
         [HttpPost]
         public JsonResult Inventory(int[] Invid)
         {
@@ -1629,7 +1622,8 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("PurchaseOrderDetail", new { id = pom.PoId });
         }
 
-        [Authorize(Roles = "Clerk")]
+        [Authorize(Roles = "Clerk, Manager, Supervisor")]
+
         public PartialViewResult GetSupplierLists(int id)
         {
             string error = "";
