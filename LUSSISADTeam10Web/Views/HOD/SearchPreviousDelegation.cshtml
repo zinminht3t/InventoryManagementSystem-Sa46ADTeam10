@@ -152,9 +152,16 @@
         <div class="animated fadeIn">
             @if (ViewBag.name == "")
             {
-                <h5 class="text-info"> There is no previous delegation! </h5>
-                <br />
-                <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  ">Create</a>
+
+
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="text-info"> There is no assigned delegation! </h5>
+                        <br />
+                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  "> New Delegation</a>
+                    </div>
+                </div>
             }
             @if (ViewBag.name != "")
             {
@@ -164,8 +171,8 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a><br /><br />
-                            <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Previous Delegation </h5><br />
+                            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">New Delegation</a><br /><br />
+                            <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Current Assigned Delegation </h5><br />
 
 
 
@@ -191,14 +198,14 @@
                                     <th>
                                         <p>End Date</p>
                                     </th>
-                                    @{ 
+                                    @{
                                         var todaydate = DateTime.Today;
 
                                         var startdate = ViewBag.StartDate;
 
                                         var mindate = ViewBag.StartDate;
 
-                                        if(todaydate >= startdate)
+                                        if (todaydate >= startdate)
                                         {
                                             mindate = todaydate;
                                         }
@@ -209,10 +216,7 @@
 
                                     <td>
                                         <input type="date" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
-                                       @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
-
-
-
+                                        @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
                                     </td>
                                 </tr>
                             </table>
@@ -221,9 +225,9 @@
                             @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
                             <div style="margin-left :700px">
                                 <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
-                                    Delete
+                                    Cancel
                                 </button>
-                                <input type="Submit" class="btn btn-outline-success " value="Update">
+                                <input type="Submit" class="btn btn-outline-success " value="Extend">
                             </div>
                         </div>
                     </div>

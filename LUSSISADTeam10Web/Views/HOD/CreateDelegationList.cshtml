@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "CreateDelegationList";
+    ViewBag.Title = "New Delegation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -13,7 +13,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Employeelist</h1>
+                <h1>New Delegation</h1>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Employeelist</li>
+                    <li class="active">New Delegation</li>
                 </ol>
             </div>
         </div>
@@ -36,17 +36,17 @@
             <div class="card">
 
                 <div class="card-body">
-                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-user fa-3x"></i><br /> Create Delegation </h5><br /><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-user fa-3x"></i><br /> New Delegation </h5><br /><br />
                     <div class="row">
 
-                        <div class="col-sm-4">
-                            @Html.LabelFor(Model => Model.StartDate)
-                            @Html.TextBoxFor(Model => Model.StartDate, new { id = "datepicker" })
+                        <div class="col-sm-6">
+                            <label for="datepicker">Start Date : </label>
+                            @Html.TextBoxFor(Model => Model.StartDate, new { id = "datepicker", @class ="form-control" })
 
                         </div>
-                        <div class="col-sm-5">
-                            @Html.LabelFor(Model => Model.EndDate)
-                            @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker1" })
+                        <div class="col-sm-6">
+                            <label for="datepicker1">End Date : </label>
+                            @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker1", @class = "form-control" })
                         </div>
                     </div>
 

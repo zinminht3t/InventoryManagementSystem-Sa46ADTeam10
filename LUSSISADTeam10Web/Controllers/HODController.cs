@@ -374,22 +374,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
+
             DelegationModel reqms = new DelegationModel();
             EditDelegationViewModel viewmodel = new EditDelegationViewModel();
             try
             {
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
-
                 ViewBag.Userid = reqms.Userid;
                 ViewBag.name = reqms.Username;
                 ViewBag.StartDate = reqms.Startdate;
                 ViewBag.Enddate = reqms.Enddate;
                 ViewBag.Deleid = reqms.Delid;
 
-
-                if (error != "")
+                // added by zmh to show the full name of user
+                UserModel DelegatedUser = new UserModel();
+                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
+                if (DelegatedUser != null && DelegatedUser.Userid != 0)
                 {
-                    return RedirectToAction("Index", "Error", new { error });
+                    ViewBag.name = DelegatedUser.Fullname;
                 }
             }
             catch (Exception ex)
