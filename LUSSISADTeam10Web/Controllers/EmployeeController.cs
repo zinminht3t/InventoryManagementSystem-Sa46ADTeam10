@@ -85,7 +85,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["noti"] = true;
                 Session["notitype"] = "error";
                 Session["notititle"] = "Raise Requisition Error";
-                Session["notimessage"] = "You cannot raise requisition without duplicate items!";
+                Session["notimessage"] = "You cannot raise requisition with duplicate items!";
                 return RedirectToAction("RaiseRequisition");
             }
 
