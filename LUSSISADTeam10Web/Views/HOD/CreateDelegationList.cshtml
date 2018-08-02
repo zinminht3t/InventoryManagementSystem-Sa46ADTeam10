@@ -116,10 +116,10 @@
                     </table>
 
                     <div class="card-body">
-
+                        
                         <div class="pull-right">
                             <a href="@Url.Action("SearchPreviousDelegation", "HOD") " class="btn btn-outline-danger">Cancel</a>
-                            <input type="Submit" class="btn btn-outline-success" value="Create">
+                            <input type="Submit" id="btnCreate" class="btn btn-outline-success" value="Create">
                         </div>
                     </div>
                 </div>
@@ -136,12 +136,22 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+        $(document).ready(function () {
+            document.getElementById('btnCreate').disabled = true;
+        })
+
         $(function () {
             $("#datepicker1").datepicker({
                 dateFormat: 'yy-mm-dd',
                 showAnim: 'slide',
-                disabled: true
+                disabled: true,
+                onSelect: function () {
+                    document.getElementById('btnCreate').disabled = false;
+                }
             });
+
+
+
             $("#datepicker1").datepicker('setDate', null);
             $("#datepicker").datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -156,7 +166,7 @@
                 }
             });
             $("#datepicker").datepicker('setDate', 'today');
-            $("#datepicker").datepicker("option", { minDate: + 1 });
+            $("#datepicker").datepicker("option", { minDate: + 0 });
         });
     </script>
 }

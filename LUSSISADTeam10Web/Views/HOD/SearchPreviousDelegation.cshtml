@@ -199,7 +199,7 @@
                         @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate })
                         @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid })
                         @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
-                        <div style="margin-left :600px">
+                        <div style="margin-left :700px">
                             <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
                                 Delete
                             </button>
@@ -260,8 +260,9 @@
             $("#datepicker").datepicker();
 
             $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate');
-            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate')
+            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate.ToString("MM/dd/yyyy")');
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
+
         });
     </script>
 
@@ -305,7 +306,7 @@
                 now.setHours(0, 0, 0, 0);
                 if (selectedDate < now) {
                     alert("You can't select the previous date");
-            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate')
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
                 } else {
 
                 }
