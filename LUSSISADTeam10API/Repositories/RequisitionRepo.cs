@@ -472,6 +472,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqn.raisedby = req.Raisedby;
+                reqn.approvedby = req.Approvedby;
                 if (req.Approvedby == null || req.Approvedby == 0)
                 {
                     reqn.approvedby = req.Raisedby;
