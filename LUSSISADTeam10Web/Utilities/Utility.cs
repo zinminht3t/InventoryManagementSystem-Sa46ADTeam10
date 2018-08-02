@@ -88,7 +88,7 @@ namespace LUSSISADTeam10Web.Utilities
                                        "</div>" +
                                      "</div>" +
                                      "<div style='width:100%; height:50px; float:clear;'></div>" +
-                                        "<table style='width:100%;' cellpadding='10'>" +
+                                        "<table style='width:100%;'>" +
                                             "<tr>" +
                                                 "<th>Item</th>" +
                                                 "<th>Category</th>" +
