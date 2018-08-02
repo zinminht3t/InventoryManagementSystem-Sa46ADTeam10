@@ -72,6 +72,7 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 
