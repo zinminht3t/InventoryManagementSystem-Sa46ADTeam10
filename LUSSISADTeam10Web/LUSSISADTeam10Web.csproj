@@ -1353,7 +1353,6 @@
     <Content Include="Styles\scss\_gauge.scss" />
     <Content Include="Styles\scss\_switches.scss" />
     <Content Include="Styles\scss\_widgets.scss" />
-    <Content Include="Views\Employee\EmpDashboard.cshtml" />
     <Content Include="Views\Clerk\ClerkDashboard.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -1382,7 +1381,6 @@
     <Content Include="Views\Clerk\DisbursementLists.cshtml" />
     <Content Include="Views\Clerk\SupllierDetails.cshtml" />
     <Content Include="Views\Supervisor\Approve.cshtml" />
-    <Content Include="Views\DepartmentRep\OrderHistory.cshtml" />
     <Content Include="Views\Manager\Approve.cshtml" />
     <Content Include="Views\Clerk\csvsupplier.cshtml" />
     <Content Include="Views\Clerk\CreateSuppandItem.cshtml" />

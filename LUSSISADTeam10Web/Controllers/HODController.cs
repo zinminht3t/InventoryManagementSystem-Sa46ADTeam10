@@ -41,6 +41,7 @@ namespace LUSSISADTeam10Web.Controllers
             reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
+            ViewBag.DelegationType = "Temporary HOD";
 
             CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
             ViewBag.RepName = CurrentRep.Fullname;
@@ -63,10 +64,21 @@ namespace LUSSISADTeam10Web.Controllers
                 CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
                 ViewBag.TempHOD = CurrentTempUser.Fullname;
                 ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
+                if(CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
+                {
+                    ViewBag.DelegationType = "Current Temporary HOD";
+                }
+                else
+                {
+                    ViewBag.DelegationType = "Upcoming Temporary HOD";
+                }
+
+
             }
 
             if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
             {
+                ViewBag.DelegationType = "Temporary HOD";
                 ViewBag.TempHOD = "None";
                 ViewBag.TempDate = "-";
             }
@@ -84,7 +96,15 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+
+                if(reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status < ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
 
                 if (error != "")
                 {
@@ -109,7 +129,16 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).ToList();
+
+                if(reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
+
 
                 if (error != "")
                 {
@@ -307,7 +336,14 @@ namespace LUSSISADTeam10Web.Controllers
                 
                 if(reqm.Status == ConRequisition.Status.APPROVED)
                 {
-
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Already Approved Requisiton!";
+                    Session["notimessage"] = "This requisition has already been approved!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else if(reqm.Status == ConRequisition.Status.REJECTED)
+                {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
                     Session["notititle"] = "Already Approved Requisiton!";
@@ -500,6 +536,14 @@ namespace LUSSISADTeam10Web.Controllers
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.EMPLOYEE;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
+                    nom = APINotification.CreateNoti(token, nom, out error);
+
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
                     nom.Title = "Requisition Rejected";
                     nom.NotiType = ConNotification.NotiType.RejectedRequistion;
                     nom.ResID = reqm.Reqid;

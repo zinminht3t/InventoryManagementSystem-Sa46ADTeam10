@@ -22,6 +22,8 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             NotificationModel notim = new NotificationModel();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+
             notim = APINotification.UpdateNotificationAsRead(token, id, out error);
 
             switch (notim.NotiType)
@@ -55,6 +57,18 @@ namespace LUSSISADTeam10Web.Controllers
                 case ConNotification.NotiType.DelegationCancelled:
                     return RedirectToAction("Index", "Home");
                 case ConNotification.NotiType.DeliveredRequisition:
+                    dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+                    if (dcpm == null)
+                    {
+                        dcpm = new DepartmentCollectionPointModel
+                        {
+                            CpName = "Department Collection Point"
+                        };
+                    }
+                    Session["noti"] = true;
+                    Session["notitype"] = "info";
+                    Session["notititle"] = "Outstanding Requisiton";
+                    Session["notimessage"] = "Please go collect the items at " + dcpm.CpName;
                     return RedirectToAction("Index", "Home");
                 case ConNotification.NotiType.DeptRepAssigned:
                     return RedirectToAction("Index", "Home");
@@ -71,6 +85,18 @@ namespace LUSSISADTeam10Web.Controllers
                 case ConNotification.NotiType.OutstandingItemsCollected:
                     return RedirectToAction("OutstandingDetail", "Clerk", new { id = notim.ResID });
                 case ConNotification.NotiType.OutstandingItemsReadyToCollect:
+                    dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+                    if(dcpm == null)
+                    {
+                        dcpm = new DepartmentCollectionPointModel
+                        {
+                            CpName = "Department Collection Point"
+                        };
+                    }
+                    Session["noti"] = true;
+                    Session["notitype"] = "info";
+                    Session["notititle"] = "Outstanding Requisiton";
+                    Session["notimessage"] = "Please go collect the items at " + dcpm.CpName;
                     return RedirectToAction("Index", "Home");
                 case ConNotification.NotiType.RejectedRequistion:
                     return RedirectToAction("Index", "Home");

@@ -76,6 +76,18 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["notimessage"] = "You cannot raise requisition without any items!";
                 return RedirectToAction("RaiseRequisition");
             }
+            
+
+            bool duplicateExists = reqvm.Requisitiondetails.GroupBy(n => n.Itemid).Any(g => g.Count() > 1);
+
+            if (duplicateExists)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Raise Requisition Error";
+                Session["notimessage"] = "You cannot raise requisition without duplicate items!";
+                return RedirectToAction("RaiseRequisition");
+            }
 
             string token = GetToken();
             UserModel um = GetUser();
@@ -121,9 +133,13 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
 
-                if(reqms != null)
+                if (reqms == null)
                 {
-                    reqms = reqms.Where(x => x.Status <= ConRequisition.Status.DELIVERED).ToList();
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(x => x.Status <= ConRequisition.Status.DELIVERED).OrderByDescending(x => x.Reqdate).ToList();
                 }
 
                 if (error != "")
@@ -150,7 +166,7 @@ namespace LUSSISADTeam10Web.Controllers
             ViewBag.Preparing = "btn-danger";
             ViewBag.Ready = "btn-danger";
             ViewBag.Collected = "btn-danger";
-            ViewBag.Track = "Waiting for Approval";
+            ViewBag.Track = "Waiting for Approval from HOD";
 
             try
             {
@@ -161,6 +177,13 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 switch (reqm.Status)
                 {
+                    case ConRequisition.Status.APPROVED:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Waiting for Approval from Store";
+                        break;
                     case ConRequisition.Status.REQUESTPENDING:
                         ViewBag.Pending = "btn-warning";
                         ViewBag.Preparing = "btn-danger";
