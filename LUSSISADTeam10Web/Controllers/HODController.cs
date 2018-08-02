@@ -41,6 +41,7 @@ namespace LUSSISADTeam10Web.Controllers
             reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
+            ViewBag.DelegationType = "Temporary HOD";
 
             CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
             ViewBag.RepName = CurrentRep.Fullname;
@@ -63,10 +64,21 @@ namespace LUSSISADTeam10Web.Controllers
                 CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
                 ViewBag.TempHOD = CurrentTempUser.Fullname;
                 ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
+                if(CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
+                {
+                    ViewBag.DelegationType = "Current Temporary HOD";
+                }
+                else
+                {
+                    ViewBag.DelegationType = "Upcoming Temporary HOD";
+                }
+
+
             }
 
             if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
             {
+                ViewBag.DelegationType = "Temporary HOD";
                 ViewBag.TempHOD = "None";
                 ViewBag.TempDate = "-";
             }
