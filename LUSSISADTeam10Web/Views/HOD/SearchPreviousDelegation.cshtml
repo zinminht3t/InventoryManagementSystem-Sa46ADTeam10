@@ -260,8 +260,9 @@
             $("#datepicker").datepicker();
 
             $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate');
-            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate')
+            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate.ToString("MM/dd/yyyy")');
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
+
         });
     </script>
 
@@ -305,7 +306,7 @@
                 now.setHours(0, 0, 0, 0);
                 if (selectedDate < now) {
                     alert("You can't select the previous date");
-            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate')
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
                 } else {
 
                 }
