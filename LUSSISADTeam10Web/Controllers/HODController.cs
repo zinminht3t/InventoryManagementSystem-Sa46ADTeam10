@@ -84,7 +84,15 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+
+                if(reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status < ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
 
                 if (error != "")
                 {
@@ -316,7 +324,14 @@ namespace LUSSISADTeam10Web.Controllers
                 
                 if(reqm.Status == ConRequisition.Status.APPROVED)
                 {
-
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Already Approved Requisiton!";
+                    Session["notimessage"] = "This requisition has already been approved!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else if(reqm.Status == ConRequisition.Status.REJECTED)
+                {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
                     Session["notititle"] = "Already Approved Requisiton!";
@@ -509,6 +524,14 @@ namespace LUSSISADTeam10Web.Controllers
                     NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.EMPLOYEE;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
+                    nom = APINotification.CreateNoti(token, nom, out error);
+
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
                     nom.Title = "Requisition Rejected";
                     nom.NotiType = ConNotification.NotiType.RejectedRequistion;
                     nom.ResID = reqm.Reqid;

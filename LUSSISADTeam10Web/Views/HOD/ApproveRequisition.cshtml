@@ -20,7 +20,7 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
                     <li class="active">Approve Requisition</li>
                 </ol>
             </div>
@@ -73,7 +73,7 @@
                 <div class="card-text text-sm-center">
 
                     <form asp-action="ApproveRequisition" asp-controller="HOD" method="post">
-                        <textarea name="remark" id="textarea-input" rows="2" placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
+                        <textarea name="remark" id="textarea-input" rows="2" autofocus placeholder="Remark..." class="form-control" asp-for="@Model.Remark"></textarea>
                         <br />
                         <div class="form-check-inline form-check">
                             <label for="inline-radio1" class="form-check-label ">
