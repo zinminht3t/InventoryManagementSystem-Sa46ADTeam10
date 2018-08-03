@@ -177,6 +177,13 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 switch (reqm.Status)
                 {
+                    case ConRequisition.Status.APPROVED:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
                     case ConRequisition.Status.REQUESTPENDING:
                         ViewBag.Pending = "btn-warning";
                         ViewBag.Preparing = "btn-danger";
