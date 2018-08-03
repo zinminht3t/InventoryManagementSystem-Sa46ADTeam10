@@ -19,6 +19,12 @@
         }
 
 
+        #extenddate{
+
+            width: auto !important;
+        }
+
+
         #alertBox {
             position: relative;
             width: 500px;
@@ -215,7 +221,7 @@
 
 
                                     <td>
-                                        <input type="date" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
+                                        <input type="date" id="extenddate" class="form-control" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
                                         @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
                                     </td>
                                 </tr>
@@ -225,9 +231,9 @@
                             @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
                             <div style="margin-left :700px">
                                 <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
-                                    Cancel
+                                    Delete
                                 </button>
-                                <input type="Submit" class="btn btn-outline-success " value="Extend">
+                                <input type="Submit" class="btn btn-outline-success " value="Update">
                             </div>
                         </div>
                     </div>
@@ -240,7 +246,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                        <i class="fa fa-exclamation-triangle text-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -250,7 +256,7 @@
                         <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
 
                         <div style="text-align:center;display:none" id="loaderDiv">
-                            <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                            <img src="~/Styles/images/loading.gif" width="150" />
                         </div>
 
                     </div>

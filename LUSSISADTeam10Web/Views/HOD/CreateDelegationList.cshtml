@@ -21,7 +21,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li><a href="@Url.Action("SearchPreviousDelegation", "Home")">Delegation</a></li>
                     <li class="active">New Delegation</li>
                 </ol>
             </div>
@@ -53,66 +54,69 @@
                     <br />
 
                     <table class="table">
-                        <tr>
-                            <th>
-                                <p>Name</p>
-                            </th>
-                            <th>
-                                <p>Role</p>
-                            </th>
-                            <th></th>
-                        </tr>
-                        @foreach (var item in ViewBag.userlist)
-                        {
+                        <thead class="text-info">
                             <tr>
-                                <td>
-                                    <p>@item.Username</p>
-                                </td>
-                                <td>
-                                    @{
-                                        switch (item.Role)
-                                        {
-
-                                            case 1:
-                                                <p>Clerk</p>
-                                                break;
-                                            case 2:
-                                                <p>Superviosr</p>
-                                                break;
-                                            case 3:
-                                                <p>Manager</p>
-                                                break;
-                                            case 4:
-                                                <p>HOD</p>
-                                                break;
-                                            case 5:
-                                                <p>Employee</p>
-                                                break;
-                                            case 6:
-                                                <p>Department Rep</p>
-                                                break;
-                                            case 7:
-                                                <p>Temporary HOD</p>
-                                                break;
-
-
-                                        }
-                                    }
-                                </td>
-                                <td>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked ="checked">
-
-                                                <span class="switch-label"></span> <span class="switch-handle"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </td>
+                                <th>
+                                    <p>Name</p>
+                                </th>
+                                <th>
+                                    <p>Role</p>
+                                </th>
+                                <th></th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.userlist)
+                            {
+                                <tr>
+                                    <td>
+                                        <p>@item.Fullname</p>
+                                    </td>
+                                    <td>
+                                        @{
+                                            switch (item.Role)
+                                            {
 
+                                                case 1:
+                                                    <p>Clerk</p>
+                                                    break;
+                                                case 2:
+                                                    <p>Superviosr</p>
+                                                    break;
+                                                case 3:
+                                                    <p>Manager</p>
+                                                    break;
+                                                case 4:
+                                                    <p>HOD</p>
+                                                    break;
+                                                case 5:
+                                                    <p>Employee</p>
+                                                    break;
+                                                case 6:
+                                                    <p>Department Rep</p>
+                                                    break;
+                                                case 7:
+                                                    <p>Temporary HOD</p>
+                                                    break;
+
+
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <label class="switch switch-3d switch-primary mr-3">
+                                                    <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked="checked">
+
+                                                    <span class="switch-label"></span> <span class="switch-handle"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
 
                     <div class="card-body">
