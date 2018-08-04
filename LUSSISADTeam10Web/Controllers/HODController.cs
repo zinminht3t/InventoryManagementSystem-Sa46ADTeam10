@@ -177,6 +177,13 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 switch (reqm.Status)
                 {
+                    case ConRequisition.Status.APPROVED:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
                     case ConRequisition.Status.REQUESTPENDING:
                         ViewBag.Pending = "btn-warning";
                         ViewBag.Preparing = "btn-danger";
@@ -374,22 +381,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
+
             DelegationModel reqms = new DelegationModel();
             EditDelegationViewModel viewmodel = new EditDelegationViewModel();
             try
             {
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
-
                 ViewBag.Userid = reqms.Userid;
                 ViewBag.name = reqms.Username;
                 ViewBag.StartDate = reqms.Startdate;
                 ViewBag.Enddate = reqms.Enddate;
                 ViewBag.Deleid = reqms.Delid;
 
-
-                if (error != "")
+                // added by zmh to show the full name of user
+                UserModel DelegatedUser = new UserModel();
+                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
+                if (DelegatedUser != null && DelegatedUser.Userid != 0)
                 {
-                    return RedirectToAction("Index", "Error", new { error });
+                    ViewBag.name = DelegatedUser.Fullname;
                 }
             }
             catch (Exception ex)
@@ -593,7 +602,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (viewmodel != null)
                 {
-                    APIDelegation.CreateDelegation(token, dm, out string error);
+                   dm = APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
             }
@@ -601,6 +610,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Delegation";
+            Session["notimessage"] = dm.Username + " is Delegated as Head of Department";
             return RedirectToAction("SearchPreviousDelegation");
         }
         [Authorize(Roles = "HOD")]
@@ -611,20 +624,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            UserModel upum = new UserModel();
 
             try
             {
                 if (viewmodel != null)
                 {
 
-                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
+                    upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Assign Department Representative";
+            Session["notimessage"] = upum.Fullname + " is assigned as Department Representative";
             return RedirectToAction("AssignDepRep");
 
         }
@@ -659,6 +676,11 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Update Delegation";
+            Session["notimessage"] = "Delegation is updated successfully"; 
+
             return RedirectToAction("SearchPreviousDelegation");
         }
 

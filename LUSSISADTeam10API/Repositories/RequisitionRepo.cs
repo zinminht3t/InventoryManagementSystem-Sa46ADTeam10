@@ -637,34 +637,29 @@ namespace LUSSISADTeam10API.Repositories
                     entities.SaveChanges();
 
                     DisbursementLockerModel dislm = new DisbursementLockerModel();
-
-
                     dislm.DisID = req.disbursements.First().disid;
                     dislm.ReqID = req.reqid;
-
-
-                    List<DisbursementLockerModel> Currentdislms = new List<DisbursementLockerModel>();
-                    Currentdislms = LockerCollectionPointRepo.GetDisbursementLockersByDeptIDAndStatus(req.deptid, 1, out error);
-
-                    if (Currentdislms.Count > 0)
+                    dislm.DeptID = req.deptid;
+                    LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
+                    if (lcpm == null)
                     {
-                        dislm = Currentdislms.First();
-                    }
-                    else
-                    {
-                        dislm.DeptID = req.deptid;
-                        dislm.ReqID = req.reqid;
-                        dislm.DisID = req.disbursements.First().disid;
-                        LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
-                        if (lcpm == null)
+                        List<DisbursementLockerModel> Currentdislms = new List<DisbursementLockerModel>();
+                        Currentdislms = LockerCollectionPointRepo.GetDisbursementLockersByDeptIDAndStatus(req.deptid, 1, out error);
+                        if (Currentdislms.Count > 0)
+                        {
+                            dislm = Currentdislms.First();
+                        }
+                        else
                         {
                             lcpm = new LockerCollectionPointModel();
                             lcpm = lcpms.Where(p => p.Cpid == req.cpid).FirstOrDefault();
                         }
-                        dislm.LockerID = lcpm.Lockerid;
-                        dislm = LockerCollectionPointRepo.CreateDisbursementLocker(dislm, out error);
                     }
-
+                    else
+                    {
+                        dislm.LockerID = lcpm.Lockerid;
+                    }
+                    dislm = LockerCollectionPointRepo.CreateDisbursementLocker(dislm, out error);
                     reqdisms.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
                 }
             }

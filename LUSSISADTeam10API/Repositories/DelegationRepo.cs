@@ -215,7 +215,7 @@ namespace LUSSISADTeam10API.Repositories
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dele.Userid;
-                nom.Remark = us.fullname + " has been assigned as a Temp Head of Department from " + dele.Startdate.Value.ToShortDateString() + " to " + dele.Enddate.Value.ToShortDateString();
+                nom.Remark = us.fullname + " has been assigned as a Temp HOD from " + dele.Startdate.Value.ToShortDateString() + " to " + dele.Enddate.Value.ToShortDateString();
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
 
@@ -224,7 +224,7 @@ namespace LUSSISADTeam10API.Repositories
                 nom.Title = "New Authority";
                 nom.NotiType = ConNotification.NotiType.DelegationAssigned;
                 nom.ResID = dele.Userid;
-                nom.Remark = us.fullname + " has been assigned as a Temp Head of Department from " + dele.Startdate.Value.ToShortDateString() + " to " + dele.Enddate.Value.ToShortDateString();
+                nom.Remark = us.fullname + " has been assigned as a Temp HOD from " + dele.Startdate.Value.ToShortDateString() + " to " + dele.Enddate.Value.ToShortDateString();
                 nom = NotificationRepo.CreatNotification(nom, out error);
 
             }

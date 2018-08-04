@@ -19,6 +19,12 @@
         }
 
 
+        #extenddate{
+
+            width: auto !important;
+        }
+
+
         #alertBox {
             position: relative;
             width: 500px;
@@ -152,9 +158,16 @@
         <div class="animated fadeIn">
             @if (ViewBag.name == "")
             {
-                <h5 class="text-info"> There is no previous delegation! </h5>
-                <br />
-                <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  ">Create</a>
+
+
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="text-info"> There is no assigned delegation! </h5>
+                        <br />
+                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  "> New Delegation</a>
+                    </div>
+                </div>
             }
             @if (ViewBag.name != "")
             {
@@ -164,8 +177,8 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a><br /><br />
-                            <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Previous Delegation </h5><br />
+                            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">New Delegation</a><br /><br />
+                            <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Current Assigned Delegation </h5><br />
 
 
 
@@ -184,15 +197,32 @@
                                         <p>Start Date</p>
                                     </th>
                                     <td>
-                                        @Convert.ToDateTime(@ViewBag.StartDate).ToString("MM/dd/yyyy")
+                                        @Convert.ToDateTime(@ViewBag.StartDate).ToString("dd/MM/yyyy")
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
                                         <p>End Date</p>
                                     </th>
+                                    @{
+                                        var todaydate = DateTime.Today;
+
+                                        var startdate = ViewBag.StartDate;
+
+                                        var mindate = ViewBag.StartDate;
+
+                                        if (todaydate >= startdate)
+                                        {
+                                            mindate = todaydate;
+                                        }
+
+
+                                    }
+
+
                                     <td>
-                                        @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })
+                                        <input type="date" id="extenddate" class="form-control" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
+                                        @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
                                     </td>
                                 </tr>
                             </table>
@@ -216,7 +246,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                        <i class="fa fa-exclamation-triangle text-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -226,7 +256,7 @@
                         <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
 
                         <div style="text-align:center;display:none" id="loaderDiv">
-                            <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                            <img src="~/Styles/images/loading.gif" width="150" />
                         </div>
 
                     </div>

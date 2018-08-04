@@ -21,6 +21,17 @@
         max-height: 300px;
         overflow-y: scroll;
     }
+
+    #list-group-box {
+        min-width: 500px
+    }
+    @@media only screen and (max-width: 600px) {
+        #list-group-box {
+            max-width: 500px !important;
+        }
+    }
+
+
 </style>
 
 
@@ -41,7 +52,7 @@
         @foreach (var item in ViewBag.Notifications)
         {
             <a class="dropdown-item media" href="@Url.Action("Index", "Notification", new { id = item.NotiID })">
-                <li class="list-group-item" style="min-width: 500px">
+                <li class="list-group-item" id="list-group-box">
                     <span class="pull-left"> @item.Title</span> <span class="pull-right text-info"> @item.RelativeTime </span>
                     <br />
                     <em>@item.Remark</em>
