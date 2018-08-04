@@ -14,7 +14,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Process Requisition</h1>
+                <h1>Process Outstanding Requisition</h1>
             </div>
         </div>
     </div>
@@ -51,6 +51,7 @@
                             <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-braille fa-3x"></i><br /> Process Outstanding </h5><br />
                             <h6>Department :  @Model.DeptName </h6><br />
                             <h6>Collection Point : @ViewBag.ColectionPoint</h6><br />
+                            <h6>Locker Name : @ViewBag.LockerName</h6><br />
                             <h6>Requested Date :  @Convert.ToDateTime(Model.ReqDate).ToShortDateString()</h6><br />
                             <h6>Reason : <strong>@Model.Reason</strong></h6><br />
 

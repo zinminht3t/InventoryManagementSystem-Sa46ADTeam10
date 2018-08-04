@@ -466,12 +466,18 @@ namespace LUSSISADTeam10API.Repositories
         public static RequisitionModel CreateRequisition(RequisitionModel req, out string error)
         {
             error = "";
+            bool RaisedByTempHOD = true;
             LUSSISEntities entities = new LUSSISEntities();
             requisition reqn = new requisition();
             try
             {
                 reqn.raisedby = req.Raisedby;
-                reqn.approvedby = req.Raisedby;
+                reqn.approvedby = req.Approvedby;
+                if (req.Approvedby == null || req.Approvedby == 0)
+                {
+                    reqn.approvedby = req.Raisedby;
+                    RaisedByTempHOD = false;
+                }
                 reqn.deptid = req.Depid;
                 reqn.cpid = req.Cpid;
                 reqn.status = ConRequisition.Status.PENDING;
@@ -480,15 +486,22 @@ namespace LUSSISADTeam10API.Repositories
                 entities.SaveChanges();
                 req = GetRequisitionByRequisitionId(reqn.reqid, out error);
 
-
-                NotificationModel nom = new NotificationModel();
-                nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
-                nom.Role = ConUser.Role.HOD;
-                nom.Title = "Requisition Approval";
-                nom.NotiType = ConNotification.NotiType.RequisitionApproval;
-                nom.ResID = reqn.reqid;
-                nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
-                nom = NotificationRepo.CreatNotification(nom, out error);
+                if (!RaisedByTempHOD)
+                {
+                    NotificationModel nom = new NotificationModel();
+                    nom.Deptid = DepartmentRepo.GetDepartmentByUserid(reqn.raisedby ?? default(int), out error).Deptid;
+                    nom.Role = ConUser.Role.HOD;
+                    nom.Title = "Requisition Approval";
+                    nom.NotiType = ConNotification.NotiType.RequisitionApproval;
+                    nom.ResID = reqn.reqid;
+                    nom.Remark = "A new requisition has been raised by " + req.Rasiedbyname + "!";
+                    nom = NotificationRepo.CreatNotification(nom, out error);
+                }
+                else
+                {
+                    req.Status = ConRequisition.Status.APPROVED;
+                    req = UpdateRequisition(req, out error);
+                }
             }
             catch (NullReferenceException)
             {
@@ -624,34 +637,29 @@ namespace LUSSISADTeam10API.Repositories
                     entities.SaveChanges();
 
                     DisbursementLockerModel dislm = new DisbursementLockerModel();
-
-
                     dislm.DisID = req.disbursements.First().disid;
                     dislm.ReqID = req.reqid;
-
-
-                    List<DisbursementLockerModel> Currentdislms = new List<DisbursementLockerModel>();
-                    Currentdislms = LockerCollectionPointRepo.GetDisbursementLockersByDeptIDAndStatus(req.deptid, 1, out error);
-
-                    if (Currentdislms.Count > 0)
+                    dislm.DeptID = req.deptid;
+                    LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
+                    if (lcpm == null)
                     {
-                        dislm = Currentdislms.First();
-                    }
-                    else
-                    {
-                        dislm.DeptID = req.deptid;
-                        dislm.ReqID = req.reqid;
-                        dislm.DisID = req.disbursements.First().disid;
-                        LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
-                        if (lcpm == null)
+                        List<DisbursementLockerModel> Currentdislms = new List<DisbursementLockerModel>();
+                        Currentdislms = LockerCollectionPointRepo.GetDisbursementLockersByDeptIDAndStatus(req.deptid, 1, out error);
+                        if (Currentdislms.Count > 0)
+                        {
+                            dislm = Currentdislms.First();
+                        }
+                        else
                         {
                             lcpm = new LockerCollectionPointModel();
                             lcpm = lcpms.Where(p => p.Cpid == req.cpid).FirstOrDefault();
                         }
-                        dislm.LockerID = lcpm.Lockerid;
-                        dislm = LockerCollectionPointRepo.CreateDisbursementLocker(dislm, out error);
                     }
-
+                    else
+                    {
+                        dislm.LockerID = lcpm.Lockerid;
+                    }
+                    dislm = LockerCollectionPointRepo.CreateDisbursementLocker(dislm, out error);
                     reqdisms.Add(CovertDBRequisitionDistoAPIRequisitionDiswithDetails(req));
                 }
             }

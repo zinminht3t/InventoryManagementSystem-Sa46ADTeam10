@@ -21,7 +21,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
-            List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
+            List<POCountList> reportData = new List<POCountList>();
 
             List<AdjustmentModel> adjs = new List<AdjustmentModel>();
 
@@ -34,7 +34,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             try
             {
-                reportData = APIReport.FrequentlyItemList(token, out error);
+                reportData = APIReport.GetPoForfiveMonths(token, out error);
 
                 adjs = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
                 if (adjs == null)

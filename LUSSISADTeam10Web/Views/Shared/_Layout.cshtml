@@ -61,6 +61,7 @@
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0px !important;
         }
+
         .dataTables_paginate .pagination li:hover a {
             background: #3AAFA9;
             border-color: #344955;
@@ -72,24 +73,28 @@
             border-color: #272c33;
             color: white;
         }
+
         .Table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
             right: 1em;
             content: "";
         }
+
         .table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
             right: 1em;
             content: "";
         }
+
         .table.dataTable thead .sorting::after, table.dataTable thead .sorting_asc::after, table.dataTable thead .sorting_desc::after, table.dataTable thead .sorting_asc_disabled::after, table.dataTable thead .sorting_desc_disabled::after {
             right: 0.5em;
             content: "";
         }
 
-         @@media only screen and (max-width: 600px) {
-            #logoimg{
+        @@media only screen and (max-width: 600px) {
+            #logoimg {
                 width: 40px;
                 height: 40px;
             }
+
             .navbar-brand {
                 margin-top: 0px !important;
             }
@@ -99,6 +104,16 @@
                 display: none;
             }
         }
+
+        @@media (max-width: 575.99px){
+            .right-panel header.header .col-sm-5 {
+                float: left !important;
+                margin-right: 70px;
+            }
+
+        }
+
+
         table.dataTable tbody tr {
             background-color: #DAE6E5;
         }
@@ -179,10 +194,10 @@
                                 <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i>Previous Requisitions </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i>Collection Points </a>
+                                <a href="@Url.Action("CollectionPoint", "HOD")"> <i class="menu-icon ti-location-pin"></i> Collection Points </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-package"></i> Approve Requisitions</a>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-package"></i> Requisitions</a>
                             </li>
 
                         </ul>
@@ -278,10 +293,14 @@
                                 <a href="@Url.Action("Index", "Home")"> <i class="menu-icon ti-dashboard"></i> Dashboard</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i> Previous Requisitions </a>
+                                <a href="@Url.Action("RaiseRequisition","Employee")"> <i class="menu-icon ti-stats-up"></i>Raise Requisition </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-package"></i>Requisitions</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("RequisitionsList", "HOD")"> <i class="menu-icon ti-comments-smiley"></i> Requisitions </a>
+                                <a href="@Url.Action("OrderHistory", "HOD")"> <i class="menu-icon fa fa-history"></i> Previous Requisitions </a>
                             </li>
 
                         </ul>
@@ -413,7 +432,7 @@
 
     </div>
     <script type="text/javascript" src="~/Styles/Scripts/jquery-3.3.1.js"></script>
-    <script type="text/javascript"  src="~/Styles/js/lib/data-table/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Styles/js/lib/data-table/jquery.dataTables.min.js"></script>
     <script src="~/styles/js/popper.min.js"></script>
     <script src="~/styles/js/plugins.js"></script>
     <script src="~/styles/js/main.js"></script>

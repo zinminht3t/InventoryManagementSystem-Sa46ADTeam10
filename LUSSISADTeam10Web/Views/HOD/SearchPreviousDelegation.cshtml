@@ -1,151 +1,303 @@
 ﻿@model LUSSISADTeam10Web.Models.HOD.EditDelegationViewModel
 
 @{
-    ViewBag.Title = "SearchPreviousDelegation";
+    ViewBag.Title = "Delegation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
     <style>
-    </style>
-}
 
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>Delegate Authority</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-8 hideinmobile">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Delegation</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content mt-3">
-    <div class="animated fadeIn">
-        @if (ViewBag.name == "")
-        {
-            <h5 class="text-info"> There is no previous delegation! </h5>
-            <br />
-            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  ">Create</a>
+        #modalContainer {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 10000;
+            background-image: url(tp.png); /* required by MSIE to prevent actions on lower z-index elements */
         }
-        @if (ViewBag.name != "")
-        {
-            using (Html.BeginForm("SearchPreviousDelegation", "HOD", new { id = @ViewBag.Deleid }))
+
+
+        #extenddate{
+
+            width: auto !important;
+        }
+
+
+        #alertBox {
+            position: relative;
+            width: 500px;
+            min-height: 200px;
+            margin-top: 50px;
+            border: 1px solid #666;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: 20px 30px;
+            border-radius : 10px;
+        }
+
+        #modalContainer > #alertBox {
+            position: fixed;
+        }
+
+        #alertBox h1 {
+
+            margin: 100;
+            font: bold 0.9em verdana,arial;
+            background-color: #47B0C7;
+            color: #FFF;
+            border-bottom: 0px solid #000;
+            padding: 10px 0 10px 5px;
+            border-top-left-radius : 10px;
+            border-top-right-radius : 10px;
+        }
+
+
+
+        #alertBox p {
+            font: 1.5em verdana,arial;
+            height: 100px;
+            padding: 50px inherit;
+            margin-left: 60px;
+            padding-top: 50px;
+            color: black;
+        }
+
+
+        #alertBox #closeBtn {
+            display: block;
+            position: relative;
+            margin: 5px auto;
+            padding: 7px;
+            border: 0 none;
+            width: 70px;
+            font: 0.7em verdana,arial;
+            text-transform: uppercase;
+            text-align: center;
+            color: #FFF;
+            background-color: #357EBD;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+
+        /* unrelated styles */
+
+        #mContainer {
+            position: relative;
+            width: 600px;
+            margin: auto;
+            padding: 5px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            font: 0.7em verdana,arial;
+        }
+
+
+
+
+
+
+        code {
+            font-size: 1.2em;
+            color: #069;
+        }
+
+        #credits {
+            position: relative;
+            margin: 25px auto 0px auto;
+            width: 350px;
+            font: 0.7em verdana;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            height: 90px;
+            padding-top: 4px;
+        }
+
+            #credits img {
+                float: left;
+                margin: 5px 10px 5px 0px;
+                border: 1px solid #000000;
+                width: 80px;
+                height: 79px;
+            }
+
+        .important {
+            background-color: #F5FCC8;
+            padding: 2px;
+        }
+
+        code span {
+            color: green;
+        }
+        }
+    </style>
+
+
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Delegation</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 hideinmobile">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                        <li class="active">Delegation</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            @if (ViewBag.name == "")
             {
+
 
                 <div class="card">
 
                     <div class="card-body">
-                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">Create</a><br /><br />
-                        <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Previous Delegation </h5><br />
-
-
-
-                        <table class="table">
-                            <tr>
-                                <th>
-                                    <p>Name</p>
-                                </th>
-                                <td>
-                                    @ViewBag.name
-                                </td>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <p>Start Date</p>
-                                </th>
-                                <td>
-                                    @ViewBag.StartDate
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <p>End Date</p>
-                                </th>
-                                <td>
-                                    @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker" })
-                                </td>
-                            </tr>
-                        </table>
-                        @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate })  
-                        @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid })
-                        @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
-                        <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
-                            Delete
-                        </button>
-                        <input type="Submit" class="btn btn-outline-success" value="Update">
+                        <h5 class="text-info"> There is no assigned delegation! </h5>
+                        <br />
+                        <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-left  "> New Delegation</a>
                     </div>
                 </div>
             }
-        }
-    </div>
+            @if (ViewBag.name != "")
+            {
+                using (Html.BeginForm("SearchPreviousDelegation", "HOD", new { id = @ViewBag.Deleid }))
+                {
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            <a href="@Url.Action("CreateDelegationList", "HOD")" class="btn btn-outline-success pull-right ">New Delegation</a><br /><br />
+                            <h5 class="text-sm-center text-info"> <i class="fa fa-user fa-3x"></i><br /> Current Assigned Delegation </h5><br />
 
 
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <i class="fa fa-exclamation-triangle alert-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
 
-                </div>
-                <div class="modal-body">
-                    <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        <p>Name</p>
+                                    </th>
+                                    <td>
+                                        @ViewBag.name
+                                    </td>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <p>Start Date</p>
+                                    </th>
+                                    <td>
+                                        @Convert.ToDateTime(@ViewBag.StartDate).ToString("dd/MM/yyyy")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <p>End Date</p>
+                                    </th>
+                                    @{
+                                        var todaydate = DateTime.Today;
 
-                    <div style="text-align:center;display:none" id="loaderDiv">
-                        <img src="~/Content/gif/InternetSlowdown_Day.gif" width="150" />
+                                        var startdate = ViewBag.StartDate;
+
+                                        var mindate = ViewBag.StartDate;
+
+                                        if (todaydate >= startdate)
+                                        {
+                                            mindate = todaydate;
+                                        }
+
+
+                                    }
+
+
+                                    <td>
+                                        <input type="date" id="extenddate" class="form-control" asp-for="EndDate" name="EndDate" min="@Convert.ToDateTime(@mindate).ToString("yyyy-MM-dd")" value="@Convert.ToDateTime(@ViewBag.EndDate).ToString("yyyy-MM-dd")" />
+                                        @* @Html.TextBoxFor(Model => Model.EndDate, new { id = "datepicker", @onchange = "" })*@
+                                    </td>
+                                </tr>
+                            </table>
+                            @Html.HiddenFor(Model => Model.StartDate, new { id = @ViewBag.StartDate })
+                            @Html.HiddenFor(Model => Model.Userid, new { id = @ViewBag.Userid })
+                            @Html.HiddenFor(Model => Model.Deleid, new { id = @ViewBag.Deleid })
+                            <div style="margin-left :700px">
+                                <button type="button" onclick="ConfirmDelete(@ViewBag.Deleid)" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                                    Delete
+                                </button>
+                                <input type="Submit" class="btn btn-outline-success " value="Update">
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fa fa-exclamation-triangle text-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; Remove Authority</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <h5>Do you want to Remove Authority from  @ViewBag.name ? </h5>
+
+                        <div style="text-align:center;display:none" id="loaderDiv">
+                            <img src="~/Styles/images/loading.gif" width="150" />
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        <a href="#" class="btn btn-success" onclick="DeleteDelegation()">Confirm</a>
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                    <a href="#" class="btn btn-success" onclick="DeleteDelegation()">Confirm</a>
                 </div>
 
             </div>
 
         </div>
 
+
+        @*hidden field for storing current employeeId*@
+        <input type="hidden" id="HiddenDeleid" />
+
     </div>
 
+    @if (ViewBag.name != "")
+    {
+        @section Scripts {
 
-    @*hidden field for storing current employeeId*@
-    <input type="hidden" id="HiddenDeleid" />
-
-</div>
-
-
-@section Scripts {
-
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
-
-    <script>
+            <script>
         $(function () {
             $("#datepicker").datepicker();
 
             $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate');
-            $("#datepicker").datepicker('setDate', '@ViewBag.Enddate')
-
+            $("#datepicker").datepicker('option', "minDate", '@ViewBag.StartDate.ToString("MM/dd/yyyy")');
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
 
         });
-    </script>
-    <script>
+            </script>
+
+            <script>
 
             var ConfirmDelete = function (Deleid) {
 
@@ -174,5 +326,74 @@
                 })
 
             }
-    </script>
-}
+            </script>
+
+
+
+            <script>
+            $('#datepicker').datepicker().change(evt => {
+                var selectedDate = $('#datepicker').datepicker('getDate');
+                var now = new Date();
+                now.setHours(0, 0, 0, 0);
+                if (selectedDate < now) {
+                    alert("You can't select the previous date");
+            $("#datepicker").datepicker('setDate', '@ViewBag.EndDate.ToString("MM/dd/yyyy")')
+                } else {
+                          $("#datepicker").datepicker('setDate', selectedDate )
+                }
+            });
+
+            </script>
+            <script>
+
+
+                var ALERT_TITLE = "Oops!";
+                var ALERT_BUTTON_TEXT = "Ok";
+
+                if (document.getElementById) {
+                    window.alert = function (txt) {
+                        createCustomAlert(txt);
+                    }
+                }
+
+                function createCustomAlert(txt) {
+                    d = document;
+
+                    if (d.getElementById("modalContainer")) return;
+
+                    mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
+                    mObj.id = "modalContainer";
+                    mObj.style.height = d.documentElement.scrollHeight + "px";
+
+                    alertObj = mObj.appendChild(d.createElement("div"));
+                    alertObj.id = "alertBox";
+                    if (d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+                    alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth) / 2 + "px";
+                    alertObj.style.visiblity = "visible";
+
+                    h1 = alertObj.appendChild(d.createElement("h1"));
+                    h1.appendChild(d.createTextNode(ALERT_TITLE));
+
+                    msg = alertObj.appendChild(d.createElement("p"));
+                    //msg.appendChild(d.createTextNode(txt));
+                    msg.innerHTML = txt;
+
+                    btn = alertObj.appendChild(d.createElement("a"));
+                    btn.id = "closeBtn";
+                    btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+                    btn.href = "#";
+                    btn.focus();
+                    btn.onclick = function () { removeCustomAlert(); return false; }
+
+                    alertObj.style.display = "block";
+
+                }
+
+                function removeCustomAlert() {
+                    document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+                }
+                function ful() {
+                    alert('Alert this pages');
+                }
+            </script>
+        }}

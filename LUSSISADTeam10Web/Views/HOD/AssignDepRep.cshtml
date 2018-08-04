@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "AssignDepRep";
+    ViewBag.Title = "Assign Representative";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -13,7 +13,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Employeelist</h1>
+                <h1>Assign Representative</h1>
             </div>
         </div>
     </div>
@@ -21,8 +21,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Employeelist</li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li class="active">Assign Representative</li>
                 </ol>
             </div>
         </div>
@@ -39,7 +39,7 @@
               
                 <div class="card-body">
                     <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-user fa-3x"></i><br /> Assign Department Representative </h5><br />
-                    <p>Previous Deparment Rep is @ViewBag.assignedrep </p>
+                    <p>Current Representative is <span class="text-info">@ViewBag.assignedrep</span> </p>
 
                     <table class="table">
                         <tr>
@@ -55,7 +55,7 @@
                         {
                             <tr>
                                 <td>
-                                    <p>@item.Username</p>
+                                    <p>@item.Fullname</p>
                                 </td>
                                 <td>
                                     @{
@@ -89,7 +89,7 @@
                                     <div class="col-md-6">
                                         <div class="card-body">
                                             <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input">
+                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked ="checked">
 
                                                 <span class="switch-label"></span> <span class="switch-handle"></span>
                                             </label>
@@ -105,7 +105,7 @@
 
                         <div class="pull-right">
 
-                            <input type="Submit" class="btn btn-outline-success" value="Create">
+                            <input type="Submit" class="btn btn-outline-success" value="Assign">
                         </div>
                     </div>
                 </div>
@@ -138,4 +138,4 @@
 
 
 
-    }}
+    }

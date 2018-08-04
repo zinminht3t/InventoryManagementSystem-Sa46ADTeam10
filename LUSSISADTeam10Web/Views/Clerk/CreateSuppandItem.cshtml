@@ -43,67 +43,130 @@
                 <div class="container">
 
                     <div class="panel-group" id="accordion1" role="tablist">
+                       
                         <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                            <div class="panel-heading" role="tab" id="panel">
-                                <h4 class="panel-title">
-
-                                    <a class="text-info" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne" href="#collapseOne" aria-expanded="true" aria-controls="accordion1">
-                                        Import Supplier
-                                    </a>
-                                </h4>
-                            </div>
-
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne">
-                                <div class="panel">
-                                    @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                    {
-
-                                        <br />
-                                        @Html.Raw(ViewBag.Error)
-
-                                        <input type="file" required name="excelfile" />
-                                        <br />
-                                        <br />
-                                        <input type="submit" value="Import" class="btn btn-outline-info" />
-                                        <br />
-                                        <br />
-                                    }
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="panel-heading" role="tab" id="panel">
+                                    <h4 class="panel-title">
+                                        <a class="text-info collapsed" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne" href="#collapseOne" aria-expanded="true" aria-controls="accordion1">
+                                            Import Supplier
+                                        </a>
+                                    </h4>
                                 </div>
-                            </div>
+                                <div id="collapseOne" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="collapseOne">
+                                    <div class="panel">
+                                        @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+
+                                            <br />
+                                            <p class="text-danger">@ViewBag.Error</p>
+
+                                            <input type="file" required name="excelfile" />
+                                            <br />
+                                            <br />
+                                            <input type="submit" value="Import" class="btn btn-outline-info" />
+                                            <br />
+                                            <br />
+                                        }
+                                    </div>
+                                </div>
+                            }
+                           else
+                            {
+                                <div class="panel-heading" role="tab" id="panel">
+                                    <h4 class="panel-title">
+                                        <a class="text-info " data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne" href="#collapseOne" aria-expanded="true" aria-controls="accordion1">
+                                            Import Supplier
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne">
+                                    <div class="panel">
+                                        @using (Html.BeginForm("importsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+
+                                            <br />
+                                            <p>@ViewBag.Error</p>
+
+                                            <input type="file" required name="excelfile" />
+                                            <br />
+                                            <br />
+                                            <input type="submit" value="Import" class="btn btn-outline-info" />
+                                            <br />
+                                            <br />
+                                        }
+                                    </div>
+                                </div>
+                            }
                         </div>
+                        
                         <br />
                         <br />
                     </div>
 
                     <div class="panel-group" id="accordion2" role="tablist">
                         <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                            <div class="panel-heading" role="tab" id="panel1">
-                                <h4 class="panel-title">
+                            @if (ViewBag.Error1 != null)
+                            {
+                                <div class="panel-heading" role="tab" id="panel1">
+                                    <h4 class="panel-title">
 
-                                    <a class="text-info" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseTwo" href="#collapseTwo" aria-expanded="true" aria-controls="accordion2">
-                                        Import Supplier Items
-                                    </a>
-                                </h4>
-                            </div>
-
-                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseTwo">
-                                <div class="panel1">
-                                    @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                    {
-                                        <br />
-                                        @Html.Raw(ViewBag.Error)
-
-                                        <input type="file" required name="excelfile" />
-                                        <br />
-                                        <br />
-                                        <input type="submit" value="Import" class="btn btn-outline-info" />
-                                        <br />
-                                        <br />
-
-                                    }
-
+                                        <a class="text-info collapsed" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseTwo" href="#collapseTwo" aria-expanded="true" aria-controls="accordion2">
+                                            Import Supplier Items
+                                        </a>
+                                    </h4>
                                 </div>
-                            </div>
+
+                                <div id="collapseTwo" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="collapseTwo">
+                                    <div class="panel1">
+                                        @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <br />
+                                            <p class="text-danger">@ViewBag.Error1</p>
+
+                                            <input type="file" required name="excelfile" />
+                                            <br />
+                                            <br />
+                                            <input type="submit" value="Import" class="btn btn-outline-info" />
+                                            <br />
+                                            <br />
+
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                           else
+                            {
+                                <div class="panel-heading" role="tab" id="panel1">
+                                    <h4 class="panel-title">
+
+                                        <a class="text-info " data-toggle="collapse" data-parent="#accordion2" data-target="#collapseTwo" href="#collapseTwo" aria-expanded="true" aria-controls="accordion2">
+                                            Import Supplier Items
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseTwo">
+                                    <div class="panel1">
+                                        @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <br />
+                                           
+
+                                            <input type="file" required name="excelfile" />
+                                            <br />
+                                            <br />
+                                            <input type="submit" value="Import" class="btn btn-outline-info" />
+                                            <br />
+                                            <br />
+
+                                        }
+
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <br />
                         <br />
@@ -125,5 +188,6 @@
 @section Scripts {
 
     <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+
 }
 

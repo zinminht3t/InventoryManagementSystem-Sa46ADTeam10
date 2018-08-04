@@ -38,9 +38,10 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel CurrentTemp = new DelegationModel();
             UserModel CurrentTempUser = new UserModel();
 
-            reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            reqs =  APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
+            ViewBag.DelegationType = "Temporary HOD";
 
             CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
             ViewBag.RepName = CurrentRep.Fullname;
@@ -63,10 +64,21 @@ namespace LUSSISADTeam10Web.Controllers
                 CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
                 ViewBag.TempHOD = CurrentTempUser.Fullname;
                 ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
+                if(CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
+                {
+                    ViewBag.DelegationType = "Current Temporary HOD";
+                }
+                else
+                {
+                    ViewBag.DelegationType = "Upcoming Temporary HOD";
+                }
+
+
             }
 
             if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
             {
+                ViewBag.DelegationType = "Temporary HOD";
                 ViewBag.TempHOD = "None";
                 ViewBag.TempDate = "-";
             }
@@ -84,7 +96,15 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
+
+                if(reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status < ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
 
                 if (error != "")
                 {
@@ -109,7 +129,16 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-                reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).ToList();
+
+                if(reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
+
 
                 if (error != "")
                 {
@@ -148,6 +177,13 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 switch (reqm.Status)
                 {
+                    case ConRequisition.Status.APPROVED:
+                        ViewBag.Pending = "btn-warning";
+                        ViewBag.Preparing = "btn-danger";
+                        ViewBag.Ready = "btn-danger";
+                        ViewBag.Collected = "btn-danger";
+                        ViewBag.Track = "Request Pending";
+                        break;
                     case ConRequisition.Status.REQUESTPENDING:
                         ViewBag.Pending = "btn-warning";
                         ViewBag.Preparing = "btn-danger";
@@ -307,7 +343,14 @@ namespace LUSSISADTeam10Web.Controllers
                 
                 if(reqm.Status == ConRequisition.Status.APPROVED)
                 {
-
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Already Approved Requisiton!";
+                    Session["notimessage"] = "This requisition has already been approved!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else if(reqm.Status == ConRequisition.Status.REJECTED)
+                {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
                     Session["notititle"] = "Already Approved Requisiton!";
@@ -338,22 +381,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
+
             DelegationModel reqms = new DelegationModel();
             EditDelegationViewModel viewmodel = new EditDelegationViewModel();
             try
             {
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
-
                 ViewBag.Userid = reqms.Userid;
                 ViewBag.name = reqms.Username;
                 ViewBag.StartDate = reqms.Startdate;
                 ViewBag.Enddate = reqms.Enddate;
                 ViewBag.Deleid = reqms.Delid;
 
-
-                if (error != "")
+                // added by zmh to show the full name of user
+                UserModel DelegatedUser = new UserModel();
+                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
+                if (DelegatedUser != null && DelegatedUser.Userid != 0)
                 {
-                    return RedirectToAction("Index", "Error", new { error });
+                    ViewBag.name = DelegatedUser.Fullname;
                 }
             }
             catch (Exception ex)
@@ -505,6 +550,14 @@ namespace LUSSISADTeam10Web.Controllers
                     nom.ResID = reqm.Reqid;
                     nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
                     nom = APINotification.CreateNoti(token, nom, out error);
+
+                    nom.Deptid = reqm.Depid;
+                    nom.Role = ConUser.Role.DEPARTMENTREP;
+                    nom.Title = "Requisition Rejected";
+                    nom.NotiType = ConNotification.NotiType.RejectedRequistion;
+                    nom.ResID = reqm.Reqid;
+                    nom.Remark = "The new requisition has been rejected by the HOD with remark : " + viewmodel.Remark;
+                    nom = APINotification.CreateNoti(token, nom, out error);
                 }
 
                 reqm = APIRequisition.UpdateRequisition(reqm, token, out error);
@@ -541,15 +594,15 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel dm = new DelegationModel();
 
             dm.Userid = userid;
-            dm.Enddate = viewmodel.EndDate;
-            dm.Startdate = viewmodel.StartDate;
+            dm.Enddate = (DateTime)viewmodel.EndDate;
+            dm.Startdate = (DateTime)viewmodel.StartDate; 
             dm.AssignedbyId = viewmodel.assignedby;
 
             try
             {
                 if (viewmodel != null)
                 {
-                    APIDelegation.CreateDelegation(token, dm, out string error);
+                   dm = APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
             }
@@ -557,6 +610,10 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Delegation";
+            Session["notimessage"] = dm.Username + " is Delegated as Head of Department";
             return RedirectToAction("SearchPreviousDelegation");
         }
         [Authorize(Roles = "HOD")]
@@ -567,20 +624,24 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-
+            UserModel upum = new UserModel();
 
             try
             {
                 if (viewmodel != null)
                 {
 
-                    UserModel upum = APIUser.AssignDepRep(token, userid, out string error);
+                    upum = APIUser.AssignDepRep(token, userid, out string error);
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Assign Department Representative";
+            Session["notimessage"] = upum.Fullname + " is assigned as Department Representative";
             return RedirectToAction("AssignDepRep");
 
         }
@@ -615,6 +676,11 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
+            Session["noti"] = true;
+            Session["notitype"] = "success";
+            Session["notititle"] = "Update Delegation";
+            Session["notimessage"] = "Delegation is updated successfully"; 
+
             return RedirectToAction("SearchPreviousDelegation");
         }
 

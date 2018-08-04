@@ -19,22 +19,34 @@ namespace LUSSISADTeam10API.Controllers
         [Route("api/items")]
         public IHttpActionResult GetAllItems()
         {
-            // declare and initialize error variable to accept the error from Repo
             string error = "";
 
-            // get the list from itemrepo and will insert the error if there is one
             List<ItemModel> ims = ItemRepo.GetAllItems(out error);
 
-            // if the erorr is not blank or the item list is null
             if (error != "" || ims == null)
             {
-                // if the error is 404
                 if (error == ConError.Status.NOTFOUND)
                     return Content(HttpStatusCode.NotFound, "Items Not Found");
-                // if the error is other one
                 return Content(HttpStatusCode.BadRequest, error);
             }
-            // if there is no error
+            return Ok(ims);
+
+        }
+
+        [HttpGet]
+        [Route("api/activesupplieritems")]
+        public IHttpActionResult GetAllSupplierItems()
+        {
+            string error = "";
+
+            List<ItemModel> ims = ItemRepo.GetAllSupplierItems(out error);
+
+            if (error != "" || ims == null)
+            {
+                if (error == ConError.Status.NOTFOUND)
+                    return Content(HttpStatusCode.NotFound, "Items Not Found");
+                return Content(HttpStatusCode.BadRequest, error);
+            }
             return Ok(ims);
 
         }

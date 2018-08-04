@@ -1,12 +1,10 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.FrequentlyTop5ItemsModel>
+﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.POCountList>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Dashboard";
-    int count = Model.Count();
-    var labels = new string[count];
-    var data = new int?[count];
-    labels = Model.Select(x => x.Description).ToArray();
-    data = Model.Select(x => x.Qty).ToArray();
+    var labels = Model.Select(x => x.Month).Reverse().ToArray();
+    var data = Model.Select(x => x.Total).Reverse().ToArray();
+    var tooltips = Model.Select(x => x.PurchaseOrderCount).Reverse().ToArray();
 }
 @section Styles {
     <style>
@@ -39,7 +37,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="text-sm-center text-info"> Purchase Order for Past 5 Months </h5><br />
-                        <canvas id="myChart"></canvas>
+                        <canvas id="myChart" height="250"></canvas>
                     </div>
                 </div>
             </div>
@@ -104,6 +102,7 @@
     <script type="text/javascript">
         var lbls = [];
         var dt = [];
+        var tt = [];
         @for(int i=0; i<labels.Length; i++){
             <text>
                 lbls.push( ' @labels[i] ' );
@@ -114,6 +113,12 @@
                 dt.push( ' @data[i] ' );
             </text>
         }
+        @for(int i=0; i< tooltips.GetLength(0); i++){
+            <text>
+                tt.push( 'Purchase Order Count : @tooltips[i] ' );
+            </text>
+        }
+
         window.onload = dataload;
         function dataload() {
             var ctx = document.getElementById("myChart");
@@ -147,16 +152,30 @@
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                return tooltipItem.yLabel;
+                                var txt = ['S$' + dt[tooltipItem.index]];
+                                txt.push(tt[tooltipItem.index]);
+                                return txt;
                             }
                         }
                     },
                     scales: {
                         xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
                             ticks: {
                                 autoSkip: false,
                                 maxRotation: 0,
-                                minRotation: 30
+                                minRotation: 0
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Total Cost'
+                            },
+                            ticks: {
+                                beginAtZero: true
                             }
                         }]
                     }

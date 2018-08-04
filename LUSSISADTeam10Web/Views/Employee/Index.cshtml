@@ -13,7 +13,14 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Employee</h1>
+                @if (Session["role"].ToString() == "7")
+                {
+                    <h1>Temporary Head of Department</h1>
+                }
+                else
+                {
+                    <h1>Employee</h1>
+                }
             </div>
         </div>
     </div>
@@ -36,7 +43,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-one">
-                            <div class="stat-icon dib"><a href="@Url.Action("TrackRequisitions")"><i class="ti-package text-info border-info"></i></a></div>
+
+                            @if (Session["role"].ToString() == "7")
+                            {
+                                <div class="stat-icon dib"><a href="@Url.Action("RequisitionsList", "HOD")"><i class="ti-package text-info border-info"></i></a></div>
+                            }
+                            else
+                            {
+                                <div class="stat-icon dib"><a href="@Url.Action("TrackRequisitions")"><i class="ti-package text-info border-info"></i></a></div>
+                            }
                             <div class="stat-content dib">
                                 <div class="stat-text">Pending Requisitons</div>
                                 <div class="stat-digit">@ViewBag.ReqCount</div>
@@ -50,7 +65,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-one">
-                            <div class="stat-icon dib"><a href="@Url.Action("TrackRequisitions")"><i class="ti-location-arrow text-success border-success"></i></a></div>
+                            @if (Session["role"].ToString() == "7")
+                            {
+                                <div class="stat-icon dib"><a href="@Url.Action("RequisitionsList", "HOD")"><i class="ti-package text-info border-info"></i></a></div>
+                            }
+                            else
+                            {
+                                <div class="stat-icon dib"><a href="@Url.Action("TrackRequisitions")"><i class="ti-package text-info border-info"></i></a></div>
+                            }
                             <div class="stat-content dib">
                                 <div class="stat-text">In Progress Requisitons</div>
                                 <div class="stat-digit">@ViewBag.InProReqCount</div>
