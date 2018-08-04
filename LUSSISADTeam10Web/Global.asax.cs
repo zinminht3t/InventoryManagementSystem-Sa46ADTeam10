@@ -22,6 +22,12 @@ namespace LUSSISADTeam10Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        protected void Application_BeginRequest()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.Now.AddHours(-1));
+            Response.Cache.SetNoStore();
+        }
         protected void FormsAuthentication_OnAuthenticate(Object sender, FormsAuthenticationEventArgs e)
         {
             if (FormsAuthentication.CookiesSupported == true)

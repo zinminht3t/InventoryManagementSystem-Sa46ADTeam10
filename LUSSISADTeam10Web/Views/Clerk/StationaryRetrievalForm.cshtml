@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.BreakdownByDepartmentModel>
 
 @{
-    ViewBag.Title = "Track Requisition";
+    ViewBag.Title = "Stationery Retrieval List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -43,7 +43,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Stationary Retrieval Form</h1>
+                <h1>Stationery Retrieval Form</h1>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Stationary Retrieval Form</li>
+                    <li class="active">Stationery Retrieval Form</li>
                 </ol>
             </div>
         </div>
@@ -90,7 +90,7 @@
                     <hr />
 
                     <div id="StationaryRetrivalForm">
-                        <h5 class="text-info text-center hideinmobile"><i class="fa fa-file-pdf-o fa-3x"></i><br /><br /> Stationary Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
+                        <h5 class="text-info text-center hideinmobile"><i class="fa fa-file-pdf-o fa-3x"></i><br /><br /> Stationery Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
                         <br />
                         <table class="table table-bordered">
                             <thead class="thead-dark text-primary text-center">
