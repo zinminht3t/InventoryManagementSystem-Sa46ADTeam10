@@ -16,6 +16,7 @@ namespace LUSSISADTeam10Web.Controllers
 {
     public class ClerkController : Controller
     {
+
         [Authorize(Roles = "Clerk")]
         public ActionResult Index()
         {
@@ -1267,8 +1268,8 @@ namespace LUSSISADTeam10Web.Controllers
 
             Session["noti"] = true;
             Session["notitype"] = "success";
-            Session["notititle"] = "Requision";
-            Session["notimessage"] = "Reqision is approved ";
+            Session["notititle"] = "Requisition";
+            Session["notimessage"] = "Reqisition is approved";
 
             return RedirectToAction("StationaryRetrievalForm");
         }
@@ -1304,6 +1305,12 @@ namespace LUSSISADTeam10Web.Controllers
                     outreqvms.Add(outreqvm);
                 }
             }
+
+            if(outreqvms != null)
+            {
+                outreqvms = outreqvms.OrderBy(x => x.Status).ToList();
+            }
+
 
             ViewBag.Outstandings = outreqvms;
 
