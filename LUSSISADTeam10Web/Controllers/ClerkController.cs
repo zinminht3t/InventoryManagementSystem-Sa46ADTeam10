@@ -299,7 +299,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["notititle"] = "Import Error";
                 Session["notimessage"] = "Invalid data in File. Pls import with correct excel file ";
 
-                ViewBag.Error1 = "Invalid data in File";
+                ViewBag.Error1 = ex.Message ;
                 return View("CreateSuppandItem");
             }
         }
@@ -386,7 +386,7 @@ namespace LUSSISADTeam10Web.Controllers
                 Session["notititle"] = "Import Error";
                 Session["notimessage"] = "Invalid data in File. Pls import with correct excel file ";
 
-                ViewBag.Error = "Invalid data in File";
+                ViewBag.Error = ex.Message ;
                
                 return View("CreateSuppandItem");
             }
