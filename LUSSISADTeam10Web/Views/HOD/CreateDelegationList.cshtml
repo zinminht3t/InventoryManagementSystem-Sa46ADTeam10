@@ -103,8 +103,14 @@
                                     <div class="col-md-6">
                                         <div class="card-body">
                                             <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked ="checked">
-
+                                                @if (item.Role == 7)
+                                                {
+                                                    <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked="checked">
+                                                }
+                                                else
+                                                {
+                                                    <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" >
+                                                }
                                                 <span class="switch-label"></span> <span class="switch-handle"></span>
                                             </label>
                                         </div>

@@ -38,7 +38,7 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel CurrentTemp = new DelegationModel();
             UserModel CurrentTempUser = new UserModel();
 
-            reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            reqs =  APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
             ViewBag.DelegationType = "Temporary HOD";

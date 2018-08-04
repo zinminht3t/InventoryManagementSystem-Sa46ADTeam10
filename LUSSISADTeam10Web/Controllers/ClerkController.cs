@@ -195,93 +195,111 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (excelfile == null || excelfile.ContentLength == 0)
                 {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Import Error";
+                    Session["notimessage"] = "File is Empty ";
 
-                    ViewBag.Error = "Please select a excel file";
-                    return View("Index");
+                    ViewBag.Error1 = "File is Empty";
+                    return View("CreateSuppandItem");
                 }
 
                 else
                 {
+                    
 
-                    if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
-                    {
-                        string path = Server.MapPath("~/Content/" + excelfile.FileName);
-                        if (System.IO.File.Exists(path))
-                            System.IO.File.Delete(path);
-                        excelfile.SaveAs(path);
-                        // read data from excel file
-                        Excel.Application application = new Excel.Application();
-                        Excel.Workbook workbook = application.Workbooks.Open(path);
-                        Excel.Worksheet worksheet = workbook.ActiveSheet;
-                        Excel.Range range = worksheet.UsedRange;
-                        List<ImportSupplierItem> SuppItem = new List<ImportSupplierItem>();
-                        for (int row = 2; row <= range.Rows.Count; row++)
+                        if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
                         {
+                            string path = Server.MapPath("~/Content/" + excelfile.FileName);
+                            if (System.IO.File.Exists(path))
+                                System.IO.File.Delete(path);
+                            excelfile.SaveAs(path);
+                            // read data from excel file
+                            Excel.Application application = new Excel.Application();
+                            Excel.Workbook workbook = application.Workbooks.Open(path);
+                            Excel.Worksheet worksheet = workbook.ActiveSheet;
+                            Excel.Range range = worksheet.UsedRange;
+                            List<ImportSupplierItem> SuppItem = new List<ImportSupplierItem>();
+                            for (int row = 2; row <= range.Rows.Count; row++)
+                            {
 
 
-                            ImportSupplierItem p = new ImportSupplierItem();
+                                ImportSupplierItem p = new ImportSupplierItem();
 
-                            p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
-                            p.Description = ((Excel.Range)range.Cells[row, 2]).Text;
-                            p.Uom = ((Excel.Range)range.Cells[row, 3]).Text;
-                            p.Price = double.Parse(((Excel.Range)range.Cells[row, 4]).Text);
-                            SuppItem.Add(p);
+                                p.SupName = ((Excel.Range)range.Cells[row, 1]).Text;
+                                p.Description = ((Excel.Range)range.Cells[row, 2]).Text;
+                                p.Uom = ((Excel.Range)range.Cells[row, 3]).Text;
+                                p.Price = double.Parse(((Excel.Range)range.Cells[row, 4]).Text);
+                                SuppItem.Add(p);
+                            }
+
+
+                            List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
+                            ViewBag.supplierlist = sm;
+                            List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
+                            List<InventoryModel> invm = new List<InventoryModel>();
+                            foreach (SupplierItemModel sim in sm)
+                            {
+                                SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
+                                InventoryModel im = new InventoryModel();
+                                sivm1.ItemId = sim.ItemId;
+                                sivm1.SupId = sim.SupId;
+                                sivm1.SupName = sim.SupName;
+                                sivm1.Price = sim.Price;
+                                sivm1.Uom = sim.Uom;
+                                sivm1.CategoryName = sim.CategoryName;
+                                sivm1.Description = sim.Description;
+
+                                im = APIInventory.GetInventoryByItemid(sim.ItemId, token, out String error2);
+
+                                sivm.Add(sivm1);
+                                invm.Add(im);
+
+
+                            }
+                            workbook.Close();
+
+                            List<int> itemidlist = new List<int>();
+                            foreach (SupplierItemImportViewModel spim in sivm)
+                            {
+                                itemidlist.Add(spim.ItemId);
+                            }
+
+
+                            Session["id"] = itemidlist;
+
+
+                            ViewBag.check = true;
+                            TempData["import"] = invm;
+
+                            return View(invm);
                         }
-
-
-                        List<SupplierItemModel> sm = APISupplier.newimportsuppliers(token, SuppItem, out string error);
-                        ViewBag.supplierlist = sm;
-                        List<SupplierItemImportViewModel> sivm = new List<SupplierItemImportViewModel>();
-                        List<InventoryModel> invm = new List<InventoryModel>();
-                        foreach (SupplierItemModel sim in sm)
-                        {
-                            SupplierItemImportViewModel sivm1 = new SupplierItemImportViewModel();
-                            InventoryModel im = new InventoryModel();
-                            sivm1.ItemId = sim.ItemId;
-                            sivm1.SupId = sim.SupId;
-                            sivm1.SupName = sim.SupName;
-                            sivm1.Price = sim.Price;
-                            sivm1.Uom = sim.Uom;
-                            sivm1.CategoryName = sim.CategoryName;
-                            sivm1.Description = sim.Description;
-
-                            im = APIInventory.GetInventoryByItemid(sim.ItemId, token, out String error2);
-
-                            sivm.Add(sivm1);
-                            invm.Add(im);
-
-
-                        }
-                        workbook.Close();
-
-                        List<int> itemidlist = new List<int>();
-                        foreach (SupplierItemImportViewModel spim in sivm)
-                        {
-                            itemidlist.Add(spim.ItemId);
-                        }
-
-
-                        Session["id"] = itemidlist;
-
-
-                        ViewBag.check = true;
-                        TempData["import"] = invm;
-
-                        return View(invm);
-                    }
+                    
+                   
                     else
                     {
 
 
-                        ViewBag.Error = "File type is incorrect";
-                        return View("Index");
+                        Session["noti"] = true;
+                        Session["notitype"] = "error";
+                        Session["notititle"] = "Import Error";
+                        Session["notimessage"] = "File type is incorrect";
+
+                        ViewBag.Error1 = "File type is incorrect";
+                        return View("CreateSuppandItem");
                     }
                 }
             }
 
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Import Error";
+                Session["notimessage"] = "Invalid data in File. Pls import with correct excel file ";
+
+                ViewBag.Error1 = "Invalid data in File";
+                return View("CreateSuppandItem");
             }
         }
 
@@ -298,8 +316,13 @@ namespace LUSSISADTeam10Web.Controllers
                 if (excelfile == null || excelfile.ContentLength == 0)
                 {
 
-                    ViewBag.Error = "Please select a excel file";
-                    return View("Index");
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Import Error";
+                    Session["notimessage"] = "File is Empty ";
+
+                    ViewBag.Error = "File is Empty";
+                    return View("CreateSuppandItem");
                 }
 
                 else
@@ -343,17 +366,28 @@ namespace LUSSISADTeam10Web.Controllers
                     }
                     else
                     {
-
+                        Session["noti"] = true;
+                        Session["notitype"] = "error";
+                        Session["notititle"] = "Import Error";
+                        Session["notimessage"] = "File type is incorrect";
 
                         ViewBag.Error = "File type is incorrect";
-                        return View("Index");
+                        
+                        return View("CreateSuppandItem");
                     }
                 }
             }
 
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Import Error";
+                Session["notimessage"] = "Invalid data in File. Pls import with correct excel file ";
+
+                ViewBag.Error = "Invalid data in File";
+               
+                return View("CreateSuppandItem");
             }
         }
 

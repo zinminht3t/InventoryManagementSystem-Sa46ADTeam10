@@ -1412,6 +1412,7 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
+    <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\Content\bootstrap.min.css.map" />
