@@ -10,6 +10,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web
 {
     public class MvcApplication : System.Web.HttpApplication

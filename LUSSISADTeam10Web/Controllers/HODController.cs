@@ -597,49 +597,6 @@ namespace LUSSISADTeam10Web.Controllers
                 data = result.Select(x => x.Quantity).ToArray()
             }, JsonRequestBehavior.AllowGet);
         }
-        
-        #endregion
-
-        #region Author : Hsu Yee Phyo
-
-        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
-        public ActionResult OrderHistory()
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-            List<RequisitionModel> reqms = new List<RequisitionModel>();
-            try
-            {
-                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-
-                if (reqms == null)
-                {
-                    reqms = new List<RequisitionModel>();
-                }
-                else
-                {
-                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
-                }
-
-
-                if (error != "")
-                {
-                    return RedirectToAction("Index", "Error", new { error });
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-            return View(reqms);
-        }
-
-        #endregion
-
-        #region Authors : Htet Wai Yan | Zin Min Htet
-
         [Authorize(Roles = "HOD")]
         public ActionResult CollectionPoint()
         {
@@ -689,8 +646,46 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(cpms);
         }
+        #endregion
+
+        #region Author : Hsu Yee Phyo
+
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
+        public ActionResult OrderHistory()
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            try
+            {
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+
+                if (reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
+
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(reqms);
+        }
 
         #endregion
+
 
         #region Utilities
         public string GetToken()

@@ -5,17 +5,18 @@ using System.Web;
 using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Constants;
+
+// Author : Khin Yadana Phyo | Aung Myo | Zin Min Htet
 namespace LUSSISADTeam10API.Repositories
 {
     public class DisbursementDetailsRepo
     {
-        // Convert From Auto Generated DB Model to APIModel for Disbursement Details
+        #region Author : Aung Myo
         private static DisbursementDetailsModel CovertDBDisbursementDetailsstoAPIDisbursementDetails(disbursementdetail disbm)
         {
             DisbursementDetailsModel dism = new DisbursementDetailsModel(disbm.disid, disbm.itemid, disbm.item.description, disbm.qty, disbm.item.category.name, disbm.item.uom);
             return dism;
         }
-        // Get the list of all Disbursement Details
         public static List<DisbursementDetailsModel> GetAllDisbursementDetails(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -51,10 +52,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return disbm;
         }
-
-
-
-        // to get the DisbursementDetails by the ItemId
         public static List<DisbursementDetailsModel> GetDisbursementDetailsByItemId(int itemid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -90,8 +87,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return dism;
         }
-
-        // to get the DisbursementDetails by the DisbursementId
         public static List<DisbursementDetailsModel> GetDisbursementDetailsByDisbursementId(int disid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -127,71 +122,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return dism;
         }
-
-        //create the disbursement details
-        public static List<DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
-        {
-            error = "";
-            LUSSISEntities entities = new LUSSISEntities();
-            disbursementdetail disdb = new disbursementdetail();
-
-            try
-            {
-                disdb.disid = disdm.Disid;
-                disdb.itemid = disdm.Itemid;
-                disdb.qty = disdm.Qty;
-                disdb = entities.disbursementdetails.Add(disdb);
-                entities.SaveChanges();
-
-            }
-
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return GetDisbursementDetailsByDisbursementId(disdb.disid, out error);
-        }
-
-        // update the disbursement Details
-        public static List<DisbursementDetailsModel> UpdateDisbursementDetails(DisbursementDetailsModel dism, out string error)
-        {
-            error = "";
-            // declare and initialize new LUSSISEntities to perform update
-            LUSSISEntities entities = new LUSSISEntities();
-            disbursementdetail ndism = new disbursementdetail();
-            try
-            {
-                // finding the inventory object using Inventory API model
-                ndism = entities.disbursementdetails.Where(p => p.disid == dism.Disid && p.itemid == dism.Itemid).First<disbursementdetail>();
-
-                // transfering data from API model to DB Model
-                ndism.disid = dism.Disid;
-                ndism.itemid = dism.Itemid;
-                ndism.qty = dism.Qty;
-
-                // saving the update
-                entities.SaveChanges();
-
-                // return the updated model 
-
-            }
-            catch (NullReferenceException)
-            {
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            // return the updated model 
-            return GetDisbursementDetailsByDisbursementId(ndism.disid, out error);
-        }
-
-        // to get the list for the clerk to retrive items from inventory
         public static List<OutstandingItemModel> GetAllPreparingItems(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -247,12 +177,68 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return ois;
         }
+        public static List<DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
+        {
+            error = "";
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementdetail disdb = new disbursementdetail();
 
+            try
+            {
+                disdb.disid = disdm.Disid;
+                disdb.itemid = disdm.Itemid;
+                disdb.qty = disdm.Qty;
+                disdb = entities.disbursementdetails.Add(disdb);
+                entities.SaveChanges();
 
+            }
 
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return GetDisbursementDetailsByDisbursementId(disdb.disid, out error);
+        }
+        public static List<DisbursementDetailsModel> UpdateDisbursementDetails(DisbursementDetailsModel dism, out string error)
+        {
+            error = "";
+            // declare and initialize new LUSSISEntities to perform update
+            LUSSISEntities entities = new LUSSISEntities();
+            disbursementdetail ndism = new disbursementdetail();
+            try
+            {
+                // finding the inventory object using Inventory API model
+                ndism = entities.disbursementdetails.Where(p => p.disid == dism.Disid && p.itemid == dism.Itemid).First<disbursementdetail>();
 
+                // transfering data from API model to DB Model
+                ndism.disid = dism.Disid;
+                ndism.itemid = dism.Itemid;
+                ndism.qty = dism.Qty;
 
+                // saving the update
+                entities.SaveChanges();
 
+                // return the updated model 
+
+            }
+            catch (NullReferenceException)
+            {
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            // return the updated model 
+            return GetDisbursementDetailsByDisbursementId(ndism.disid, out error);
+        }
+        #endregion
+
+        #region Author : Zin Min Htet | Khin Yadana Phyo
         public static List<BreakdownByDepartmentModel> GetBreakdownByDepartment(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -318,6 +304,8 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return ois;
         }
+        #endregion
+
     }
 
 

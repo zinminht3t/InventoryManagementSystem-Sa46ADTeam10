@@ -7,11 +7,13 @@ using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Constants;
 
+// Author : Aung Myo | Zin Min Htet
 namespace LUSSISADTeam10API.Repositories
 {
     public class RequisitionRepo
-
     {
+        #region Author : Aung Myo
+
         // Convert From Auto Generated DB Model to APIModel for Requsition with Requisition Details data
         private static RequisitionModel CovertDBRequisitiontoAPIRequisitionwithDetails(requisition req)
         {
@@ -72,7 +74,6 @@ namespace LUSSISADTeam10API.Repositories
                                      , req.deptid, req.department.deptname, req.status, req.reqdate, new List<RequisitionDetailsModel>());
             return reqm;
         }
-
         // Get the list of all requisition 
         public static List<RequisitionModel> GetAllRequisition(out string error)
         {
@@ -462,6 +463,12 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return reqm;
         }
+
+        #endregion
+
+        #region Author : Zin Min Htet
+
+
         //create the requisition
         public static RequisitionModel CreateRequisition(RequisitionModel req, out string error)
         {
@@ -513,7 +520,6 @@ namespace LUSSISADTeam10API.Repositories
             }
             return req;
         }
-
 
         // update the Requisition
         public static RequisitionModel UpdateRequisition(RequisitionModel reqm, out string error)
@@ -729,6 +735,9 @@ namespace LUSSISADTeam10API.Repositories
             }
             return reqm;
         }
+
+
+        #endregion
     }
 
 }

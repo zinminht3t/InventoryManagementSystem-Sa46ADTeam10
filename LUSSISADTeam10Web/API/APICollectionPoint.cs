@@ -6,7 +6,7 @@ using LUSSISADTeam10Web.Models.APIModels;
 using Newtonsoft.Json;
 using RestSharp;
 
-
+// Author : Thet Aung Zaw
 namespace LUSSISADTeam10Web.API
 {
     public class APICollectionPoint

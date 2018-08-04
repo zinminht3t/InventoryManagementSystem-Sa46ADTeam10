@@ -240,7 +240,6 @@
     <Compile Include="API\APIItem.cs" />
     <Compile Include="API\APILockerCollectionPoint.cs" />
     <Compile Include="API\APINotification.cs" />
-    <Compile Include="API\APIOutstanding.cs" />
     <Compile Include="API\APIOutstandingReq.cs" />
     <Compile Include="API\APIPurchaseOrder.cs" />
     <Compile Include="API\APIReport.cs" />

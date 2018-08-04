@@ -9,6 +9,7 @@ using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Repositories;
 using LUSSISADTeam10API.Constants;
 
+// Author : Aung Myo
 namespace LUSSISADTeam10API.Controllers
 {
     // to allow access only by login user
@@ -242,8 +243,6 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(items);
 
         }
-
-
 
         [HttpGet]
         [Route("api/disbursement/BreakDown")]

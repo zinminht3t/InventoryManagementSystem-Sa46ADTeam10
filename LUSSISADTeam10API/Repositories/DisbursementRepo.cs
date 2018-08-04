@@ -6,6 +6,7 @@ using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Constants;
 
+// Author : Aung Myo
 namespace LUSSISADTeam10API.Repositories
 {
     public class DisbursementRepo
@@ -23,7 +24,6 @@ namespace LUSSISADTeam10API.Repositories
                 disb.user.department.deptname, reqdm);
             return reqm;
         }
-
 
         // Convert From Auto Generated DB Model to APIModel for Requisition
         private static DisbursementModel CovertDBDisbursementtoAPIDisbursement(disbursement disb)
@@ -169,7 +169,6 @@ namespace LUSSISADTeam10API.Repositories
             return dism;
         }
 
-
         // to get the Disbursement by the ackyby
         public static List<DisbursementModel> GetDisbursementByackyby(int userid, out string error)
         {
@@ -236,7 +235,6 @@ namespace LUSSISADTeam10API.Repositories
             return dism;
         }
 
-
         // update the disbursement
         public static DisbursementModel UpdateDisbursement(DisbursementModel dism, out string error)
         {
@@ -270,8 +268,6 @@ namespace LUSSISADTeam10API.Repositories
             }
             return dism;
         }
-
-
 
         //Create new Disbursement with Detials
         public static DisbursementModel CreateDisbursementwithDetails(DisbursementModel disb, List<DisbursementDetailsModel> disdm, out string error)

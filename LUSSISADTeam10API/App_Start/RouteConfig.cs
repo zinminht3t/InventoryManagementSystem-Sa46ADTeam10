@@ -15,6 +15,7 @@ namespace LUSSISADTeam10API
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // redirect to swagger ui at the start
             routes.MapHttpRoute(
                 name: "swagger_root",
                 routeTemplate: "",

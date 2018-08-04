@@ -6,11 +6,11 @@ using LUSSISADTeam10API.Models.APIModels;
 using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Constants;
 
+// Author : Aung Myo | Khin Yadana Phyo | Zin Min Htet
 namespace LUSSISADTeam10API.Repositories
 {
     public class RequisitionDetailsRepo
     {
-
         // Convert From Auto Generated DB Model to APIModel for Requisitiondetail
         private static RequisitionDetailsModel CovertDBRequisitionDetailstoAPIRequisitionDetails(requisitiondetail reqd)
         {
@@ -98,7 +98,6 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return reqm;
         }
-
 
         // to get the RequisitionDetails by the ItemId
         public static List<RequisitionDetailsModel> GetRequisitionDetailsByItemId(int itemid, out string error)
