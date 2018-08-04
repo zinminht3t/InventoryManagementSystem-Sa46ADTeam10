@@ -629,7 +629,6 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 reqs = entities.requisitions.Where(p => p.status == ConRequisition.Status.REQUESTPENDING).ToList();
-                List<LockerCollectionPointModel> lcpms = LockerCollectionPointRepo.GetAllLockerCP(out error);
                 foreach (requisition req in reqs)
                 {
 
@@ -640,6 +639,7 @@ namespace LUSSISADTeam10API.Repositories
                     dislm.DisID = req.disbursements.First().disid;
                     dislm.ReqID = req.reqid;
                     dislm.DeptID = req.deptid;
+                    List<LockerCollectionPointModel> lcpms = LockerCollectionPointRepo.GetAllLockerCP(out error);
                     LockerCollectionPointModel lcpm = lcpms.Where(p => p.Cpid == req.cpid && p.Status == ConLockerCollectionPoint.Active.AVAILABLE).FirstOrDefault();
                     if (lcpm == null)
                     {
