@@ -3,6 +3,7 @@ using LUSSISADTeam10Web.Constants;
 using LUSSISADTeam10Web.Models;
 using LUSSISADTeam10Web.Models.APIModels;
 using LUSSISADTeam10Web.Models.Clerk;
+using LUSSISADTeam10Web.Models.Common;
 using LUSSISADTeam10Web.Models.Employee;
 using System;
 using System.Collections.Generic;
@@ -647,6 +648,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 ViewBag.InventoryModel = invm;
                 viewmodel.CatId = itm.Catid;
+                ViewBag.CategoryName = invm.CategoryName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
@@ -654,15 +656,18 @@ namespace LUSSISADTeam10Web.Controllers
                 viewmodel.Itemid = invm.Itemid;
                 viewmodel.Invid = invm.Invid;
                 viewmodel.UOM = invm.UOM;
-                List<String> catname = new List<string>();
+                List<CodeValue> catlists = new List<CodeValue>();
 
                 ViewBag.cat = cm;
 
                 foreach (CategoryModel c in cm)
                 {
-                    catname.Add(c.Name);
+                    CodeValue cv = new CodeValue();
+                    cv.Code = c.Catid;
+                    cv.Value = c.Name;
+                    catlists.Add(cv);
                 }
-                ViewBag.catlist = catname;
+                ViewBag.catlist = catlists;
 
             }
             catch (Exception ex)
@@ -919,6 +924,11 @@ namespace LUSSISADTeam10Web.Controllers
 
                 reqms = reqms.Where(x => x.Status == ConRequisition.Status.DELIVERED || x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).ToList();
 
+                if(reqms != null)
+                {
+                    reqms = reqms.OrderByDescending(x => x.Reqdate).ToList();
+                }
+
                 if (error != "")
                 {
                     return RedirectToAction("Index", "Error", new { error });
@@ -1073,7 +1083,7 @@ namespace LUSSISADTeam10Web.Controllers
             List<RequisitionModel> reqms = new List<RequisitionModel>();
 
             reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
-
+            ViewBag.ReqCount = reqms.Count;
             ViewBag.Requisitions = reqms;
 
             return View(new Models.Clerk.RequisitionViewModel());

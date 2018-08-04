@@ -1,6 +1,6 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.PendingCollectionPointViewModel
 @{
-    ViewBag.Title = "PendingCollectionPoint";
+    ViewBag.Title = "Pending Collection Points";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,7 +8,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h4>Collection Point</h4>
+                <h1>Collection Point Requests</h1>
             </div>
         </div>
     </div>
@@ -16,8 +16,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("PendingCollectionPoint", "Clerk")">Dashboard</a></li>
-                    <li class="active">CollectionPoint</li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li class="active">Collection Point Requests</li>
                 </ol>
             </div>
         </div>
@@ -25,7 +25,16 @@
 </div>
 @if (Model.pCP.Count == 0)
 {
-    <h4 class="text-info"> There is no collection point requests! </h4>
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-info"> There is no collection point requests! </h4>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -33,7 +42,7 @@ else
     {
         <div class="content mt-3">
             <div class="animated fadeIn">
-               <br />
+                <br />
                 <div class="card">
                     <div class="card-header">
                         <h4><strong class="card-title text-info"> @Html.DisplayFor(modelItem => item.DepName)</strong></h4>

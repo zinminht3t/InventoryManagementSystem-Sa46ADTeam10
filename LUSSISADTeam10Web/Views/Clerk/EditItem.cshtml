@@ -57,9 +57,7 @@
                             <div class="row">
                                 <div class="col-md-4"> Category : </div>
                                 <div class="col-md-3">
-
-                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist), new { @class = "form-control" } )
-
+                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist, "Value", "Value", ViewBag.CategoryName), new { @class = "form-control" } )
                                 </div>
                             </div>
 
@@ -76,7 +74,7 @@
                                 <div class="col-md-4"> Reorder Level :</div>
                                 <div class="col-md-3">
                                     @Html.EditorFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control", required = "required", min = "1" } })
-                                    @Html.ValidationMessageFor(model => model.ReorderQty, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                                    @Html.ValidationMessageFor(model => model.ReorderLevel, String.Empty, new { @class = "help-inline", @style = "color:red" })
 
                                 </div>
                             </div><br />
