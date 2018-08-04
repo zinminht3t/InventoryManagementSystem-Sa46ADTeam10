@@ -11,12 +11,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.Controllers
 {
     [Authorize(Roles = "Employee, DepartmentRep, TempHOD")]
     public class EmployeeController : Controller
     {
-        // GET: Employee
         public ActionResult Index()
         {
             string error = "";
@@ -237,6 +238,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(reqm);
         }
+       
         #region Utilities
         public string GetToken()
         {

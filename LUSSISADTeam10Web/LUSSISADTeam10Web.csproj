@@ -263,7 +263,6 @@
     <Compile Include="Constants\ConUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClerkController.cs" />
-    <Compile Include="Controllers\DepartmentRepController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HODController.cs" />

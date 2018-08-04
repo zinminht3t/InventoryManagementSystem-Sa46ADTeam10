@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.SessionState;
 
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.Controllers
 {
     public class AccountController : Controller

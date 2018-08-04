@@ -8,12 +8,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.Controllers
 {
     public class NotificationController : Controller
     {
-        // GET: Notification
         public ActionResult Index(int id)
         {
 
@@ -106,7 +105,6 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
-
         #region Utilities
         public string GetToken()
         {
@@ -134,7 +132,5 @@ namespace LUSSISADTeam10Web.Controllers
             return um;
         }
         #endregion
-
-
     }
 }

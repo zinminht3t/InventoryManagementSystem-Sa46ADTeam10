@@ -9,10 +9,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+// Author : Zin Min Htet | Htet Wai Yan | Hsu Yee Phyo
 namespace LUSSISADTeam10Web.Controllers
 {
     public class SupervisorController : Controller
     {
+        #region Author : Htet Wai Yan | Zin Min Htet
         [Authorize(Roles = "Supervisor")]
         public ActionResult Index()
         {
@@ -81,6 +83,9 @@ namespace LUSSISADTeam10Web.Controllers
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
         }
+        #endregion
+
+        #region Author : Hsu Yee Phyo
         [Authorize(Roles = "Supervisor")]
         public ActionResult Approve()
         {
@@ -131,6 +136,7 @@ namespace LUSSISADTeam10Web.Controllers
                    
             return View(adjlist);
         }
+
         [Authorize(Roles = "Supervisor")]
         [HttpPost]
         public ActionResult Approve(int id)
@@ -148,7 +154,7 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return RedirectToAction("Approve");
         }
-        #region History
+
         [Authorize(Roles = "Manager, Supervisor")]
         public ActionResult History()
         {
@@ -189,7 +195,6 @@ namespace LUSSISADTeam10Web.Controllers
         }
         #endregion
 
-
         #region Utilities
         public string GetToken()
         {
@@ -217,6 +222,5 @@ namespace LUSSISADTeam10Web.Controllers
             return um;
         }
         #endregion
-
     }
 }

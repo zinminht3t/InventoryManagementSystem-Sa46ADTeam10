@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
         public ActionResult Index(string error)
         {
             ViewBag.error = error;
