@@ -1068,6 +1068,10 @@ namespace LUSSISADTeam10Web.Controllers
 
             reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
             ViewBag.ReqCount = reqms.Count;
+            if(reqms.Count > 0)
+            {
+                reqms = reqms.OrderBy(x => x.Reqdate).ToList();
+            }
             ViewBag.Requisitions = reqms;
 
             return View(new Models.Clerk.RequisitionViewModel());
@@ -1334,7 +1338,7 @@ namespace LUSSISADTeam10Web.Controllers
             outreqvm.Status = outr.Status;
             outreqvm.Reason = outr.Reason;
             outreqvm.OutReqDetails = outr.OutReqDetails;
-            ViewBag.ColectionPoint = dcpm.CpLocation;
+            ViewBag.ColectionPoint = dcpm.CpName;
             ViewBag.LockerName = "Z9";
             return View(outreqvm);
 

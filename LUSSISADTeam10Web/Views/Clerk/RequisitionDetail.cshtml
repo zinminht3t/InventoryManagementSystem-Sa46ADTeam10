@@ -78,6 +78,10 @@
                                                         style = "text-info";
                                                         approveqty = item.Qty;
                                                     }
+                                                    else if(item.Qty == item.Stock)
+                                                    {
+                                                        style = "text-warning";
+                                                    }
                                                     <td class="@style">@item.Qty</td>
                                                     <td class="@style">@item.Stock</td>
                                                     <td>
