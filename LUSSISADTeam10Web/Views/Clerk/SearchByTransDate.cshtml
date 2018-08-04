@@ -19,7 +19,8 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
+                    <li><a href="#">Stock Cards</a></li>
 
                 </ol>
             </div>
@@ -87,7 +88,9 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
+                                            <a href="@Url.Action("ItemTran", "Clerk", new {  id = item.ItemID})" class="text-info">
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </a>
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.UOM)
@@ -96,7 +99,7 @@
                                             @Html.DisplayFor(modelItem => item.Qty)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Date)
+                                            @item.Date.ToShortDateString();
                                         </td>
                                     </tr>
                                 }

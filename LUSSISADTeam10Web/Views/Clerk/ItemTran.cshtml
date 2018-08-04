@@ -1,14 +1,13 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryTransactionViewModel
 
 @{
-    ViewBag.Title = "Stock ";
+    ViewBag.Title = "Item Transaction ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
-<style>
-
-</style>
+    <style>
+    </style>
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -22,150 +21,145 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
+                    <li><a href="#">Item Transaction</a></li>
 
                 </ol>
             </div>
         </div>
     </div>
 </div>
-     <form asp-action="SearchByTransDate" asp-controller="Clerk" method="get">
-                                <div class="content mt-3">
-                                    <div class="animated fadeIn">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                                               
-                                                <href class="icon"><i class="fa fa-search" style="font-size:24px"></i> Search by Date... </href>
-                                                <div id="div1">
+<form asp-action="SearchByTransDate" asp-controller="Clerk" method="get">
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="card">
+                <div class="card-header">
 
-                                                    <br />
-                                                    <div class="row">
-                                                        <div class="col-md-4"><b>@Html.LabelFor(model => model.StartDate)</b> </div>
-                                                        <div class="col-md-5">@Html.TextBoxFor(model => model.StartDate, new { id = "datepicker" })</div>
-                                                    </div><br />
-                                                    <div class="row">
-                                                        <div class="col-md-4"><b> @Html.LabelFor(model => model.EndDate)</b> </div>
-                                                        <div class="col-md-5">@Html.TextBoxFor(model => model.EndDate, new { id = "datepicker1" })</div>
-                                                        <br />
-                                                        <br />
-                                                    </div>
-                                                    <div class="row">
-                                                        <br />
-                                                        <div class="col-md-6"><input type="Submit" class="btn btn-outline-success  " style="height:40px;width:100px; margin-left:465px" value="Search"></div>
-                                                    </div><br />
-                                                </div>
+                    <href class="icon"><i class="fa fa-search" style="font-size:24px"></i> Search by Date... </href>
+                    <div id="div1">
 
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
-                                                @if (Model.InvTrans.Count == 0)
-                                                {
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4"><b>@Html.LabelFor(model => model.StartDate)</b> </div>
+                            <div class="col-md-5">@Html.TextBoxFor(model => model.StartDate, new { id = "datepicker" })</div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-4"><b> @Html.LabelFor(model => model.EndDate)</b> </div>
+                            <div class="col-md-5">@Html.TextBoxFor(model => model.EndDate, new { id = "datepicker1" })</div>
+                            <br />
+                            <br />
+                        </div>
+                        <div class="row">
+                            <br />
+                            <div class="col-md-6"><input type="Submit" class="btn btn-outline-success  " style="height:40px;width:100px; margin-left:465px" value="Search"></div>
+                        </div><br />
+                    </div>
 
-                                                    <h1>There is no transaction for this item </h1>
-                                                }
-                                                else
-                                                {
-                                                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                                                        <thead class="table-info">
-                                                            <tr>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].Description)
-                                                                </th>
-                                                                <th class="hideinmobile">
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].UOM)
-                                                                </th>
-                                                                <th class="hideinmobile">
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].Transtype)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].Qty)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].Date)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.InvTrans[0].Remark)
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var item in Model.InvTrans)
-                                                            {
-                                                                <tr>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => item.Description)
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @Html.DisplayFor(modelItem => item.UOM)
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @if (item.Transtype == 0)
-                                                                        {
-                                                                            <h6>Adjustment</h6>
-                                                                        }
-                                                                        else if (item.Transtype == 1)
-                                                                        {
-                                                                            <h6>Purchase Order Received</h6>
-                                                                        }
-                                                                        else if (item.Transtype == 2)
-                                                                        {
-                                                                            <h6>Disbursement</h6>
-                                                                        }
-                                                                        else if (item.Transtype == 3)
-                                                                        {
-                                                                            <h6>Outstanding</h6>
-                                                                        }
-                                                                    </td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => item.Qty)
-                                                                    </td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => item.Date)
-                                                                    </td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => item.Remark)
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-           
+                </div>
+                <div class="card-body">
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
+                    @if (Model.InvTrans.Count == 0)
+                    {
 
-        @section Scripts {
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-            <link rel="stylesheet" href="/resources/demos/style.css">
-            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script>
-                $(function () {
-                    $("#datepicker").datepicker();
-                    $("#datepicker").datepicker('option', "showAnim", 'slide');
-                    $("#datepicker").datepicker('setDate', 'today')
-                    $("#datepicker1").datepicker();
-                    $("#datepicker1").datepicker('option', "showAnim", 'slide');
-                    $("#datepicker1").datepicker('setDate', 'today')
-
-                });
-            </script>
-
-            <script>
-                $(document).ready(function () {
-
-                    document.getElementById("div1").style.display = "none"; 
+                        <h1>There is no transaction for this item </h1>
+                    }
+                    else
+                    {
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Description)
+                                    </th>
+                                    <th class="hideinmobile">
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].UOM)
+                                    </th>
+                                    <th class="hideinmobile">
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Transtype)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Qty)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvTrans[0].Date)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.InvTrans)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @Html.DisplayFor(modelItem => item.UOM)
+                                        </td>
+                                        <td class="hideinmobile">
+                                            @if (item.Transtype == 0)
+                                            {
+                                                <span>Adjustment</span>
+                                            }
+                                            else if (item.Transtype == 1)
+                                            {
+                                                <span>Purchase Order Received</span>
+                                            }
+                                            else if (item.Transtype == 2)
+                                            {
+                                                <span>Disbursement Fulfilled</span>
+                                            }
+                                            else if (item.Transtype == 3)
+                                            {
+                                                <span>Outstanding Fulfilled</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Qty)
+                                        </td>
+                                        <td>
+                                            @item.Date.ToShortDateString()
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 
-                    $("href").click(function () {
-                       
-                        $("#div1").fadeToggle();
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+            $("#datepicker").datepicker('option', "showAnim", 'slide');
+            $("#datepicker").datepicker('setDate', 'today')
+            $("#datepicker1").datepicker();
+            $("#datepicker1").datepicker('option', "showAnim", 'slide');
+            $("#datepicker1").datepicker('setDate', 'today')
 
-                    });
-                });
-            </script>
-        }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            document.getElementById("div1").style.display = "none";
+
+
+            $("href").click(function () {
+
+                $("#div1").fadeToggle();
+
+            });
+        });
+    </script>
+}
 

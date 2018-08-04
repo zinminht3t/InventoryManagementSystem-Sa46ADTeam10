@@ -139,7 +139,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
+                                                @{ 
+                                                    var count = 0;
+                                                }
                                                 @foreach (var item in Model)
                                                 {
                                                     <tr>
@@ -168,6 +170,7 @@
                                                                     if (i.Itemid == item.Itemid)
                                                                     {
                                                                         Disable = "disabled";
+                                                                        count++;
                                                                     }
                                                                 }
 
@@ -180,6 +183,11 @@
                                                 }
                                             </tbody>
                                         </table>
+                                        @if (count > 0)
+                                        {
+                                            <br />
+                                            <em class="text-info"> -- The items with disable checkboxes are already reported to supervisor or manager!</em>
+                                        }
                                         <br />
                                         <button onclick="Checked()" class="btn btn-outline-success pull-right">Submit</button>
                                     </div>
