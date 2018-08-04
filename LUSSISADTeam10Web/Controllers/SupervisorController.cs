@@ -11,8 +11,6 @@ using System.Web.Security;
 
 namespace LUSSISADTeam10Web.Controllers
 {
-    
-
     public class SupervisorController : Controller
     {
         [Authorize(Roles = "Supervisor")]

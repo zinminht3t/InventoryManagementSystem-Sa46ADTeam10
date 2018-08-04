@@ -113,6 +113,9 @@
 
                                     foreach (var i in item.BDList)
                                     {
+                                        if(i.Qty > 0)
+                                        {
+
                                         <tr>
                                             @if (!AlreadyShown)
                                             {
@@ -129,7 +132,7 @@
                                             <td>@i.DeptName</td>
                                             <td>@i.Qty</td>
                                         </tr>
-
+                                        }
                                     }
                                 }
                             </tbody>

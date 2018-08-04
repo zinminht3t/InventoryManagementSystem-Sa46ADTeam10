@@ -117,13 +117,15 @@
                                                                             <tbody>
                                                                                 @foreach (var item in itemreq.Requisitiondetails)
                                                                                 {
-                                                                                    <tr>
-                                                                                        <td>@item.Itemname</td>
-                                                                                        <td class="hideinmobile">@item.CategoryName</td>
-                                                                                        <td>@item.ApprovedQty</td>
-                                                                                        <td>@item.UOM</td>
-                                                                                    </tr>
-
+                                                                                    if (item.ApprovedQty > 0)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td>@item.Itemname</td>
+                                                                                            <td class="hideinmobile">@item.CategoryName</td>
+                                                                                            <td>@item.ApprovedQty</td>
+                                                                                            <td>@item.UOM</td>
+                                                                                        </tr>
+                                                                                    }
                                                                                 }
                                                                             </tbody>
                                                                         </table>
