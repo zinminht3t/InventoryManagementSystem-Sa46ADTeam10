@@ -791,6 +791,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 viewmodel.CatId = itm.Catid;
                 // itm.CatName;
+                ViewBag.CategoryName = invm.CategoryName;
                 viewmodel.ItemDescription = invm.ItemDescription;
                 viewmodel.Stock = invm.Stock;
                 viewmodel.ReorderLevel = invm.ReorderLevel;
