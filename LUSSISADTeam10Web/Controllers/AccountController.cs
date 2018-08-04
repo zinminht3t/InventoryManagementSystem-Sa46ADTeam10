@@ -35,6 +35,7 @@ namespace LUSSISADTeam10Web.Controllers
                 token = APIAccount.GetToken(username, password, out string error);
                 if (error == "" || token != "")
                 {
+                    // authentication true
                     FormsAuthentication.SetAuthCookie(token, false);
                     Session["token"] = token;
 
@@ -43,6 +44,7 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["role"] = um.Role;
                     Session["department"] = um.Deptname;
 
+                    // redirect the user based on role
                     switch (um.Role)
                     {
                         case ConUser.Role.CLERK:
@@ -77,6 +79,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // for AJAX reload via shared layout -- once in 10 seconds
         public PartialViewResult GetNotifications()
         {
             string token = GetToken();
