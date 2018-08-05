@@ -1,6 +1,6 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryTransactionViewModel
 @{
-    ViewBag.Title = "SearchbyTransactionDate";
+    ViewBag.Title = "Item Transaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -11,7 +11,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Stock Cards</h1>
+                <h1>Item Transaction</h1>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
-                    <li><a href="#">Stock Cards</a></li>
+                    <li><a href="#">Item Transaction</a></li>
 
                 </ol>
             </div>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-shopping-basket fa-3x"></i><br /> Stock Cards </h5></div>
+                    <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-shopping-basket fa-3x"></i><br /> Item Transaction </h5></div>
                     @if (Model.InvTrans.Count == 0)
                     {
 
@@ -99,7 +99,7 @@
                                             @Html.DisplayFor(modelItem => item.Qty)
                                         </td>
                                         <td>
-                                            @item.Date.ToShortDateString();
+                                            @item.Date.ToShortDateString()
                                         </td>
                                     </tr>
                                 }

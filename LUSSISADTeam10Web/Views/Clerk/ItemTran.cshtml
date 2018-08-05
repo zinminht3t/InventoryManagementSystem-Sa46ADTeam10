@@ -1,7 +1,7 @@
 ﻿@model LUSSISADTeam10Web.Models.Clerk.InventoryTransactionViewModel
 
 @{
-    ViewBag.Title = "Item Transaction ";
+    ViewBag.Title = "Stock Card";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +13,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Item Transaction</h1>
+                <h1>Stock Card</h1>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li><a href="#">Item Transaction</a></li>
+                    <li><a href="#">Stock Card</a></li>
 
                 </ol>
             </div>
@@ -57,7 +57,7 @@
 
                 </div>
                 <div class="card-body">
-                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-exchange fa-3x"></i><br /> Item Transaction </h5><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-exchange fa-3x"></i><br /> Stock Card </h5><br />
                     @if (Model.InvTrans.Count == 0)
                     {
 
@@ -65,61 +65,74 @@
                     }
                     else
                     {
+                        <h6>Item Code : <span class="text-info">@Model.InvTrans[0].ItemID</span></h6>
+                        <h6>Item Description : <span class="text-info">@Model.InvTrans[0].Description</span></h6>
+                        <h6>UOM : <span class="text-info">@Model.InvTrans[0].UOM</span></h6>
+                        <h6>
+                            Suppliers : <br />
+                            @if (ViewBag.Suppliers.Count > 0)
+                            {
+
+                                foreach (var item in ViewBag.Suppliers)
+                                {
+                                    <span class="text-info">@item.SupName</span><br />
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-info">No Supplier!</span>
+                            }
+
+                        </h6>
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead class="table-info">
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvTrans[0].Description)
+                                       Date
                                     </th>
                                     <th class="hideinmobile">
-                                        @Html.DisplayNameFor(model => model.InvTrans[0].UOM)
-                                    </th>
-                                    <th class="hideinmobile">
-                                        @Html.DisplayNameFor(model => model.InvTrans[0].Transtype)
+                                        Transaction Type
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvTrans[0].Qty)
+                                        Qty
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvTrans[0].Date)
+                                        UOM
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.InvTrans)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>
-                                        <td class="hideinmobile">
-                                            @Html.DisplayFor(modelItem => item.UOM)
-                                        </td>
-                                        <td class="hideinmobile">
-                                            @if (item.Transtype == 0)
-                                            {
-                                                <span>Adjustment</span>
-                                            }
-                                            else if (item.Transtype == 1)
-                                            {
-                                                <span>Purchase Order Received</span>
-                                            }
-                                            else if (item.Transtype == 2)
-                                            {
-                                                <span>Disbursement Fulfilled</span>
-                                            }
-                                            else if (item.Transtype == 3)
-                                            {
-                                                <span>Outstanding Fulfilled</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Qty)
-                                        </td>
-                                        <td>
-                                            @item.Date.ToShortDateString()
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        @item.Date.ToShortDateString()
+                                    </td>
+                                    <td class="hideinmobile">
+                                        @if (item.Transtype == 0)
+                                        {
+                                            <span>Adjustment</span>
+                                        }
+                                        else if (item.Transtype == 1)
+                                        {
+                                            <span>Purchase Order Received</span>
+                                        }
+                                        else if (item.Transtype == 2)
+                                        {
+                                            <span>Disbursement Fulfilled</span>
+                                        }
+                                        else if (item.Transtype == 3)
+                                        {
+                                            <span>Outstanding Fulfilled</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Qty)
+                                    </td>
+                                    <td class="hideinmobile">
+                                        @Html.DisplayFor(modelItem => item.UOM)
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

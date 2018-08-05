@@ -1645,6 +1645,7 @@ namespace LUSSISADTeam10Web.Controllers
         public ActionResult ItemTran(DateTime? startdate, DateTime? enddate, int id = 0)
         {
             string token = GetToken();
+            string error = "";
             InventoryTransactionModel invm = new InventoryTransactionModel();
             ViewBag.InventoryModel = invm;
             InventoryTransactionViewModel viewmodel = new InventoryTransactionViewModel();
@@ -1655,15 +1656,21 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 if (startdate == null || enddate == null)
                 {
-                    intlm = APIInventoryTranscation.GetInventoryTransactionByItemID(id, token, out string error);
+                    intlm = APIInventoryTranscation.GetInventoryTransactionByItemID(id, token, out error);
                 }
                 else
                 {
-                    intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out string error);
+                    intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out  error);
                     intlm = intlm.Where(p => p.ItemID == id).ToList();
                 }
                 viewmodel.InvTrans = new List<InventoryTransactionResultViewModel>();
 
+                List<SupplierModel> sups  = APISupplier.GetSupplierByItemId(id, token, out error);
+                if(sups.Count > 0)
+                {
+                   ViewBag.Suppliers = sups.Where(x => x.Active == ConSupplier.Active.ACTIVE).ToList();
+                }
+ 
                 foreach (InventoryTransactionModel i in intlm)
                 {
 
