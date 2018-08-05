@@ -96,12 +96,12 @@
                                         }
                                         else
                                         {
-                                            <span class="text-warning"> No Stock Avaiable Yet!</span>
+                                            <span class="text-error"> No Stock Avaiable Yet!</span>
                                         }
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info"> <i class="ti-desktop"></i>  View</a>
+                                        <a href="@Url.Action("OutstandingDetail", "Clerk", new { id = item.ReqId }, null)" class="btn btn-outline-info">  View</a>
                                     }
                                 </td>
                             </tr>

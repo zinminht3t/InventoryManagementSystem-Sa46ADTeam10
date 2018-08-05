@@ -9,6 +9,26 @@ namespace LUSSISADTeam10Web.Models.Employee
     public class RequisitionViewModel
 
     {
+        public RequisitionViewModel(int reqid, int? rasiedby, String rasiedbyname,
+            int? approvedby, String approvedbyname, int cpid, string cpname,
+            int depid, string depname, int status, DateTime? reqdate, List<RequisitionDetailsViewModel> rdms)
+        {
+            this.Reqid = reqid;
+            this.Raisedby = rasiedby;
+            this.Rasiedbyname = rasiedbyname;
+            this.Approvedby = approvedby;
+            this.Approvedbyname = approvedbyname;
+            this.Cpid = cpid;
+            this.Cpname = cpname;
+            this.Depid = depid;
+            this.Depname = depname;
+            this.Status = status;
+            this.Reqdate = reqdate;
+            this.Requisitiondetails = rdms;
+        }
+        public RequisitionViewModel() : this(0, 0, "", 0, "", 0, "", 0, "", 0, null, new List<RequisitionDetailsViewModel>())
+        {
+        }
         public int Reqid { get; set; }
         public int? Raisedby { get; set; }
         public String Rasiedbyname { get; set; }
