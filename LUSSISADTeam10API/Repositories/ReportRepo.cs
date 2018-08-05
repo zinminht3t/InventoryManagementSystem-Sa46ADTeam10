@@ -8,12 +8,11 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity.Core.Objects;
 
+// Author : Zin Min Htet | Khin Yadana Phyo
 namespace LUSSISADTeam10API.Repositories
 {
     public class ReportRepo
     {
-
-        // start zmh
         public static List<PurchaseOrderFor5MonthModel> GetPOFor5Months(out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -217,13 +216,6 @@ namespace LUSSISADTeam10API.Repositories
             return isms;
 
         }
-
-        // end zmh
-
-
-        // start hwy
-
-        // end hwy
 
     }
 

@@ -8,7 +8,7 @@ using System.Web;
 using LUSSISADTeam10API.Constants;
 
 
-
+// Author : Aung Myo
 namespace LUSSISADTeam10API.Repositories
 {
     public class DelegationRepo
@@ -189,7 +189,7 @@ namespace LUSSISADTeam10API.Repositories
                         del.active = ConDelegation.Active.INACTIVE;
                         if (u.Role != ConUser.Role.DEPARTMENTREP)
                         {
-                            UserRepo.canceldelegateuser(u.Userid);
+                            UserRepo.Canceldelegateuser(u.Userid);
                         }
                         entities.SaveChanges();
                     }
@@ -259,7 +259,7 @@ namespace LUSSISADTeam10API.Repositories
                 // saving the update
                 entities.SaveChanges();
 
-                UserRepo.canceldelegateuser(dm.Userid);
+                UserRepo.Canceldelegateuser(dm.Userid);
 
                 // return the updated model 
                 dm = GetDelegationByDelegationID(d.delid, out error);

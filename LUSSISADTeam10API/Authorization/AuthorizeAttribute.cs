@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
 
+// Author : Zin Min Htet
+
 namespace LUSSISADTeam10API.Authorization
 {
     public class AuthorizeAttribute : System.Web.Http.AuthorizeAttribute

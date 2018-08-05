@@ -7,11 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.API
 {
     public class APIAccount
     {
-
         public static string GetToken(string username, string password, out string error)
         {
             error = "";

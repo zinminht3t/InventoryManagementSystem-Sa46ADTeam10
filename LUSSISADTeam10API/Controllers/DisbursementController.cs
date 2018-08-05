@@ -9,6 +9,7 @@ using LUSSISADTeam10API.Models.DBModels;
 using LUSSISADTeam10API.Repositories;
 using LUSSISADTeam10API.Constants;
 
+// Author : Aung Myo
 namespace LUSSISADTeam10API.Controllers
 {
     // to allow access only by login user
@@ -147,7 +148,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateDisbursementDetails(DisbursementDetailsModel dism)
         {
             string error = "";
-            List<DisbursementDetailsModel> disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
+            DisbursementDetailsModel disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
 
             // get the inventory using the item id from Requisition details
             InventoryModel invm = InventoryRepo.GetInventoryByItemid(dism.Itemid, out error);
@@ -242,8 +243,6 @@ namespace LUSSISADTeam10API.Controllers
             return Ok(items);
 
         }
-
-
 
         [HttpGet]
         [Route("api/disbursement/BreakDown")]

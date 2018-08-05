@@ -6,8 +6,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
-[assembly: OwinStartup(typeof(LUSSISADTeam10API.Startup))]
+// Author : Zin Min Htet
 
+[assembly: OwinStartup(typeof(LUSSISADTeam10API.Startup))]
 namespace LUSSISADTeam10API
 {
     public class Startup
@@ -15,10 +16,7 @@ namespace LUSSISADTeam10API
         public void Configuration(IAppBuilder app)
         {
 
-            // enable cross orign requests
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
-
             var myProvider = new AuthorizationServiceProvider();
             OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions
             {
@@ -29,9 +27,7 @@ namespace LUSSISADTeam10API
             };
 
             app.UseOAuthAuthorizationServer(options);
-
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
 

@@ -13,17 +13,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+
+// Author: Zin Min Htet | Htet Wai Yan | Hsu Yee Phyo | Aung Myo
 namespace LUSSISADTeam10Web.Controllers
 {
     public class HODController : Controller
     {
-        #region Get Methods
-        [Authorize(Roles = "HOD")]
-        public ActionResult Chart()
-        {
-            return View();
-        }
-
+        #region Author : Zin Min Htet
 
         [Authorize(Roles = "HOD, TempHOD")]
         public ActionResult Index()
@@ -38,14 +34,14 @@ namespace LUSSISADTeam10Web.Controllers
             DelegationModel CurrentTemp = new DelegationModel();
             UserModel CurrentTempUser = new UserModel();
 
-            reqs =  APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+            reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
             ViewBag.ReqCount = 0;
             ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
             ViewBag.DelegationType = "Temporary HOD";
 
             CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
             ViewBag.RepName = CurrentRep.Fullname;
-            if(ViewBag.RepName == null)
+            if (ViewBag.RepName == null)
             {
                 ViewBag.RepName = "None";
             }
@@ -59,12 +55,12 @@ namespace LUSSISADTeam10Web.Controllers
             }
 
             CurrentTemp = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out error);
-            if(CurrentTemp.Delid != 0)
+            if (CurrentTemp.Delid != 0)
             {
                 CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
                 ViewBag.TempHOD = CurrentTempUser.Fullname;
                 ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
-                if(CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
+                if (CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
                 {
                     ViewBag.DelegationType = "Current Temporary HOD";
                 }
@@ -85,6 +81,25 @@ namespace LUSSISADTeam10Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "HOD")]
+        public ActionResult CancelCollectionPoint(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            try
+            {
+                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
+                dcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
+                dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("CollectionPoint");
+        }
+
         [Authorize(Roles = "HOD, TempHOD")]
         public ActionResult RequisitionsList()
         {
@@ -97,7 +112,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
 
-                if(reqms == null)
+                if (reqms == null)
                 {
                     reqms = new List<RequisitionModel>();
                 }
@@ -119,42 +134,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqms);
         }
 
-        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
-        public ActionResult OrderHistory()
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-            List<RequisitionModel> reqms = new List<RequisitionModel>();
-            try
-            {
-                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
-
-                if(reqms == null)
-                {
-                    reqms = new List<RequisitionModel>();
-                }
-                else
-                {
-                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
-                }
-
-
-                if (error != "")
-                {
-                    return RedirectToAction("Index", "Error", new { error });
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-            return View(reqms);
-        }
-
         [Authorize(Roles = "HOD, TempHOD")]
-
         public ActionResult TrackRequisition(int id)
         {
             string token = GetToken();
@@ -238,78 +218,7 @@ namespace LUSSISADTeam10Web.Controllers
             return View(reqm);
         }
 
-        [Authorize(Roles = "HOD")]
-
-        public ActionResult CollectionPoint()
-        {
-            string token = GetToken();
-            UserModel um = GetUser();
-            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
-            ViewBag.PendingCPR = false;
-            List<CodeValue> CollectionPointsList = new List<CodeValue>();
-            List<CollectionPointModel> cpms = new List<CollectionPointModel>();
-            List<DepartmentCollectionPointModel> dcpms = new List<DepartmentCollectionPointModel>();
-
-            try
-            {
-                // to show active collection point
-                dcpms = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, ConDepartmentCollectionPoint.Status.PENDING, out string error);
-
-                dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
-                ViewBag.ActiveCollectionPoint = dcpm.CpName;
-
-                CollectionPointModel current =
-                    APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
-
-                ViewBag.Latitude = current.Latitude;
-                ViewBag.Longitude = current.Longitude;
-
-                // to show pending list if exists
-                dcpms = dcpms.Where(p => p.DeptID == um.Deptid).ToList();
-                ViewBag.PendingCollectionPoints = dcpms;
-                if (dcpms.Count > 0)
-                    ViewBag.PendingCPR = true;
-
-
-                // for radio button 
-                cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
-                //foreach (CollectionPointModel cpm in cpms)
-                //{
-                //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
-                //}
-                ViewBag.CollectionPointsList = cpms;
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-
-            return View(cpms);
-        }
-        [Authorize(Roles = "HOD")]
-
-        public ActionResult CancelCollectionPoint(int id)
-        {
-            string token = GetToken();
-            UserModel um = GetUser();
-            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
-            try
-            {
-                dcpm = APICollectionPoint.GetDepartmentCollectionPointByDcpid(token, id, out string error);
-                dcpm.Status = ConDepartmentCollectionPoint.Status.INACTIVE;
-                dcpm = APICollectionPoint.RejectDepartmentCollectionPoint(token, dcpm, out error);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-            return RedirectToAction("CollectionPoint");
-        }
-
         [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
-
         public ActionResult RequisitionDetail(int id)
         {
             string token = GetToken();
@@ -328,7 +237,6 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [Authorize(Roles = "HOD, TempHOD")]
-
         public ActionResult ApproveRequisition(int id)
         {
             string token = GetToken();
@@ -340,8 +248,8 @@ namespace LUSSISADTeam10Web.Controllers
             try
             {
                 reqm = APIRequisition.GetRequisitionByReqid(id, token, out string error);
-                
-                if(reqm.Status == ConRequisition.Status.APPROVED)
+
+                if (reqm.Status == ConRequisition.Status.APPROVED)
                 {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
@@ -349,7 +257,7 @@ namespace LUSSISADTeam10Web.Controllers
                     Session["notimessage"] = "This requisition has already been approved!";
                     return RedirectToAction("Index", "Home");
                 }
-                else if(reqm.Status == ConRequisition.Status.REJECTED)
+                else if (reqm.Status == ConRequisition.Status.REJECTED)
                 {
                     Session["noti"] = true;
                     Session["notitype"] = "error";
@@ -367,141 +275,8 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(viewmodel);
         }
-        [Authorize(Roles = "HOD")]
-
-        public ActionResult AssignDepartmentRep()
-        {
-            UserModel um = new UserModel();
-            return View();
-        }
-        [Authorize(Roles = "HOD")]
-
-        public ActionResult SearchPreviousDelegation()
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-
-            DelegationModel reqms = new DelegationModel();
-            EditDelegationViewModel viewmodel = new EditDelegationViewModel();
-            try
-            {
-                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
-                ViewBag.Userid = reqms.Userid;
-                ViewBag.name = reqms.Username;
-                ViewBag.StartDate = reqms.Startdate;
-                ViewBag.Enddate = reqms.Enddate;
-                ViewBag.Deleid = reqms.Delid;
-
-                // added by zmh to show the full name of user
-                UserModel DelegatedUser = new UserModel();
-                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
-                if (DelegatedUser != null && DelegatedUser.Userid != 0)
-                {
-                    ViewBag.name = DelegatedUser.Fullname;
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-            return View(viewmodel);
-        }
-        [Authorize(Roles = "HOD")]
-
-        public JsonResult CancelDelegation(int id)
-        {
-            string token = GetToken();
-            UserModel um = GetUser();
-            bool result = false;
-            if (id != 0)
-            {
-                try
-                {
-
-                    DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
-                    DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
-                    result = true;
-                    if (error != "")
-                    {
-                       // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
-                    }
-                }
-                catch (Exception)
-                {
-                //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
-                }
-            }
-
-            return Json( result , JsonRequestBehavior.AllowGet);
-        }
 
         [Authorize(Roles = "HOD")]
-
-        public ActionResult CreateDelegationList()
-        {
-
-            string token = GetToken();
-            UserModel um = GetUser();
-            List<UserModel> newum = new List<UserModel>();
-            CreateDelegationViewModel viewModel = new CreateDelegationViewModel();
-            try
-            {
-                newum = APIUser.GetUsersForHOD(um.Deptid, token, out string error);
-                ViewBag.userlist = newum;
-
-                if (error != "")
-                {
-                    return RedirectToAction("Index", "Error", new { error });
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-            return View(viewModel);
-
-        }
-        [Authorize(Roles = "HOD")]
-
-        public ActionResult AssignDepRep()
-        {
-            string token = GetToken();
-            UserModel um = GetUser();
-            List<UserModel> newum = new List<UserModel>();
-
-            AssignDepRepViewModel viewModel = new AssignDepRepViewModel();
-            try
-            {
-                newum = APIUser.GetAssignRepUserList(token, um.Deptid , out string error);
-                ViewBag.userlist = newum;
-                List<UserModel> um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
-                foreach (UserModel um1 in um23)
-                {
-                    ViewBag.assignedrep = um1.Fullname;
-                }
-                if (error != "")
-                {
-                    return RedirectToAction("Index", "Error", new { error });
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error", new { error = ex.Message });
-            }
-
-            return View(viewModel);
-
-
-        }
-
-        #endregion
-
-        #region Post Methods
-        [Authorize(Roles = "HOD")]
-
         [HttpPost]
         public ActionResult CollectionPoint(int id)
         {
@@ -524,7 +299,6 @@ namespace LUSSISADTeam10Web.Controllers
         }
 
         [Authorize(Roles = "HOD, TempHOD")]
-
         [HttpPost]
         public ActionResult ApproveRequisition(ApproveRequisitionViewModel viewmodel)
         {
@@ -582,9 +356,133 @@ namespace LUSSISADTeam10Web.Controllers
             }
         }
 
+        #endregion
+
+        #region Author : Aung Myo
+
+        [Authorize(Roles = "HOD")]
+        public ActionResult SearchPreviousDelegation()
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+
+            DelegationModel reqms = new DelegationModel();
+            EditDelegationViewModel viewmodel = new EditDelegationViewModel();
+            try
+            {
+                reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
+                ViewBag.Userid = reqms.Userid;
+                ViewBag.name = reqms.Username;
+                ViewBag.StartDate = reqms.Startdate;
+                ViewBag.Enddate = reqms.Enddate;
+                ViewBag.Deleid = reqms.Delid;
+
+                // added by zmh to show the full name of user
+                UserModel DelegatedUser = new UserModel();
+                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
+                if (DelegatedUser != null && DelegatedUser.Userid != 0)
+                {
+                    ViewBag.name = DelegatedUser.Fullname;
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(viewmodel);
+        }
+
+        [Authorize(Roles = "HOD")]
+        public JsonResult CancelDelegation(int id)
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            bool result = false;
+            if (id != 0)
+            {
+                try
+                {
+
+                    DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
+                    DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
+                    result = true;
+                    if (error != "")
+                    {
+                        // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
+                    }
+                }
+                catch (Exception)
+                {
+                    //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
+                }
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "HOD")]
+        public ActionResult CreateDelegationList()
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<UserModel> newum = new List<UserModel>();
+            CreateDelegationViewModel viewModel = new CreateDelegationViewModel();
+            try
+            {
+                newum = APIUser.GetUsersForHOD(um.Deptid, token, out string error);
+                ViewBag.userlist = newum;
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(viewModel);
+
+        }
+
+        [Authorize(Roles = "HOD")]
+        public ActionResult AssignDepRep()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<UserModel> newum = new List<UserModel>();
+
+            AssignDepRepViewModel viewModel = new AssignDepRepViewModel();
+            try
+            {
+                newum = APIUser.GetAssignRepUserList(token, um.Deptid, out string error);
+                ViewBag.userlist = newum;
+                List<UserModel> um23 = APIUser.GetUserByRoleAndDeptID(6, um.Deptid, token, out string depreperror);
+                foreach (UserModel um1 in um23)
+                {
+                    ViewBag.assignedrep = um1.Fullname;
+                }
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(viewModel);
+
+
+        }
+
         [HttpPost]
         [Authorize(Roles = "HOD")]
-
         public ActionResult CreateDelegationList(CreateDelegationViewModel viewmodel, int userid)
         {
 
@@ -595,14 +493,14 @@ namespace LUSSISADTeam10Web.Controllers
 
             dm.Userid = userid;
             dm.Enddate = (DateTime)viewmodel.EndDate;
-            dm.Startdate = (DateTime)viewmodel.StartDate; 
+            dm.Startdate = (DateTime)viewmodel.StartDate;
             dm.AssignedbyId = viewmodel.assignedby;
 
             try
             {
                 if (viewmodel != null)
                 {
-                   dm = APIDelegation.CreateDelegation(token, dm, out string error);
+                    dm = APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
             }
@@ -616,8 +514,8 @@ namespace LUSSISADTeam10Web.Controllers
             Session["notimessage"] = dm.Username + " is Delegated as Head of Department";
             return RedirectToAction("SearchPreviousDelegation");
         }
-        [Authorize(Roles = "HOD")]
 
+        [Authorize(Roles = "HOD")]
         [HttpPost]
         public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid)
         {
@@ -679,11 +577,13 @@ namespace LUSSISADTeam10Web.Controllers
             Session["noti"] = true;
             Session["notitype"] = "success";
             Session["notititle"] = "Update Delegation";
-            Session["notimessage"] = "Delegation is updated successfully"; 
+            Session["notimessage"] = "Delegation is updated successfully";
 
             return RedirectToAction("SearchPreviousDelegation");
         }
+        #endregion
 
+        #region Author : Htet Wai Yan
         [HttpPost]
         public JsonResult GetChartData()
         {
@@ -697,7 +597,95 @@ namespace LUSSISADTeam10Web.Controllers
                 data = result.Select(x => x.Quantity).ToArray()
             }, JsonRequestBehavior.AllowGet);
         }
+        [Authorize(Roles = "HOD")]
+        public ActionResult CollectionPoint()
+        {
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            ViewBag.PendingCPR = false;
+            List<CodeValue> CollectionPointsList = new List<CodeValue>();
+            List<CollectionPointModel> cpms = new List<CollectionPointModel>();
+            List<DepartmentCollectionPointModel> dcpms = new List<DepartmentCollectionPointModel>();
+
+            try
+            {
+                // to show active collection point
+                dcpms = APICollectionPoint.GetDepartmentCollectionPointByStatus(token, ConDepartmentCollectionPoint.Status.PENDING, out string error);
+
+                dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+                ViewBag.ActiveCollectionPoint = dcpm.CpName;
+
+                CollectionPointModel current =
+                    APICollectionPoint.GetCollectionPointBycpid(token, dcpm.CpID, out error);
+
+                ViewBag.Latitude = current.Latitude;
+                ViewBag.Longitude = current.Longitude;
+
+                // to show pending list if exists
+                dcpms = dcpms.Where(p => p.DeptID == um.Deptid).ToList();
+                ViewBag.PendingCollectionPoints = dcpms;
+                if (dcpms.Count > 0)
+                    ViewBag.PendingCPR = true;
+
+
+                // for radio button 
+                cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
+                //foreach (CollectionPointModel cpm in cpms)
+                //{
+                //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
+                //}
+                ViewBag.CollectionPointsList = cpms;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+
+            return View(cpms);
+        }
         #endregion
+
+        #region Author : Hsu Yee Phyo
+
+        [Authorize(Roles = "HOD, TempHOD, Employee, DepartmentRep")]
+        public ActionResult OrderHistory()
+        {
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            List<RequisitionModel> reqms = new List<RequisitionModel>();
+            try
+            {
+                reqms = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out string error);
+
+                if (reqms == null)
+                {
+                    reqms = new List<RequisitionModel>();
+                }
+                else
+                {
+                    reqms = reqms.Where(p => p.Status == ConRequisition.Status.COMPLETED).OrderByDescending(x => x.Reqdate).ToList();
+                }
+
+
+                if (error != "")
+                {
+                    return RedirectToAction("Index", "Error", new { error });
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+
+            return View(reqms);
+        }
+
+        #endregion
+
 
         #region Utilities
         public string GetToken()
@@ -726,6 +714,5 @@ namespace LUSSISADTeam10Web.Controllers
             return um;
         }
         #endregion
-
     }
 }

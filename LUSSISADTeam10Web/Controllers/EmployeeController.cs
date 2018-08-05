@@ -11,37 +11,44 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+
+// Author : Zin Min Htet
 namespace LUSSISADTeam10Web.Controllers
 {
     [Authorize(Roles = "Employee, DepartmentRep, TempHOD")]
     public class EmployeeController : Controller
     {
-        // GET: Employee
         public ActionResult Index()
         {
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
             List<RequisitionModel> reqs = new List<RequisitionModel>();
-
-
-            reqs = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out error);
-
-            if(reqs != null)
+            try
             {
-                ViewBag.ReqCount = reqs.Where(x => x.Status == ConRequisition.Status.PENDING).Count();
-                ViewBag.InProReqCount = reqs.Where(x => x.Status > ConRequisition.Status.PENDING && x.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
-                ViewBag.OldReqCount = reqs.Where(x => x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
+                reqs = APIRequisition.GetRequisitionByDepid(um.Deptid, token, out error);
+
+                if (reqs != null)
+                {
+                    // for dashboard counts
+
+                    ViewBag.ReqCount = reqs.Where(x => x.Status == ConRequisition.Status.PENDING).Count();
+                    ViewBag.InProReqCount = reqs.Where(x => x.Status > ConRequisition.Status.PENDING && x.Status < ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
+                    ViewBag.OldReqCount = reqs.Where(x => x.Status == ConRequisition.Status.COMPLETED || x.Status == ConRequisition.Status.OUTSTANDINGREQUISITION).Count();
+                }
+                else
+                {
+                    ViewBag.ReqCount = 0;
+                    ViewBag.InProReqCount = 0;
+                    ViewBag.OldReqCount = 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.ReqCount = 0;
-                ViewBag.InProReqCount = 0;
-                ViewBag.OldReqCount = 0;
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return View();
         }
-
         public ActionResult RaiseRequisition()
         {
             string error = "";
@@ -49,79 +56,25 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
             List<ItemModel> ItemsList = new List<ItemModel>();
-
             RequisitionViewModel reqvm = new RequisitionViewModel();
-            reqvm.Reqdate = DateTime.Now;
-            reqvm.Raisedby = um.Userid;
-            reqvm.Depid = um.Deptid;
-            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
-            reqvm.Cpid = dcpm.CpID;
-            reqvm.Cpname = dcpm.CpName;
-            reqvm.Status = ConRequisition.Status.PENDING;
-
-            ItemsList = APIItem.GetAllItems(token, out error);
-            ViewBag.ItemsList = ItemsList;
-
+            try
+            {
+                reqvm.Reqdate = DateTime.Now;
+                reqvm.Raisedby = um.Userid;
+                reqvm.Depid = um.Deptid;
+                dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+                reqvm.Cpid = dcpm.CpID;
+                reqvm.Cpname = dcpm.CpName;
+                reqvm.Status = ConRequisition.Status.PENDING;
+                ItemsList = APIItem.GetAllItems(token, out error);
+                ViewBag.ItemsList = ItemsList;
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
             return View(reqvm);
         }
-
-        [HttpPost]
-        public ActionResult RaiseRequisition(RequisitionViewModel reqvm)
-        {
-            if (reqvm.Requisitiondetails.Count < 1)
-            {
-                Session["noti"] = true;
-                Session["notitype"] = "error";
-                Session["notititle"] = "Raise Requisition Error";
-                Session["notimessage"] = "You cannot raise requisition without any items!";
-                return RedirectToAction("RaiseRequisition");
-            }
-            
-
-            bool duplicateExists = reqvm.Requisitiondetails.GroupBy(n => n.Itemid).Any(g => g.Count() > 1);
-
-            if (duplicateExists)
-            {
-                Session["noti"] = true;
-                Session["notitype"] = "error";
-                Session["notititle"] = "Raise Requisition Error";
-                Session["notimessage"] = "You cannot raise requisition with duplicate items!";
-                return RedirectToAction("RaiseRequisition");
-            }
-
-            string token = GetToken();
-            UserModel um = GetUser();
-            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
-            List<ItemModel> ItemsList = new List<ItemModel>();
-            RequisitionModel reqm = new RequisitionModel();
-            List<RequisitionDetailsModel> reqdms = new List<RequisitionDetailsModel>();
-
-            reqm.Reqdate = DateTime.Now;
-            reqm.Raisedby = um.Userid;
-            if(um.Role == ConUser.Role.TEMPHOD)
-            {
-                reqm.Approvedby = um.Userid;
-            }
-            reqm.Depid = um.Deptid;
-            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out string error);
-            reqm.Cpid = dcpm.CpID;
-            reqm.Cpname = dcpm.CpName;
-            reqm.Status = ConRequisition.Status.PENDING;
-            reqm = APIRequisition.CreateRequisition(reqm, token, out error);
-
-            foreach (var reqd in reqvm.Requisitiondetails)
-            {
-                RequisitionDetailsModel reqdm = new RequisitionDetailsModel
-                {
-                    Reqid = reqm.Reqid,
-                    Itemid = reqd.Itemid,
-                    Qty = reqd.Qty
-                };
-                reqdms = APIRequisition.CreateRequisitionDetails(reqdm, token, out error);
-            }
-            return RedirectToAction("TrackRequisition", "Employee", new { id = reqm.Reqid });
-        }
-
         public ActionResult TrackRequisitions()
         {
             string token = GetToken();
@@ -154,7 +107,6 @@ namespace LUSSISADTeam10Web.Controllers
 
             return View(reqms);
         }
-
         public ActionResult TrackRequisition(int id)
         {
             string token = GetToken();
@@ -237,6 +189,69 @@ namespace LUSSISADTeam10Web.Controllers
             }
             return View(reqm);
         }
+
+        [HttpPost]
+        public ActionResult RaiseRequisition(RequisitionViewModel reqvm)
+        {
+            if (reqvm.Requisitiondetails.Count < 1)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Raise Requisition Error";
+                Session["notimessage"] = "You cannot raise requisition without any items!";
+                return RedirectToAction("RaiseRequisition");
+            }
+
+            bool duplicateExists = reqvm.Requisitiondetails.GroupBy(n => n.Itemid).Any(g => g.Count() > 1);
+
+            if (duplicateExists)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Raise Requisition Error";
+                Session["notimessage"] = "You cannot raise requisition with duplicate items!";
+                return RedirectToAction("RaiseRequisition");
+            }
+
+            string token = GetToken();
+            UserModel um = GetUser();
+            DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
+            List<ItemModel> ItemsList = new List<ItemModel>();
+            RequisitionModel reqm = new RequisitionModel();
+            List<RequisitionDetailsModel> reqdms = new List<RequisitionDetailsModel>();
+            try
+            {
+                reqm.Reqdate = DateTime.Now;
+                reqm.Raisedby = um.Userid;
+                if (um.Role == ConUser.Role.TEMPHOD)
+                {
+                    reqm.Approvedby = um.Userid;
+                }
+                reqm.Depid = um.Deptid;
+                dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out string error);
+                reqm.Cpid = dcpm.CpID;
+                reqm.Cpname = dcpm.CpName;
+                reqm.Status = ConRequisition.Status.PENDING;
+                reqm = APIRequisition.CreateRequisition(reqm, token, out error);
+
+                foreach (var reqd in reqvm.Requisitiondetails)
+                {
+                    RequisitionDetailsModel reqdm = new RequisitionDetailsModel
+                    {
+                        Reqid = reqm.Reqid,
+                        Itemid = reqd.Itemid,
+                        Qty = reqd.Qty
+                    };
+                    reqdms = APIRequisition.CreateRequisitionDetails(reqdm, token, out error);
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
+            return RedirectToAction("TrackRequisition", "Employee", new { id = reqm.Reqid });
+        }
+
         #region Utilities
         public string GetToken()
         {

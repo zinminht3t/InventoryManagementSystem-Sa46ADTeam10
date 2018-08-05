@@ -9,11 +9,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+// Author : Zin Min Htet | Htet Wai Yan | Hsu Yee Phyo
 namespace LUSSISADTeam10Web.Controllers
 {
     [Authorize(Roles = "Manager")]
     public class ManagerController : Controller
     {
+        #region Author : Htet Wai Yan | Zin Min Htet
         public ActionResult Index()
         {
             string token = GetToken();
@@ -34,7 +36,7 @@ namespace LUSSISADTeam10Web.Controllers
                 reportData = APIReport.GetPoForfiveMonths(token, out error);
 
                 adjs = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
-                if(adjs == null)
+                if (adjs == null)
                 {
                     ViewBag.AdjCount = 0;
                 }
@@ -80,6 +82,11 @@ namespace LUSSISADTeam10Web.Controllers
             }
         }
 
+
+        #endregion
+
+        #region Author : Hsu Yee Phyo
+
         public ActionResult Approve()
         {
             string token = GetToken();
@@ -91,26 +98,28 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 //get pending status adjustments
                 adjlist = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out string error);
-                if(adjlist != null) {
+                if (adjlist != null)
+                {
                     foreach (AdjustmentModel ad in adjlist)
                     {
-                    //to divide according to raised to user role
-                    ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
-                    foreach (AdjustmentDetailModel adj in ad.Adjds) {
-                        try
+                        //to divide according to raised to user role
+                        ad.RaiseToRole = (APIUser.GetUserByUserID((int)ad.Raisedto, token, out error)).Role;
+                        foreach (AdjustmentDetailModel adj in ad.Adjds)
                         {
-                            //to show each item adjusted price and total pirce of adjustment form
-                            supp = APISupplier.GetOneSupplierItemByItemId(adj.Itemid, token, out error);
-                            adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
-                            ad.TotalPrice += adj.Price;
+                            try
+                            {
+                                //to show each item adjusted price and total pirce of adjustment form
+                                supp = APISupplier.GetOneSupplierItemByItemId(adj.Itemid, token, out error);
+                                adj.Price = supp.Price * Math.Abs(adj.Adjustedqty);
+                                ad.TotalPrice += adj.Price;
+                            }
+                            catch (Exception)
+                            {
+                                if (supp == null) ad.TotalPrice += 0;
+                            }
                         }
-                        catch (Exception)
-                        {
-                            if (supp == null) ad.TotalPrice += 0;
-                        }
+
                     }
-                   
-                }
                     //separate adjustment pending list by reported to roles (supervisor/manager)
                     ViewBag.manager = adjlist.Where(x => x.RaiseToRole == ConUser.Role.MANAGER).ToList();
                     adjlist = adjlist.Where(x => x.RaiseToRole == ConUser.Role.SUPERVISOR).ToList();
@@ -124,9 +133,10 @@ namespace LUSSISADTeam10Web.Controllers
             catch (Exception ex)
             {
                 RedirectToAction("Index", "Error", new { error = ex.Message });
-            }           
+            }
             return View(adjlist);
         }
+
         [HttpPost]
         public ActionResult Approve(int id)
         {
@@ -142,8 +152,10 @@ namespace LUSSISADTeam10Web.Controllers
                 RedirectToAction("Index", "Error", new { error = ex.Message });
             }
             return RedirectToAction("Approve");
-        }     
-       
+        }
+
+        #endregion
+
         #region Utilities
         public string GetToken()
         {

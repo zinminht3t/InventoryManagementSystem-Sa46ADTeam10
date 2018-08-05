@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.BreakdownByDepartmentModel>
 
 @{
-    ViewBag.Title = "Track Requisition";
+    ViewBag.Title = "Stationery Retrieval List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
@@ -43,7 +43,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Stationary Retrieval Form</h1>
+                <h1>Stationery Retrieval Form</h1>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Stationary Retrieval Form</li>
+                    <li class="active">Stationery Retrieval Form</li>
                 </ol>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 {
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <a href="@Url.Action("Requisition", "Clerk")" class="btn btn-outline-info pull-left morereq"> <i class="fa fa-arrow-left"></i> Add More Requisitons </a>
+                            <a href="@Url.Action("Requisition", "Clerk")" class="btn btn-outline-info pull-left morereq"> <i class="fa fa-arrow-left"></i> Add More Requisitions </a>
                         </div>
                         <div class="col-md-6 col-sm-12 ">
 
@@ -90,7 +90,7 @@
                     <hr />
 
                     <div id="StationaryRetrivalForm">
-                        <h5 class="text-info text-center hideinmobile"><i class="fa fa-file-pdf-o fa-3x"></i><br /><br /> Stationary Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
+                        <h5 class="text-info text-center hideinmobile"><i class="fa fa-file-pdf-o fa-3x"></i><br /><br /> Stationery Retrival Form - @DateTime.Now.ToShortDateString() <span class="pull-right" id="print"><i class="ti-printer"></i></span> </h5>
                         <br />
                         <table class="table table-bordered">
                             <thead class="thead-dark text-primary text-center">
@@ -113,6 +113,9 @@
 
                                     foreach (var i in item.BDList)
                                     {
+                                        if(i.Qty > 0)
+                                        {
+
                                         <tr>
                                             @if (!AlreadyShown)
                                             {
@@ -129,7 +132,7 @@
                                             <td>@i.DeptName</td>
                                             <td>@i.Qty</td>
                                         </tr>
-
+                                        }
                                     }
                                 }
                             </tbody>
@@ -142,7 +145,7 @@
 
                 else
                 {
-                    <span class="text-center text-danger">There is no items to retrieve yet!!!</span>
+                    <span class="text-center text-info">There is no items to retrieve yet!!!</span>
                 }
 
 

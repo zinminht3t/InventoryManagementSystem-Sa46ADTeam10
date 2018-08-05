@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+// Authors : Zin Min Htet | Thet Aung Zaw | Khin Yadana Phyo
 namespace LUSSISADTeam10API.Repositories
 {
     public static class UserRepo
     {
+        #region Author : Zin Min Htet
 
         public static UserModel CovertDBUsertoAPIUser(user user)
         {
@@ -34,7 +36,6 @@ namespace LUSSISADTeam10API.Repositories
             user user = entities.users.Where(p => p.userid == userid).FirstOrDefault<user>();
             return CovertDBUsertoAPIUser(user);
         }
-
 
         public static List<UserModel> GetAllUsers()
         {
@@ -63,44 +64,9 @@ namespace LUSSISADTeam10API.Repositories
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }
+        #endregion
 
-
-
-        // Start Phyo2
-        public static List<UserModel> GetUserByRoleandDeptid(int role, int deptid, out string error)
-        {
-            error = "";
-            List<user> user = new List<user>();
-            List<UserModel> usm = new List<UserModel>();
-            LUSSISEntities entities = new LUSSISEntities();
-            try
-            {
-                user = entities.users.Where(p => p.role == role && p.deptid == deptid).ToList<user>();
-                foreach (user u in user)
-                {
-                    usm.Add(CovertDBUsertoAPIUser(u));
-                }
-            }
-            catch (NullReferenceException)
-            {
-
-                error = ConError.Status.NOTFOUND;
-            }
-            catch (Exception e)
-            {
-                error = e.Message;
-            }
-            return usm;
-
-
-        }
-
-
-
-        // End Phyo2
-
-
-        // Start TAZ
+        #region Author : Thet Aung Zaw
         public static List<UserModel> GetUserByDeptid(int deptid, out string error)
         {
             LUSSISEntities entities = new LUSSISEntities();
@@ -168,7 +134,7 @@ namespace LUSSISADTeam10API.Repositories
             try
             {
                 List<user> users = entities.users.Where(x => x.userid != (x.delegations.Where(p => p.userid == x.userid && p.active == ConDelegation.Active.ACTIVE).Select(q => q.userid)).FirstOrDefault()).ToList();
-                users = users.Where(x => x.deptid == deptid && x.role == ConUser.Role.EMPLOYEEREP ).ToList();
+                users = users.Where(x => x.deptid == deptid && x.role == ConUser.Role.EMPLOYEEREP).ToList();
 
 
                 foreach (user u in users)
@@ -188,12 +154,42 @@ namespace LUSSISADTeam10API.Repositories
 
         }
 
+        #endregion
+
+        #region Author : Khin Yadana Phyo
 
 
+        public static List<UserModel> GetUserByRoleandDeptid(int role, int deptid, out string error)
+        {
+            error = "";
+            List<user> user = new List<user>();
+            List<UserModel> usm = new List<UserModel>();
+            LUSSISEntities entities = new LUSSISEntities();
+            try
+            {
+                user = entities.users.Where(p => p.role == role && p.deptid == deptid).ToList<user>();
+                foreach (user u in user)
+                {
+                    usm.Add(CovertDBUsertoAPIUser(u));
+                }
+            }
+            catch (NullReferenceException)
+            {
+
+                error = ConError.Status.NOTFOUND;
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+            return usm;
 
 
-        // End TAZ
+        }
 
+        #endregion
+
+        #region Author : Aung Myo
         public static UserModel AssignDepRep(int id)
         {
 
@@ -211,7 +207,7 @@ namespace LUSSISADTeam10API.Repositories
             nom.Title = "Department Representative";
             nom.NotiType = ConNotification.NotiType.DeptRepAssigned;
             nom.ResID = um.userid;
-            nom.Remark = um.fullname  + " has been assigned as a Department Representative!";
+            nom.Remark = um.fullname + " has been assigned as a Department Representative!";
             nom = NotificationRepo.CreatNotification(nom, out string error);
 
 
@@ -225,8 +221,7 @@ namespace LUSSISADTeam10API.Repositories
 
             return umm;
         }
-
-        public static UserModel delegateuser(int userid)
+        public static UserModel Delegateuser(int userid)
         {
 
             LUSSISEntities entities = new LUSSISEntities();
@@ -235,9 +230,7 @@ namespace LUSSISADTeam10API.Repositories
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }
-
-
-        public static UserModel canceldelegateuser(int userid)
+        public static UserModel Canceldelegateuser(int userid)
         {
 
             LUSSISEntities entities = new LUSSISEntities();
@@ -246,7 +239,6 @@ namespace LUSSISADTeam10API.Repositories
             entities.SaveChanges();
             return CovertDBUsertoAPIUser(u);
         }
-
-
+        #endregion
     }
 }

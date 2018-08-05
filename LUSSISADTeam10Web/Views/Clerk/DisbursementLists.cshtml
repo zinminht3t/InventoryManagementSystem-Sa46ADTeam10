@@ -51,7 +51,7 @@
                     <div class="container">
 
                         @{int j = 0; }
-                         @{int i = 0;}
+                        @{int i = 0;}
                         @foreach (string cpname in ViewBag.CollectionPointNames)
                         {
                             <div class="panel-group" id="accordionp_@j" role="tablist">
@@ -66,7 +66,7 @@
                                             <a class="text-info" data-toggle="collapse" data-parent="#accordionp_@j" data-target="#collapseTwo_@j" href="#collapseTwo_@j" aria-expanded="true" aria-controls="accordionp_@j">
                                                 &nbsp @cpname
 
-                                                <em>(@ReqCount Requisitons..)</em>
+                                                <em>(@ReqCount Requisitions..)</em>
                                             </a>
 
                                         </h4>
@@ -76,7 +76,7 @@
                                         <div class="panel-body">
 
 
-                                           
+
                                             <div class="container">
 
 
@@ -117,13 +117,15 @@
                                                                             <tbody>
                                                                                 @foreach (var item in itemreq.Requisitiondetails)
                                                                                 {
-                                                                                    <tr>
-                                                                                        <td>@item.Itemname</td>
-                                                                                        <td class="hideinmobile">@item.CategoryName</td>
-                                                                                        <td>@item.ApprovedQty</td>
-                                                                                        <td>@item.UOM</td>
-                                                                                    </tr>
-                                                                                   
+                                                                                    if (item.ApprovedQty > 0)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td>@item.Itemname</td>
+                                                                                            <td class="hideinmobile">@item.CategoryName</td>
+                                                                                            <td>@item.ApprovedQty</td>
+                                                                                            <td>@item.UOM</td>
+                                                                                        </tr>
+                                                                                    }
                                                                                 }
                                                                             </tbody>
                                                                         </table>
@@ -150,6 +152,7 @@
                 }
                 else
                 {
+                    <span class="text-center text-info">There is no requisition yet!!!</span>
                 }
             </div>
         </div>

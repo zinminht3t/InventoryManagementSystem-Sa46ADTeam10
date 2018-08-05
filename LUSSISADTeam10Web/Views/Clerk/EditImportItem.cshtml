@@ -58,7 +58,7 @@
                                 <div class="col-md-4"> Category : </div>
                                 <div class="col-md-6">
 
-                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.CategoryName, new SelectList(ViewBag.catlist, ViewBag.CategoryName), new { @class = "form-control" })
 
                                 </div>
                             </div>
