@@ -278,7 +278,7 @@
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                 <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage Analysis</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Purchase Order Analysis</a></li>
                                     <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Trend Analysis</a></li>
                                 </ul>
                             </li>
@@ -377,7 +377,7 @@
                                 <li class="menu-item-has-children dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                     <ul class="sub-menu children dropdown-menu">
-                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage Analysis</a></li>
+                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Purchase Order Analysis</a></li>
                                         <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Trend Analysis</a></li>
                                     </ul>
                                 </li>
@@ -484,11 +484,7 @@
                         }
                     });
                 }, 10000);
-
-
-                $('#bootstrap-data-table').dataTable({
-                    "order": []
-                });
+                
 
 
                     });
