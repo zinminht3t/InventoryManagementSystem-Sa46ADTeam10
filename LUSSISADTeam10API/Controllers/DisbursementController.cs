@@ -148,7 +148,7 @@ namespace LUSSISADTeam10API.Controllers
         public IHttpActionResult CreateDisbursementDetails(DisbursementDetailsModel dism)
         {
             string error = "";
-            List<DisbursementDetailsModel> disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
+            DisbursementDetailsModel disbm = DisbursementDetailsRepo.CreateDisbursementDetails(dism, out error);
 
             // get the inventory using the item id from Requisition details
             InventoryModel invm = InventoryRepo.GetInventoryByItemid(dism.Itemid, out error);

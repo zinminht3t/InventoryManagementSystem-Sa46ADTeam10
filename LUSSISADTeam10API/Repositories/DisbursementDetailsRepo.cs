@@ -177,12 +177,12 @@ namespace LUSSISADTeam10API.Repositories
             //returning the list
             return ois;
         }
-        public static List<DisbursementDetailsModel> CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
+        public static DisbursementDetailsModel CreateDisbursementDetails(DisbursementDetailsModel disdm, out string error)
         {
             error = "";
             LUSSISEntities entities = new LUSSISEntities();
             disbursementdetail disdb = new disbursementdetail();
-
+            DisbursementDetailsModel ddm = new DisbursementDetailsModel();
             try
             {
                 disdb.disid = disdm.Disid;
@@ -191,6 +191,7 @@ namespace LUSSISADTeam10API.Repositories
                 disdb = entities.disbursementdetails.Add(disdb);
                 entities.SaveChanges();
 
+                ddm = new DisbursementDetailsModel(disdb.disid, disdb.itemid, disdb.item.description, disdb.qty, disdb.item.category.name, disdb.item.uom);
             }
 
             catch (NullReferenceException)
@@ -201,7 +202,7 @@ namespace LUSSISADTeam10API.Repositories
             {
                 error = e.Message;
             }
-            return GetDisbursementDetailsByDisbursementId(disdb.disid, out error);
+            return ddm;
         }
         public static List<DisbursementDetailsModel> UpdateDisbursementDetails(DisbursementDetailsModel dism, out string error)
         {

@@ -127,69 +127,75 @@ namespace LUSSISADTeam10Web.Controllers
             OutstandingReqModel outr = new OutstandingReqModel();
             bool IsNeededOutstanding = false;
 
-            foreach (int i in reqids)
+            try
             {
-                RequisitionModel req = new RequisitionModel();
-                req = APIRequisition.GetRequisitionByReqid(i, token, out error);
-                if (req != null)
+                foreach (int i in reqids)
                 {
-                    dis.Reqid = req.Reqid;
-                    dis.Ackby = um.Userid;
-                    dis = APIDisbursement.Createdisbursement(dis, token, out error);
-
-                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                    RequisitionModel req = new RequisitionModel();
+                    req = APIRequisition.GetRequisitionByReqid(i, token, out error);
+                    if (req != null)
                     {
-                        if (reqd.Stock < reqd.Qty)
-                        {
-                            IsNeededOutstanding = true;
-                        }
-                        else
-                        {
-                            IsNeededOutstanding = false;
-                        }
-                    }
+                        dis.Reqid = req.Reqid;
+                        dis.Ackby = um.Userid;
+                        dis = APIDisbursement.Createdisbursement(dis, token, out error);
 
-                    if (IsNeededOutstanding)
-                    {
-                        outr.ReqId = req.Reqid;
-                        outr.Reason = "Not Enough Stock";
-                        outr.Status = ConOutstandingsRequisition.Status.PENDING;
-                        outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
-                    }
-
-                    foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
-                    {
-                        DisbursementDetailsModel disdm = new DisbursementDetailsModel
+                        foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
                         {
-                            Disid = dis.Disid,
-                            Itemid = reqd.Itemid
-                        };
-                        if (IsNeededOutstanding)
-                        {
-                            disdm.Qty = reqd.Stock;
-                        }
-                        else
-                        {
-                            disdm.Qty = reqd.Qty;
-                        }
-                        disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
-
-
-                        if (IsNeededOutstanding)
-                        {
-                            OutstandingReqDetailModel outreq = new OutstandingReqDetailModel
+                            if (reqd.Stock < reqd.Qty)
                             {
-                                OutReqId = outr.OutReqId,
-                                ItemId = reqd.Itemid,
-                                Qty = reqd.Qty - disdm.Qty
-                            };
-                            outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                                IsNeededOutstanding = true;
+                            }
+                            else
+                            {
+                                IsNeededOutstanding = false;
+                            }
                         }
-                    }
 
+                        if (IsNeededOutstanding)
+                        {
+                            outr.ReqId = req.Reqid;
+                            outr.Reason = "Not Enough Stock";
+                            outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                            outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
+                        }
+
+                        foreach (RequisitionDetailsModel reqd in req.Requisitiondetails)
+                        {
+                            DisbursementDetailsModel disdm = new DisbursementDetailsModel
+                            {
+                                Disid = dis.Disid,
+                                Itemid = reqd.Itemid
+                            };
+                            if (IsNeededOutstanding)
+                            {
+                                disdm.Qty = reqd.Stock;
+                            }
+                            else
+                            {
+                                disdm.Qty = reqd.Qty;
+                            }
+                            disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+
+
+                            if (IsNeededOutstanding)
+                            {
+                                OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
+                                outreq.OutReqId = outr.OutReqId;
+                                outreq.ItemId = reqd.Itemid;
+                                outreq.Qty = reqd.Qty - disdm.Qty;
+                                outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                            }
+                        }
+
+                    }
+                    req = APIRequisition.UpdateRequisitionStatusToPending(req, token, out error);
+
+                    ResultSuccess = true;
                 }
-                req = APIRequisition.UpdateRequisitionStatusToPending(req, token, out error);
-                ResultSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                var errorm = ex.Message;
             }
 
             return Json(ResultSuccess, JsonRequestBehavior.AllowGet);
@@ -1808,7 +1814,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("Inventory");
         }
         #endregion
-        
+
         #region Utilities
         public string GetToken()
         {
