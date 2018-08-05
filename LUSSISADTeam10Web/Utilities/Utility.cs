@@ -51,9 +51,9 @@ namespace LUSSISADTeam10Web.Utilities
                             "<td>" + podm.ItemDescription + "</td>" +
                             "<td>" + podm.CategoryName + "</td>" +
                             "<td>" + podm.UOM + "</td>" +
-                            "<td>" + podm.Price + "</td>" +
+                            "<td>S$ " + podm.Price + "</td>" +
                             "<td>" + podm.Qty + "</td>" +
-                            "<td>" + amount + "</td>" +
+                            "<td>S$ " + amount + "</td>" +
                             "</tr>";
                         total += amount ?? default(double);
                     }
@@ -88,7 +88,7 @@ namespace LUSSISADTeam10Web.Utilities
                                        "</div>" +
                                      "</div>" +
                                      "<div style='width:100%; height:50px; float:clear;'></div>" +
-                                        "<table style='width:100%;'>" +
+                                        "<table style='width:100%;'cellpadding = '10' cellspacing = '10'>" +
                                             "<tr>" +
                                                 "<th>Item</th>" +
                                                 "<th>Category</th>" +
@@ -96,8 +96,10 @@ namespace LUSSISADTeam10Web.Utilities
                                                 "<th>Price</th>" +
                                                 "<th>Qty</th>" +
                                                 "<th>Amount</th>" +
-                                            "</tr>" + table;
+                                            "</tr>" + table 
+                                            + "<tr><td> </td><td></td><td></td><td></td><td>Total</td><td>S$ " + total+ "</td></tr>";
                     var tablebody = "</table>";
+                       
                     var tablefooter = "<div style='width:100%; height:100px; float:clear;'></div>";
                     var end = "</body></html>";
 
