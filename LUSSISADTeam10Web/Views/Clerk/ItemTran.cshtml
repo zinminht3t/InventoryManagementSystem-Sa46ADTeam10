@@ -65,9 +65,9 @@
                     }
                     else
                     {
-                        <h6>Item Code : <span class="text-info">@Model.InvTrans[0].ItemID</span></h6>
-                        <h6>Item Description : <span class="text-info">@Model.InvTrans[0].Description</span></h6>
-                        <h6>UOM : <span class="text-info">@Model.InvTrans[0].UOM</span></h6>
+                        <h6>Item Code : <span class="text-info">@Model.InvTrans[0].ItemID</span></h6><br /><br />
+                        <h6>Item Description : <span class="text-info">@Model.InvTrans[0].Description</span></h6><br />
+                        <h6>UOM : <span class="text-info">@Model.InvTrans[0].UOM</span></h6><br />
                         <h6>
                             Suppliers : <br />
                             @if (ViewBag.Suppliers.Count > 0)
@@ -75,7 +75,7 @@
 
                                 foreach (var item in ViewBag.Suppliers)
                                 {
-                                    <span class="text-info">@item.SupName</span><br />
+                                    <span class="text-info">@item.SupName</span><br /><br />
                                 }
                             }
                             else
