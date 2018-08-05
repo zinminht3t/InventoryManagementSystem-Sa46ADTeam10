@@ -349,7 +349,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             if (outreqvms != null)
             {
-                outreqvms = outreqvms.OrderBy(x => x.Status).ToList();
+                outreqvms = outreqvms.Where(x => x.Status != ConOutstandingsRequisition.Status.COMPLETE).OrderBy(x => x.Status).ToList();
             }
 
 
@@ -1660,6 +1660,7 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 else
                 {
+
                     intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out  error);
                     intlm = intlm.Where(p => p.ItemID == id).ToList();
                 }

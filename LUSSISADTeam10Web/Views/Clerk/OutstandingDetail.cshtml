@@ -92,36 +92,57 @@
                             }
                             else
                             {
-                                <div class="btn btn-outline-dark" onclick="generate()">View QR</div>
+                                <div class="btn btn-outline-info"onclick="generate()" data-toggle="modal" data-target="#myModal">View QR</div>
 
                             }
 
                         </div>
 
-                        <div id="dialog" title="Basic dialog">
-                            <div id="qrgenerate" class="center-block"></div>
-                        </div>
 
 
                     </form>
-
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="ti-info text-warning" style="font-size : 40px "></i><h5 class="modal-title " id="smallmodalLabel"> &nbsp; &nbsp; QR Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
+                </div>
+                <div class="modal-body">
 
+                    <div id="qrgenerate" class="center-block" style="padding : 0 20px;"></div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" href="#" data-dismiss="modal" class="btn btn-outline-success">Ok</button>
+
+                </div>
+
+            </div>
 
         </div>
+
     </div>
 
     @section Scripts {
 
 
 
-        <script type="text/javascript">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script type="text/javascript">
         var count = 0;
         function generate() {
+            $("#myModal").show();
             if (count == 0)
                 {
                 jQuery('#qrgenerate').qrcode('@Model.ReqId');
@@ -130,8 +151,7 @@
         }
 
 
-        </script>
-
+    </script>
     }
 
 
