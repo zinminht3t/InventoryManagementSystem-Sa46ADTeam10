@@ -96,7 +96,8 @@
                                                 <input class="theclass" onclick="ShowButton()" type="checkbox" name="reqids" value="@item.Reqid">
                                             </td>
                                             <td>
-                                                @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
+                                                <span class="hidefordatesorting">@Convert.ToDateTime(item.Reqdate).ToString("yyyyMMDD")</span>
+                                                 @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
                                             </td>
                                             <td>
                                                 @item.Depname
