@@ -7,6 +7,12 @@
 
 @section Styles {
     <style>
+
+        @@media (max-width: 575.99px) {
+            #supslist {
+                float: none !important;
+            }
+        }
     </style>
 }
 <div class="breadcrumbs">
@@ -73,7 +79,7 @@
                                 <h6>UOM : <span class="text-info">@Model.InvTrans[0].UOM</span></h6><br />
                             </div>
                             <div class="col-md-6 col-sm-12">
-                                <h6>
+                                <h6 class="pull-right" id="supslist">
                                     Suppliers : <br /><br />
                                     @if (ViewBag.Suppliers.Count > 0)
                                     {
@@ -136,7 +142,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Qty)
                                         </td>
-                                        <td class="hideinmobile">
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.UOM)
                                         </td>
                                     </tr>
