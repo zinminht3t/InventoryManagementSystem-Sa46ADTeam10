@@ -89,7 +89,7 @@
             content: "";
         }
 
-        .hidefordatesorting{
+        .hidefordatesorting {
             display: none;
         }
 
@@ -109,12 +109,11 @@
             }
         }
 
-        @@media (max-width: 575.99px){
+        @@media (max-width: 575.99px) {
             .right-panel header.header .col-sm-5 {
                 float: left !important;
                 margin-right: 70px;
             }
-
         }
 
 
@@ -279,8 +278,8 @@
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                 <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage</a></li>
-                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Item Trend Analysis</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage Analysis</a></li>
+                                    <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Trend Analysis</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -344,8 +343,8 @@
                                 <li class="menu-item-has-children dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                     <ul class="sub-menu children dropdown-menu">
-                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage</a></li>
-                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Item Trend Analysis</a></li>
+                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage Analysis</a></li>
+                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Trend Analysis</a></li>
                                     </ul>
                                 </li>
                             }
@@ -378,8 +377,8 @@
                                 <li class="menu-item-has-children dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                                     <ul class="sub-menu children dropdown-menu">
-                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage</a></li>
-                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Item Trend Analysis</a></li>
+                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemUsageReport", "Reports")">Item Usage Analysis</a></li>
+                                        <li><i class="fa fa-table"></i> <a href="@Url.Action("ItemTrendAnalysisReport", "Reports")">Trend Analysis</a></li>
                                     </ul>
                                 </li>
                             }
@@ -485,6 +484,13 @@
                         }
                     });
                 }, 10000);
+
+
+                $('#bootstrap-data-table').dataTable({
+                    "order": []
+                });
+
+
                     });
 
 
