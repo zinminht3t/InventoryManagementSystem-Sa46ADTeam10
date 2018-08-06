@@ -166,7 +166,7 @@ namespace LUSSISADTeam10Web.Controllers
                                 Disid = dis.Disid,
                                 Itemid = reqd.Itemid
                             };
-                            if (IsNeededOutstanding)
+                            if(reqd.Qty > reqd.Stock)
                             {
                                 disdm.Qty = reqd.Stock;
                             }
@@ -177,7 +177,7 @@ namespace LUSSISADTeam10Web.Controllers
                             disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
 
 
-                            if (IsNeededOutstanding)
+                            if (reqd.Qty > reqd.Stock)
                             {
                                 OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
                                 outreq.OutReqId = outr.OutReqId;
