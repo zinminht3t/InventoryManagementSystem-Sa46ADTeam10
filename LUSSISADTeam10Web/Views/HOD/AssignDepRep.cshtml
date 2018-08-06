@@ -1,14 +1,10 @@
 ﻿@model LUSSISADTeam10Web.Models.HOD.AssignDepRepViewModel
 
-
 @{
     ViewBag.Title = "Assign Representative";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-    </style>
-}
+
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -36,7 +32,7 @@
 
 
             <div class="card">
-              
+
                 <div class="card-body">
                     <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-user fa-3x"></i><br /> Assign Department Representative </h5><br />
                     <p>Current Representative is <span class="text-info">@ViewBag.assignedrep</span> </p>
@@ -89,7 +85,7 @@
                                     <div class="col-md-6">
                                         <div class="card-body">
                                             <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked ="checked">
+                                                <input type="radio" asp-for="@Model.Userid" name="userid" value="@item.Userid" class="switch-input" checked="checked">
 
                                                 <span class="switch-label"></span> <span class="switch-handle"></span>
                                             </label>
@@ -135,7 +131,4 @@
 
         });
     </script>
-
-
-
     }

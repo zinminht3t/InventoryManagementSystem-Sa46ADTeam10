@@ -5,13 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-    <style>
-        @@media (max-width: 575.99px) {
-            #qrgenerate {
-                padding: 0px !important;
-            }
-        }
-    </style>
+    <link href="~/Styles/css/views/Clerk/DisbursementDetail.css" rel="stylesheet" />
 }
 
 <div class="breadcrumbs">
@@ -120,7 +114,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" href="#" data-dismiss="modal" class = "btn btn-outline-success">Ok</button>
+                <button type="button" href="#" data-dismiss="modal" class="btn btn-outline-success">Ok</button>
 
             </div>
 
@@ -132,25 +126,7 @@
 
 
 @section Scripts {
-
-
-
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
-    <script type="text/javascript">
-        var count = 0;
-        function generate() {
-            $("#myModal").show();
-            if (count == 0)
-                {
-                jQuery('#qrgenerate').qrcode('@Model.Reqid');
-                count++;
-            }
-        }
-
-
-    </script>
+    <script src="~/Styles/js/views/Clerk/DisbursementDetail.js"></script>
 
 }

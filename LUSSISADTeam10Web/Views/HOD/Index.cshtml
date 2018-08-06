@@ -4,11 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles {
-    <style>
-        #myChart{
-            width: 80%;
-        }
-    </style>
+
+    <link href="~/Styles/css/views/HOD/Index.css" rel="stylesheet" />
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -55,44 +52,44 @@
                     </div>
                 </div>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-one">
-                                <div class="stat-icon dib"><a href="@Url.Action("AssignDepRep")"><i class="ti-user text-success border-success"></i></a></div>
-                                <div class="stat-content dib">
-                                    <div class="stat-text">Department Representative</div>
-                                    <div class="stat-digit">@ViewBag.Repname</div>
-                                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("AssignDepRep")"><i class="ti-user text-success border-success"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Department Representative</div>
+                                <div class="stat-digit">@ViewBag.Repname</div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-one">
-                                <div class="stat-icon dib"><a href="@Url.Action("CollectionPoint")"><i class="ti-location-pin text-danger border-danger"></i></a></div>
-                                <div class="stat-content dib">
-                                    <div class="stat-text">Collection Point</div>
-                                    <div class="stat-digit">@ViewBag.CollectionPoint</div>
-                                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("CollectionPoint")"><i class="ti-location-pin text-danger border-danger"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Collection Point</div>
+                                <div class="stat-digit">@ViewBag.CollectionPoint</div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-one">
-                                <div class="stat-icon dib"><a href="@Url.Action("SearchPreviousDelegation")"><i class="ti-share text-warning border-warning"></i></a></div>
-                                <div class="stat-content dib">
-                                    <div class="stat-text">@ViewBag.DelegationType</div>
-                                    <div class="stat-digit">@ViewBag.TempHOD</div>
-                                    <em>@ViewBag.TempDate</em>
-                                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><a href="@Url.Action("SearchPreviousDelegation")"><i class="ti-share text-warning border-warning"></i></a></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">@ViewBag.DelegationType</div>
+                                <div class="stat-digit">@ViewBag.TempHOD</div>
+                                <em>@ViewBag.TempDate</em>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

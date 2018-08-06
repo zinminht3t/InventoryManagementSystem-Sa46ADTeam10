@@ -207,11 +207,19 @@ namespace LUSSISADTeam10API.Repositories
             error = "";
 
             supplieritem supitem = new supplieritem();
-            supitem.supid = sim.SupId;
-            supitem.itemid = sim.ItemId;
-            supitem.price = sim.Price;
-            entities.supplieritems.Add(supitem);
-            entities.SaveChanges();
+            try
+            {
+                supitem.supid = sim.SupId;
+                supitem.itemid = sim.ItemId;
+                supitem.price = sim.Price;
+                entities.supplieritems.Add(supitem);
+                entities.SaveChanges();
+               
+            }
+            catch (Exception ex) {
+
+                error = ex.Message;
+            }
             return sim;
         }
 
@@ -221,12 +229,20 @@ namespace LUSSISADTeam10API.Repositories
         {
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
+            try
+            {
+                supplieritem supitem = entities.supplieritems
+                    .Where(x => x.supid == sim.SupId &&
+                    x.itemid == sim.ItemId).First();
+                supitem.price = sim.Price;
+                entities.SaveChanges();
+            }
 
-            supplieritem supitem = entities.supplieritems
-                .Where(x => x.supid == sim.SupId &&
-                x.itemid == sim.ItemId).First();
-            supitem.price = sim.Price;
-            entities.SaveChanges();
+            catch (Exception ex)
+            {
+
+                error = ex.Message;
+            }
             return sim;
         }
 
@@ -237,30 +253,42 @@ namespace LUSSISADTeam10API.Repositories
             bool test = false;
             int supid = 0;
             LUSSISEntities entities = new LUSSISEntities();
-            error = "";
-            foreach (SupplierItemModel sm in csp)
+            List<SupplierItemModel> smretrun = new List<SupplierItemModel>();
+           error = "";
+            try
             {
-                supid = sm.SupId;
-                List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
-                foreach (SupplierItemModel sm1 in csp1)
+                foreach (SupplierItemModel sm in csp)
                 {
-
-                    if (sm.Description == sm1.Description)
+                    supid = sm.SupId;
+                    List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
+                    foreach (SupplierItemModel sm1 in csp1)
                     {
-                        test = true;
-                        UpdateSupplierItem(sm, out string error2);
+
+                        if (sm.Description == sm1.Description)
+                        {
+                            test = true;
+                            UpdateSupplierItem(sm, out string error2);
+                        }
+                    }
+                    if (test == false)
+                    {
+                        AddItemOfSupplier(sm, out string error3);
+                    }
+                    else
+                    {
+                        test = false;
                     }
                 }
-                if (test == false)
-                {
-                    AddItemOfSupplier(sm, out string error3);
-                }
-                else
-                {
-                    test = false;
-                }
+                smretrun = GetItemsBySupplier(supid, out string error4);
+
+
             }
-            List<SupplierItemModel> smretrun = GetItemsBySupplier(supid, out string error4);
+
+            catch (Exception ex)
+            {
+
+                error = ex.Message;
+            }
             return smretrun;
 
         }
@@ -273,41 +301,50 @@ namespace LUSSISADTeam10API.Repositories
             int supid = 0;
             LUSSISEntities entities = new LUSSISEntities();
             error = "";
-            foreach (SupplierItemModel sm in csp)
+            List<SupplierItemModel> smretrun = new List<SupplierItemModel>();
+            try
             {
-                supid = sm.SupId;
-                List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
-                foreach (SupplierItemModel sm1 in csp1)
+                foreach (SupplierItemModel sm in csp)
                 {
-
-                    if (sm.Description == sm1.Description)
+                    supid = sm.SupId;
+                    List<SupplierItemModel> csp1 = GetItemsBySupplier(supid, out string error1);
+                    foreach (SupplierItemModel sm1 in csp1)
                     {
-                        test = true;
-                        UpdateSupplierItem(sm, out string error2);
+
+                        if (sm.Description == sm1.Description)
+                        {
+                            test = true;
+                            UpdateSupplierItem(sm, out string error2);
+                        }
+                    }
+                    if (test == false)
+                    {
+
+                        ItemModel im = ItemRepo.GetItemByItemid(sm.ItemId, out string error2);
+                        if (im != null)
+                        {
+                            AddItemOfSupplier(sm, out string error3);
+                            im = null;
+
+
+                        }
+
+
+
+                        test = false;
+                    }
+                    else
+                    {
+                        test = false;
                     }
                 }
-                if (test == false)
-                {
-
-                    ItemModel im = ItemRepo.GetItemByItemid(sm.ItemId, out string error2);
-                    if (im != null)
-                    {
-                        AddItemOfSupplier(sm, out string error3);
-                        im = null;
-
-
-                    }
-
-
-
-                    test = false;
-                }
-                else
-                {
-                    test = false;
-                }
+                smretrun = GetItemsBySupplier(supid, out string error4);
             }
-            List<SupplierItemModel> smretrun = GetItemsBySupplier(supid, out string error4);
+            catch (Exception ex)
+            {
+
+                error = ex.Message;
+            }
             return smretrun;
 
         }
@@ -318,77 +355,86 @@ namespace LUSSISADTeam10API.Repositories
             LUSSISEntities entities = new LUSSISEntities();
             List<SupplierItemModel> createdsupitemlist = new List<SupplierItemModel>();
             error = "";
-            foreach (ImportSupplierItem sm in csp)
+
+            try
             {
-
-                SupplierModel spm = SupplierRepo.GetSupplierBySupname(sm.SupName, out string error1);
-
-                if (spm.SupName != "")
+                foreach (ImportSupplierItem sm in csp)
                 {
 
-                    ItemModel im1 = ItemRepo.GetItemByItemDescription(sm.Description, out string error3);
+                    SupplierModel spm = SupplierRepo.GetSupplierBySupname(sm.SupName, out string error1);
 
-                    if (im1.Description != "")
+                    if (spm.SupName != "")
                     {
 
-                        SupplierItemModel sim = GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error5);
-                        if (sim.SupId != 0)
+                        ItemModel im1 = ItemRepo.GetItemByItemDescription(sm.Description, out string error3);
+
+                        if (im1.Description != "")
                         {
 
-                            supplieritem supitem = entities.supplieritems
-                        .Where(x => x.supid == spm.SupId &&
-                        x.itemid == sim.ItemId).First();
-                            supitem.price = sm.Price;
-                            entities.SaveChanges();
-                            createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, sim.SupId, out string error7));
+                            SupplierItemModel sim = GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error5);
+                            if (sim.SupId != 0)
+                            {
+
+                                supplieritem supitem = entities.supplieritems
+                            .Where(x => x.supid == spm.SupId &&
+                            x.itemid == sim.ItemId).First();
+                                supitem.price = sm.Price;
+                                entities.SaveChanges();
+                                createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, sim.SupId, out string error7));
+                            }
+                            else
+                            {
+
+                                supplieritem supitem = new supplieritem();
+                                supitem.supid = spm.SupId;
+                                supitem.itemid = im1.Itemid;
+                                supitem.price = sm.Price;
+                                entities.supplieritems.Add(supitem);
+                                entities.SaveChanges();
+                                createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error8));
+                            }
+
                         }
+
                         else
                         {
+                            item item = new item();
+
+
+                            item.catid = 21;
+                            item.description = sm.Description;
+                            item.uom = sm.Uom;
+                            item = entities.items.Add(item);
+                            entities.SaveChanges();
+
+                            ItemModel im = ItemRepo.GetItemByItemid(item.itemid, out error);
+
+
+                            inventory ivm = new inventory();
+                            ivm.itemid = im.Itemid;
+                            ivm.stock = 0;
+                            ivm.reorderqty = 0;
+                            ivm.reorderlevel = 0;
+                            ivm = entities.inventories.Add(ivm);
+                            entities.SaveChanges();
+
 
                             supplieritem supitem = new supplieritem();
                             supitem.supid = spm.SupId;
-                            supitem.itemid = im1.Itemid;
+                            supitem.itemid = im.Itemid;
                             supitem.price = sm.Price;
                             entities.supplieritems.Add(supitem);
                             entities.SaveChanges();
-                            createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im1.Itemid, spm.SupId, out string error8));
+                            createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im.Itemid, spm.SupId, out string error5));
+
                         }
-
-                    }
-
-                    else
-                    {
-                        item item = new item();
-
-
-                        item.catid = 21;
-                        item.description = sm.Description;
-                        item.uom = sm.Uom;
-                        item = entities.items.Add(item);
-                        entities.SaveChanges();
-
-                        ItemModel im = ItemRepo.GetItemByItemid(item.itemid, out error);
-
-
-                        inventory ivm = new inventory();
-                        ivm.itemid = im.Itemid;
-                        ivm.stock = 0;
-                        ivm.reorderqty = 0;
-                        ivm.reorderlevel = 0;
-                        ivm = entities.inventories.Add(ivm);
-                        entities.SaveChanges();
-
-
-                        supplieritem supitem = new supplieritem();
-                        supitem.supid = spm.SupId;
-                        supitem.itemid = im.Itemid;
-                        supitem.price = sm.Price;
-                        entities.supplieritems.Add(supitem);
-                        entities.SaveChanges();
-                        createdsupitemlist.Add(GetSupplierItemListByItemIdandSupid(im.Itemid, spm.SupId, out string error5));
-
                     }
                 }
+            }
+            catch (Exception ex) {
+
+                error = ex.Message;
+
             }
             return createdsupitemlist;
 

@@ -4,10 +4,6 @@
     ViewBag.Title = "Active Suppliers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-    </style>
-}
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -83,7 +79,7 @@
                 <h5>Do you want to make the supplier to inactive ? </h5>
 
                 <div style="text-align:center;display:none" id="loaderDiv">
-                    <img src="~/Styles/images/loading.gif"  width="150"/>
+                    <img src="~/Styles/images/loading.gif" width="150" />
                 </div>
 
             </div>
@@ -104,10 +100,9 @@
 
 
 @section Scripts {
-  
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- 
     <script>
 
         var ConfirmDelete = function (SupId) {

@@ -1,4 +1,4 @@
-﻿    @model LUSSISADTeam10Web.Models.Clerk.RequisitionViewModel
+﻿@model LUSSISADTeam10Web.Models.Clerk.RequisitionViewModel
 
 
 @{
@@ -8,22 +8,7 @@
 }
 
 @section Styles {
-
-
-    <style>
-
-        #btnApproveAll {
-            display: none;
-        }
-
-        @@media only screen and (max-width: 600px) {
-
-
-            .hideinmobile {
-                display: none;
-            }
-        }
-    </style>
+    <link href="~/Styles/css/views/Clerk/Requisition.css" rel="stylesheet" />
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -97,7 +82,7 @@
                                             </td>
                                             <td>
                                                 <span class="hidefordatesorting">@Convert.ToDateTime(item.Reqdate).ToString("yyyyMMDD")</span>
-                                                 @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
+                                                @Convert.ToDateTime(item.Reqdate).ToString("dd/MM/yyyy")
                                             </td>
                                             <td>
                                                 @item.Depname
@@ -168,6 +153,7 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script type="text/javascript">
 
 
@@ -220,6 +206,7 @@
 
 
     </script>
+
 }
 
 

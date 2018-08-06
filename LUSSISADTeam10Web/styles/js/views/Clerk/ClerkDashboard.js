@@ -1,56 +1,4 @@
-﻿@model IEnumerable<LUSSISADTeam10Web.Models.APIModels.FrequentlyTop5ItemsModel>
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Dashboard";
-    int count = Model.Count();
-    var labels = new string[count];
-    var data = new int?[count];
-    labels = Model.Select(x => x.Description).ToArray();
-    data = Model.Select(x => x.Qty).ToArray();
-}
-@section Styles {
-    <style>
-    </style>
-}
-
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>@ViewBag.Title</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-8">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    <li><a href="@Url.Action("Index", "HOD")">Dashboard</a></li>
-                    <li class="active">Title Here</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content mt-3">
-    <div class="animated fadeIn">
-        <div class="card">
-          
-            <div class="card-body">
-                <h5 class="text-sm-center text-info"> <i class="fa fa-dashboard fa-3x"></i><br /> Dashboard </h5><br />
-                <div class="col-md-6 m-auto">
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
-    <script type="text/javascript">
-        var lbls = [];
+ var lbls = [];
         var dt = [];
         @for(int i=0; i<labels.Length; i++){
             <text>
@@ -112,5 +60,3 @@
                 }
             });
         }
-    </script>
-}

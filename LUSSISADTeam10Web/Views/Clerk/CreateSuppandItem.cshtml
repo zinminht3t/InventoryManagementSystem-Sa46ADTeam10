@@ -4,13 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @section Styles {
-    <style>
-
-    </style>
+    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
 }
-
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -43,7 +39,7 @@
                 <div class="container">
 
                     <div class="panel-group" id="accordion1" role="tablist">
-                       
+
                         <div class="panel" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
                             @if (ViewBag.Error != null)
                             {
@@ -72,7 +68,7 @@
                                     </div>
                                 </div>
                             }
-                           else
+                            else
                             {
                                 <div class="panel-heading" role="tab" id="panel">
                                     <h4 class="panel-title">
@@ -100,7 +96,7 @@
                                 </div>
                             }
                         </div>
-                        
+
                         <br />
                         <br />
                     </div>
@@ -137,7 +133,7 @@
                                     </div>
                                 </div>
                             }
-                           else
+                            else
                             {
                                 <div class="panel-heading" role="tab" id="panel1">
                                     <h4 class="panel-title">
@@ -153,7 +149,7 @@
                                         @using (Html.BeginForm("csvsupplier", "Clerk", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                         {
                                             <br />
-                                           
+
 
                                             <input type="file" required name="excelfile" />
                                             <br />
@@ -184,10 +180,4 @@
 
 
 
-
-@section Scripts {
-
-    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
-
-}
 

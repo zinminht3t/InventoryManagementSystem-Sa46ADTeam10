@@ -6,10 +6,6 @@
     var data = Model.Select(x => x.Total).Reverse().ToArray();
     var tooltips = Model.Select(x => x.PurchaseOrderCount).Reverse().ToArray();
 }
-@section Styles {
-    <style>
-    </style>
-}
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -99,6 +95,7 @@
 </div>
 
 @section Scripts {
+
     <script type="text/javascript">
         var lbls = [];
         var dt = [];
