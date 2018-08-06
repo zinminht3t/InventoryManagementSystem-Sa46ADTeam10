@@ -1,0 +1,23 @@
+    .dropdown-menu {
+        border: 1px solid #cccbcb;
+        color: #ffd800;
+        opacity: 1;
+    }
+
+    #noti-div{
+        border: 1px solid #808080
+    }
+
+    #noti-div {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    #list-group-box {
+        min-width: 500px
+    }
+    @@media only screen and (max-width: 600px) {
+        #list-group-box {
+            max-width: 500px !important;
+        }
+    }

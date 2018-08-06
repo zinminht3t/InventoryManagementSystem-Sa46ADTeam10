@@ -1,0 +1,23 @@
+  #report-form select {
+            font-size: 12px !important;
+        }
+
+        .hideatstart {
+            visibility: hidden;
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printpdf, #printpdf * {
+                visibility: visible;
+            }
+
+            #printpdf {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+        }

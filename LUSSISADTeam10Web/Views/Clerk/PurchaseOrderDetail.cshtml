@@ -5,10 +5,6 @@
     ViewBag.Title = "Purchase Order Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-    </style>
-}
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -69,7 +65,7 @@
                                         {
                                             total += (items.Qty * items.Price as double?);
                                             var amount = items.Qty * items.Price;
-                                            <tr id="@items.Itemid">                 
+                                            <tr id="@items.Itemid">
                                                 <td>@items.ItemDescription</td>
                                                 <td>@items.Qty</td>
                                                 <td>S$ @items.Price</td>
@@ -89,9 +85,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script type="text/javascript">
-
-    </script>
-}

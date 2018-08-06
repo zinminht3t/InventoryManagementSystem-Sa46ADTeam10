@@ -6,14 +6,7 @@
 }
 
 @section Styles {
-    <style>
-
-        @@media (max-width: 575.99px) {
-            #supslist {
-                float: none !important;
-            }
-        }
-    </style>
+    <link href="~/Styles/css/views/Clerk/ItemTran.css" rel="stylesheet" />
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -162,18 +155,6 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    @*<script>
-        $(function () {
-            $("#datepicker").datepicker({ dateformat: 'yy/mm/dd' }).val();
-            $("#datepicker").datepicker('option', "showAnim", 'slide');
-            $("#datepicker").datepicker('setDate', 'today')
-            $("#datepicker1").datepicker({ dateformat: 'yy/mm/dd' }).val();
-            $("#datepicker1").datepicker('option', "showAnim", 'slide');
-            $("#datepicker1").datepicker('setDate', 'today')
-
-        });
-    </script>*@
-
     <script>
         $(document).ready(function () {
 
@@ -189,35 +170,35 @@
     </script>
 
 
-<script>
-         
-
-          $(function () {
-              $("#datepicker1").datepicker({
-                  dateFormat: 'yy-mm-dd',
-                  showAnim: 'slide',
-                  disabled: true,
-                 
-              });
+    <script>
 
 
+        $(function () {
+            $("#datepicker1").datepicker({
+                dateFormat: 'yy-mm-dd',
+                showAnim: 'slide',
+                disabled: true,
 
-              $("#datepicker1").datepicker('setDate', null);
-              $("#datepicker").datepicker({
-                  dateFormat: 'yy-mm-dd',
-                  showAnim: 'slide',
-                  onSelect: function (date) {
-                      $("#datepicker1").datepicker("option", "minDate", date);
-                      $('#datepicker1').datepicker("option", "disabled", false);
-                      $("#datepicker1").datepicker("option", "minDate", date);
-                      $('#datepicker1').datepicker('setDate', date);
-                      $("#datepicker1").datepicker("option", "maxDate");
+            });
 
-                  }
-              });
-              $("#datepicker").datepicker('setDate', 'today');
-              
-          });
-</script>
-}
+
+
+            $("#datepicker1").datepicker('setDate', null);
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                showAnim: 'slide',
+                onSelect: function (date) {
+                    $("#datepicker1").datepicker("option", "minDate", date);
+                    $('#datepicker1').datepicker("option", "disabled", false);
+                    $("#datepicker1").datepicker("option", "minDate", date);
+                    $('#datepicker1').datepicker('setDate', date);
+                    $("#datepicker1").datepicker("option", "maxDate");
+
+                }
+            });
+            $("#datepicker").datepicker('setDate', 'today');
+
+        });
+    </script>
+    }
 

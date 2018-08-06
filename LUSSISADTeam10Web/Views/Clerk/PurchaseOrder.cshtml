@@ -7,16 +7,7 @@
 
 
 @section Styles {
-    <style>
-
-        .qtyinput {
-            width: 14%;
-        }
-
-        .btnremove {
-            width: 10%;
-        }
-    </style>
+    <link href="~/Styles/css/views/Clerk/PurchaseOrder.css" rel="stylesheet" />
 }
 
 <div class="breadcrumbs">
@@ -126,9 +117,9 @@
 
                                 </tbody>
                             </table>
-                            @if(count > 0)
+                            @if (count > 0)
                             {
-                            <em class="text-info"> -- The disabled items are auto generated recommended quantity</em>
+                                <em class="text-info"> -- The disabled items are auto generated recommended quantity</em>
                             }
                         </div>
                     </div>
@@ -155,11 +146,7 @@
 
 </div><!-- .animated -->
 
-
 @section Scripts {
-
-
-
 
     <script language="javascript" type="text/javascript">
 
@@ -207,5 +194,4 @@ function addRow() {
 
 
     </script>
-
 }

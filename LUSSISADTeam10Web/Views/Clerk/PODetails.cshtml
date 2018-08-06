@@ -4,10 +4,6 @@
     ViewBag.Title = "Purchase Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-    </style>
-}
 
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -39,79 +35,74 @@
                 <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Orders </h5></div><br />
                 <div class="container">
 
-                  
-                        @foreach (var item in Model)
-                        {
-                            <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a href="#@item.PoId">
-                                            Purchase Order ID : @item.PoId
-                                            -
-                                            Supplier : @item.SupName
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="@item.PoId" class="panel-collapse">
-                                    <div class="panel-body">
-                                        <hr />
-                                        <h6>PO ID :  PO-@item.PoId </h6><br />
-                                        <h6>Supplier :  @item.SupName </h6><br />
-                                        <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
-                                        <h6>Total Price : <span id="totalprice"></span></h6><br />
-                                        <div class="text-sm-center">
 
-                                            <table class="table table-bordered table-hover">
-                                                <thead class="table-info">
+                    @foreach (var item in Model)
+                    {
+                        <div class="panel panel-default" style="border: 1px dotted skyblue; margin: 10px; padding:10px;">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="#@item.PoId">
+                                        Purchase Order ID : @item.PoId
+                                        -
+                                        Supplier : @item.SupName
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="@item.PoId" class="panel-collapse">
+                                <div class="panel-body">
+                                    <hr />
+                                    <h6>PO ID :  PO-@item.PoId </h6><br />
+                                    <h6>Supplier :  @item.SupName </h6><br />
+                                    <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
+                                    <h6>Total Price : <span id="totalprice"></span></h6><br />
+                                    <div class="text-sm-center">
+
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="table-info">
+                                                <tr>
+                                                    <th class="hideinmobile">Item</th>
+                                                    <th>Description</th>
+                                                    <th>Qty</th>
+                                                    <th class="hideinmobile">Price</th>
+                                                    <th>Amt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ double? total = 0.0; }
+                                                @foreach (var items in item.podms)
+                                                {
+                                                    total += (items.Qty * items.Price as double?);
+                                                    var amount = items.Qty * items.Price;
                                                     <tr>
-                                                        <th class="hideinmobile">Item</th>
-                                                        <th>Description</th>
-                                                        <th>Qty</th>
-                                                        <th class="hideinmobile">Price</th>
-                                                        <th>Amt</th>
+                                                        <td class="hideinmobile">@items.Itemid</td>
+                                                        <td>@items.ItemDescription</td>
+                                                        <td>@items.Qty</td>
+                                                        <td class="hideinmobile">S$ @items.Price</td>
+                                                        <td>S$ @amount</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @{ double? total = 0.0; }
-                                                    @foreach (var items in item.podms)
-                                                    {
-                                                        total += (items.Qty * items.Price as double?);
-                                                        var amount = items.Qty * items.Price;
-                                                        <tr>
-                                                            <td class="hideinmobile">@items.Itemid</td>
-                                                            <td >@items.ItemDescription</td>
-                                                            <td>@items.Qty</td>
-                                                            <td class="hideinmobile">S$ @items.Price</td>
-                                                            <td>S$ @amount</td>
-                                                        </tr>
-                                                    }
+                                                }
 
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <hr />
-                            <script>
+                        <hr />
+                        <script>
                                    document.getElementById('totalprice').innerHTML = @total;
-                            </script>
-                        }
-                    </div>
+                        </script>
+                    }
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-
-        $('.panel-group').on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (e) {
-            e.stopPropagation();
-        });
-    </script>
+    <script src="~/Styles/js/views/Clerk/PODetails.js"></script>
 }
 

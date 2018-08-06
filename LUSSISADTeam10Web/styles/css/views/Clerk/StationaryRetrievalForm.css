@@ -1,0 +1,29 @@
+  @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #StationaryRetrivalForm, #StationaryRetrivalForm * {
+                visibility: visible;
+            }
+
+            #StationaryRetrivalForm {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        @@media only screen and (max-width: 600px) {
+
+            .response {
+                float: none !important;
+                min-width: 100%;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .morereq {
+                min-width: 100%;
+            }
+        }

@@ -1,0 +1,84 @@
+  body, nav {
+            font-family: Arial;
+            font-size: 13px !important;
+        }
+
+        .navbar .navbar-nav li > a {
+            font-family: Arial;
+            font-size: 13px !important;
+        }
+
+        .btn, .button {
+            border-radius: 5px !important;
+        }
+
+        .btn-info {
+            background-color: #3AAFA9 !important;
+        }
+
+        .menutoggle {
+            background-color: #3AAFA9 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0px !important;
+        }
+
+        .dataTables_paginate .pagination li:hover a {
+            background: #3AAFA9;
+            border-color: #344955;
+            color: white;
+        }
+
+        .dataTables_paginate .pagination li.active a {
+            background: #3AAFA9;
+            border-color: #272c33;
+            color: white;
+        }
+
+        .Table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
+            right: 1em;
+            content: "";
+        }
+
+        .table.dataTable thead .sorting::before, table.dataTable thead .sorting_asc::before, table.dataTable thead .sorting_desc::before, table.dataTable thead .sorting_asc_disabled::before, table.dataTable thead .sorting_desc_disabled::before {
+            right: 1em;
+            content: "";
+        }
+
+        .table.dataTable thead .sorting::after, table.dataTable thead .sorting_asc::after, table.dataTable thead .sorting_desc::after, table.dataTable thead .sorting_asc_disabled::after, table.dataTable thead .sorting_desc_disabled::after {
+            right: 0.5em;
+            content: "";
+        }
+
+        .hidefordatesorting {
+            display: none;
+        }
+
+        @@media only screen and (max-width: 600px) {
+            #logoimg {
+                width: 40px;
+                height: 40px;
+            }
+
+            .navbar-brand {
+                margin-top: 0px !important;
+            }
+
+
+            .hideinmobile {
+                display: none;
+            }
+        }
+
+        @@media (max-width: 575.99px) {
+            .right-panel header.header .col-sm-5 {
+                float: left !important;
+                margin-right: 70px;
+            }
+        }
+
+
+        table.dataTable tbody tr {
+            background-color: #DAE6E5;
+        }

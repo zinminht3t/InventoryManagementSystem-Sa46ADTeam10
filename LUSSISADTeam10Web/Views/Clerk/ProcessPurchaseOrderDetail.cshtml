@@ -1,13 +1,9 @@
-﻿    @model LUSSISADTeam10Web.Models.Clerk.PurchaseOrderViewModel
+﻿@model LUSSISADTeam10Web.Models.Clerk.PurchaseOrderViewModel
 
 
 @{
     ViewBag.Title = "Purchase Order Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section Styles {
-    <style>
-    </style>
 }
 
 <div class="breadcrumbs">
@@ -65,7 +61,7 @@
 
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-info">
-                                            <tr>   
+                                            <tr>
                                                 <th>Item</th>
                                                 <th class="hideinmobile">Ordered Qty</th>
                                                 <th>Price</th>
@@ -87,7 +83,7 @@
 
 
                                                 <tr id="@items.Itemid">
-                                                 
+
                                                     <td>@items.ItemDescription</td>
                                                     <td class="hideinmobile">@items.Qty</td>
                                                     <td class="amount">S$ @items.Price</td>
@@ -117,8 +113,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script type="text/javascript">
-
-    </script>
-}

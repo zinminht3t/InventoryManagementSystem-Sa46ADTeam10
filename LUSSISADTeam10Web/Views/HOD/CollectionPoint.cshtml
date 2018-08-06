@@ -7,10 +7,6 @@
     var cplist = new List<double[]>();
     var counter = 0;
 }
-@section Styles {
-    <style>
-    </style>
-}
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -34,12 +30,12 @@
     <div class="animated fadeIn">
 
         <div class="card">
-     
+
             <div class="card-body">
                 <h4><strong class="card-title"> Current Collection Point : <span class="text-info">@ViewBag.ActiveCollectionPoint </span></strong></h4>
                 @if (ViewBag.PendingCPR)
                 {
-                    <h5 class="text-sm-center text-info hideinmobile"> <i class= "fa fa-map-marker fa-3x"></i><br /> Pending Collection Point Request </h5><br />
+                    <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-map-marker fa-3x"></i><br /> Pending Collection Point Request </h5><br />
 
                     foreach (var item in ViewBag.PendingCollectionPoints)
                     {
@@ -56,8 +52,6 @@
                             <a href="@Url.Action("CancelCollectionPoint", "HOD", new { id = item.DeptCpID })" class="btn btn-outline-danger">Cancel Request</a>
                         </div>
                     }
-
-
 
                 }
 
@@ -96,7 +90,7 @@
 
     </div>
 </div>
-</div>
+
 @section Scripts {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwToLtXThWaOyGkWZiXYfErtYykI8or0" type="text/javascript"></script>
     <script type="text/javascript">

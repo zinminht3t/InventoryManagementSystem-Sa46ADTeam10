@@ -7,16 +7,7 @@
 }
 
 @section Styles {
-    <style>
-        @@media only screen and (max-width: 600px) {
-
-            .container *, .card-body {
-                padding-left: 0px;
-                padding-right: 0px;
-                font-size: 12px !important;
-            }
-        }
-    </style>
+    <link href="~/Styles/css/views/Manager/Approve.css" rel="stylesheet" />
 }
 <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -68,103 +59,103 @@
                                                     <div class="panel-body">
                                                         <div class="container">
                                                             @foreach (var item in Model)
-                                            {
-                                                <div class="panel-group" id="accordion2_@k" role="tablist">
-                                                    <div class="panel" @*style="border: 1px dotted skyblue; margin: 10px; padding:10px;"*@>
-                                                        <div class="panel-heading" role="tab" id="panel2_@k">
-                                                            <h4 class="panel-title">
-
-                                                                <a class="text-dark" data-toggle="collapse" data-parent="#accordion2_@k" data-target="#collapseOne2_@k" href="#collapseOne2_@k" aria-expanded="true" aria-controls="accordion2_@k">
-                                                                    Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-
-                                                        <div id="collapseOne2_@k" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne2_@k">
-                                                            <div class="panel">
-                                                                <hr />
-
-                                                                <table style="border:hidden;" class="col-lg-4">
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Issued Date</td>
-                                                                        <td>:</td>
-                                                                        <td>@Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")</td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Reported By</td>
-                                                                        <td>:</td>
-                                                                        <td>
-                                                                            @item.Raisedbyname
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Reported To</td>
-                                                                        <td>:</td>
-                                                                        <td>@item.Raisedtoname</td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Total Price Adjusted</td>
-                                                                        <td>:</td>
-                                                                        <td>$@item.TotalPrice</td>
-                                                                    </tr>
-                                                                </table>
-                                                                <br /><br />
-
-                                                                <div class="text-sm-center">
-
-                                                                    <table class="table table-bordered table-hover">
-                                                                        <thead class="table-info">
-                                                                            <tr>
-                                                                                <th>Category</th>
-                                                                                <th class="hideinmobile">Item</th>
-                                                                                <th>Adjusted Qty</th>
-                                                                                <th>UOM</th>
-                                                                                <th>Price</th>
-                                                                                <th class="hideinmobile">Reason</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach (var aid in item.Adjds)
                                                             {
-                                                                <tr>
-                                                                    <td class="hideinmobile">
-                                                                        @aid.CategoryName
-                                                                    </td>
-                                                                    <td>
-                                                                        @aid.Itemdescription
-                                                                    </td>
-                                                                    <td>
-                                                                        @aid.Adjustedqty
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @aid.UOM
-                                                                    </td>
-                                                                    <td>
-                                                                        $@aid.Price
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @if (aid.Reason == "" || aid.Reason == null)
-                                                        {
-                                                            aid.Reason = "_";
-                                                        }
-                                                                        @aid.Reason
-                                                                    </td>
+                                                                <div class="panel-group" id="accordion2_@k" role="tablist">
+                                                                    <div class="panel" @*style="border: 1px dotted skyblue; margin: 10px; padding:10px;"*@>
+                                                                        <div class="panel-heading" role="tab" id="panel2_@k">
+                                                                            <h4 class="panel-title">
 
-                                                                </tr>
+                                                                                <a class="text-dark" data-toggle="collapse" data-parent="#accordion2_@k" data-target="#collapseOne2_@k" href="#collapseOne2_@k" aria-expanded="true" aria-controls="accordion2_@k">
+                                                                                    Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                                                                                </a>
+                                                                            </h4>
+                                                                        </div>
 
-                                            }
-                                                                        </tbody>
-                                                                    </table>
+                                                                        <div id="collapseOne2_@k" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne2_@k">
+                                                                            <div class="panel">
+                                                                                <hr />
 
+                                                                                <table style="border:hidden;" class="col-lg-4">
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Issued Date</td>
+                                                                                        <td>:</td>
+                                                                                        <td>@Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")</td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Reported By</td>
+                                                                                        <td>:</td>
+                                                                                        <td>
+                                                                                            @item.Raisedbyname
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Reported To</td>
+                                                                                        <td>:</td>
+                                                                                        <td>@item.Raisedtoname</td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Total Price Adjusted</td>
+                                                                                        <td>:</td>
+                                                                                        <td>$@item.TotalPrice</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <br /><br />
+
+                                                                                <div class="text-sm-center">
+
+                                                                                    <table class="table table-bordered table-hover">
+                                                                                        <thead class="table-info">
+                                                                                            <tr>
+                                                                                                <th>Category</th>
+                                                                                                <th class="hideinmobile">Item</th>
+                                                                                                <th>Adjusted Qty</th>
+                                                                                                <th>UOM</th>
+                                                                                                <th>Price</th>
+                                                                                                <th class="hideinmobile">Reason</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @foreach (var aid in item.Adjds)
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.CategoryName
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Itemdescription
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Adjustedqty
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.UOM
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $@aid.Price
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @if (aid.Reason == "" || aid.Reason == null)
+                                                                                                        {
+                                                                                                            aid.Reason = "_";
+                                                                                                        }
+                                                                                                        @aid.Reason
+                                                                                                    </td>
+
+                                                                                                </tr>
+
+                                                                                            }
+                                                                                        </tbody>
+                                                                                    </table>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br />
+                                                                        <br />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <br />
-                                                    </div>
-                                                </div>
-                                k++;
-                            }
+                                                                k++;
+                                                            }
                                                         </div>
                                                     </div>
 
@@ -207,104 +198,104 @@
                                                         <div class="container">
 
                                                             @foreach (var item in ViewBag.manager)
-                                            {
-                                                <div class="panel-group" id="accordion_@i" role="tablist">
-                                                    <div class="panel" @*style="border: 1px dotted skyblue; margin: 10px; padding:10px;"*@>
-                                                        <div class="panel-heading" role="tab" id="panel_@i">
-                                                            <h4 class="panel-title">
-
-                                                                <a class="text-dark" data-toggle="collapse" data-parent="#accordion_@i" data-target="#collapseOne_@i" href="#collapseOne_@i" aria-expanded="true" aria-controls="accordion_@i">
-                                                                    Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-
-                                                        <div id="collapseOne_@i" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne_@i">
-                                                            <div class="panel">
-                                                                <hr />
-                                                                <table style="border:hidden;" class="col-lg-4">
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Issued Date</td>
-                                                                        <td>:</td>
-                                                                        <td>@Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")</td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Reported By</td>
-                                                                        <td>:</td>
-                                                                        <td>
-                                                                            @item.Raisedbyname
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Reported To</td>
-                                                                        <td>:</td>
-                                                                        <td>@item.Raisedtoname</td>
-                                                                    </tr>
-                                                                    <tr style="height:40px">
-                                                                        <td style="font-weight:600">Total Price Adjusted</td>
-                                                                        <td>:</td>
-                                                                        <td>$@item.TotalPrice</td>
-                                                                    </tr>
-                                                                </table>
-                                                                <br /><br />
-                                                                <div class="text-sm-center">
-
-                                                                    <table class="table table-bordered table-hover">
-                                                                        <thead class="table-info">
-                                                                            <tr>
-                                                                                <th>Category</th>
-                                                                                <th class="hideinmobile">Item</th>
-                                                                                <th>Adjusted Qty</th>
-                                                                                <th>UOM</th>
-                                                                                <th>Price</th>
-                                                                                <th class="hideinmobile">Reason</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach (var aid in item.Adjds)
                                                             {
-                                                                <tr>
-                                                                    <td class="hideinmobile">
-                                                                        @aid.CategoryName
-                                                                    </td>
-                                                                    <td>
-                                                                        @aid.Itemdescription
-                                                                    </td>
-                                                                    <td>
-                                                                        @aid.Adjustedqty
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @aid.UOM
-                                                                    </td>
-                                                                    <td>
-                                                                        $@aid.Price
-                                                                    </td>
-                                                                    <td class="hideinmobile">
-                                                                        @if (aid.Reason == "" || aid.Reason == null)
-                                                        {
-                                                            aid.Reason = "_";
-                                                        }
-                                                                        @aid.Reason
-                                                                    </td>
+                                                                <div class="panel-group" id="accordion_@i" role="tablist">
+                                                                    <div class="panel" @*style="border: 1px dotted skyblue; margin: 10px; padding:10px;"*@>
+                                                                        <div class="panel-heading" role="tab" id="panel_@i">
+                                                                            <h4 class="panel-title">
 
-                                                                </tr>
+                                                                                <a class="text-dark" data-toggle="collapse" data-parent="#accordion_@i" data-target="#collapseOne_@i" href="#collapseOne_@i" aria-expanded="true" aria-controls="accordion_@i">
+                                                                                    Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
+                                                                                </a>
+                                                                            </h4>
+                                                                        </div>
 
-                                            }
-                                                                        </tbody>
-                                                                    </table>
-                                                                    @using (Html.BeginForm("Approve", "manager", new { id = item.Adjid }))
-                                                    {
-                                                        <input type="submit" class="btn btn-outline-success pull-right" value="Approve" />
-                                    }
+                                                                        <div id="collapseOne_@i" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseOne_@i">
+                                                                            <div class="panel">
+                                                                                <hr />
+                                                                                <table style="border:hidden;" class="col-lg-4">
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Issued Date</td>
+                                                                                        <td>:</td>
+                                                                                        <td>@Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")</td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Reported By</td>
+                                                                                        <td>:</td>
+                                                                                        <td>
+                                                                                            @item.Raisedbyname
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Reported To</td>
+                                                                                        <td>:</td>
+                                                                                        <td>@item.Raisedtoname</td>
+                                                                                    </tr>
+                                                                                    <tr style="height:40px">
+                                                                                        <td style="font-weight:600">Total Price Adjusted</td>
+                                                                                        <td>:</td>
+                                                                                        <td>$@item.TotalPrice</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <br /><br />
+                                                                                <div class="text-sm-center">
+
+                                                                                    <table class="table table-bordered table-hover">
+                                                                                        <thead class="table-info">
+                                                                                            <tr>
+                                                                                                <th>Category</th>
+                                                                                                <th class="hideinmobile">Item</th>
+                                                                                                <th>Adjusted Qty</th>
+                                                                                                <th>UOM</th>
+                                                                                                <th>Price</th>
+                                                                                                <th class="hideinmobile">Reason</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @foreach (var aid in item.Adjds)
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.CategoryName
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Itemdescription
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Adjustedqty
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.UOM
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $@aid.Price
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @if (aid.Reason == "" || aid.Reason == null)
+                                                                                                        {
+                                                                                                            aid.Reason = "_";
+                                                                                                        }
+                                                                                                        @aid.Reason
+                                                                                                    </td>
+
+                                                                                                </tr>
+
+                                                                                            }
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    @using (Html.BeginForm("Approve", "manager", new { id = item.Adjid }))
+                                                                                    {
+                                                                                        <input type="submit" class="btn btn-outline-success pull-right" value="Approve" />
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br />
+                                                                        <br />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <br />
-                                                    </div>
-                                                </div>
-                                i++;
-                            }
+                                                                i++;
+                                                            }
                                                         </div>
                                                     </div>
 
@@ -323,4 +314,4 @@
     </div>
 </div>
 
-    <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+<link href="~/Styles/css/accordion.css" rel="stylesheet" />

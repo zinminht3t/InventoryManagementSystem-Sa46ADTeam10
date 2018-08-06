@@ -5,11 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Styles {
-    <style>
-    </style>
-}
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -100,10 +95,10 @@
                         </div>
                     </form>
                     <div>
-                      
-                            <a href="@Url.Action("csvsupplier", "Clerk")"><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
-                            <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Update">
-                        
+
+                        <a href="@Url.Action("csvsupplier", "Clerk")"><i class="fa fa-arrow-circle-o-left hideinmobile" style="font-size:40px"></i></a>
+                        <input type="Submit" class="btn btn-outline-success pull-right col-md-2 btn-flat m-b-30 m-t-30" value="Update">
+
 
                     </div>
                 </div>
@@ -115,10 +110,7 @@
             </div>
         </div>
 
-
-
     </div>
-
 
 
 }

@@ -8,16 +8,7 @@
 
 
 @section Styles {
-    <style>
-        @@media only screen and (max-width: 600px) {
-
-            .container *, .card-body {
-                padding-left: 0px;
-                padding-right: 0px;
-                font-size: 12px !important;
-            }
-        }
-    </style>
+    <link href="~/Styles/css/views/Supervisor/Approve.css" rel="stylesheet" />
 }
 
 <div class="breadcrumbs">
@@ -61,7 +52,7 @@
                                                 <div class="panel-heading" role="tab" id="ppanel1_@l">
                                                     <h4 class="panel-title">
                                                         <a class="text-info" data-toggle="collapse" data-parent="#accordionp1_@l" data-target="#collapseTwo1_@l" href="#collapseTwo1_@l" aria-expanded="true" aria-controls="accordionp1_@l">
-                                                            Adjustments Repoted to Manager  
+                                                            Adjustments Repoted to Manager
                                                         </a>
                                                     </h4>
                                                 </div>
@@ -76,7 +67,7 @@
                                                                         <div class="panel-heading" role="tab" id="panel2_@k">
                                                                             <h4 class="panel-title">
 
-                                                                                <a class="text-dark"  data-toggle="collapse" data-parent="#accordion2_@k" data-target="#collapseOne2_@k" href="#collapseOne2_@k" aria-expanded="true" aria-controls="accordion2_@k">
+                                                                                <a class="text-dark" data-toggle="collapse" data-parent="#accordion2_@k" data-target="#collapseOne2_@k" href="#collapseOne2_@k" aria-expanded="true" aria-controls="accordion2_@k">
                                                                                     Adjustment List Reported by @item.Raisedbyname on @Convert.ToDateTime(item.Issueddate).ToString("dd/MM/yyyy")
                                                                                 </a>
                                                                             </h4>
@@ -127,34 +118,34 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             @foreach (var aid in item.Adjds)
-                {
-                                                                            <tr>
-                                                                                <td class="hideinmobile">
-                                                                                    @aid.CategoryName
-                                                                                </td>
-                                                                                <td>
-                                                                                    @aid.Itemdescription
-                                                                                </td>
-                                                                                <td>
-                                                                                    @aid.Adjustedqty
-                                                                                </td>
-                                                                                <td class="hideinmobile">
-                                                                                    @aid.UOM
-                                                                                </td>
-                                                                                <td>
-                                                                                    $@aid.Price
-                                                                                </td>
-                                                                                <td class="hideinmobile">
-                                                                                    @if (aid.Reason == "" || aid.Reason == null)
-        {
-            aid.Reason = "_";
-        }
-                                                                                    @aid.Reason
-                                                                                </td>
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.CategoryName
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Itemdescription
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Adjustedqty
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.UOM
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $@aid.Price
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @if (aid.Reason == "" || aid.Reason == null)
+                                                                                                        {
+                                                                                                            aid.Reason = "_";
+                                                                                                        }
+                                                                                                        @aid.Reason
+                                                                                                    </td>
 
-                                                                            </tr>
+                                                                                                </tr>
 
-}
+                                                                                            }
                                                                                         </tbody>
                                                                                     </table>
 
@@ -263,40 +254,40 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             @foreach (var aid in item.Adjds)
-                {
-                                                                            <tr>
-                                                                                <td class="hideinmobile">
-                                                                                    @aid.CategoryName
-                                                                                </td>
-                                                                                <td>
-                                                                                    @aid.Itemdescription
-                                                                                </td>
-                                                                                <td>
-                                                                                    @aid.Adjustedqty
-                                                                                </td>
-                                                                                <td class="hideinmobile">
-                                                                                    @aid.UOM
-                                                                                </td>
-                                                                                <td>
-                                                                                    $@aid.Price
-                                                                                </td>
-                                                                                <td class="hideinmobile">
-                                                                                    @if (aid.Reason == "" || aid.Reason == null)
-        {
-            aid.Reason = "_";
-        }
-                                                                                    @aid.Reason
-                                                                                </td>
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.CategoryName
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Itemdescription
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @aid.Adjustedqty
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @aid.UOM
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $@aid.Price
+                                                                                                    </td>
+                                                                                                    <td class="hideinmobile">
+                                                                                                        @if (aid.Reason == "" || aid.Reason == null)
+                                                                                                        {
+                                                                                                            aid.Reason = "_";
+                                                                                                        }
+                                                                                                        @aid.Reason
+                                                                                                    </td>
 
-                                                                            </tr>
+                                                                                                </tr>
 
-}
+                                                                                            }
                                                                                         </tbody>
                                                                                     </table>
                                                                                     @using (Html.BeginForm("Approve", "Supervisor", new { id = item.Adjid }))
-        {
-                                                                            <input type="submit" class="btn btn-outline-success pull-right" value="Approve" />
-}
+                                                                                    {
+                                                                                        <input type="submit" class="btn btn-outline-success pull-right" value="Approve" />
+                                                                                    }
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -322,6 +313,6 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-        <link href="~/Styles/css/accordion.css" rel="stylesheet" />
+<link href="~/Styles/css/accordion.css" rel="stylesheet" />

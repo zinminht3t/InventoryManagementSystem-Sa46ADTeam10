@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -31,51 +30,51 @@
 
 
         <div class="card">
-    
+
             <div class="card-body">
-               
+
                 @using (Html.BeginForm())
                 {
-                <div class="mx-auto d-block">
-                    <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stats-up fa-3x"></i><br /> Raise Requisition </h5><br />
-                    <h6>Raised By :  @User.Identity.Name </h6><br />
-                    <h6>Collection Point : @Model.Cpname</h6><br />
-                    <h6>Request Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
+                    <div class="mx-auto d-block">
+                        <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-stats-up fa-3x"></i><br /> Raise Requisition </h5><br />
+                        <h6>Raised By :  @User.Identity.Name </h6><br />
+                        <h6>Collection Point : @Model.Cpname</h6><br />
+                        <h6>Request Date :  @Model.Reqdate.Value.ToString("d")</h6><br />
 
 
-                    <div>
+                        <div>
 
-                        <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
-                        <br />
-                        <br />
-                        <br />
-                        <table class="table table-bordered table-hover">
-                            <thead class="table-info">
-                                <tr>
-                                    <th>Item Name</th>
-                                    <th>Quantity</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+                            <input id="btnAddReqD" type="button" onclick="addRow();" class="pull-right btn btn-outline-success" value="Add Item" />
+                            <br />
+                            <br />
+                            <br />
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
 
-                            @{
-                                var on = "";
+                                @{
+                                    var on = "";
 
-                                foreach (var item in ViewBag.ItemsList)
-                                {
+                                    foreach (var item in ViewBag.ItemsList)
+                                    {
 
-                                    on += "<option value='" + item.Itemid + "'>" + item.Description + "</option>";
+                                        on += "<option value='" + item.Itemid + "'>" + item.Description + "</option>";
+                                    }
+
                                 }
 
-                            }
-
-                            <tbody id="tbRequisitiondetails"></tbody>
-                        </table>
+                                <tbody id="tbRequisitiondetails"></tbody>
+                            </table>
 
 
 
+                        </div>
                     </div>
-                </div>
 
 
                     <hr>

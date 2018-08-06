@@ -5,10 +5,6 @@
     ViewBag.Title = "New Delegation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles {
-    <style>
-    </style>
-}
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -42,7 +38,7 @@
 
                         <div class="col-sm-6">
                             <label for="datepicker">Start Date : </label>
-                            @Html.TextBoxFor(Model => Model.StartDate, new { id = "datepicker", @class ="form-control" })
+                            @Html.TextBoxFor(Model => Model.StartDate, new { id = "datepicker", @class = "form-control" })
 
                         </div>
                         <div class="col-sm-6">
@@ -120,7 +116,7 @@
                     </table>
 
                     <div class="card-body">
-                        
+
                         <div class="pull-right">
                             <a href="@Url.Action("SearchPreviousDelegation", "HOD") " class="btn btn-outline-danger">Cancel</a>
                             <input type="Submit" id="btnCreate" class="btn btn-outline-success" value="Create">
