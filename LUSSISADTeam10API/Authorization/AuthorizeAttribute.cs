@@ -12,6 +12,7 @@ namespace LUSSISADTeam10API.Authorization
     {
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
+            // handle the return type of API
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 base.HandleUnauthorizedRequest(actionContext);

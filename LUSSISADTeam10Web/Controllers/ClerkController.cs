@@ -26,6 +26,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
+            // FOR chart
             List<FrequentlyTop5ItemsModel> reportData = new List<FrequentlyTop5ItemsModel>();
 
             List<RequisitionModel> reqs = new List<RequisitionModel>();
