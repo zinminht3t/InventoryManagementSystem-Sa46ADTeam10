@@ -1660,17 +1660,17 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 else
                 {
-                    intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out  error);
+                    intlm = APIInventoryTranscation.GetInventoryTransactionByTransDate((DateTime)startdate, (DateTime)enddate, token, out error);
                     intlm = intlm.Where(p => p.ItemID == id).ToList();
                 }
                 viewmodel.InvTrans = new List<InventoryTransactionResultViewModel>();
 
-                List<SupplierModel> sups  = APISupplier.GetSupplierByItemId(id, token, out error);
-                if(sups.Count > 0)
+                List<SupplierModel> sups = APISupplier.GetSupplierByItemId(id, token, out error);
+                if (sups.Count > 0)
                 {
-                   ViewBag.Suppliers = sups.Where(x => x.Active == ConSupplier.Active.ACTIVE).ToList();
+                    ViewBag.Suppliers = sups.Where(x => x.Active == ConSupplier.Active.ACTIVE).ToList();
                 }
- 
+
                 foreach (InventoryTransactionModel i in intlm)
                 {
 
@@ -1796,10 +1796,20 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 for (int i = 0; i < InvID.Count; i++)
                 {
+
                     InventoryDetailModel inv = new InventoryDetailModel();
                     inv = invent.Where(x => x.Invid == InvID[i]).FirstOrDefault();
                     inv.Current = Current[i];
-                    if ((inv.Current - (int)inv.Stock) != 0)
+
+                    if ((inv.Current - (int)inv.Stock) == 0)
+                    {
+                        Session["noti"] = true;
+                        Session["notitype"] = "error";
+                        Session["notititle"] = "Adjustment Same Qty";
+                        Session["notimessage"] = "There is no discrepency as the current qty and stock are the same!";
+                        return RedirectToAction("Inventory");
+                    }
+                    else
                     {
                         AdjustmentDetailModel adjd = new AdjustmentDetailModel(inv.Itemid, (inv.Current - (int)inv.Stock), Reason[i]);
                         adjust.Adjds.Add(adjd);
