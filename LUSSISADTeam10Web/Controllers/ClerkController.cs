@@ -102,16 +102,22 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
 
             List<RequisitionModel> reqms = new List<RequisitionModel>();
-
-            reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
-            ViewBag.ReqCount = reqms.Count;
-            if (reqms.Count > 0)
+            try
             {
-                reqms = reqms.OrderBy(x => x.Reqdate).ToList();
-            }
-            ViewBag.Requisitions = reqms;
+                reqms = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.APPROVED, token, out error);
+                ViewBag.ReqCount = reqms.Count;
+                if (reqms.Count > 0)
+                {
+                    reqms = reqms.OrderBy(x => x.Reqdate).ToList();
+                }
+                ViewBag.Requisitions = reqms;
 
-            return View(new Models.Clerk.RequisitionViewModel());
+                return View(new Models.Clerk.RequisitionViewModel());
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -166,7 +172,7 @@ namespace LUSSISADTeam10Web.Controllers
                                 Disid = dis.Disid,
                                 Itemid = reqd.Itemid
                             };
-                            if(reqd.Qty > reqd.Stock)
+                            if (reqd.Qty > reqd.Stock)
                             {
                                 disdm.Qty = reqd.Stock;
                             }
@@ -210,34 +216,42 @@ namespace LUSSISADTeam10Web.Controllers
 
 
             RequisitionModel reqm = new RequisitionModel();
-            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
-
-            if (reqm.Status != ConRequisition.Status.APPROVED)
+            try
             {
-                return RedirectToAction("Requisition");
-            }
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
 
-            ViewBag.Requisition = reqm;
-            ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
-            {
-                ReqID = reqm.Reqid
-            };
-            vm.ReqItems = new List<ReqItem>();
-
-            foreach (RequisitionDetailsModel rd in reqm.Requisitiondetails)
-            {
-                ReqItem ri = new ReqItem
+                if (reqm.Status != ConRequisition.Status.APPROVED)
                 {
-                    ItemID = rd.Itemid,
-                    ItemName = rd.Itemname,
-                    CategoryName = rd.CategoryName,
-                    Qty = rd.Qty,
-                    Stock = rd.Stock,
-                    UOM = rd.UOM
+                    return RedirectToAction("Requisition");
+                }
+
+                ViewBag.Requisition = reqm;
+                ProcessRequisitionViewModel vm = new ProcessRequisitionViewModel
+                {
+                    ReqID = reqm.Reqid
                 };
-                vm.ReqItems.Add(ri);
+                vm.ReqItems = new List<ReqItem>();
+
+                foreach (RequisitionDetailsModel rd in reqm.Requisitiondetails)
+                {
+                    ReqItem ri = new ReqItem
+                    {
+                        ItemID = rd.Itemid,
+                        ItemName = rd.Itemname,
+                        CategoryName = rd.CategoryName,
+                        Qty = rd.Qty,
+                        Stock = rd.Stock,
+                        UOM = rd.UOM
+                    };
+                    vm.ReqItems.Add(ri);
+                }
+                return View(vm);
+
             }
-            return View(vm);
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -250,69 +264,77 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             bool IsNeededOutstanding = false;
             OutstandingReqModel outr = new OutstandingReqModel();
-
-
             RequisitionModel reqm = new RequisitionModel();
 
-            reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out error);
-            List<RequisitionDetailsModel> reqdms = reqm.Requisitiondetails;
-            viewmodel.ReqItems = new List<ReqItem>();
-            foreach (int itemid in itemids)
+            try
             {
-                ReqItem ri = new ReqItem();
-                RequisitionDetailsModel reqdm = reqdms.Where(p => p.Itemid == itemid).FirstOrDefault();
-                ri.ItemID = itemid;
-                ri.ApproveQty = ApproveQtys[count];
-                ri.Qty = reqdm.Qty;
-                ri.Stock = reqdm.Stock;
-                ri.UOM = reqdm.UOM;
-                ri.ItemName = reqdm.Itemname;
-                ri.CategoryName = reqdm.CategoryName;
-                if ((ri.Qty - ri.ApproveQty) > 0)
+                reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out error);
+                List<RequisitionDetailsModel> reqdms = reqm.Requisitiondetails;
+                viewmodel.ReqItems = new List<ReqItem>();
+                foreach (int itemid in itemids)
                 {
-                    IsNeededOutstanding = true;
+                    ReqItem ri = new ReqItem();
+                    RequisitionDetailsModel reqdm = reqdms.Where(p => p.Itemid == itemid).FirstOrDefault();
+                    ri.ItemID = itemid;
+                    ri.ApproveQty = ApproveQtys[count];
+                    ri.Qty = reqdm.Qty;
+                    ri.Stock = reqdm.Stock;
+                    ri.UOM = reqdm.UOM;
+                    ri.ItemName = reqdm.Itemname;
+                    ri.CategoryName = reqdm.CategoryName;
+                    if ((ri.Qty - ri.ApproveQty) > 0)
+                    {
+                        IsNeededOutstanding = true;
+                    }
+                    viewmodel.ReqItems.Add(ri);
+                    count++;
                 }
-                viewmodel.ReqItems.Add(ri);
-                count++;
-            }
 
-            DisbursementModel dis = new DisbursementModel();
-            dis.Reqid = viewmodel.ReqID;
-            dis.Ackby = um.Userid;
-            dis = APIDisbursement.Createdisbursement(dis, token, out error);
+                DisbursementModel dis = new DisbursementModel();
+                dis.Reqid = viewmodel.ReqID;
+                dis.Ackby = um.Userid;
+                dis = APIDisbursement.Createdisbursement(dis, token, out error);
 
-            if (IsNeededOutstanding)
-            {
-                outr.ReqId = viewmodel.ReqID;
-                outr.Reason = "Not Enough Stock";
-                outr.Status = ConOutstandingsRequisition.Status.PENDING;
-                outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
-            }
-
-            foreach (ReqItem ri in viewmodel.ReqItems)
-            {
-                DisbursementDetailsModel disdm = new DisbursementDetailsModel();
-                disdm.Disid = dis.Disid;
-                disdm.Itemid = ri.ItemID;
-                disdm.Qty = ri.ApproveQty;
-                disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
-                if (ri.Qty > ri.ApproveQty)
+                if (IsNeededOutstanding)
                 {
-                    OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
-                    outreq.OutReqId = outr.OutReqId;
-                    outreq.ItemId = ri.ItemID;
-                    outreq.Qty = ri.Qty - ri.ApproveQty;
-                    outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                    outr.ReqId = viewmodel.ReqID;
+                    outr.Reason = "Not Enough Stock";
+                    outr.Status = ConOutstandingsRequisition.Status.PENDING;
+                    outr = APIOutstandingReq.CreateOutReq(outr, token, out error);
                 }
+
+                foreach (ReqItem ri in viewmodel.ReqItems)
+                {
+                    DisbursementDetailsModel disdm = new DisbursementDetailsModel();
+                    disdm.Disid = dis.Disid;
+                    disdm.Itemid = ri.ItemID;
+                    disdm.Qty = ri.ApproveQty;
+                    disdm = APIDisbursement.CreateDisbursementDetails(disdm, token, out error);
+                    if (ri.Qty > ri.ApproveQty)
+                    {
+                        OutstandingReqDetailModel outreq = new OutstandingReqDetailModel();
+                        outreq.OutReqId = outr.OutReqId;
+                        outreq.ItemId = ri.ItemID;
+                        outreq.Qty = ri.Qty - ri.ApproveQty;
+                        outreq = APIOutstandingReq.CreateOutReqDetail(outreq, token, out error);
+                    }
+                }
+                reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Requisition";
+                Session["notimessage"] = "Reqisition is approved";
+
+                return RedirectToAction("StationaryRetrievalForm");
             }
-            reqm = APIRequisition.UpdateRequisitionStatusToPending(reqm, token, out error);
-
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Requisition";
-            Session["notimessage"] = "Reqisition is approved";
-
-            return RedirectToAction("StationaryRetrievalForm");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -321,41 +343,51 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             string error = "";
-
             List<OutstandingReqModel> outrm = new List<OutstandingReqModel>();
-
-            outrm = APIOutstandingReq.GetAllOutReqs(token, out error);
             List<OutReqViewModel> outreqvms = new List<OutReqViewModel>();
 
-            foreach (OutstandingReqModel outr in outrm)
+            try
             {
-                OutReqViewModel outreqvm = new OutReqViewModel();
-                RequisitionModel reqm = new RequisitionModel();
-                reqm = APIRequisition.GetRequisitionByReqid(outr.ReqId, token, out error);
-                outreqvm.ReqId = outr.ReqId;
-                outreqvm.DeptId = reqm.Depid;
-                outreqvm.DeptName = reqm.Depname;
-                outreqvm.OutReqId = outr.OutReqId;
-                outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
-                outreqvm.Status = outr.Status;
-                outreqvm.Reason = outr.Reason;
-                outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
-                outreqvm.OutReqDetails = outr.OutReqDetails;
-                if (reqm.Status >= ConRequisition.Status.REQUESTPENDING)
+                outrm = APIOutstandingReq.GetAllOutReqs(token, out error);
+
+                foreach (OutstandingReqModel outr in outrm)
                 {
-                    outreqvms.Add(outreqvm);
+                    OutReqViewModel outreqvm = new OutReqViewModel();
+                    RequisitionModel reqm = new RequisitionModel();
+                    reqm = APIRequisition.GetRequisitionByReqid(outr.ReqId, token, out error);
+                    outreqvm.ReqId = outr.ReqId;
+                    outreqvm.DeptId = reqm.Depid;
+                    outreqvm.DeptName = reqm.Depname;
+                    outreqvm.OutReqId = outr.OutReqId;
+                    outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
+                    outreqvm.Status = outr.Status;
+                    outreqvm.Reason = outr.Reason;
+                    outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outreqvm.OutReqId, out error);
+                    outreqvm.OutReqDetails = outr.OutReqDetails;
+                    if (reqm.Status >= ConRequisition.Status.REQUESTPENDING)
+                    {
+                        outreqvms.Add(outreqvm);
+                    }
                 }
+
+                if (outreqvms != null)
+                {
+                    outreqvms = outreqvms.Where(x => x.Status != ConOutstandingsRequisition.Status.COMPLETE).OrderBy(x => x.Status).ToList();
+                }
+
+
+                ViewBag.Outstandings = outreqvms;
+
+                return View();
             }
 
-            if (outreqvms != null)
+            catch (Exception ex)
             {
-                outreqvms = outreqvms.Where(x => x.Status != ConOutstandingsRequisition.Status.COMPLETE).OrderBy(x => x.Status).ToList();
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
-
-
-            ViewBag.Outstandings = outreqvms;
-
-            return View();
         }
 
         [Authorize(Roles = "Clerk")]
@@ -369,21 +401,31 @@ namespace LUSSISADTeam10Web.Controllers
             OutstandingReqModel outr = new OutstandingReqModel();
             DepartmentCollectionPointModel dcpm = new DepartmentCollectionPointModel();
 
-            outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
-            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
-            dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, reqm.Depid, out error);
-            outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
-            outreqvm.ReqId = outr.ReqId;
-            outreqvm.DeptId = reqm.Depid;
-            outreqvm.DeptName = reqm.Depname;
-            outreqvm.OutReqId = outr.OutReqId;
-            outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
-            outreqvm.Status = outr.Status;
-            outreqvm.Reason = outr.Reason;
-            outreqvm.OutReqDetails = outr.OutReqDetails;
-            ViewBag.ColectionPoint = dcpm.CpName;
-            ViewBag.LockerName = "Z" + reqm.Depid;
-            return View(outreqvm);
+            try
+            {
+                outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+                dcpm = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, reqm.Depid, out error);
+                outreqvm.CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
+                outreqvm.ReqId = outr.ReqId;
+                outreqvm.DeptId = reqm.Depid;
+                outreqvm.DeptName = reqm.Depname;
+                outreqvm.OutReqId = outr.OutReqId;
+                outreqvm.ReqDate = reqm.Reqdate ?? DateTime.Now;
+                outreqvm.Status = outr.Status;
+                outreqvm.Reason = outr.Reason;
+                outreqvm.OutReqDetails = outr.OutReqDetails;
+                ViewBag.ColectionPoint = dcpm.CpName;
+                ViewBag.LockerName = "Z" + reqm.Depid;
+                return View(outreqvm);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
 
         }
 
@@ -396,33 +438,45 @@ namespace LUSSISADTeam10Web.Controllers
             RequisitionModel reqm = new RequisitionModel();
             OutstandingReqModel outr = new OutstandingReqModel();
 
-            outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
-            reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
-            bool CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
-
-            if (reqm.Status == ConRequisition.Status.COMPLETED ||
-                outr.Status != ConOutstandingsRequisition.Status.PENDING || CanFullFill == false)
+            try
             {
-                return RedirectToAction("Outstanding");
+                outr = APIOutstandingReq.GetOutReqByReqId(token, id, out error);
+                reqm = APIRequisition.GetRequisitionByReqid(id, token, out error);
+                bool CanFullFill = APIOutstandingReq.CheckInventoryStock(token, outr.OutReqId, out error);
+
+                if (reqm.Status == ConRequisition.Status.COMPLETED ||
+                    outr.Status != ConOutstandingsRequisition.Status.PENDING || CanFullFill == false)
+                {
+                    return RedirectToAction("Outstanding");
+                }
+
+                outr.Status = ConOutstandingsRequisition.Status.DELIVERED;
+
+                outr = APIOutstandingReq.UpdateOutReq(outr, token, out error);
+
+
+                NotificationModel nom = new NotificationModel();
+                nom.Datetime = DateTime.Now;
+                nom.Deptid = reqm.Depid;
+                nom.Remark = "The Outstanding Items with Requisition ID (" + reqm.Reqid + ") is now ready to collect";
+                nom.Role = ConUser.Role.DEPARTMENTREP;
+                nom.Title = "Outstanding Items Ready to Collect";
+                nom.NotiType = ConNotification.NotiType.OutstandingItemsReadyToCollect;
+                nom.ResID = outr.OutReqId;
+                nom = APINotification.CreateNoti(token, nom, out error);
+
+
+                return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
             }
 
-            outr.Status = ConOutstandingsRequisition.Status.DELIVERED;
 
-            outr = APIOutstandingReq.UpdateOutReq(outr, token, out error);
-
-
-            NotificationModel nom = new NotificationModel();
-            nom.Datetime = DateTime.Now;
-            nom.Deptid = reqm.Depid;
-            nom.Remark = "The Outstanding Items with Requisition ID (" + reqm.Reqid + ") is now ready to collect";
-            nom.Role = ConUser.Role.DEPARTMENTREP;
-            nom.Title = "Outstanding Items Ready to Collect";
-            nom.NotiType = ConNotification.NotiType.OutstandingItemsReadyToCollect;
-            nom.ResID = outr.OutReqId;
-            nom = APINotification.CreateNoti(token, nom, out error);
-
-
-            return RedirectToAction("OutstandingDetail", new { id = outr.ReqId });
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -453,19 +507,30 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             ViewBag.ShowItems = false;
 
-
             List<RequisitionWithDisbursementModel> reqdisms = new List<RequisitionWithDisbursementModel>();
-            reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
-
-            List<string> CollectionPointNames = new List<string>();
-            CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
-            ViewBag.CollectionPointNames = CollectionPointNames;
-            if (CollectionPointNames.Count > 0)
+            try
             {
-                ViewBag.ShowItems = true;
+                reqdisms = APIRequisition.GetRequisitionWithPreparingStatus(token, out error);
+
+                List<string> CollectionPointNames = new List<string>();
+                CollectionPointNames = reqdisms.Select(x => x.Cpname).Distinct().ToList();
+                ViewBag.CollectionPointNames = CollectionPointNames;
+                if (CollectionPointNames.Count > 0)
+                {
+                    ViewBag.ShowItems = true;
+                }
+
+                return View(reqdisms);
             }
 
-            return View(reqdisms);
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -474,21 +539,31 @@ namespace LUSSISADTeam10Web.Controllers
             string error = "";
             string token = GetToken();
             UserModel um = GetUser();
-
             RequisitionModel req = new RequisitionModel();
-            req = APIRequisition.GetRequisitionByReqid(id, token, out error);
 
-            if (req.Status != ConRequisition.Status.PREPARING)
+            try
             {
-                RedirectToAction("DisbursementLists");
+                req = APIRequisition.GetRequisitionByReqid(id, token, out error);
+
+                if (req.Status != ConRequisition.Status.PREPARING)
+                {
+                    RedirectToAction("DisbursementLists");
+                }
+
+                req.Status = ConRequisition.Status.DELIVERED;
+                req = APIRequisition.UpdateRequisition(req, token, out error);
+
+                // add notification here
+
+                return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
             }
-
-            req.Status = ConRequisition.Status.DELIVERED;
-            req = APIRequisition.UpdateRequisition(req, token, out error);
-
-            // add notification here
-
-            return RedirectToAction("DisbursementDetail", new { id = req.Reqid });
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -498,12 +573,25 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionWithDisbursementModel req = new RequisitionWithDisbursementModel();
-            req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
-            if (req.Status != ConRequisition.Status.DELIVERED)
+
+            try
             {
-                RedirectToAction("DisbursementLists");
+                req = APIRequisition.GetRequisitionWithDisbursementByReqID(id, token, out error);
+                if (req.Status != ConRequisition.Status.DELIVERED)
+                {
+                    RedirectToAction("DisbursementLists");
+                }
+                return View(req);
             }
-            return View(req);
+
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -574,18 +662,29 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             List<PurchaseOrderModel> pom = new List<PurchaseOrderModel>();
-            pom = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
-
-            if(pom != null)
+            try
             {
-                pom = pom.OrderByDescending(x => x.Podate).ThenBy(x => x.Status).ToList();
-            }
-            else
-            {
-                pom = new List<PurchaseOrderModel>();
+                pom = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
+
+                if (pom != null)
+                {
+                    pom = pom.OrderByDescending(x => x.Podate).ThenBy(x => x.Status).ToList();
+                }
+                else
+                {
+                    pom = new List<PurchaseOrderModel>();
+                }
+
+                return View(pom);
             }
 
-            return View(pom);
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -596,18 +695,30 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             PurchaseOrderModel pom = new PurchaseOrderModel();
-
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
-
-            if (pom == null || pom.Status == ConPurchaseOrder.Status.PENDING)
+            try
             {
-                return RedirectToAction("PurchaseOrders");
+
+                pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+                if (pom == null || pom.Status == ConPurchaseOrder.Status.PENDING)
+                {
+                    return RedirectToAction("PurchaseOrders");
+                }
+                ViewBag.pom = pom;
+
+                PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
+
+                return View(povm);
             }
-            ViewBag.pom = pom;
 
-            PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
 
-            return View(povm);
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -619,18 +730,30 @@ namespace LUSSISADTeam10Web.Controllers
 
             PurchaseOrderModel pom = new PurchaseOrderModel();
 
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
-
-            if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            try
             {
-                return RedirectToAction("PurchaseOrders");
+                pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+                if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+                {
+                    return RedirectToAction("PurchaseOrders");
+                }
+
+                ViewBag.pom = pom;
+
+                PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
+
+                return View(povm);
             }
 
-            ViewBag.pom = pom;
 
-            PurchaseOrderViewModel povm = new PurchaseOrderViewModel();
-
-            return View(povm);
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -642,27 +765,38 @@ namespace LUSSISADTeam10Web.Controllers
 
             PurchaseOrderModel pom = new PurchaseOrderModel();
 
-
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
-
-            if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+            try
             {
+                pom = APIPurchaseOrder.GetPurchaseOrderByID(token, id, out error);
+
+                if (pom == null || pom.Status != ConPurchaseOrder.Status.PENDING)
+                {
+                    Session["noti"] = true;
+                    Session["notitype"] = "error";
+                    Session["notititle"] = "Purchase Order";
+                    Session["notimessage"] = "The Purchase Order has already been expired!";
+                    return RedirectToAction("PurchaseOrders");
+                }
+
+                pom.Status = ConPurchaseOrder.Status.CANCELLED;
+
+                pom = APIPurchaseOrder.UpdatePO(pom, token, out error);
+
                 Session["noti"] = true;
-                Session["notitype"] = "error";
+                Session["notitype"] = "success";
                 Session["notititle"] = "Purchase Order";
-                Session["notimessage"] = "The Purchase Order has already been expired!";
+                Session["notimessage"] = "The Purchase Order has been cancelled successfully";
                 return RedirectToAction("PurchaseOrders");
             }
 
-            pom.Status = ConPurchaseOrder.Status.CANCELLED;
 
-            pom = APIPurchaseOrder.UpdatePO(pom, token, out error);
-
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Purchase Order";
-            Session["notimessage"] = "The Purchase Order has been cancelled successfully";
-            return RedirectToAction("PurchaseOrders");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
 
@@ -675,32 +809,44 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             PurchaseOrderModel pom = new PurchaseOrderModel();
 
-            List<PurchaseOrderDetailModel> podms = new List<PurchaseOrderDetailModel>();
-            if (povm.podms == null)
+            try
             {
-                return RedirectToAction("PurchaseOrders");
+                List<PurchaseOrderDetailModel> podms = new List<PurchaseOrderDetailModel>();
+                if (povm.podms == null)
+                {
+                    return RedirectToAction("PurchaseOrders");
+                }
+
+                pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+
+                foreach (PurchaseOrderDetailViewModel podvm in povm.podms)
+                {
+                    PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
+                    podm = pom.podms.Where(x => x.Itemid == podvm.Itemid).FirstOrDefault();
+                    podm.DelivQty = podvm.DelivQty;
+                    podm = APIPurchaseOrder.UpdatePODetail(podm, token, out error);
+                }
+
+                // pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
+
+                pom.Status = ConPurchaseOrder.Status.RECEIVED;
+
+                pom = APIPurchaseOrder.UpdatePOStatusComplete(pom, token, out error);
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Purchase Order Update Success";
+                Session["notimessage"] = "The Purchase Order Status has been updated successfully";
+                return RedirectToAction("PurchaseOrderDetail", new { id = pom.PoId });
             }
 
-            pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
 
-            foreach (PurchaseOrderDetailViewModel podvm in povm.podms)
+            catch (Exception ex)
             {
-                PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
-                podm = pom.podms.Where(x => x.Itemid == podvm.Itemid).FirstOrDefault();
-                podm.DelivQty = podvm.DelivQty;
-                podm = APIPurchaseOrder.UpdatePODetail(podm, token, out error);
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
-
-            // pom = APIPurchaseOrder.GetPurchaseOrderByID(token, povm.PoId, out error);
-
-            pom.Status = ConPurchaseOrder.Status.RECEIVED;
-
-            pom = APIPurchaseOrder.UpdatePOStatusComplete(pom, token, out error);
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Purchase Order Update Success";
-            Session["notimessage"] = "The Purchase Order Status has been updated successfully";
-            return RedirectToAction("PurchaseOrderDetail", new { id = pom.PoId });
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -711,6 +857,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             List<SupplierItemModel> supitems = new List<SupplierItemModel>();
+
             supitems = APISupplier.GetAllSupplierItems(token, out error);
 
 
@@ -744,53 +891,64 @@ namespace LUSSISADTeam10Web.Controllers
             List<PurchaseOrderModel> POIDs = new List<PurchaseOrderModel>();
             List<SupplierItemModel> SupItems = new List<SupplierItemModel>();
 
-
-            SupItems = APISupplier.GetAllSupplierItems(token, out error);
-
-            podvm = povm.podms;
-            List<int> sups = podvm.Select(x => x.SupplierID).Distinct().ToList();
-
-            foreach (int i in sups)
+            try
             {
-                List<PurchaseOrderDetailViewModel> odvm = podvm.Where(x => x.SupplierID == i).ToList();
-                if (odvm.Count > 0)
+                SupItems = APISupplier.GetAllSupplierItems(token, out error);
+
+                podvm = povm.podms;
+                List<int> sups = podvm.Select(x => x.SupplierID).Distinct().ToList();
+
+                foreach (int i in sups)
                 {
-                    PurchaseOrderModel pom = new PurchaseOrderModel
+                    List<PurchaseOrderDetailViewModel> odvm = podvm.Where(x => x.SupplierID == i).ToList();
+                    if (odvm.Count > 0)
                     {
-                        Purchasedby = um.Userid,
-                        Supid = i,
-                        Podate = DateTime.Now,
-                        Status = ConPurchaseOrder.Status.PENDING
-                    };
-                    pom = APIPurchaseOrder.CreatePurchaseOrder(pom, token, out error);
-                    foreach (PurchaseOrderDetailViewModel od in odvm)
-                    {
-                        PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
-                        podm.PoId = pom.PoId;
-                        podm.Itemid = od.Itemid;
-                        podm.Qty = od.Qty;
-                        podm.DelivQty = od.Qty;
-                        podm.Price = SupItems.Where(x => x.ItemId == od.Itemid && x.SupId == od.SupplierID).First().Price;
-                        podm = APIPurchaseOrder.CreatePODetail(podm, token, out error);
+                        PurchaseOrderModel pom = new PurchaseOrderModel
+                        {
+                            Purchasedby = um.Userid,
+                            Supid = i,
+                            Podate = DateTime.Now,
+                            Status = ConPurchaseOrder.Status.PENDING
+                        };
+                        pom = APIPurchaseOrder.CreatePurchaseOrder(pom, token, out error);
+                        foreach (PurchaseOrderDetailViewModel od in odvm)
+                        {
+                            PurchaseOrderDetailModel podm = new PurchaseOrderDetailModel();
+                            podm.PoId = pom.PoId;
+                            podm.Itemid = od.Itemid;
+                            podm.Qty = od.Qty;
+                            podm.DelivQty = od.Qty;
+                            podm.Price = SupItems.Where(x => x.ItemId == od.Itemid && x.SupId == od.SupplierID).First().Price;
+                            podm = APIPurchaseOrder.CreatePODetail(podm, token, out error);
+                        }
+
+                        pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
+
+                        POIDs.Add(pom);
+
+                        SupplierModel sup = APISupplier.GetSupplierById(pom.Supid, token, out error);
+                        bool result = Utilities.Utility.SendPurchaseOrdersPDF(sup, pom);
                     }
-
-                    pom = APIPurchaseOrder.GetPurchaseOrderByID(token, pom.PoId, out error);
-
-                    POIDs.Add(pom);
-
-                    SupplierModel sup = APISupplier.GetSupplierById(pom.Supid, token, out error);
-                    bool result = Utilities.Utility.SendPurchaseOrdersPDF(sup, pom);
                 }
+
+                TempData["pos"] = POIDs;
+
+
+                Session["noti"] = true;
+                Session["notitype"] = "success";
+                Session["notititle"] = "Purchase Order";
+                Session["notimessage"] = "The Purchase Orders has been created and Email with POs has been sent to suppliers successfully";
+                return RedirectToAction("PODetails");
             }
 
-            TempData["pos"] = POIDs;
 
-
-            Session["noti"] = true;
-            Session["notitype"] = "success";
-            Session["notititle"] = "Purchase Order";
-            Session["notimessage"] = "The Purchase Orders has been created and Email with POs has been sent to suppliers successfully";
-            return RedirectToAction("PODetails");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk, Manager, Supervisor")]
@@ -798,13 +956,25 @@ namespace LUSSISADTeam10Web.Controllers
         {
             List<PurchaseOrderModel> pos = new List<PurchaseOrderModel>();
 
-            pos = (List<PurchaseOrderModel>)TempData["pos"];
-
-            if (pos == null)
+            try
             {
-                return View("PurchaseOrders");
+                pos = (List<PurchaseOrderModel>)TempData["pos"];
+
+                if (pos == null)
+                {
+                    return View("PurchaseOrders");
+                }
+                return View(pos);
             }
-            return View(pos);
+
+
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Authorize(Roles = "Clerk")]
@@ -846,9 +1016,6 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             List<SupplierModel> sm = new List<SupplierModel>();
-
-
-
             try
             {
                 sm = APISupplier.GetSupplierByStatus(ConSupplier.Active.ACTIVE, token, out string error);
@@ -1538,22 +1705,22 @@ namespace LUSSISADTeam10Web.Controllers
             ItemModel it = new ItemModel();
             CategoryModel c = new CategoryModel();
 
-            invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
-            it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
-            string name = viewmodel.CategoryName;
-            c = APICategory.GetCategoryByCatName(token, name, out error);
-
-            it.Catid = c.Catid;
-            invm.Invid = viewmodel.Invid;
-            invm.Itemid = viewmodel.Itemid;
-            invm.Stock = viewmodel.Stock;
-            invm.ReorderLevel = viewmodel.ReorderLevel;
-            invm.ReorderQty = viewmodel.ReorderQty;
-            it.Description = viewmodel.ItemDescription;
-            it.Uom = viewmodel.UOM;
 
             try
             {
+                invm = APIInventory.GetInventoryByInvid(viewmodel.Invid, token, out string error);
+                it = APIItem.GetItemByItemID(viewmodel.Itemid, token, out error);
+                string name = viewmodel.CategoryName;
+                c = APICategory.GetCategoryByCatName(token, name, out error);
+
+                it.Catid = c.Catid;
+                invm.Invid = viewmodel.Invid;
+                invm.Itemid = viewmodel.Itemid;
+                invm.Stock = viewmodel.Stock;
+                invm.ReorderLevel = viewmodel.ReorderLevel;
+                invm.ReorderQty = viewmodel.ReorderQty;
+                it.Description = viewmodel.ItemDescription;
+                it.Uom = viewmodel.UOM;
                 invm = APIInventory.UpdateInventory(token, invm, out error);
                 it = APIItem.UpdateItem(token, it, out error);
 
@@ -1714,32 +1881,43 @@ namespace LUSSISADTeam10Web.Controllers
             List<AdjustmentModel> adj = new List<AdjustmentModel>();
             List<AdjustmentDetailModel> adjdetail = new List<AdjustmentDetailModel>();
 
-            invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
-
-            adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
-            if (adj != null)
+            try
             {
-                foreach (AdjustmentModel ad in adj)
+                invtdetail = APIInventory.GetAllInventoryDetails(token, out string error);
+
+                adj = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
+                if (adj != null)
                 {
-                    foreach (AdjustmentDetailModel add in ad.Adjds)
+                    foreach (AdjustmentModel ad in adj)
                     {
-                        //To display Inventory stock & Counted stock  
-                        add.IssueDate = (DateTime)ad.Issueddate;
-                        add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
-                        add.Adjustedqty += (int)add.Stock;
-                        adjdetail.Add(add);
+                        foreach (AdjustmentDetailModel add in ad.Adjds)
+                        {
+                            //To display Inventory stock & Counted stock  
+                            add.IssueDate = (DateTime)ad.Issueddate;
+                            add.Stock = invtdetail.Where(x => x.Itemid == add.Itemid).Select(x => x.Stock).FirstOrDefault();
+                            add.Adjustedqty += (int)add.Stock;
+                            adjdetail.Add(add);
+                        }
                     }
+                    ViewBag.AdjustmentDetailModel = adjdetail;
                 }
-                ViewBag.AdjustmentDetailModel = adjdetail;
+                else
+                {
+                    ViewBag.AdjustmentDetailModel = new List<AdjustmentDetailModel>();
+                }
+
+                TempData["inventories"] = invtdetail;
+
+                return View(invtdetail);
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.AdjustmentDetailModel = new List<AdjustmentDetailModel>();
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
 
-            TempData["inventories"] = invtdetail;
-
-            return View(invtdetail);
         }
 
 
@@ -1750,7 +1928,7 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             bool ResultSuccess = true;
             List<InventoryDetailModel> selected = new List<InventoryDetailModel>();
-
+            
             if (Invid.Length < 1)
             {
                 RedirectToAction("Inventory");
