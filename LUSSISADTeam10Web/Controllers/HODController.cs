@@ -33,52 +33,56 @@ namespace LUSSISADTeam10Web.Controllers
             DepartmentCollectionPointModel CurrentCP = new DepartmentCollectionPointModel();
             DelegationModel CurrentTemp = new DelegationModel();
             UserModel CurrentTempUser = new UserModel();
-
-            reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
-            ViewBag.ReqCount = 0;
-            ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
-            ViewBag.DelegationType = "Temporary HOD";
-
-            CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
-            ViewBag.RepName = CurrentRep.Fullname;
-            if (ViewBag.RepName == null)
+            try
             {
-                ViewBag.RepName = "None";
-            }
 
-
-            CurrentCP = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
-            ViewBag.CollectionPoint = CurrentCP.CpName;
-            if (ViewBag.CollectionPoint == null)
-            {
-                ViewBag.CollectionPoint = "None";
-            }
-
-            CurrentTemp = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out error);
-            if (CurrentTemp.Delid != 0)
-            {
-                CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
-                ViewBag.TempHOD = CurrentTempUser.Fullname;
-                ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
-                if (CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
-                {
-                    ViewBag.DelegationType = "Current Temporary HOD";
-                }
-                else
-                {
-                    ViewBag.DelegationType = "Upcoming Temporary HOD";
-                }
-
-
-            }
-
-            if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
-            {
+                reqs = APIRequisition.GetRequisitionByStatus(ConRequisition.Status.PENDING, token, out error);
+                ViewBag.ReqCount = 0;
+                ViewBag.ReqCount = reqs.Where(x => x.Depid == um.Deptid).Count();
                 ViewBag.DelegationType = "Temporary HOD";
-                ViewBag.TempHOD = "None";
-                ViewBag.TempDate = "-";
+
+                CurrentRep = APIUser.GetUserByRoleAndDeptID(ConUser.Role.DEPARTMENTREP, um.Deptid, token, out error).FirstOrDefault();
+                ViewBag.RepName = CurrentRep.Fullname;
+                if (ViewBag.RepName == null)
+                {
+                    ViewBag.RepName = "None";
+                }
+
+
+                CurrentCP = APICollectionPoint.GetActiveDepartmentCollectionPointByDeptID(token, um.Deptid, out error);
+                ViewBag.CollectionPoint = CurrentCP.CpName;
+                if (ViewBag.CollectionPoint == null)
+                {
+                    ViewBag.CollectionPoint = "None";
+                }
+
+                CurrentTemp = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out error);
+                if (CurrentTemp.Delid != 0)
+                {
+                    CurrentTempUser = APIUser.GetUserByUserID(CurrentTemp.Userid, token, out error);
+                    ViewBag.TempHOD = CurrentTempUser.Fullname;
+                    ViewBag.TempDate = CurrentTemp.Startdate.Value.ToShortDateString() + " - " + CurrentTemp.Enddate.Value.ToShortDateString();
+                    if (CurrentTemp.Startdate <= DateTime.Today && DateTime.Today <= CurrentTemp.Enddate)
+                    {
+                        ViewBag.DelegationType = "Current Temporary HOD";
+                    }
+                    else
+                    {
+                        ViewBag.DelegationType = "Upcoming Temporary HOD";
+                    }
+                }
+                if (CurrentTemp.Delid == 0 || ViewBag.TempHOD == null)
+                {
+                    ViewBag.DelegationType = "Temporary HOD";
+                    ViewBag.TempHOD = "None";
+                    ViewBag.TempDate = "-";
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex) {
+                return RedirectToAction("Index", "Error", new { error = ex.Message });
+
+            }
         }
 
         [Authorize(Roles = "HOD")]
@@ -305,18 +309,17 @@ namespace LUSSISADTeam10Web.Controllers
             string token = GetToken();
             UserModel um = GetUser();
             RequisitionModel reqm = new RequisitionModel();
+            NotificationModel nom = new NotificationModel();
 
-            reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
 
             try
             {
+                reqm = APIRequisition.GetRequisitionByReqid(viewmodel.ReqID, token, out string error);
                 reqm.Status = ConRequisition.Status.APPROVED;
                 reqm.Approvedby = um.Userid;
-
                 if (!viewmodel.Approve)
                 {
                     reqm.Status = ConRequisition.Status.REJECTED;
-                    NotificationModel nom = new NotificationModel();
                     nom.Deptid = reqm.Depid;
                     nom.Role = ConUser.Role.EMPLOYEE;
                     nom.Title = "Requisition Rejected";
@@ -368,7 +371,8 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             DelegationModel reqms = new DelegationModel();
-            EditDelegationViewModel viewmodel = new EditDelegationViewModel();
+            EditDelegationViewModel viewmodel = new EditDelegationViewModel();          
+            UserModel DelegatedUser = new UserModel();
             try
             {
                 reqms = APIDelegation.GetPreviousDelegationByDepid(token, um.Deptid, out string error);
@@ -378,8 +382,7 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.Enddate = reqms.Enddate;
                 ViewBag.Deleid = reqms.Delid;
 
-                // added by zmh to show the full name of user
-                UserModel DelegatedUser = new UserModel();
+              
                 DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
                 if (DelegatedUser != null && DelegatedUser.Userid != 0)
                 {
@@ -401,22 +404,10 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             bool result = false;
             if (id != 0)
-            {
-                try
-                {
-
+            {               
                     DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
                     DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
-                    result = true;
-                    if (error != "")
-                    {
-                        // return RedirectToAction("SearchPreviousDelegation", "Error", new { error });
-                    }
-                }
-                catch (Exception)
-                {
-                    //  return RedirectToAction("SearchPreviousDelegation", "Error", new { error = ex.Message });
-                }
+                    result = true;                                           
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -488,18 +479,19 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-            viewmodel.assignedby = um.Userid;
+         
             DelegationModel dm = new DelegationModel();
 
-            dm.Userid = userid;
-            dm.Enddate = (DateTime)viewmodel.EndDate;
-            dm.Startdate = (DateTime)viewmodel.StartDate;
-            dm.AssignedbyId = viewmodel.assignedby;
 
             try
             {
                 if (viewmodel != null)
                 {
+                    viewmodel.assignedby = um.Userid;
+                    dm.Userid = userid;
+                    dm.Enddate = (DateTime)viewmodel.EndDate;
+                    dm.Startdate = (DateTime)viewmodel.StartDate;
+                    dm.AssignedbyId = viewmodel.assignedby;
                     dm = APIDelegation.CreateDelegation(token, dm, out string error);
 
                 }
@@ -552,20 +544,21 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-            viewmodel.assignedby = um.Userid;
             DelegationModel um1 = new DelegationModel();
-            um1.Delid = id;
-            DelegationModel um2 = APIDelegation.GetDelegationByDeleid(token, id, out string delerror);
-            um1.Startdate = um2.Startdate;
-            um1.Enddate = viewmodel.EndDate;
-            um1.Userid = um2.Userid;
-            um1.AssignedbyId = um.Userid;
-            um1.Active = ConDelegation.Active.ACTIVE;
 
             try
             {
                 if (viewmodel != null)
                 {
+                    viewmodel.assignedby = um.Userid;
+               
+                    um1.Delid = id;
+                    DelegationModel um2 = APIDelegation.GetDelegationByDeleid(token, id, out string delerror);
+                    um1.Startdate = um2.Startdate;
+                    um1.Enddate = viewmodel.EndDate;
+                    um1.Userid = um2.Userid;
+                    um1.AssignedbyId = um.Userid;
+                    um1.Active = ConDelegation.Active.ACTIVE;
                     APIDelegation.UpdateDelegation(token, um1, out string error);
 
                 }
@@ -631,10 +624,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 // for radio button 
                 cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
-                //foreach (CollectionPointModel cpm in cpms)
-                //{
-                //    CollectionPointsList.Add(new CodeValue { Code = cpm.Cpid, Value = cpm.Cpname });
-                //}
+             
                 ViewBag.CollectionPointsList = cpms;
 
             }
