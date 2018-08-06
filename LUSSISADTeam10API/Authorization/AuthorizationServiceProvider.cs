@@ -34,6 +34,7 @@ namespace LUSSISADTeam10API.Authorization
             }
             else
             {
+                // adding custom claim
                 identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
                 identity.AddClaim(new Claim("username", "admin"));
                 identity.AddClaim(new Claim(ClaimTypes.Name, u.Username));
@@ -42,6 +43,7 @@ namespace LUSSISADTeam10API.Authorization
             }
         }
 
+        // used for hashing the password
         public string HashPassword(string password)
         {
             // step 1, calculate MD5 hash from input
