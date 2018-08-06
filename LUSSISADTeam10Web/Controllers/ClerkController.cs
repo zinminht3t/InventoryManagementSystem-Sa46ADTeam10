@@ -349,7 +349,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             if (outreqvms != null)
             {
-                outreqvms = outreqvms.OrderBy(x => x.Status).ToList();
+                outreqvms = outreqvms.Where(x => x.Status != ConOutstandingsRequisition.Status.COMPLETE).OrderBy(x => x.Status).ToList();
             }
 
 
@@ -382,7 +382,7 @@ namespace LUSSISADTeam10Web.Controllers
             outreqvm.Reason = outr.Reason;
             outreqvm.OutReqDetails = outr.OutReqDetails;
             ViewBag.ColectionPoint = dcpm.CpName;
-            ViewBag.LockerName = "Z9";
+            ViewBag.LockerName = "Z" + reqm.Depid;
             return View(outreqvm);
 
         }

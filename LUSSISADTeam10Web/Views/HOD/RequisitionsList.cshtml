@@ -102,7 +102,7 @@
                                                 {
                                                     <a href="@Url.Action("ApproveRequisition", "HOD", new { id = item.Reqid })" class="btn btn-outline-info btn-sm"><i class="fa fa-check"></i> View & Approve</a>
                                                 }
-                                                else if (item.Status <= 4)
+                                                else if (item.Status <= 5 || item.Status == 7)
                                                 {
                                                     <a href="@Url.Action("TrackRequisition", "HOD", new { id = item.Reqid }, null)" class="btn btn-outline-info btn-sm"><i class="fa fa-location-arrow"></i> Track Requisition</a>
                                                 }

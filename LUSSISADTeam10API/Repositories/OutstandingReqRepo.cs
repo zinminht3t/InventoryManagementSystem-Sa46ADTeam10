@@ -323,7 +323,7 @@ namespace LUSSISADTeam10API.Repositories
                     reqoutm = new RequisitionWithOutstandingModel(req.reqid, req.requisition.raisedby, req.requisition.user.fullname
                                             , req.requisition.approvedby, req.requisition.user1.fullname, req.requisition.cpid, req.requisition.collectionpoint.cpname
                                              , req.requisition.deptid, req.requisition.department.deptname, req.status, req.requisition.reqdate, 999,
-                                             "Z9", reqdm);
+                                             "Z" + req.requisition.deptid, reqdm);
                     NotificationModel nom = new NotificationModel();
                     nom.Datetime = DateTime.Now;
                     nom.Deptid = 11;

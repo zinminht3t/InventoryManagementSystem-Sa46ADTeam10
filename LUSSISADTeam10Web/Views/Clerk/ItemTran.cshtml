@@ -7,6 +7,12 @@
 
 @section Styles {
     <style>
+
+        @@media (max-width: 575.99px) {
+            #supslist {
+                float: none !important;
+            }
+        }
     </style>
 }
 <div class="breadcrumbs">
@@ -73,7 +79,7 @@
                                 <h6>UOM : <span class="text-info">@Model.InvTrans[0].UOM</span></h6><br />
                             </div>
                             <div class="col-md-6 col-sm-12">
-                                <h6>
+                                <h6 class="pull-right" id="supslist">
                                     Suppliers : <br /><br />
                                     @if (ViewBag.Suppliers.Count > 0)
                                     {
@@ -136,7 +142,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Qty)
                                         </td>
-                                        <td class="hideinmobile">
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.UOM)
                                         </td>
                                     </tr>
@@ -156,17 +162,17 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
+    @*<script>
         $(function () {
-            $("#datepicker").datepicker();
+            $("#datepicker").datepicker({ dateformat: 'yy/mm/dd' }).val();
             $("#datepicker").datepicker('option', "showAnim", 'slide');
             $("#datepicker").datepicker('setDate', 'today')
-            $("#datepicker1").datepicker();
+            $("#datepicker1").datepicker({ dateformat: 'yy/mm/dd' }).val();
             $("#datepicker1").datepicker('option', "showAnim", 'slide');
             $("#datepicker1").datepicker('setDate', 'today')
 
         });
-    </script>
+    </script>*@
 
     <script>
         $(document).ready(function () {
@@ -181,5 +187,37 @@
             });
         });
     </script>
+
+
+<script>
+         
+
+          $(function () {
+              $("#datepicker1").datepicker({
+                  dateFormat: 'yy-mm-dd',
+                  showAnim: 'slide',
+                  disabled: true,
+                 
+              });
+
+
+
+              $("#datepicker1").datepicker('setDate', null);
+              $("#datepicker").datepicker({
+                  dateFormat: 'yy-mm-dd',
+                  showAnim: 'slide',
+                  onSelect: function (date) {
+                      $("#datepicker1").datepicker("option", "minDate", date);
+                      $('#datepicker1').datepicker("option", "disabled", false);
+                      $("#datepicker1").datepicker("option", "minDate", date);
+                      $('#datepicker1').datepicker('setDate', date);
+                      $("#datepicker1").datepicker("option", "maxDate");
+
+                  }
+              });
+              $("#datepicker").datepicker('setDate', 'today');
+              
+          });
+</script>
 }
 
