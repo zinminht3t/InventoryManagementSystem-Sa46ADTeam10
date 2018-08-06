@@ -45,9 +45,9 @@
         <div class="card">
             
             <div class="card-body">
-                <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement List </h5></div><br />
                 @if (ViewBag.ShowItems)
                 {
+                    <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="fa fa-newspaper-o fa-3x"></i><br /> Disbursement List </h5></div><br />
                     <div class="container">
 
                         @{int j = 0; }
@@ -152,7 +152,8 @@
                 }
                 else
                 {
-                    <span class="text-center text-info">There is no requisition yet!!!</span>
+                     <h5 class="text-center text-info">There is no disbursements yet!!!</h5>
+                    
                 }
             </div>
         </div>
