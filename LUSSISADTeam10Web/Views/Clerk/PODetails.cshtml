@@ -22,7 +22,8 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="@Url.Action("Index", "Clerk")">Dashboard</a></li>
-                    <li class="active">Purchase Orders</li>
+                    <li><a href="@Url.Action("Purchase Orders", "Clerk")">Purchase Orders</a></li>
+                    <li class="active"> PO Details</li>
                 </ol>
             </div>
         </div>
@@ -54,7 +55,7 @@
                                 <div id="@item.PoId" class="panel-collapse">
                                     <div class="panel-body">
                                         <hr />
-                                        <h6>PO ID :  @item.PoId </h6><br />
+                                        <h6>PO ID :  PO-@item.PoId </h6><br />
                                         <h6>Supplier :  @item.SupName </h6><br />
                                         <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
                                         <h6>Total Price : <span id="totalprice"></span></h6><br />

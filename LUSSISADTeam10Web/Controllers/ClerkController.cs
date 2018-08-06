@@ -575,7 +575,16 @@ namespace LUSSISADTeam10Web.Controllers
 
             List<PurchaseOrderModel> pom = new List<PurchaseOrderModel>();
             pom = APIPurchaseOrder.GetAllPurchaseOrders(token, out error);
-            pom = pom.OrderByDescending(x => x.Podate).ThenByDescending(x => x.Status).ToList();
+
+            if(pom != null)
+            {
+                pom = pom.OrderByDescending(x => x.Podate).ThenBy(x => x.Status).ToList();
+            }
+            else
+            {
+                pom = new List<PurchaseOrderModel>();
+            }
+
             return View(pom);
         }
 

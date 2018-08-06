@@ -48,9 +48,9 @@
                                 <div>  <h5 class="text-sm-center text-info hideinmobile"> <i class="ti-shopping-cart fa-3x"></i><br /> Purchase Order Detail </h5></div><br />
                             </div>
 
-                            <h6>PO ID :  @item.PoId </h6><br />
+                            <h6>PO ID : PO-@item.PoId </h6><br />
                             <h6>Supplier :  @item.SupName </h6><br />
-                            <h6>PO Date : @item.Podate</h6><br />
+                            <h6>PO Date : @item.Podate.Value.ToString("d")</h6><br />
                             <h6>Total Price : S$<span id="totalprice"></span></h6><br />
                             <div class="text-sm-center">
 
