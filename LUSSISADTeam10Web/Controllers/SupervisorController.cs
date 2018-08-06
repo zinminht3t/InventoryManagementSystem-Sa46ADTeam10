@@ -188,9 +188,19 @@ namespace LUSSISADTeam10Web.Controllers
         [Authorize(Roles = "Manager, Supervisor")]
         public ActionResult HistoryDetail(int id)
         {
-            List<AdjustmentModel> adjlist = TempData["history"] as List<AdjustmentModel>;
-            AdjustmentModel ajm = adjlist.Where(x => x.Adjid == id).FirstOrDefault();
-            ViewBag.adjustment = ajm;
+            AdjustmentModel ajm = new AdjustmentModel();
+            try
+            {
+                List<AdjustmentModel> adjlist = TempData["history"] as List<AdjustmentModel>;
+                 ajm = adjlist.Where(x => x.Adjid == id).FirstOrDefault();
+                ViewBag.adjustment = ajm;
+               
+            }
+            catch (Exception ex) {
+
+                RedirectToAction("Index", "Error", new { error = ex.Message });
+
+            }
             return View(ajm.Adjds);
         }
         #endregion
