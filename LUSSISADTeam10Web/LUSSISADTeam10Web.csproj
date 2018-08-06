@@ -302,6 +302,7 @@
     <Content Include="Styles\css\btn.css" />
     <Content Include="Styles\css\collapse-row.css" />
     <Content Include="Styles\css\datatable.min.css" />
+    <Content Include="Styles\css\login.css" />
     <Content Include="Styles\images\admin.jpg" />
     <Content Include="Styles\images\avatar\1.jpg" />
     <Content Include="Styles\images\avatar\2.jpg" />
