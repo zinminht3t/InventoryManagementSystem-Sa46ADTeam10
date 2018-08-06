@@ -1413,6 +1413,18 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Manager\" />
     <Folder Include="Models\Supervisor\" />
+    <Folder Include="Styles\css\views\Clerk\" />
+    <Folder Include="Styles\css\views\Employee\" />
+    <Folder Include="Styles\css\views\HOD\" />
+    <Folder Include="Styles\css\views\Manager\" />
+    <Folder Include="Styles\css\views\Report\" />
+    <Folder Include="Styles\css\views\Supervisor\" />
+    <Folder Include="Styles\js\views\Clerk\" />
+    <Folder Include="Styles\js\views\Employee\" />
+    <Folder Include="Styles\js\views\HOD\" />
+    <Folder Include="Styles\js\views\Manager\" />
+    <Folder Include="Styles\js\views\Report\" />
+    <Folder Include="Styles\js\views\Supervisor\" />
     <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
