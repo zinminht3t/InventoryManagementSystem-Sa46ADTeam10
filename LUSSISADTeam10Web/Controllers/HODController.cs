@@ -509,9 +509,16 @@ namespace LUSSISADTeam10Web.Controllers
 
         [Authorize(Roles = "HOD")]
         [HttpPost]
-        public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid)
+        public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid = 0)
         {
-
+            if(userid == 0)
+            {
+                Session["noti"] = true;
+                Session["notitype"] = "error";
+                Session["notititle"] = "Assign Department Representative";
+                Session["notimessage"] = "Please select one employee!";
+                return RedirectToAction("AssignDepRep");
+            }
             string token = GetToken();
             UserModel um = GetUser();
             UserModel upum = new UserModel();
