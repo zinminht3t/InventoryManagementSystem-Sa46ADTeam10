@@ -377,9 +377,12 @@
       <DependentUpon>LUSSISEntities.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISADTeam10API - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISADTeam10API - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LUSSISADTeam10API - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\Team10API - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Team10API - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
