@@ -35,6 +35,7 @@ namespace LUSSISADTeam10Web.Controllers
             {
                 reportData = APIReport.GetPoForfiveMonths(token, out error);
 
+                // adjustment count
                 adjs = APIAdjustment.GetAdjustmentByStatus(token, ConAdjustment.Active.PENDING, out error);
                 if (adjs == null)
                 {
@@ -55,6 +56,7 @@ namespace LUSSISADTeam10Web.Controllers
                     ViewBag.SupCount = sups.Count;
                 }
 
+                // purchase order count
                 pos = APIPurchaseOrder.GetPurchaseOrderByStatus(ConPurchaseOrder.Status.PENDING, token, out error);
                 if (pos == null)
                 {
@@ -65,6 +67,7 @@ namespace LUSSISADTeam10Web.Controllers
                     ViewBag.POCount = pos.Count;
                 }
 
+                // item restock level needed count
                 invs = APIInventory.GetAllInventoryDetails(token, out error);
                 if (invs == null)
                 {

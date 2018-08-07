@@ -15,6 +15,7 @@ namespace LUSSISADTeam10Web.Controllers
 {
     public class HomeController : Controller
     {
+        // redirecting user based on their role
         public ActionResult Index()
         {
             int Role = -1;
@@ -42,6 +43,7 @@ namespace LUSSISADTeam10Web.Controllers
             return RedirectToAction("login", "account");
         }
 
+        // for notification ajax retrieval
         public PartialViewResult GetNotifications()
         {
             string token = GetToken();

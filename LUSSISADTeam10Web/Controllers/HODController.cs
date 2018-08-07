@@ -79,7 +79,8 @@ namespace LUSSISADTeam10Web.Controllers
                 }
                 return View();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return RedirectToAction("Index", "Error", new { error = ex.Message });
 
             }
@@ -371,7 +372,7 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
 
             DelegationModel reqms = new DelegationModel();
-            EditDelegationViewModel viewmodel = new EditDelegationViewModel();          
+            EditDelegationViewModel viewmodel = new EditDelegationViewModel();
             UserModel DelegatedUser = new UserModel();
             try
             {
@@ -381,12 +382,18 @@ namespace LUSSISADTeam10Web.Controllers
                 ViewBag.StartDate = reqms.Startdate;
                 ViewBag.Enddate = reqms.Enddate;
                 ViewBag.Deleid = reqms.Delid;
-
-              
-                DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
-                if (DelegatedUser != null && DelegatedUser.Userid != 0)
+                if (reqms.Userid == 0 || reqms == null)
                 {
-                    ViewBag.name = DelegatedUser.Fullname;
+                    ViewBag.name = "";
+                }
+                else
+                {
+                    DelegatedUser = APIUser.GetUserByUserID(reqms.Userid, token, out error);
+                    if (DelegatedUser != null && DelegatedUser.Userid != 0)
+                    {
+                        ViewBag.name = DelegatedUser.Fullname;
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -404,10 +411,10 @@ namespace LUSSISADTeam10Web.Controllers
             UserModel um = GetUser();
             bool result = false;
             if (id != 0)
-            {               
-                    DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
-                    DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
-                    result = true;                                           
+            {
+                DelegationModel dm = APIDelegation.GetDelegationByDeleid(token, id, out string error);
+                DelegationModel dm1 = APIDelegation.CancelDelegation(token, dm, out string cancelerror);
+                result = true;
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -479,7 +486,7 @@ namespace LUSSISADTeam10Web.Controllers
 
             string token = GetToken();
             UserModel um = GetUser();
-         
+
             DelegationModel dm = new DelegationModel();
 
 
@@ -511,7 +518,7 @@ namespace LUSSISADTeam10Web.Controllers
         [HttpPost]
         public ActionResult AssignDepRep(AssignDepRepViewModel viewmodel, int userid = 0)
         {
-            if(userid == 0)
+            if (userid == 0)
             {
                 Session["noti"] = true;
                 Session["notitype"] = "error";
@@ -558,7 +565,7 @@ namespace LUSSISADTeam10Web.Controllers
                 if (viewmodel != null)
                 {
                     viewmodel.assignedby = um.Userid;
-               
+
                     um1.Delid = id;
                     DelegationModel um2 = APIDelegation.GetDelegationByDeleid(token, id, out string delerror);
                     um1.Startdate = um2.Startdate;
@@ -631,7 +638,7 @@ namespace LUSSISADTeam10Web.Controllers
 
                 // for radio button 
                 cpms = APICollectionPoint.GetAllCollectionPoints(token, out error);
-             
+
                 ViewBag.CollectionPointsList = cpms;
 
             }

@@ -9,6 +9,7 @@ namespace LUSSISADTeam10Web.Controllers
 {
     public class ErrorController : Controller
     {
+        // redirect back to home page
         public ActionResult Index(string error)
         {
             ViewBag.error = error;

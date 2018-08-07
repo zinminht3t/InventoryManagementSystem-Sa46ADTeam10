@@ -16,6 +16,8 @@ namespace LUSSISADTeam10API.Controllers
     [Authorize]
     public class AccountController : ApiController
     {
+
+        // authentication after getting token
         [HttpGet]
         [Route("api/user")]
         public IHttpActionResult GetForAuthenticate()
