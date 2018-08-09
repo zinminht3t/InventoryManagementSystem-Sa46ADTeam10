@@ -23,7 +23,6 @@
 
 
 ## 2) Username and Password
--------------------------------------------------------------
 
 - Android and Web Application share the same API. So, they have the same access.
 
@@ -33,11 +32,10 @@ But there is no access for "Supervisor" and "Manager".
 Web Application can provide all functionalities for all users.
 
 ### Password
----------------------------
+
 All Passwords are "password". All passwords in the database are encrypted.
 
 ### Usernames
----------------------------
 
 #### Stationery Store
  - Clerk - clerk
@@ -55,10 +53,7 @@ All Passwords are "password". All passwords in the database are encrypted.
  - Employee - snow
 
 
-
-
 ## 3) System Requirements
-
 ### Tools 
 - Visual Studio
 - MSSQL Server
@@ -66,15 +61,7 @@ All Passwords are "password". All passwords in the database are encrypted.
 - Recommended Browser : Google Chrome
 
 
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 ## 4) Authors
--------------------------------------------------------------
 - Aung Myo
 - Chit Su Shine
 - Htet Wai Yan
