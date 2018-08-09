@@ -1,4 +1,9 @@
 # Logic University Stationery Store Inventory System
+
+[Live Web Application](http://lussisteam10.azurewebsites.net/)
+[Web API](http://team10api.azurewebsites.net/)
+
+
 ## 1) Installation Guide
 ### Configuration for Web API and Web Application
 1. Restore the database (.bak) file that is located inside "Databack Backup" folder in the project solution directory. Directory (\Web API and Web APP Source Code\LUSSISADTeam10Web\Database Backup)
