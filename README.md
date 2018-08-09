@@ -17,6 +17,9 @@
 6. If you want to publish the solution, make sure that apiURL is pointing to the published URL of the API.
 
 ### Configuration for Android
+
+- [Android Application Source Code](https://github.com/ChitSuShine/LogicUniversity)
+
 1. Open the android source code with android studio and go to Constant.java located under "com.nusiss.team10ad.LogicUniversity.Util" package. 
 2. Change WEB_VER_URL to "http://localhost:50715/" or change whatever port the Web Application is running on.  
 3. Change API_BASE_URL to "http://ip_address/api", ip_address will be the IP address of the server which is running the API project.
