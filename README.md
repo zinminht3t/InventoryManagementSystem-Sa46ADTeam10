@@ -1,7 +1,7 @@
 # Logic University Stationery Store Inventory System
 
-- [Live Web Application](http://lussisteam10.azurewebsites.net/)
-- [Web API](http://team10api.azurewebsites.net/)
+### [Live Web Application](https://lussisadteam10web.azurewebsites.net/)
+### [Live Web API](http://team10api.azurewebsites.net/)
 
 
 ## 1) Installation Guide
